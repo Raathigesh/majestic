@@ -1,0 +1,39 @@
+# test directories
+__tests__
+node_modules/*/test
+node_modules/*/tests
+powered-test
+
+# asset directories
+docs
+doc
+website
+images
+
+# examples
+example
+examples
+
+# code coverage directories
+coverage
+.nyc_output
+
+# build scripts
+Makefile
+Gulpfile.js
+Gruntfile.js
+
+# configs
+.tern-project
+.gitattributes
+.editorconfig
+.*ignore
+.eslintrc
+.jshintrc
+.flowconfig
+.documentup.json
+.yarn-metadata.json
+
+# misc
+*.gz
+*.md

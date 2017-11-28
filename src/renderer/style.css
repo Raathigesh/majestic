@@ -1,0 +1,64 @@
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(233, 232, 232);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #949393;
+}
+
+.success {
+  color: green;
+}
+
+.success .pt-icon-ring {
+  color: green;
+}
+
+.failed {
+  color: red;
+}
+
+.failed .pt-icon-ring {
+  color: red;
+}
+
+.skipped {
+  color: orange;
+}
+
+.skipped .pt-icon-ring {
+  color: orange;
+}
+
+.spin .pt-icon-locate {
+  animation-name: spin;
+  animation-duration: 1000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.warning {
+  background: rgba(78, 247, 114, 0.685);
+  position: absolute;
+  width: 100% !important;
+  left: 0 !important;
+}

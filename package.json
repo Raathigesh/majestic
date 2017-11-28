@@ -1,0 +1,50 @@
+{
+  "name": "electron-webpack-quick-start",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "dev": "electron-webpack dev",
+    "compile": "electron-webpack",
+    "dist": "yarn compile && electron-builder",
+    "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null"
+  },
+  "dependencies": {
+    "@blueprintjs/core": "^1.32.0",
+    "array-tree-filter": "^1.0.1",
+    "brace": "^0.10.0",
+    "chokidar": "^1.7.0",
+    "directory-tree": "^2.0.0",
+    "istanbul-lib-coverage": "^1.1.1",
+    "istanbul-lib-source-maps": "^1.2.2",
+    "jest-editor-support": "^21.2.0",
+    "micromatch": "2.3.11",
+    "minimatch": "^3.0.4",
+    "mobx": "^3.3.1",
+    "mobx-react": "^4.3.3",
+    "mobx-wiretap": "^0.12.0",
+    "node-pty": "^0.7.3",
+    "react": "^16.0.0",
+    "react-ace": "^5.7.0",
+    "react-addons-css-transition-group": "^15.6.2",
+    "react-ansi-style": "^1.0.0",
+    "react-dom": "^16.0.0",
+    "react-highlight": "^0.10.0",
+    "rx-ipc-electron": "^0.1.2",
+    "rxjs": "^5.5.2",
+    "source-map-support": "^0.5.0",
+    "styled-components": "^2.2.3",
+    "typescript-styled-plugin": "^0.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^16.0.19",
+    "@types/react-dom": "^16.0.2",
+    "babel-preset-react": "^6.24.1",
+    "electron": "1.7.9",
+    "electron-builder": "^19.42.1",
+    "electron-rebuild": "^1.6.0",
+    "electron-webpack": "1.10.1",
+    "electron-webpack-ts": "^1.2.0",
+    "typescript": "^2.6.1",
+    "webpack": "^3.8.1"
+  }
+}
