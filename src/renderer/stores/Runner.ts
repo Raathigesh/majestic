@@ -149,12 +149,12 @@ export default class TestRunner {
     debugProcess.stdin.write("t");
     setTimeout(() => {
       debugProcess.stdin.write(testNameRegex);
-    }, 10);
+    }, 100);
 
     setTimeout(() => {
       // enter key
       debugProcess.stdin.write(new Buffer("0d", "hex").toString());
-    }, 50);
+    }, 200);
   }
 
   private interactiveFilterByFileName(testFileNameRegex: string) {
@@ -168,6 +168,6 @@ export default class TestRunner {
     setTimeout(() => {
       // enter key
       debugProcess.stdin.write(new Buffer("0d", "hex").toString());
-    }, 100);
+    }, 200);
   }
 }

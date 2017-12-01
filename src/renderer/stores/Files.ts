@@ -2,8 +2,10 @@ import { TestFileAssertionStatus } from "jest-editor-support";
 import { observable, IObservableArray } from "mobx";
 import TreeNode from "../stores/TreeNode";
 import { TestReconcilationState } from "jest-editor-support";
+import getLabel from "../components/tree-node-label";
 
 import { wiretap } from "mobx-wiretap";
+import { Coverage } from "./Coverage";
 
 // wiretap("App");
 
@@ -90,6 +92,23 @@ export default class Files {
         }
       }
     });
+  }
+
+  updateCoverage(coverage: Coverage) {
+    for (let node of this.nodes.values()) {
+      if (!node.isTest) {
+        const coverageForFile = coverage.getCoverageForFile(node.path);
+        if (coverageForFile) {
+          const summary = coverageForFile.toSummary();
+          node.coverage.branchesPercentage = summary.branches.pct;
+          node.coverage.linePercentage = summary.lines.pct;
+          node.coverage.functionPercentage = summary.functions.pct;
+          node.coverage.statementPercentage = summary.statements.pct;
+
+          node.secondaryLabel = getLabel(`${summary.lines.pct}%`);
+        }
+      }
+    }
   }
 
   // Toggles spin animation in all the nodes by switching the class

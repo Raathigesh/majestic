@@ -1,3 +1,4 @@
+import * as React from "react";
 import { IconName } from "@blueprintjs/core";
 import { observable } from "mobx";
 import {

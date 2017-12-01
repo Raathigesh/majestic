@@ -12,7 +12,7 @@ interface HeaderProps {}
 const Header: React.SFC<HeaderProps> = props => {
   return (
     <Container>
-      <h4>Jest view</h4>
+      <img src={require("../assets/logo.png")} width="100%" />
     </Container>
   );
 };

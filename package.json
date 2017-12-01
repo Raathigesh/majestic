@@ -6,7 +6,8 @@
     "dev": "electron-webpack dev",
     "compile": "electron-webpack",
     "dist": "yarn compile && electron-builder",
-    "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null"
+    "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
+    "rebuild": "electron-rebuild"
   },
   "dependencies": {
     "@blueprintjs/core": "^1.32.0",
@@ -29,6 +30,7 @@
     "react-ansi-style": "^1.0.0",
     "react-dom": "^16.0.0",
     "react-highlight": "^0.10.0",
+    "react-loading": "^1.0.2",
     "rx-ipc-electron": "^0.1.2",
     "rxjs": "^5.5.2",
     "source-map-support": "^0.5.0",

@@ -4950,6 +4950,10 @@ react-highlight@^0.10.0:
     react "^15.5.4"
     react-dom "^15.5.4"
 
+react-loading@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-loading/-/react-loading-1.0.2.tgz#227ae6b5fef2275f26bcad501f52a1ba312d6804"
+
 react-transition-group@^1.2.0:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-1.2.1.tgz#e11f72b257f921b213229a774df46612346c7ca6"

@@ -1,12 +1,17 @@
 import * as React from "react";
+import styled from "styled-components";
 
 interface SearchBoxProps {
   onSearch: (query: string) => void;
 }
 
+const Container = styled.div`
+  margin-bottom: 10px;
+`;
+
 const SearchBox: React.SFC<SearchBoxProps> = ({ onSearch }) => {
   return (
-    <div className="pt-input-group .modifier">
+    <Container className="pt-input-group">
       <span className="pt-icon pt-icon-search" />
       <input
         className="pt-input"
@@ -17,7 +22,7 @@ const SearchBox: React.SFC<SearchBoxProps> = ({ onSearch }) => {
           onSearch(ev.target.value);
         }}
       />
-    </div>
+    </Container>
   );
 };
 

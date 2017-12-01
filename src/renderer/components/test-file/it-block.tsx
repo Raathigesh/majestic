@@ -113,7 +113,18 @@ function It({ it, workspace, test }: ItBlockProps) {
           )}
         </RightContent>
       </Header>
-      {it.assertionMessage !== "" && <pre>{it.assertionMessage}</pre>}
+      {it.assertionMessage !== "" && (
+        <pre
+          style={{ marginTop: 5, whiteSpace: "pre-wrap" }}
+          dangerouslySetInnerHTML={{
+            __html: (it.assertionMessage || "")
+              .replace(/\[22?m?/g, "")
+              .replace(/\[31m/g, `<strong style="color: red">`)
+              .replace(/\[32m/g, `<strong style="color: green">`)
+              .replace(/\[39m/g, `</strong>`)
+          }}
+        />
+      )}
     </Container>
   );
 }

@@ -1,9 +1,17 @@
 import { ITreeNode, IconName } from "@blueprintjs/core";
-import { observable, action, IObservableArray } from "mobx";
+import { observable, action, IObservableArray, IObservableObject } from "mobx";
 import ItBlockWithStatus from "../types/it-block";
 import TreeNodeType from "../types/node-type";
 import { TestReconcilationState } from "jest-editor-support";
 import { readFile } from "fs";
+import { Observable } from "rxjs/Observable";
+
+export interface FileCoverage {
+  statementPercentage: number;
+  linePercentage: number;
+  functionPercentage: number;
+  branchesPercentage: number;
+}
 
 class TreeNode implements ITreeNode {
   @observable childNodes?: ITreeNode[];
@@ -22,6 +30,13 @@ class TreeNode implements ITreeNode {
   @observable type: TreeNodeType;
   @observable isTest: boolean;
   @observable content: string;
+  @observable
+  coverage: FileCoverage = observable<FileCoverage>({
+    statementPercentage: 0,
+    linePercentage: 0,
+    functionPercentage: 0,
+    branchesPercentage: 0
+  });
 
   @action
   toggleCurrent() {

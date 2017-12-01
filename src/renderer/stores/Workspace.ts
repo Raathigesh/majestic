@@ -36,10 +36,7 @@ export class Workspace {
       .subscribe((result: TestExecutionResults) => {
         this.files.updateWithAssertionStatus(result.testFileAssertions);
         this.coverage.mapCoverage((result.totalResult as any).coverageMap);
-        this.error =
-          result.totalResult.testResults[
-            "0"
-          ].assertionResults[2].failureMessages["0"];
+        this.files.updateCoverage(this.coverage);
       });
   }
 
