@@ -2,14 +2,13 @@ import * as React from "react";
 import styled from "styled-components";
 import ReactLoading from "react-loading";
 import { Workspace } from "../stores/Workspace";
-import Coverage from "./coverage";
 import TestSummary from "./topbar/test-summary";
 import TestCoverage from "./topbar/test-coverage";
 
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  background-color: #f6f6f6;
+  background-color: #fbf9ff;
   padding: 10px;
   justify-content: space-between;
 `;
@@ -103,10 +102,10 @@ export default function Topbar({
         </StatusBar>
       </BasicContent>
       <TestSummaryContainer>
-        <TestSummary />
+        <TestSummary totalResult={workspace.files.totalResult} />
       </TestSummaryContainer>
       <CoverageSummary>
-        <TestCoverage />
+        <TestCoverage totalCoverage={workspace.files.totalCoverage} />
       </CoverageSummary>
     </Container>
   );

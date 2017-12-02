@@ -35,6 +35,7 @@ export class Workspace {
       .getExecutableJSONEmitter()
       .subscribe((result: TestExecutionResults) => {
         this.files.updateWithAssertionStatus(result.testFileAssertions);
+        this.files.updateTotalResult(result.totalResult);
         this.coverage.mapCoverage((result.totalResult as any).coverageMap);
         this.files.updateCoverage(this.coverage);
       });

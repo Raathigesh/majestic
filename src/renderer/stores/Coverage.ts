@@ -1,6 +1,5 @@
 import { createSourceMapStore } from "istanbul-lib-source-maps";
 import { createCoverageMap, CoverageMap } from "istanbul-lib-coverage";
-import { FileCoverage } from "./TreeNode";
 
 export class Coverage {
   private rootPath: string;
@@ -27,7 +26,7 @@ export class Coverage {
     }
   }
 
-  public getSummary(): FileCoverage {
+  public getSummary() {
     const summary = (this.transformedCoverageMap as any).getCoverageSummary();
 
     return {

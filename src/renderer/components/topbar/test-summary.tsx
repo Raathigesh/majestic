@@ -1,5 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
+import { observer } from "mobx-react";
+import { TotalResult } from "../../stores/TotalResult";
 
 const Container = styled.div`
   display: flex;
@@ -44,9 +46,19 @@ const Failed = ResultLabel.extend`
   color: ${props => props.theme.project.summary.test.failure};
 `;
 
-export interface TestSummaryProps {}
+export interface TestSummaryProps {
+  totalResult: TotalResult;
+}
 
-export default function TestSummary(props: TestSummaryProps) {
+function getLabel(value) {
+  if (value === undefined) {
+    return "-";
+  }
+
+  return value;
+}
+
+function TestSummary({ totalResult }: TestSummaryProps) {
   return (
     <Container>
       <div>Execution Summary</div>
@@ -54,11 +66,11 @@ export default function TestSummary(props: TestSummaryProps) {
         <span>Test Suits</span>
         <ResultContainer>
           <Success>
-            145
+            {getLabel(totalResult.numPassedTestSuites)}
             <div>Success</div>
           </Success>
           <Failed>
-            85
+            {getLabel(totalResult.numFailedTestSuites)}
             <div>Failed</div>
           </Failed>
         </ResultContainer>
@@ -67,11 +79,11 @@ export default function TestSummary(props: TestSummaryProps) {
         <span>Tests</span>
         <ResultContainer>
           <Success>
-            45
+            {getLabel(totalResult.numPassedTests)}
             <div>Success</div>
           </Success>
           <Failed>
-            85
+            {getLabel(totalResult.numFailedTests)}
             <div>Failed</div>
           </Failed>
         </ResultContainer>
@@ -80,11 +92,11 @@ export default function TestSummary(props: TestSummaryProps) {
         <span>Snapshots</span>
         <ResultContainer>
           <Success>
-            45
+            {getLabel(totalResult.matchedSnaphots)}
             <div>Success</div>
           </Success>
           <Failed>
-            85
+            {getLabel(totalResult.unmatchedSnapshots)}
             <div>Failed</div>
           </Failed>
         </ResultContainer>
@@ -92,3 +104,5 @@ export default function TestSummary(props: TestSummaryProps) {
     </Container>
   );
 }
+
+export default observer(TestSummary);

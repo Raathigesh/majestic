@@ -6,6 +6,8 @@ import getLabel from "../components/tree-node-label";
 
 import { wiretap } from "mobx-wiretap";
 import { Coverage } from "./Coverage";
+import { TotalResult } from "./TotalResult";
+import CoverageSummary from "./CoverageSummary";
 
 // wiretap("App");
 
@@ -14,6 +16,8 @@ export default class Files {
   @observable tests: IObservableArray<TreeNode> = observable([]);
   @observable text: string = "";
   @observable testsOnly: boolean = true;
+  @observable totalResult = new TotalResult();
+  @observable totalCoverage = new CoverageSummary();
 
   // A flat map of all the nodes of the directory tree.
   // We use this to perform updates on the tree nodes.
@@ -109,6 +113,21 @@ export default class Files {
         }
       }
     }
+
+    const summary = coverage.getSummary();
+    this.totalCoverage.branchesPercentage = summary.branchesPercentage;
+    this.totalCoverage.functionPercentage = summary.functionPercentage;
+    this.totalCoverage.linePercentage = summary.linePercentage;
+    this.totalCoverage.statementPercentage = summary.statementPercentage;
+  }
+
+  updateTotalResult(result) {
+    this.totalResult.numPassedTestSuites = result.numPassedTestSuites;
+    this.totalResult.numFailedTestSuites = result.numFailedTestSuites;
+    this.totalResult.numPassedTests = result.numPassedTests;
+    this.totalResult.numFailedTests = result.numFailedTests;
+    this.totalResult.matchedSnaphots = result.snapshot.matched;
+    this.totalResult.unmatchedSnapshots = result.snapshot.unmatched;
   }
 
   // Toggles spin animation in all the nodes by switching the class

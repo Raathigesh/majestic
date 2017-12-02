@@ -1,5 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
+import CoverageSummary from "../../stores/CoverageSummary";
+import { observer } from "mobx-react";
 
 const Container = styled.div`
   display: flex;
@@ -28,30 +30,34 @@ const CoverageRow = styled.div`
   flex-direction: row;
 `;
 
-export interface TestCoverageProps {}
+export interface TestCoverageProps {
+  totalCoverage: CoverageSummary;
+}
 
-export default function TestCoverage({  }: TestCoverageProps) {
+const getLabel = value => (value === undefined ? "-" : `${value}%`);
+
+function TestCoverage({ totalCoverage }: TestCoverageProps) {
   return (
     <Container>
       <div>Project Coverage</div>
       <div>
         <CoverageRow>
           <Coverage>
-            10%
+            {getLabel(totalCoverage.statementPercentage)}
             <div>Statements coverage</div>
           </Coverage>
           <Coverage>
-            50%
+            {getLabel(totalCoverage.branchesPercentage)}
             <div>Branch coverage</div>
           </Coverage>
         </CoverageRow>
         <CoverageRow>
           <Coverage>
-            40%
+            {getLabel(totalCoverage.functionPercentage)}
             <div>Functions coverage</div>
           </Coverage>
           <Coverage>
-            80%
+            {getLabel(totalCoverage.linePercentage)}
             <div>Lines coverage</div>
           </Coverage>
         </CoverageRow>
@@ -59,3 +65,5 @@ export default function TestCoverage({  }: TestCoverageProps) {
     </Container>
   );
 }
+
+export default observer(TestCoverage);
