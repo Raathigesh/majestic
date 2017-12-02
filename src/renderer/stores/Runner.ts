@@ -5,7 +5,7 @@ import {
   TestFileAssertionStatus
 } from "jest-editor-support";
 import * as Rx from "rxjs";
-import { observable } from "mobx";
+import { observable, autorun } from "mobx";
 import { createProcess } from "../util/Process";
 
 export interface TestExecutionResults {
@@ -14,7 +14,13 @@ export interface TestExecutionResults {
 }
 
 export default class TestRunner {
-  @observable isRunning: boolean;
+  @observable isRunning: boolean = false;
+  @observable isWatchMode: boolean = false;
+  @observable isWatching: boolean = false;
+  @observable testFileNamePattern: string = "";
+  @observable testNamePattern: string = "";
+  @observable displayText: string = "";
+
   runner: Runner;
   reconciler: TestReconciler;
   executableJSONEmitter: Rx.Subject<TestExecutionResults>;
@@ -23,17 +29,29 @@ export default class TestRunner {
   localJestMajorVersion: number;
   pathToConfig: string;
 
-  constructor({ rootPath, pathToJest, testFileNamePattern, testNamePattern }) {
-    this.isRunning = false;
+  constructor({ rootPath, pathToJest }) {
     this.executableJSONEmitter = new Rx.Subject<TestExecutionResults>();
     this.rootPath = rootPath;
     this.pathToJest = pathToJest;
-
-    this.initializeRunner({
-      testFileNamePattern,
-      testNamePattern
-    });
     this.reconciler = new TestReconciler();
+
+    autorun(() => {
+      if (this.isRunning) {
+        this.displayText = "Booting jest...";
+      }
+
+      if (this.isWatching) {
+        if (this.testFileNamePattern && this.testNamePattern) {
+          this.displayText = `Watching test ${this.testNamePattern} in file ${
+            this.testFileNamePattern
+          }`;
+        } else if (this.testFileNamePattern) {
+          this.displayText = `Watching file ${this.testNamePattern}`;
+        } else if (this.testNamePattern) {
+          this.displayText = `Watching test ${this.testNamePattern}`;
+        }
+      }
+    });
   }
 
   initializeRunner({ testFileNamePattern, testNamePattern }) {
@@ -52,16 +70,14 @@ export default class TestRunner {
     );
 
     this.runner
-      .on("debuggerProcessExit", () => {
-        this.isRunning = false;
-        console.log("exit");
-      })
       .on("executableJSON", (data: JestTotalResults) => {
         const results = this.reconciler.updateFileWithJestStatus(data);
         this.executableJSONEmitter.next({
           totalResult: data,
           testFileAssertions: results
         });
+
+        this.isRunning = false;
         console.log("executableJSON", data);
       })
       .on("executableOutput", output => {
@@ -93,17 +109,29 @@ export default class TestRunner {
     return this.executableJSONEmitter;
   }
 
+  toggleWatchModel(toggle = null) {
+    this.isWatchMode = toggle || !this.isWatchMode;
+  }
+
   start(testFileNamePattern: string = "", testNamePattern: string = "") {
     if (this.isRunning) {
       return this.rerunAllTests();
+    }
+
+    if (this.isWatchMode) {
+      this.isWatching = true;
     }
 
     this.initializeRunner({
       testFileNamePattern,
       testNamePattern
     });
+
+    this.testFileNamePattern = testFileNamePattern;
+    this.testNamePattern = testNamePattern;
+
     this.isRunning = true;
-    this.runner.start();
+    this.runner.start(this.isWatchMode);
   }
 
   updateSnapshot(testName: string) {
@@ -117,26 +145,35 @@ export default class TestRunner {
     });
   }
 
-  filterByTestFileName(testFileNameRegex: string) {
+  filterByTestFileName(testFileNamePattern: string) {
+    this.testFileNamePattern = testFileNamePattern;
+
     if (this.isRunning) {
-      this.interactiveFilterByFileName(testFileNameRegex);
+      this.interactiveFilterByFileName(testFileNamePattern);
     } else {
-      this.start(testFileNameRegex, "");
+      this.start(testFileNamePattern, "");
     }
   }
 
-  filterByTestName(testNameRegex: string) {
+  filterByTestName(testFileNamePattern: string, testNamePattern: string) {
+    this.testNamePattern = testNamePattern;
+    this.testFileNamePattern = testFileNamePattern;
+
     if (this.isRunning) {
-      this.interactiveFilterByTestName(testNameRegex);
+      this.interactiveFilterByTestName(testNamePattern);
     } else {
       // if process is not running... start a new one
-      this.start("", testNameRegex);
+      this.start(testFileNamePattern, testNamePattern);
     }
   }
 
   terminate() {
-    this.runner.closeProcess();
+    (this.runner as any).debugprocess.kill();
     this.isRunning = false;
+
+    if (this.isWatchMode) {
+      this.isWatching = false;
+    }
   }
 
   private rerunAllTests() {

@@ -14,6 +14,7 @@
     "array-tree-filter": "^1.0.1",
     "brace": "^0.10.0",
     "chokidar": "^1.7.0",
+    "classnames": "^2.2.5",
     "directory-tree": "^2.0.0",
     "istanbul-lib-coverage": "^1.1.1",
     "istanbul-lib-source-maps": "^1.2.2",

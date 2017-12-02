@@ -7,6 +7,7 @@ import Files from "./Files";
 import TreeNode from "./TreeNode";
 import ItBlockWithStatus from "../types/it-block";
 import { Coverage } from "./Coverage";
+import RunnerStatus from "./RunnerStatus";
 
 export class Workspace {
   @observable runner: Runner;
@@ -15,8 +16,11 @@ export class Workspace {
   @observable files: Files = new Files();
   @observable selectedTest?: TreeNode;
   @observable preference: Preference;
-  coverage: Coverage;
   @observable error: string = "";
+  @observable runnerStatus = new RunnerStatus();
+
+  coverage: Coverage;
+
   constructor() {
     this.preference = new Preference();
   }
@@ -24,9 +28,7 @@ export class Workspace {
   initializeRunner() {
     this.runner = new Runner({
       rootPath: this.preference.rootPath,
-      pathToJest: this.preference.jestExecutablePath,
-      testFileNamePattern: "",
-      testNamePattern: ""
+      pathToJest: this.preference.jestExecutablePath
     });
 
     this.coverage = new Coverage(this.preference.rootPath);
@@ -60,9 +62,9 @@ export class Workspace {
     });
   }
 
-  runProject() {
+  runProject(watchMode) {
     this.files.toggleStatusToAll();
-    this.runner.start();
+    this.runner.start(watchMode);
   }
 
   runCurrentFile() {
@@ -77,7 +79,8 @@ export class Workspace {
     if (!this.selectedTest) return;
     this.selectedTest.toggleCurrent();
     it.isExecuting = true;
-    this.runner.filterByTestName(it.name);
+
+    this.runner.filterByTestName("", it.name);
   }
 
   search(query: string) {
@@ -101,6 +104,11 @@ export class Workspace {
         this.selectedTest.readContent();
       }
     }
+  }
+
+  stop() {
+    this.runner.terminate();
+    this.files.resetStatusToAll();
   }
 
   @computed

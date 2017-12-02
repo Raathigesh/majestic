@@ -1,16 +1,18 @@
 import * as React from "react";
 import styled from "styled-components";
 import ReactLoading from "react-loading";
+import { Switch } from "@blueprintjs/core";
 import { Workspace } from "../stores/Workspace";
 import TestSummary from "./topbar/test-summary";
 import TestCoverage from "./topbar/test-coverage";
+import { observer } from "mobx-react";
+import cn from "classnames";
 
 const Container = styled.div`
   display: flex;
   flex-direction: row;
   background-color: #fbf9ff;
   padding: 10px;
-  justify-content: space-between;
 `;
 
 const StatusBar = styled.div`
@@ -38,6 +40,10 @@ const BasicContent = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  margin-right: 20px;
+  border-right: 1px solid #d3d8dd;
+  padding-right: 20px;
+  max-width: 310px;
 `;
 const ReactLoadingCustom = styled(ReactLoading)`
   margin-top: -5px;
@@ -49,44 +55,68 @@ const TestSummaryContainer = styled.div`
   flex-direction: column;
   margin-right: 10px;
   margin-left: 10px;
+  margin-right: 20px;
+  border-right: 1px solid #d3d8dd;
+  padding-right: 20px;
+  max-width: 310px;
 `;
 
 const CoverageSummary = styled.div`
   flex-grow: 1;
+  max-width: 310px;
+`;
+
+const WatchModeToggle = styled(Switch)`
+  margin-top: 8px;
+  margin-bottom: 0px;
 `;
 
 export interface TopbarProps {
   workspace: Workspace;
-  onRunTests: () => void;
   onPreferenceToggle: () => void;
 }
 
-export default function Topbar({
-  workspace,
-  onRunTests,
-  onPreferenceToggle
-}: TopbarProps) {
+function runButonLabel(isRunning, isWatching) {
+  if (isWatching) {
+    return isRunning ? "Running" : "Rerun all tests";
+  } else {
+    return isRunning ? "Running" : "Run all tests";
+  }
+}
+
+function Topbar({ workspace, onPreferenceToggle }: TopbarProps) {
+  const isRunning = workspace.runner && workspace.runner.isRunning;
+  const isWatching = workspace.runner && workspace.runner.isWatching;
+
   return (
     <Container>
       <BasicContent>
         <div>
           <div className="pt-button-group pt-minimal pt-fill">
             <a
-              className="pt-button pt-icon-play"
+              className={cn("pt-button  pt-minimal pt-icon-play", {
+                "pt-disabled": isRunning
+              })}
               onClick={() => {
-                onRunTests();
+                workspace.runProject(false);
               }}
             >
-              Run all tests
-            </a>
-            <a className="pt-button pt-icon-automatic-updates">
-              Run all and watch
+              {runButonLabel(isRunning, isWatching)}
             </a>
             <a
-              className="pt-button pt-icon-settings"
+              className={cn("pt-button pt-icon-stop", {
+                "pt-disabled": !isRunning && !isWatching
+              })}
               onClick={() => {
-                onPreferenceToggle();
+                workspace.stop();
               }}
+            />
+            <WatchModeToggle
+              label="Watch tests"
+              onChange={() => {
+                workspace.runner.toggleWatchModel();
+              }}
+              disabled={isRunning}
             />
           </div>
         </div>
@@ -98,7 +128,9 @@ export default function Topbar({
             height="7px"
             width="30px"
           />
-          <StatusText>Booting up Jest</StatusText>
+          <StatusText>
+            {workspace.runner && workspace.runner.displayText}
+          </StatusText>
         </StatusBar>
       </BasicContent>
       <TestSummaryContainer>
@@ -110,3 +142,5 @@ export default function Topbar({
     </Container>
   );
 }
+
+export default observer(Topbar);

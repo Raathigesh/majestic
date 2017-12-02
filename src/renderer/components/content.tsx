@@ -39,9 +39,6 @@ function Content({ workspace, preference }: ContentProps) {
     <Container>
       <Topbar
         workspace={workspace}
-        onRunTests={() => {
-          workspace.runProject();
-        }}
         onPreferenceToggle={() => {
           preference.setPreferenceOpen(true);
         }}

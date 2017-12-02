@@ -146,6 +146,10 @@ export default class Files {
     });
   }
 
+  resetStatusToAll() {
+    this.resetStatus();
+  }
+
   // Unhighlight all the nodes
   unhighlightAll() {
     this.nodes.forEach((node: TreeNode) => {
@@ -171,6 +175,7 @@ export default class Files {
       node.iconName = "pt-icon-ring";
       node.className = "";
       node.itBlocks.map(it => {
+        it.isExecuting = false;
         it.status = "Unknown";
       });
     });

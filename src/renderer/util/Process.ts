@@ -63,6 +63,9 @@ export const createProcess = (workspace: any, args: Array<string>): any => {
     stderr: {
       on() {}
     },
-    on() {}
+    on() {},
+    kill() {
+      ptyProcess.kill();
+    }
   };
 };
