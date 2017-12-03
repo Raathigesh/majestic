@@ -88,7 +88,7 @@ export default class Files {
             itBlock.assertionMessage = assertion.message;
             itBlock.isExecuting = false;
             itBlock.snapshotErrorStatus = assertion.message.includes(
-              "Received value does not match stored snapshot"
+              "stored snapshot"
             )
               ? "error"
               : "unknown";

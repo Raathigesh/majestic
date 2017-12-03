@@ -2,7 +2,6 @@ import * as React from "react";
 import { TestReconcilationState } from "jest-editor-support";
 import { observer } from "mobx-react";
 import styled from "styled-components";
-import Highlight from "react-highlight";
 import Indicator from "./indicator";
 import { Workspace } from "../../stores/Workspace";
 import TreeNode from "../../stores/TreeNode";

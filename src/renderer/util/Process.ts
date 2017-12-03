@@ -30,6 +30,7 @@ export const createProcess = (workspace: any, args: Array<string>): any => {
   // return pty.spawn(command, runtimeArgs, { cwd: workspace.rootPath, env });
 
   let stdoutCallback = (data: any) => {};
+  let onExitCallback = () => {};
 
   const ptyProcess = pty.spawn(command, runtimeArgs, {
     name: "xterm-color",
@@ -45,6 +46,10 @@ export const createProcess = (workspace: any, args: Array<string>): any => {
       output = data.substring(data.indexOf("Test results written to"));
     }
     stdoutCallback(output);
+  });
+
+  ptyProcess.on("exit", () => {
+    onExitCallback();
   });
 
   return {
@@ -63,7 +68,11 @@ export const createProcess = (workspace: any, args: Array<string>): any => {
     stderr: {
       on() {}
     },
-    on() {},
+    on(eventName, callback) {
+      if (eventName === "debuggerProcessExit") {
+        onExitCallback = callback;
+      }
+    },
     kill() {
       ptyProcess.kill();
     }

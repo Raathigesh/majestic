@@ -7,7 +7,6 @@ import Files from "./Files";
 import TreeNode from "./TreeNode";
 import ItBlockWithStatus from "../types/it-block";
 import { Coverage } from "./Coverage";
-import RunnerStatus from "./RunnerStatus";
 
 export class Workspace {
   @observable runner: Runner;
@@ -17,7 +16,6 @@ export class Workspace {
   @observable selectedTest?: TreeNode;
   @observable preference: Preference;
   @observable error: string = "";
-  @observable runnerStatus = new RunnerStatus();
 
   coverage: Coverage;
 
@@ -64,7 +62,7 @@ export class Workspace {
 
   runProject(watchMode) {
     this.files.toggleStatusToAll();
-    this.runner.start(watchMode);
+    this.runner.start();
   }
 
   runCurrentFile() {
@@ -79,8 +77,8 @@ export class Workspace {
     if (!this.selectedTest) return;
     this.selectedTest.toggleCurrent();
     it.isExecuting = true;
-
-    this.runner.filterByTestName("", it.name);
+    const pattern = this.selectedTest.path.replace(/\\/g, ".");
+    this.runner.filterByTestName(pattern, it.name);
   }
 
   search(query: string) {

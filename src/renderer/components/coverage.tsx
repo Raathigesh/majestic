@@ -1,9 +1,10 @@
 import * as React from "react";
 import styled from "styled-components";
-import TreeNode from "../stores/TreeNode";
 
 const Container = styled.div`
   display: flex;
+  background-color: #fbf9ff;
+  padding-bottom: 10px;
 `;
 
 const Coverage = styled.div`

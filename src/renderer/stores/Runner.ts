@@ -7,6 +7,7 @@ import {
 import * as Rx from "rxjs";
 import { observable, autorun } from "mobx";
 import { createProcess } from "../util/Process";
+import { executeInSequence } from "../util/jest";
 
 export interface TestExecutionResults {
   totalResult: JestTotalResults;
@@ -15,7 +16,7 @@ export interface TestExecutionResults {
 
 export default class TestRunner {
   @observable isRunning: boolean = false;
-  @observable isWatchMode: boolean = false;
+  @observable isWatchMode: boolean = true;
   @observable isWatching: boolean = false;
   @observable testFileNamePattern: string = "";
   @observable testNamePattern: string = "";
@@ -34,24 +35,6 @@ export default class TestRunner {
     this.rootPath = rootPath;
     this.pathToJest = pathToJest;
     this.reconciler = new TestReconciler();
-
-    autorun(() => {
-      if (this.isRunning) {
-        this.displayText = "Booting jest...";
-      }
-
-      if (this.isWatching) {
-        if (this.testFileNamePattern && this.testNamePattern) {
-          this.displayText = `Watching test ${this.testNamePattern} in file ${
-            this.testFileNamePattern
-          }`;
-        } else if (this.testFileNamePattern) {
-          this.displayText = `Watching file ${this.testNamePattern}`;
-        } else if (this.testNamePattern) {
-          this.displayText = `Watching test ${this.testNamePattern}`;
-        }
-      }
-    });
   }
 
   initializeRunner({ testFileNamePattern, testNamePattern }) {
@@ -78,7 +61,15 @@ export default class TestRunner {
         });
 
         this.isRunning = false;
+
+        this.setDisplayText();
         console.log("executableJSON", data);
+      })
+      .on("debuggerProcessExit", () => {
+        this.isRunning = false;
+        this.isWatching = false;
+
+        this.setDisplayText();
       })
       .on("executableOutput", output => {
         console.log("executableOutput", output);
@@ -127,11 +118,10 @@ export default class TestRunner {
       testNamePattern
     });
 
-    this.testFileNamePattern = testFileNamePattern;
-    this.testNamePattern = testNamePattern;
-
     this.isRunning = true;
     this.runner.start(this.isWatchMode);
+
+    this.setDisplayText();
   }
 
   updateSnapshot(testName: string) {
@@ -146,25 +136,28 @@ export default class TestRunner {
   }
 
   filterByTestFileName(testFileNamePattern: string) {
-    this.testFileNamePattern = testFileNamePattern;
+    this.setTestFilterPatterns(testFileNamePattern, "");
 
-    if (this.isRunning) {
-      this.interactiveFilterByFileName(testFileNamePattern);
+    if (this.isWatching) {
+      this.interactiveFilterByFileName(this.testFileNamePattern);
     } else {
-      this.start(testFileNamePattern, "");
+      this.start(this.testFileNamePattern, this.testNamePattern);
     }
+
+    this.setDisplayText();
   }
 
   filterByTestName(testFileNamePattern: string, testNamePattern: string) {
-    this.testNamePattern = testNamePattern;
-    this.testFileNamePattern = testFileNamePattern;
+    this.setTestFilterPatterns(testFileNamePattern, testNamePattern);
 
-    if (this.isRunning) {
-      this.interactiveFilterByTestName(testNamePattern);
+    if (this.isWatching) {
+      this.interactiveFilterByTestName(this.testNamePattern);
     } else {
       // if process is not running... start a new one
-      this.start(testFileNamePattern, testNamePattern);
+      this.start(this.testFileNamePattern, this.testNamePattern);
     }
+
+    this.setDisplayText();
   }
 
   terminate() {
@@ -173,6 +166,30 @@ export default class TestRunner {
 
     if (this.isWatchMode) {
       this.isWatching = false;
+    }
+
+    this.setDisplayText();
+  }
+
+  private setTestFilterPatterns(fileName, testName) {
+    this.testFileNamePattern = fileName !== "" ? `^${fileName}$` : "";
+    this.testNamePattern = testName !== "" ? `^${testName}$` : "";
+  }
+
+  private setDisplayText() {
+    this.displayText = "";
+    if (this.isRunning) {
+      this.displayText = "Booting jest";
+    } else if (this.isWatching) {
+      if (this.testFileNamePattern && this.testNamePattern) {
+        this.displayText = `Watching ${this.testNamePattern} in ${
+          this.testFileNamePattern
+        }`;
+      } else if (this.testFileNamePattern && !this.testNamePattern) {
+        this.displayText = `Watching tests in file ${this.testFileNamePattern}`;
+      } else {
+        this.displayText = "Watching for changes";
+      }
     }
   }
 
@@ -183,28 +200,39 @@ export default class TestRunner {
 
   private interactiveFilterByTestName(testNameRegex: string) {
     const debugProcess = (this.runner as any).debugprocess;
-    debugProcess.stdin.write("t");
-    setTimeout(() => {
-      debugProcess.stdin.write(testNameRegex);
-    }, 100);
 
-    setTimeout(() => {
-      // enter key
-      debugProcess.stdin.write(new Buffer("0d", "hex").toString());
-    }, 200);
+    executeInSequence([
+      {
+        fn: () => debugProcess.stdin.write("t"),
+        delay: 0
+      },
+      {
+        fn: () => debugProcess.stdin.write(testNameRegex),
+        delay: 100
+      },
+      {
+        fn: () => debugProcess.stdin.write(new Buffer("0d", "hex").toString()),
+        delay: 200
+      }
+    ]);
   }
 
   private interactiveFilterByFileName(testFileNameRegex: string) {
     const debugProcess = (this.runner as any).debugprocess;
-    debugProcess.stdin.write("p");
-    setTimeout(() => {
-      // enter key
-      debugProcess.stdin.write(testFileNameRegex);
-    }, 100);
 
-    setTimeout(() => {
-      // enter key
-      debugProcess.stdin.write(new Buffer("0d", "hex").toString());
-    }, 200);
+    executeInSequence([
+      {
+        fn: () => debugProcess.stdin.write("p"),
+        delay: 0
+      },
+      {
+        fn: () => debugProcess.stdin.write(testFileNameRegex),
+        delay: 100
+      },
+      {
+        fn: () => debugProcess.stdin.write(new Buffer("0d", "hex").toString()),
+        delay: 200
+      }
+    ]);
   }
 }

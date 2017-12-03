@@ -69,6 +69,7 @@ const CoverageSummary = styled.div`
 const WatchModeToggle = styled(Switch)`
   margin-top: 8px;
   margin-bottom: 0px;
+  margin-left: 10px;
 `;
 
 export interface TopbarProps {
@@ -113,25 +114,29 @@ function Topbar({ workspace, onPreferenceToggle }: TopbarProps) {
             />
             <WatchModeToggle
               label="Watch tests"
+              checked={workspace.runner && workspace.runner.isWatchMode}
               onChange={() => {
-                workspace.runner.toggleWatchModel();
+                workspace.runner && workspace.runner.toggleWatchModel();
               }}
               disabled={isRunning}
             />
           </div>
         </div>
 
-        <StatusBar>
-          <ReactLoadingCustom
-            type="cylon"
-            color="#af7b06"
-            height="7px"
-            width="30px"
-          />
-          <StatusText>
-            {workspace.runner && workspace.runner.displayText}
-          </StatusText>
-        </StatusBar>
+        {workspace.runner &&
+          workspace.runner.displayText !== "" && (
+            <StatusBar>
+              <ReactLoadingCustom
+                type="cylon"
+                color="#af7b06"
+                height="7px"
+                width="30px"
+              />
+              <StatusText>
+                {workspace.runner && workspace.runner.displayText}
+              </StatusText>
+            </StatusBar>
+          )}
       </BasicContent>
       <TestSummaryContainer>
         <TestSummary totalResult={workspace.files.totalResult} />

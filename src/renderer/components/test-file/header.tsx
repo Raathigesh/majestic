@@ -4,7 +4,8 @@ import { Workspace } from "../../stores/Workspace";
 
 const Container = styled.div`
   display: flex;
-  margin: 15px;
+  margin-right: 15px;
+  margin-left: 15px;
   justify-content: space-between;
   padding: 12px;
 `;
