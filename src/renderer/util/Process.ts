@@ -31,6 +31,7 @@ export const createProcess = (workspace: any, args: Array<string>): any => {
 
   let stdoutCallback = (data: any) => {};
   let onExitCallback = () => {};
+  let onCloseCallback = () => {};
 
   const ptyProcess = pty.spawn(command, runtimeArgs, {
     name: "xterm-color",
@@ -50,6 +51,7 @@ export const createProcess = (workspace: any, args: Array<string>): any => {
 
   ptyProcess.on("exit", () => {
     onExitCallback();
+    onCloseCallback();
   });
 
   return {
@@ -71,6 +73,8 @@ export const createProcess = (workspace: any, args: Array<string>): any => {
     on(eventName, callback) {
       if (eventName === "debuggerProcessExit") {
         onExitCallback = callback;
+      } else if (eventName === "close") {
+        onCloseCallback = callback;
       }
     },
     kill() {

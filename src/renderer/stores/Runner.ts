@@ -128,6 +128,7 @@ export default class TestRunner {
     return new Promise((resolve, reject) => {
       this.runner.runJestWithUpdateForSnapshots(
         () => {
+          debugger;
           resolve();
         },
         ["--testNamePattern", testName]

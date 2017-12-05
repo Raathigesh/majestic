@@ -73,7 +73,7 @@ function createNode(
   node.id = path;
   node.hasCaret = child.type === "directory";
   node.iconName = (child.type === "file"
-    ? "pt-icon-ring"
+    ? "pt-icon-document"
     : "folder-close") as IconName;
   node.label = child.name;
   node.isExpanded = true;

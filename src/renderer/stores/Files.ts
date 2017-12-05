@@ -1,8 +1,9 @@
 import { TestFileAssertionStatus } from "jest-editor-support";
-import { observable, IObservableArray } from "mobx";
+import { observable, IObservableArray, computed } from "mobx";
 import TreeNode from "../stores/TreeNode";
 import { TestReconcilationState } from "jest-editor-support";
 import getLabel from "../components/tree-node-label";
+import { filterFiles } from "../util/search";
 
 import { wiretap } from "mobx-wiretap";
 import { Coverage } from "./Coverage";
@@ -53,9 +54,9 @@ export default class Files {
     if (status === "KnownSuccess") {
       node.iconName = "pt-icon-tick-circle";
     } else if (status === "KnownFail") {
-      node.iconName = "pt-icon-warning-sign";
+      node.iconName = "pt-icon-issue";
     } else if (status === "KnownSkip") {
-      node.iconName = "pt-icon-ring";
+      node.iconName = "pt-icon-document";
     }
   }
 
@@ -161,12 +162,24 @@ export default class Files {
     this.text = text;
   }
 
-  allFiles() {
-    return this.files;
+  @computed
+  get allFiles() {
+    if (this.text.trim() === "") {
+      return this.files;
+    }
+
+    return filterFiles(this.nodes, this.text);
   }
 
-  testFiles() {
-    return this.tests;
+  @computed
+  get testFiles() {
+    if (this.text.trim() === "") {
+      return this.tests;
+    }
+
+    return filterFiles(this.nodes, this.text, node => {
+      return !!(node && node.isTest);
+    });
   }
 
   // Resets previous execution status of the UI

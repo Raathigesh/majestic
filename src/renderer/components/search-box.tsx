@@ -16,7 +16,7 @@ const SearchBox: React.SFC<SearchBoxProps> = ({ onSearch }) => {
       <input
         className="pt-input"
         type="search"
-        placeholder="Search input"
+        placeholder="Search files"
         dir="auto"
         onChange={ev => {
           onSearch(ev.target.value);

@@ -88,6 +88,8 @@ export class Workspace {
   updateSnapshot(it: ItBlockWithStatus) {
     this.runner.updateSnapshot(it.name).then(() => {
       it.snapshotErrorStatus = "updated";
+      it.status = "KnownSuccess";
+      it.assertionMessage = "";
     });
   }
 

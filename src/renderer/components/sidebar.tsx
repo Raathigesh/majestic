@@ -63,12 +63,12 @@ export default class Sidebar extends React.Component<any, {}> {
         {this.state.activeTab === "tests" ? (
           <TreeView
             workspace={workspace}
-            files={workspace.files && workspace.files.testFiles()}
+            files={workspace.files && workspace.files.testFiles}
           />
         ) : (
           <TreeView
             workspace={workspace}
-            files={workspace.files && workspace.files.allFiles()}
+            files={workspace.files && workspace.files.allFiles}
           />
         )}
       </Container>
