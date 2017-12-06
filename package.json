@@ -16,6 +16,7 @@
     "chokidar": "^1.7.0",
     "classnames": "^2.2.5",
     "directory-tree": "^2.0.0",
+    "electron-updater": "^2.16.3",
     "istanbul-lib-coverage": "^1.1.1",
     "istanbul-lib-source-maps": "^1.2.2",
     "jest-editor-support": "^21.2.0",
