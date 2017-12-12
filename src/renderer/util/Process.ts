@@ -1,5 +1,4 @@
 var pty = require("node-pty");
-var os = require("os");
 /**
  * Spawns and returns a Jest process with specific args
  *
@@ -14,7 +13,7 @@ export const createProcess = (workspace: any, args: Array<string>): any => {
   const parameters = runtimeExecutable.split(" ");
   const command = parameters[0];
   const initialArgs = parameters.slice(1);
-  const runtimeArgs = [].concat(initialArgs, args);
+  const runtimeArgs = ([] as Array<string>).concat(initialArgs, args);
 
   // If a path to configuration file was defined, push it to runtimeArgs
   const configPath = workspace.pathToConfig;

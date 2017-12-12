@@ -22,7 +22,7 @@ function createMainWindow() {
   if (isDevelopment) {
     window.webContents.openDevTools();
   }
-
+  window.webContents.openDevTools();
   window.loadURL(url);
 
   window.on("closed", () => {

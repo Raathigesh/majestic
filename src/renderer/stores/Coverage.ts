@@ -2,12 +2,10 @@ import { createSourceMapStore } from "istanbul-lib-source-maps";
 import { createCoverageMap, CoverageMap } from "istanbul-lib-coverage";
 
 export class Coverage {
-  private rootPath: string;
   private sourceMapStore;
   private transformedCoverageMap: CoverageMap;
 
   constructor(rootPath: string) {
-    this.rootPath = rootPath;
     this.sourceMapStore = createSourceMapStore();
     this.transformedCoverageMap = createCoverageMap();
   }

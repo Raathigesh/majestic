@@ -17,7 +17,7 @@ const Container = styled.div`
 
 const Tests = styled.div`
   overflow: auto;
-  height: 92vh;
+  height: calc(100vh - 271px);
 `;
 
 function TestFileContent({ workspace }: TestFileContentProps) {

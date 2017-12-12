@@ -1,4 +1,3 @@
-import { IconName } from "@blueprintjs/core";
 import { observable } from "mobx";
 import {
   parse as babylonParse,
@@ -8,11 +7,13 @@ import TreeNodeType from "../types/node-type";
 import TreeNode from "../stores/TreeNode";
 import { SnapshotErrorStatus } from "../types/it-block";
 import { getTestFilePattern } from "./workspace";
+import { Icons } from "./constants";
 const mm = require("micromatch");
 
-const nodes = new Map<string, TreeNode>();
+let nodes = new Map<string, TreeNode>();
 
 export function processTests(rootPath, value, allFiles) {
+  nodes = new Map<string, TreeNode>();
   const tests = tranform(rootPath, value, allFiles);
   const files = tranform(rootPath, value, allFiles);
   return {
@@ -72,9 +73,7 @@ function createNode(
   const node = new TreeNode();
   node.id = path;
   node.hasCaret = child.type === "directory";
-  node.iconName = (child.type === "file"
-    ? "pt-icon-document"
-    : "folder-close") as IconName;
+  node.iconName = child.type === "file" ? Icons.FileIcon : Icons.FolderIcon;
   node.label = child.name;
   node.isExpanded = true;
   node.childNodes = tranform(rootPath, child, allFiles, tree);
@@ -89,7 +88,7 @@ function createNode(
       ? babylonParse(path).itBlocks.map(block =>
           observable({
             ...block,
-            status: "Unknown" as TestReconcilationState,
+            status: "" as TestReconcilationState,
             assertionMessage: "",
             isExecuting: false,
             snapshotErrorStatus: "unknown" as SnapshotErrorStatus

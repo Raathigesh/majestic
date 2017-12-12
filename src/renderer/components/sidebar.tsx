@@ -49,15 +49,11 @@ export interface ISidebarProps {
   workspace: Workspace;
 }
 
-interface ISidebarState {
+export interface ISidebarState {
   activeTab: string;
 }
 
-@observer
-export default class Sidebar extends React.Component<
-  ISidebarProps,
-  ISidebarState
-> {
+class Sidebar extends React.Component<ISidebarProps, ISidebarState> {
   state = {
     activeTab: "tests"
   };
@@ -157,3 +153,5 @@ export default class Sidebar extends React.Component<
     );
   }
 }
+
+export default observer(Sidebar);

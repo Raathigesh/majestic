@@ -39,6 +39,33 @@
     tether "^1.4"
     tslib "^1.5.0"
 
+"@blueprintjs/core@^1.34.0":
+  version "1.34.1"
+  resolved "https://registry.yarnpkg.com/@blueprintjs/core/-/core-1.34.1.tgz#ef0ded2adf6a94c353d81dbedfeb880af53db53c"
+  dependencies:
+    "@types/dom4" "^1.5.20"
+    "@types/tether" "^1.1.27"
+    classnames "^2.2"
+    dom4 "^1.8"
+    normalize.css "4.1.1"
+    pure-render-decorator "^1.1"
+    tether "^1.4"
+    tslib "^1.5.0"
+
+"@blueprintjs/labs@^0.14.0":
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/@blueprintjs/labs/-/labs-0.14.0.tgz#ff2a1028aefe3172a43240555dabc9ddaa421e46"
+  dependencies:
+    "@blueprintjs/core" "^1.34.0"
+    classnames "^2.2"
+    fuzzaldrin-plus "^0.5.0"
+    moment "^2.14.1"
+    moment-timezone "^0.5.13"
+    popper.js "^1.12.6"
+    pure-render-decorator "^1.2.1"
+    react-popper "~0.7.4"
+    tslib "^1.5.0"
+
 "@types/dom4@^1.5.20":
   version "1.5.20"
   resolved "https://registry.yarnpkg.com/@types/dom4/-/dom4-1.5.20.tgz#ccf636d3b794fe65a4191ebc7ff979a78efea6c2"
@@ -1040,6 +1067,10 @@ babel-types@^6.19.0, babel-types@^6.24.1, babel-types@^6.26.0:
     esutils "^2.0.2"
     lodash "^4.17.4"
     to-fast-properties "^1.0.3"
+
+babylon@6.14.1:
+  version "6.14.1"
+  resolved "https://registry.yarnpkg.com/babylon/-/babylon-6.14.1.tgz#956275fab72753ad9b3435d7afe58f8bf0a29815"
 
 babylon@^6.14.1, babylon@^6.18.0:
   version "6.18.0"
@@ -2821,6 +2852,10 @@ function-bind@^1.0.2, function-bind@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/function-bind/-/function-bind-1.1.1.tgz#a56899d3ea3c9bab874bb9773b7c5ede92f4895d"
 
+fuzzaldrin-plus@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/fuzzaldrin-plus/-/fuzzaldrin-plus-0.5.0.tgz#ef5f26f0c2fc7e9e9a16ea149a802d6cb4804b1e"
+
 gauge@~2.7.3:
   version "2.7.4"
   resolved "https://registry.yarnpkg.com/gauge/-/gauge-2.7.4.tgz#2c03405c7538c39d7eb37b317022e325fb018bf7"
@@ -3965,13 +4000,19 @@ mobx-react@^4.3.3:
   dependencies:
     hoist-non-react-statics "^2.3.1"
 
-mobx-wiretap@^0.12.0:
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/mobx-wiretap/-/mobx-wiretap-0.12.0.tgz#9da072c027ea51e1f8a1eec736af7b24493cae11"
-
 mobx@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/mobx/-/mobx-3.3.1.tgz#c38fc1a287a0dda3f5d4b85efe1137fedd9dcdf0"
+
+moment-timezone@^0.5.13:
+  version "0.5.14"
+  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.14.tgz#4eb38ff9538b80108ba467a458f3ed4268ccfcb1"
+  dependencies:
+    moment ">= 2.9.0"
+
+"moment@>= 2.9.0", moment@^2.14.1:
+  version "2.19.4"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.19.4.tgz#17e5e2c6ead8819c8ecfad83a0acccb312e94682"
 
 ms@0.7.1:
   version "0.7.1"
@@ -4477,6 +4518,10 @@ plist@^2.1.0:
     xmlbuilder "8.2.2"
     xmldom "0.1.x"
 
+popper.js@^1.12.5, popper.js@^1.12.6:
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.13.0.tgz#e1e7ff65cc43f7cf9cf16f1510a75e81f84f4565"
+
 portfinder@^1.0.9:
   version "1.0.13"
   resolved "https://registry.yarnpkg.com/portfinder/-/portfinder-1.0.13.tgz#bb32ecd87c27104ae6ee44b5a3ccbf0ebb1aede9"
@@ -4845,7 +4890,7 @@ punycode@^1.2.4, punycode@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.4.1.tgz#c0d5a63b2718800ad8e1eb0fa5269c84dd41845e"
 
-pure-render-decorator@^1.1:
+pure-render-decorator@^1.1, pure-render-decorator@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/pure-render-decorator/-/pure-render-decorator-1.2.1.tgz#568870eeca17a1cee536b4fe94a3477fcd31eeb9"
   dependencies:
@@ -4980,6 +5025,13 @@ react-highlight@^0.10.0:
 react-loading@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/react-loading/-/react-loading-1.0.2.tgz#227ae6b5fef2275f26bcad501f52a1ba312d6804"
+
+react-popper@~0.7.4:
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/react-popper/-/react-popper-0.7.4.tgz#8649d539837e7c6f47bc9b24c9cf57a404e199a1"
+  dependencies:
+    popper.js "^1.12.5"
+    prop-types "^15.5.10"
 
 react-transition-group@^1.2.0:
   version "1.2.1"

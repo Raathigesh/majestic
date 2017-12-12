@@ -1,8 +1,11 @@
 import { ITreeNode, IconName } from "@blueprintjs/core";
 import { observable, action, IObservableArray } from "mobx";
-import ItBlockWithStatus from "../types/it-block";
+import ItBlockWithStatus, { SnapshotErrorStatus } from "../types/it-block";
 import TreeNodeType from "../types/node-type";
-import { TestReconcilationState } from "jest-editor-support";
+import {
+  TestReconcilationState,
+  parse as babylonParse
+} from "jest-editor-support";
 import { readFile } from "fs";
 import CoverageSummary from "./CoverageSummary";
 
@@ -53,6 +56,22 @@ class TreeNode implements ITreeNode {
 
   @action
   addItBlocks(itBlocks: ItBlockWithStatus[]) {
+    this.itBlocks.clear();
+    this.itBlocks.push(...itBlocks);
+  }
+
+  @action
+  parseItBlocks() {
+    const itBlocks = babylonParse(this.path).itBlocks.map(block =>
+      observable({
+        ...block,
+        status: "Unknown" as TestReconcilationState,
+        assertionMessage: "",
+        isExecuting: false,
+        snapshotErrorStatus: "unknown" as SnapshotErrorStatus
+      })
+    );
+
     this.itBlocks.clear();
     this.itBlocks.push(...itBlocks);
   }

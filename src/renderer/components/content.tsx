@@ -37,13 +37,15 @@ function Content({ workspace, preference }: ContentProps) {
 
   return (
     <Container>
-      <Topbar
-        workspace={workspace}
-        onPreferenceToggle={() => {
-          preference.setPreferenceOpen(true);
-        }}
-      />
-      {!workspace.selectedTest && (
+      {workspace.isProjectAvailable && (
+        <Topbar
+          workspace={workspace}
+          onPreferenceToggle={() => {
+            preference.setPreferenceOpen(true);
+          }}
+        />
+      )}
+      {!workspace.isProjectAvailable && (
         <EmptyContent preference={preference} workspace={workspace} />
       )}
       {workspace.selectedTest && workspace.selectedTest.isTest ? (

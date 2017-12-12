@@ -7,6 +7,8 @@ import { Workspace } from "../../stores/Workspace";
 import TreeNode from "../../stores/TreeNode";
 import ItBlockWithStatus from "../../types/it-block";
 import { getStatusLabel } from "../../util/label";
+var reactAnsiStyle = require("react-ansi-style");
+require("react-ansi-style/inject-css");
 
 import "highlight.js/styles/idea.css";
 import "react-ansi-style/inject-css";
@@ -104,26 +106,16 @@ function It({ it, workspace, test }: ItBlockProps) {
           {it.snapshotErrorStatus === "updated" && (
             <SnapshotUpdatedStatus>Snapshot updated</SnapshotUpdatedStatus>
           )}
-          {(it.status !== "Unknown" || it.isExecuting) && (
-            <StatusIndicator status={it.status}>
-              <Indicator isExecuting={it.isExecuting} status={it.status} />
-              {getStatusLabel(it.status)}
-            </StatusIndicator>
-          )}
+          <StatusIndicator status={it.status}>
+            <Indicator isExecuting={it.isExecuting} status={it.status} />
+            {getStatusLabel(it.status)}
+          </StatusIndicator>
         </RightContent>
       </Header>
-      {it.assertionMessage !== "" && (
-        <pre
-          style={{ marginTop: 5, whiteSpace: "pre-wrap" }}
-          dangerouslySetInnerHTML={{
-            __html: (it.assertionMessage || "")
-              .replace(/\[22?m?/g, "")
-              .replace(/\[31m/g, `<strong style="color: red">`)
-              .replace(/\[32m/g, `<strong style="color: green">`)
-              .replace(/\[39m/g, `</strong>`)
-          }}
-        />
-      )}
+      <div>
+        {it.assertionMessage !== "" &&
+          reactAnsiStyle(React, it.assertionMessage)}
+      </div>
     </Container>
   );
 }

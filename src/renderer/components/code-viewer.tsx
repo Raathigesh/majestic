@@ -1,5 +1,5 @@
 import * as React from "react";
-import brace from "brace";
+import "brace";
 import AceEditor from "react-ace";
 import "brace/mode/javascript";
 import "brace/theme/solarized_light";

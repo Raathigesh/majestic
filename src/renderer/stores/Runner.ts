@@ -5,9 +5,10 @@ import {
   TestFileAssertionStatus
 } from "jest-editor-support";
 import * as Rx from "rxjs";
-import { observable, autorun } from "mobx";
+import { observable } from "mobx";
 import { createProcess } from "../util/Process";
 import { executeInSequence } from "../util/jest";
+import WatcherDetails from "./WatcherDetails";
 
 export interface TestExecutionResults {
   totalResult: JestTotalResults;
@@ -21,6 +22,7 @@ export default class TestRunner {
   @observable testFileNamePattern: string = "";
   @observable testNamePattern: string = "";
   @observable displayText: string = "";
+  @observable watcherDetails = new WatcherDetails();
 
   runner: Runner;
   reconciler: TestReconciler;
@@ -128,7 +130,6 @@ export default class TestRunner {
     return new Promise((resolve, reject) => {
       this.runner.runJestWithUpdateForSnapshots(
         () => {
-          debugger;
           resolve();
         },
         ["--testNamePattern", testName]
@@ -173,7 +174,10 @@ export default class TestRunner {
   }
 
   private setTestFilterPatterns(fileName, testName) {
-    this.testFileNamePattern = fileName !== "" ? `^${fileName}$` : "";
+    this.watcherDetails.fileName = fileName;
+    this.watcherDetails.testName = testName;
+    this.testFileNamePattern =
+      fileName !== "" ? `^${fileName.replace(/\\/g, ".")}$` : "";
     this.testNamePattern = testName !== "" ? `^${testName}$` : "";
   }
 

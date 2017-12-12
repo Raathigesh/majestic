@@ -51,6 +51,13 @@ export class Workspace {
       );
       this.files.initialize(tests, files, nodes);
     });
+
+    directory.change(path => {
+      const nodeForPath = this.files.getNodeByPath(path);
+      if (nodeForPath) {
+        nodeForPath.parseItBlocks();
+      }
+    });
   }
 
   openProject() {
@@ -58,6 +65,11 @@ export class Workspace {
       this.loadTestFiles();
       this.initializeRunner();
     });
+  }
+
+  closeProject() {
+    this.preference.rootPath = "";
+    this.files.clear();
   }
 
   runProject(watchMode) {
@@ -77,8 +89,7 @@ export class Workspace {
     if (!this.selectedTest) return;
     this.selectedTest.toggleCurrent();
     it.isExecuting = true;
-    const pattern = this.selectedTest.path.replace(/\\/g, ".");
-    this.runner.filterByTestName(pattern, it.name);
+    this.runner.filterByTestName(this.selectedTest.path, it.name);
   }
 
   search(query: string) {
@@ -118,6 +129,11 @@ export class Workspace {
     }
 
     return null;
+  }
+
+  @computed
+  get isProjectAvailable() {
+    return !!this.preference.rootPath;
   }
 }
 

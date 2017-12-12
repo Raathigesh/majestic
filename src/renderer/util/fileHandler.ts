@@ -1,6 +1,5 @@
 const dirTree = require("directory-tree");
 const chokidar = require("chokidar");
-import * as Rx from "rxjs";
 import { setTimeout } from "timers";
 
 export function getTestFiles(directory: string) {
@@ -11,17 +10,29 @@ export function getTestFiles(directory: string) {
 }
 
 export default function readAndWatchDirectory(root: string) {
-  const subject = new Rx.Subject();
+  let subscribeCallback = (value: any) => {};
+  let changeCallback = (path: string) => {};
 
   setTimeout(() => {
-    subject.next(getTestFiles(root));
+    subscribeCallback(getTestFiles(root));
   }, 0);
 
   chokidar
-    .watch(root, { ignored: /node_modules/ })
-    .on("change", (event, path) => {
-      subject.next(getTestFiles(root));
+    .watch(root, { ignored: /node_modules/, ignoreInitial: true })
+    .on("all", (event, path) => {
+      if (event === "change") {
+        changeCallback(path);
+      } else {
+        subscribeCallback(getTestFiles(root));
+      }
     });
 
-  return subject;
+  return {
+    subscribe(callBack) {
+      subscribeCallback = callBack;
+    },
+    change(callback) {
+      changeCallback = callback;
+    }
+  };
 }

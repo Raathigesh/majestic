@@ -28,6 +28,7 @@ const Coverage = styled.div`
 const CoverageRow = styled.div`
   display: flex;
   flex-direction: row;
+  margin-top: 20px;
 `;
 
 export interface TestCoverageProps {

@@ -14,11 +14,12 @@ const Container = styled.div`
 
 const Row = styled.div`
   display: flex;
-
+  margin-top: 15px;
   & > span {
     min-width: 70px;
     font-size: 13px;
     margin-bottom: 3px;
+    margin-right: 30px;
   }
 `;
 

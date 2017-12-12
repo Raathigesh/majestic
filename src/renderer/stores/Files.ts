@@ -1,14 +1,14 @@
 import { TestFileAssertionStatus } from "jest-editor-support";
-import { observable, IObservableArray, computed } from "mobx";
+import { observable, IObservableArray, computed, action } from "mobx";
 import TreeNode from "../stores/TreeNode";
 import { TestReconcilationState } from "jest-editor-support";
 import getLabel from "../components/tree-node-label";
-import { filterFiles } from "../util/search";
+import { filterFiles, filterTree } from "../util/search";
 
-import { wiretap } from "mobx-wiretap";
 import { Coverage } from "./Coverage";
 import { TotalResult } from "./TotalResult";
 import CoverageSummary from "./CoverageSummary";
+import { Icons } from "../util/constants";
 
 // wiretap("App");
 
@@ -29,21 +29,20 @@ export default class Files {
     files: TreeNode[],
     nodes: Map<string, TreeNode>
   ) {
-    if (this.files.length === 0) {
-      this.files.clear();
-      this.files.push(...files);
+    this.files.clear();
+    this.files.push(...files);
 
-      const rootNode = new TreeNode();
-      rootNode.label = "root";
-      rootNode.childNodes = tests;
-      const filtered = filterTree(rootNode);
-      this.tests.clear();
-      this.tests.push(...filtered.childNodes);
+    const rootNode = new TreeNode();
+    rootNode.label = "root";
+    rootNode.childNodes = tests;
+    const filtered = filterTree(rootNode);
 
-      nodes.forEach((value: TreeNode, key: string) => {
-        this.nodes.set(key, value);
-      });
-    }
+    this.tests.clear();
+    this.tests.push(...filtered.childNodes);
+
+    nodes.forEach((value: TreeNode, key: string) => {
+      this.nodes.set(key, value);
+    });
   }
 
   getNodeByPath(path: string) {
@@ -182,47 +181,21 @@ export default class Files {
     });
   }
 
+  @action
+  clear() {
+    this.files.clear();
+    this.tests.clear();
+  }
+
   // Resets previous execution status of the UI
   private resetStatus() {
     this.nodes.forEach((node: TreeNode) => {
-      node.iconName = "pt-icon-ring";
+      node.iconName = Icons.FileIcon;
       node.className = "";
       node.itBlocks.map(it => {
         it.isExecuting = false;
-        it.status = "Unknown";
+        it.status = "";
       });
     });
   }
-}
-
-function matcher(node) {
-  if (node.type === "directory") {
-    return false;
-  } else if (node.type !== "directory") {
-    return node.isTest;
-  }
-
-  return false;
-}
-
-const findNode = node => {
-  const isNodeAMatch = matcher(node);
-  const hasChildren = node.childNodes && node.childNodes.length;
-  const doesAnyChildMatch =
-    hasChildren && !!node.childNodes.find(child => findNode(child));
-
-  return isNodeAMatch || doesAnyChildMatch;
-};
-
-function filterTree(node) {
-  if (matcher(node) && !node.childNodes) {
-    return node;
-  }
-  // If not then only keep the ones that match or have matching descendants
-  let filtered = node.childNodes;
-  filtered = filtered.filter(child => findNode(child));
-  node.childNodes = filtered;
-  filtered = filtered.map(child => filterTree(child));
-
-  return filtered.length > 0 ? node : [];
 }

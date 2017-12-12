@@ -23,9 +23,7 @@ const Path = styled.div`
   font-size: 15px;
   color: #7e8596;
 `;
-const PlayButton = styled.button`
-  border: 1px solid #2dafff;
-`;
+const PlayButton = styled.button``;
 
 export interface HeaderProps {
   workspace: Workspace;

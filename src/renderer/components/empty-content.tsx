@@ -22,13 +22,13 @@ export default function EmptyContent({
       </div>
       <button
         type="button"
-        className="pt-button pt-intent-success"
+        className="pt-button"
         onClick={() => {
           workspace.openProject();
         }}
       >
+        <span className="pt-icon-standard pt-icon-folder-open" />
         Open Project
-        <span className="pt-icon-standard pt-icon-arrow-right pt-align-right" />
       </button>
     </div>
   );
