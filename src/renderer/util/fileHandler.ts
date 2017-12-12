@@ -4,7 +4,6 @@ import { setTimeout } from "timers";
 
 export function getTestFiles(directory: string) {
   return dirTree(directory, {
-    extensions: /\.js/,
     exclude: /node_modules/
   });
 }

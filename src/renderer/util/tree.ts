@@ -83,19 +83,6 @@ function createNode(
   node.output = "";
   node.type = type;
   node.isTest = isTest;
-  const itBlocks =
-    child.type === "file" && isTest
-      ? babylonParse(path).itBlocks.map(block =>
-          observable({
-            ...block,
-            status: "" as TestReconcilationState,
-            assertionMessage: "",
-            isExecuting: false,
-            snapshotErrorStatus: "unknown" as SnapshotErrorStatus
-          })
-        )
-      : [];
-
-  node.addItBlocks(itBlocks);
+  node.parseItBlocks();
   return node;
 }

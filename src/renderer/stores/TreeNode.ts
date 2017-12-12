@@ -38,7 +38,7 @@ class TreeNode implements ITreeNode {
   toggleAllTests() {
     this.itBlocks.forEach(it => {
       it.isExecuting = true;
-      it.snapshotErrorStatus = "unknown";
+      it.snapshotErrorStatus = "";
     });
   }
 
@@ -55,22 +55,20 @@ class TreeNode implements ITreeNode {
   }
 
   @action
-  addItBlocks(itBlocks: ItBlockWithStatus[]) {
-    this.itBlocks.clear();
-    this.itBlocks.push(...itBlocks);
-  }
-
-  @action
   parseItBlocks() {
-    const itBlocks = babylonParse(this.path).itBlocks.map(block =>
-      observable({
-        ...block,
-        status: "Unknown" as TestReconcilationState,
-        assertionMessage: "",
-        isExecuting: false,
-        snapshotErrorStatus: "unknown" as SnapshotErrorStatus
-      })
-    );
+    let itBlocks: ItBlockWithStatus[] = [];
+
+    if (this.type === "file" && this.isTest) {
+      itBlocks = babylonParse(this.path).itBlocks.map(block =>
+        observable({
+          ...block,
+          status: "" as TestReconcilationState,
+          assertionMessage: "",
+          isExecuting: false,
+          snapshotErrorStatus: "unknown" as SnapshotErrorStatus
+        })
+      );
+    }
 
     this.itBlocks.clear();
     this.itBlocks.push(...itBlocks);
