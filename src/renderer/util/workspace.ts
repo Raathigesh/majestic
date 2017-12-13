@@ -2,6 +2,7 @@
 import { platform } from "os";
 import { existsSync, readFileSync } from "fs";
 import { normalize, join, resolve } from "path";
+import { getTestPatterns } from "./jest";
 
 export function pathToJest(rootPath: string, pathToJest: string) {
   const path = normalize(pathToJest);
@@ -34,28 +35,34 @@ export const _replaceRootDirInPath = (
 };
 
 export function getTestFilePattern(rootPath: string) {
+  let config: any = {};
   if (isBootstrappedWithCreateReactApp(rootPath)) {
-    return [
+    config.testMatch = [
       "<rootDir>/src/**/__tests__/**/*.{js,jsx,mjs}",
       "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,mjs}"
     ].map(match => {
       return _replaceRootDirInPath(rootPath, match);
     });
+  } else {
+    const packageJsonPath = pathToPackageJSON(rootPath);
+    if (packageJsonPath === null) {
+      throw new Error("Unable to find package json.");
+    }
+
+    const content = readFileSync(packageJsonPath);
+    const packageJsonObj = JSON.parse(content.toString());
+    if (packageJsonObj.jest) {
+      config = packageJsonObj.jest;
+    }
+
+    if (packageJsonObj.jest && packageJsonObj.jest.testMatch) {
+      config.testMatch = packageJsonObj.jest.testMatch.map(match => {
+        return _replaceRootDirInPath(rootPath, match);
+      });
+    }
   }
 
-  const packageJsonPath = pathToPackageJSON(rootPath);
-  if (packageJsonPath === null) {
-    throw new Error("Unable to find package json.");
-  }
-
-  const content = readFileSync(packageJsonPath);
-  const packageJsonObj = JSON.parse(content.toString());
-
-  if (packageJsonObj.jest && packageJsonObj.jest.testMatch) {
-    return packageJsonObj.jest.testMatch.map(match => {
-      return _replaceRootDirInPath(rootPath, match);
-    });
-  }
+  return getTestPatterns(config);
 }
 
 function isBootstrappedWithCreateReactApp(rootPath: string): boolean {

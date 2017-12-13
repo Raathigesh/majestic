@@ -1,3 +1,7 @@
+import { escapePathForRegex, replacePathSepForRegex } from "jest-regex-util";
+const micromatch = require("micromatch");
+import { _replaceRootDirInPath } from "./workspace";
+
 export async function executeInSequence(
   funcs: {
     fn: () => void;
@@ -16,4 +20,35 @@ function setTimeoutPromisify(fn: () => void, delay) {
       resolve();
     }, delay);
   });
+}
+
+const globsToMatcher = globs => {
+  if (globs == null || globs.length === 0) {
+    return () => true;
+  }
+
+  const matchers = globs.map(each => micromatch.matcher(each, { dot: true }));
+  return path => matchers.some(each => each(path));
+};
+
+const pathToRegex = p => replacePathSepForRegex(p);
+const regexToMatcher = (testRegex: string) => {
+  if (!testRegex) {
+    return () => true;
+  }
+
+  const regex = new RegExp(pathToRegex(testRegex));
+  return path => regex.test(path);
+};
+
+export function getTestPatterns(config) {
+  let matcher: (path: string) => any = () => {};
+
+  if (config.testMatch) {
+    matcher = globsToMatcher(config.testMatch);
+  } else if (config.testRegex) {
+    matcher = regexToMatcher(config.testRegex);
+  }
+
+  return matcher;
 }

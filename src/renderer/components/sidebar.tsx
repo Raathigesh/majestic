@@ -20,6 +20,7 @@ const Container = styled.div`
 const Tab = styled.div`
   border: 1px solid #eaeaea;
   border-radius: 3px;
+  min-height: 35px;
 `;
 
 const Footer = styled.div`
@@ -28,6 +29,8 @@ const Footer = styled.div`
   background-color: #efefef;
   padding: 5px;
   border-radius: 3px;
+  min-height: 50px;
+  margin-top: 10px;
 `;
 
 const FooterText = styled.div`

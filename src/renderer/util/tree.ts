@@ -1,14 +1,9 @@
 import { observable } from "mobx";
-import {
-  parse as babylonParse,
-  TestReconcilationState
-} from "jest-editor-support";
+import { TestReconcilationState } from "jest-editor-support";
 import TreeNodeType from "../types/node-type";
 import TreeNode from "../stores/TreeNode";
-import { SnapshotErrorStatus } from "../types/it-block";
-import { getTestFilePattern } from "./workspace";
 import { Icons } from "./constants";
-const mm = require("micromatch");
+import { getTestFilePattern } from "./workspace";
 
 let nodes = new Map<string, TreeNode>();
 
@@ -23,14 +18,9 @@ export function processTests(rootPath, value, allFiles) {
   };
 }
 
-function testFileMatcher(rootPath: string) {
-  const globs = getTestFilePattern(rootPath);
-  const matchers = globs.map(each => mm.matcher(each, { dot: true }));
-  return path => matchers.some(each => each(path));
-}
-
 function tranform(rootPath, node, allFiles, tree = []) {
   const children = observable<TreeNode>([]);
+  const matcher = getTestFilePattern(rootPath);
 
   node.children &&
     node.children.forEach(child => {
@@ -39,7 +29,15 @@ function tranform(rootPath, node, allFiles, tree = []) {
       if (nodes.get(path) && child.type === "file") {
         node = nodes.get(path);
       } else {
-        node = createNode(path, child, tree, child.type, rootPath, allFiles);
+        node = createNode(
+          path,
+          child,
+          tree,
+          child.type,
+          rootPath,
+          allFiles,
+          matcher
+        );
       }
 
       if (
@@ -66,10 +64,10 @@ function createNode(
   tree,
   type: TreeNodeType,
   rootPath: string,
-  allFiles
+  allFiles,
+  matcher
 ) {
-  const testFileMatch = testFileMatcher(rootPath);
-  const isTest = testFileMatch(path);
+  const isTest = matcher(path);
   const node = new TreeNode();
   node.id = path;
   node.hasCaret = child.type === "directory";

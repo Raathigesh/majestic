@@ -23,6 +23,7 @@
     "istanbul-lib-coverage": "^1.1.1",
     "istanbul-lib-source-maps": "^1.2.2",
     "jest-editor-support": "^21.2.0",
+    "jest-regex-util": "^21.2.0",
     "micromatch": "2.3.11",
     "minimatch": "^3.0.4",
     "mobx": "^3.3.1",

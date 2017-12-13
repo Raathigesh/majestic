@@ -82,7 +82,7 @@ export class Workspace {
 
     this.selectedTest.toggleCurrent();
     this.selectedTest.toggleAllTests();
-    this.runner.filterByTestFileName(this.selectedTest.label as string);
+    this.runner.filterByTestFileName(this.selectedTest.path as string);
   }
 
   runTest(it: ItBlockWithStatus) {
