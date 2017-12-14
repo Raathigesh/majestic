@@ -9,7 +9,7 @@ import { observer } from "mobx-react";
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  background-color: #fbf9ff;
+  border-bottom: 1px solid #ececec;
   padding: 10px;
 `;
 

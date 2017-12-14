@@ -7,7 +7,6 @@ import { Workspace } from "../../stores/Workspace";
 import TreeNode from "../../stores/TreeNode";
 import ItBlockWithStatus from "../../types/it-block";
 import { getStatusLabel } from "../../util/label";
-var reactAnsiStyle = require("react-ansi-style");
 require("react-ansi-style/inject-css");
 
 import "highlight.js/styles/idea.css";
@@ -18,9 +17,12 @@ const Container = styled.div`
   margin: 15px;
   display: flex;
   flex-direction: column;
+  border: 1px solid #d8d8d8;
+  border-radius: 3px;
 `;
 
 interface StatusIndicatorProps {
+  f;
   status: TestReconcilationState;
   theme?: any;
 }
@@ -57,9 +59,7 @@ const Title = styled.span`
   font-size: 15px;
 `;
 const Run = styled.button`
-  border-radius: 50px;
   margin-right: 10px;
-  border: 2px solid #106ba3;
   width: 34px;
 `;
 const AcceptSnapshot = styled.button`
@@ -70,6 +70,11 @@ const SnapshotUpdatedStatus = styled.span`
   margin-top: 4px;
   color: blue;
   font-size: 13px;
+`;
+
+const Error = styled.pre`
+  color: #c44d58;
+  box-shadow: none;
 `;
 
 export interface ItBlockProps {
@@ -113,8 +118,19 @@ function It({ it, workspace, test }: ItBlockProps) {
         </RightContent>
       </Header>
       <div>
-        {it.assertionMessage !== "" &&
-          reactAnsiStyle(React, it.assertionMessage)}
+        {it.assertionMessage !== "" && (
+          <Error
+            style={{ marginTop: 5, whiteSpace: "pre-wrap" }}
+            dangerouslySetInnerHTML={{
+              __html: (it.assertionMessage || "")
+                .replace(/\u001b/g, "")
+                .replace(/\[22?m?/g, "")
+                .replace(/\[31m/g, `<strong style="color: red">`)
+                .replace(/\[32m/g, `<strong style="color: green">`)
+                .replace(/\[39m/g, `</strong>`)
+            }}
+          />
+        )}
       </div>
     </Container>
   );

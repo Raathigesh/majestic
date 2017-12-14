@@ -9,12 +9,12 @@ import { Updater, UpdaterStatus } from "../stores/Updater";
 import { Workspace } from "../stores/Workspace";
 
 const Container = styled.div`
-  background-color: #f7f7f7;
   height: 100vh;
   width: 400px;
   padding: 15px;
   display: flex;
   flex-direction: column;
+  border-right: 1px solid #ececec;
 `;
 
 const Tab = styled.div`

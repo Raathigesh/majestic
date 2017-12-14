@@ -5,7 +5,7 @@ import { normalize, join, resolve } from "path";
 import { getTestPatterns } from "./jest";
 
 export function pathToJest(rootPath: string, pathToJest: string) {
-  const path = normalize(pathToJest);
+  let path = normalize(pathToJest);
 
   const defaultPath = normalize("node_modules/.bin/jest");
   if (path === defaultPath && isBootstrappedWithCreateReactApp(rootPath)) {
@@ -15,9 +15,9 @@ export function pathToJest(rootPath: string, pathToJest: string) {
 
   // For windows support, see https://github.com/orta/vscode-jest/issues/10
   if (!path.includes(".cmd") && platform() === "win32") {
-    return path + ".cmd";
+    path = path + ".cmd";
   }
-  return path;
+  return join(rootPath, path);
 }
 
 export const _replaceRootDirInPath = (

@@ -74,7 +74,14 @@ export default class TestRunner {
         this.setDisplayText();
       })
       .on("executableOutput", output => {
-        console.log("executableOutput", output);
+        console.log(
+          output
+            .replace(/\u001b/g, "")
+            .replace(/\[22?m?/g, "")
+            .replace(/\[31m/g, "")
+            .replace(/\[32m/g, "")
+            .replace(/\[39m/g, "")
+        );
       })
       .on("executableStdErr", error => {
         console.log("executableStdErr", error.toString());
