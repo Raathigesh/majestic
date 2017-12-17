@@ -1,12 +1,13 @@
-import { observable, computed } from "mobx";
+import { observable, computed, action } from "mobx";
 import Runner, { TestExecutionResults } from "./runner";
-import readAndWatchDirectory from "../util/fileHandler";
+import readAndWatchDirectory, { watchCoverageFiles } from "../util/fileHandler";
 import { processTests } from "../util/tree";
 import Preference from "./Preference";
 import Files from "./Files";
 import TreeNode from "./TreeNode";
 import ItBlockWithStatus from "../types/it-block";
 import { Coverage } from "./Coverage";
+import { processCoverageTree } from "../util/coverage-files";
 
 export class Workspace {
   @observable runner: Runner;
@@ -31,19 +32,19 @@ export class Workspace {
 
     this.coverage = new Coverage(this.preference.rootPath);
 
-    this.runner
-      .getExecutableJSONEmitter()
-      .subscribe((result: TestExecutionResults) => {
+    this.runner.getExecutableJSONEmitter().subscribe(
+      action((result: TestExecutionResults) => {
         this.files.updateWithAssertionStatus(result.testFileAssertions);
         this.files.updateTotalResult(result.totalResult);
         this.coverage.mapCoverage((result.totalResult as any).coverageMap);
         this.files.updateCoverage(this.coverage);
-      });
+      })
+    );
   }
 
   loadTestFiles(allFiles = false) {
     const directory = readAndWatchDirectory(this.preference.rootPath);
-    directory.subscribe(tree => {
+    directory.subscribe((tree, event) => {
       const { tests, files, nodes } = processTests(
         this.preference.rootPath,
         tree,
@@ -55,8 +56,24 @@ export class Workspace {
     directory.change(path => {
       const nodeForPath = this.files.getNodeByPath(path);
       if (nodeForPath) {
-        nodeForPath.parseItBlocks();
+        let shouldExecute = false;
+        if (this.runner.isWatching) {
+          if (this.runner.watcherDetails.fileName === path) {
+            shouldExecute = true;
+          }
+        }
+
+        nodeForPath.parseItBlocks(shouldExecute);
       }
+    });
+
+    const coverageWatcher = watchCoverageFiles(this.preference.rootPath);
+    coverageWatcher.change(files => {
+      const coverageFiles = processCoverageTree(
+        this.preference.rootPath,
+        files
+      );
+      this.files.initializeCoverageFiles(coverageFiles.files);
     });
   }
 
@@ -68,11 +85,16 @@ export class Workspace {
   }
 
   closeProject() {
+    try {
+      this.runner.terminate();
+    } catch (e) {
+      console.log("Process was terminated already.");
+    }
     this.preference.rootPath = "";
     this.files.clear();
   }
 
-  runProject(watchMode) {
+  runProject() {
     this.files.toggleStatusToAll();
     this.runner.start();
   }
@@ -80,14 +102,14 @@ export class Workspace {
   runCurrentFile() {
     if (!this.selectedTest) return;
 
-    this.selectedTest.toggleCurrent();
+    this.selectedTest.spin();
     this.selectedTest.toggleAllTests();
     this.runner.filterByTestFileName(this.selectedTest.path as string);
   }
 
   runTest(it: ItBlockWithStatus) {
     if (!this.selectedTest) return;
-    this.selectedTest.toggleCurrent();
+    this.selectedTest.spin();
     it.isExecuting = true;
     this.runner.filterByTestName(this.selectedTest.path, it.name);
   }
@@ -97,10 +119,12 @@ export class Workspace {
   }
 
   updateSnapshot(it: ItBlockWithStatus) {
+    it.updatingSnapshot = true;
     this.runner.updateSnapshot(it.name).then(() => {
       it.snapshotErrorStatus = "updated";
       it.status = "KnownSuccess";
       it.assertionMessage = "";
+      it.updatingSnapshot = false;
     });
   }
 
@@ -119,7 +143,7 @@ export class Workspace {
 
   stop() {
     this.runner.terminate();
-    this.files.resetStatusToAll();
+    this.files.resetStatus();
   }
 
   @computed

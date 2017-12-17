@@ -40,7 +40,7 @@ body {
   color: orange;
 }
 
-.spin .pt-icon-locate {
+.spin .pt-icon-refresh {
   animation-name: spin;
   animation-duration: 1000ms;
   animation-iteration-count: infinite;
@@ -59,12 +59,10 @@ body {
 .warning {
   background: rgba(78, 247, 114, 0.685);
   position: absolute;
-  width: 100% !important;
-  left: 0 !important;
 }
 
 /*Blueprint js customizations*/
 
 .pt-tree-node.pt-tree-node-selected > .pt-tree-node-content {
-  background-color: #556270;
+  background-color: rgba(196, 79, 89, 0.98);
 }

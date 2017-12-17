@@ -11,6 +11,7 @@ require("react-ansi-style/inject-css");
 
 import "highlight.js/styles/idea.css";
 import "react-ansi-style/inject-css";
+import { Button } from "@blueprintjs/core";
 
 const Container = styled.div`
   padding: 8px;
@@ -62,7 +63,7 @@ const Run = styled.button`
   margin-right: 10px;
   width: 34px;
 `;
-const AcceptSnapshot = styled.button`
+const AcceptSnapshot = styled(Button)`
   margin-right: 10px;
 `;
 const SnapshotUpdatedStatus = styled.span`
@@ -75,6 +76,10 @@ const SnapshotUpdatedStatus = styled.span`
 const Error = styled.pre`
   color: #c44d58;
   box-shadow: none;
+`;
+
+const ExecutingLabel = styled.label`
+  color: rgba(196, 79, 89, 0.98);
 `;
 
 export interface ItBlockProps {
@@ -99,11 +104,11 @@ function It({ it, workspace, test }: ItBlockProps) {
         <RightContent>
           {it.snapshotErrorStatus === "error" && (
             <AcceptSnapshot
-              type="button"
-              className="pt-button pt-icon-tick"
+              className="pt-button pt-icon-tick pt-minimal pt-intent-primary"
               onClick={() => {
                 workspace.updateSnapshot(it);
               }}
+              loading={it.updatingSnapshot}
             >
               Update snapshot
             </AcceptSnapshot>
@@ -112,8 +117,14 @@ function It({ it, workspace, test }: ItBlockProps) {
             <SnapshotUpdatedStatus>Snapshot updated</SnapshotUpdatedStatus>
           )}
           <StatusIndicator status={it.status}>
-            <Indicator isExecuting={it.isExecuting} status={it.status} />
-            {getStatusLabel(it.status)}
+            {!it.isExecuting && (
+              <Indicator isExecuting={it.isExecuting} status={it.status} />
+            )}
+            {it.isExecuting ? (
+              <ExecutingLabel>Executing</ExecutingLabel>
+            ) : (
+              getStatusLabel(it.status)
+            )}
           </StatusIndicator>
         </RightContent>
       </Header>

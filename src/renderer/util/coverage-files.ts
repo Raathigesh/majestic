@@ -7,18 +7,16 @@ import { getTestFilePattern } from "./workspace";
 
 let nodes = new Map<string, TreeNode>();
 
-export function processTests(rootPath, value, allFiles) {
+export function processCoverageTree(rootPath, value) {
   nodes = new Map<string, TreeNode>();
-  const tests = tranform(rootPath, value, allFiles);
-  const files = tranform(rootPath, value, allFiles);
+  const files = tranform(rootPath, value);
   return {
-    tests,
     files,
     nodes
   };
 }
 
-function tranform(rootPath, node, allFiles, tree = []) {
+function tranform(rootPath, node, tree = []) {
   const children = observable<TreeNode>([]);
   const matcher = getTestFilePattern(rootPath);
 
@@ -29,15 +27,7 @@ function tranform(rootPath, node, allFiles, tree = []) {
       if (nodes.get(path) && child.type === "file") {
         node = nodes.get(path);
       } else {
-        node = createNode(
-          path,
-          child,
-          tree,
-          child.type,
-          rootPath,
-          allFiles,
-          matcher
-        );
+        node = createNode(path, child, tree, child.type, rootPath, matcher);
       }
 
       if (
@@ -64,7 +54,6 @@ function createNode(
   tree,
   type: TreeNodeType,
   rootPath: string,
-  allFiles,
   matcher
 ) {
   const isTest = matcher(path);
@@ -72,9 +61,9 @@ function createNode(
   node.id = path;
   node.hasCaret = child.type === "directory";
   node.iconName = child.type === "file" ? Icons.FileIcon : Icons.FolderIcon;
-  node.label = child.name;
+  node.label = child.name.replace(".html", "");
   node.isExpanded = true;
-  node.childNodes = tranform(rootPath, child, allFiles, tree);
+  node.childNodes = tranform(rootPath, child, tree);
   node.className = "tree-node-custom";
   node.path = path;
   node.status = "Unknown" as TestReconcilationState;

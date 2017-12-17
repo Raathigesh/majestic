@@ -2,13 +2,12 @@ import { TestFileAssertionStatus } from "jest-editor-support";
 import { observable, IObservableArray, computed, action } from "mobx";
 import TreeNode from "../stores/TreeNode";
 import { TestReconcilationState } from "jest-editor-support";
-import getLabel from "../components/tree-node-label";
+import getLabel, { getTestStatusLabel } from "../components/tree-node-label";
 import { filterFiles, filterTree } from "../util/search";
 
 import { Coverage } from "./Coverage";
 import { TotalResult } from "./TotalResult";
 import CoverageSummary from "./CoverageSummary";
-import { Icons } from "../util/constants";
 
 // wiretap("App");
 
@@ -24,14 +23,12 @@ export default class Files {
   // We use this to perform updates on the tree nodes.
   @observable nodes: Map<string, TreeNode> = new Map();
 
+  @action
   initialize(
     tests: TreeNode[],
     files: TreeNode[],
     nodes: Map<string, TreeNode>
   ) {
-    this.files.clear();
-    this.files.push(...files);
-
     const rootNode = new TreeNode();
     rootNode.label = "root";
     rootNode.childNodes = tests;
@@ -45,38 +42,26 @@ export default class Files {
     });
   }
 
+  @action
+  initializeCoverageFiles(files: TreeNode[]) {
+    this.files.clear();
+    this.files.push(...files);
+  }
+
   getNodeByPath(path: string) {
     return this.nodes.get(path);
   }
 
-  updateFileIcon(status: TestReconcilationState, node: TreeNode) {
-    if (status === "KnownSuccess") {
-      node.iconName = "pt-icon-tick-circle";
-    } else if (status === "KnownFail") {
-      node.iconName = "pt-icon-issue";
-    } else if (status === "KnownSkip") {
-      node.iconName = "pt-icon-document";
-    }
-  }
-
+  @action
   updateWithAssertionStatus(tests: TestFileAssertionStatus[]) {
+    this.resetStatus();
     tests.map(test => {
       const nodeToUpdate = this.nodes.get(test.file);
-
-      let className = "";
-      if (test.status === "KnownSuccess") {
-        className = "success";
-      } else if (test.status === "KnownFail") {
-        className = "failed";
-      } else if (test.status === "KnownSkip") {
-        className = "skip";
-      }
       if (nodeToUpdate) {
+        nodeToUpdate.setToFileIcon();
         nodeToUpdate.status = test.status as TestReconcilationState;
         nodeToUpdate.output = test.message;
-        nodeToUpdate.className = className;
-
-        this.updateFileIcon(test.status, nodeToUpdate);
+        nodeToUpdate.secondaryLabel = getTestStatusLabel(test.status);
 
         for (const assertion of test.assertions) {
           const itBlock = nodeToUpdate.itBlocks.find(
@@ -98,6 +83,7 @@ export default class Files {
     });
   }
 
+  @action
   updateCoverage(coverage: Coverage) {
     for (let node of this.nodes.values()) {
       if (!node.isTest) {
@@ -121,6 +107,7 @@ export default class Files {
     this.totalCoverage.statementPercentage = summary.statementPercentage;
   }
 
+  @action
   updateTotalResult(result) {
     this.totalResult.numPassedTestSuites = result.numPassedTestSuites;
     this.totalResult.numFailedTestSuites = result.numFailedTestSuites;
@@ -131,13 +118,13 @@ export default class Files {
   }
 
   // Toggles spin animation in all the nodes by switching the class
+  @action
   toggleStatusToAll() {
     this.resetStatus();
 
     this.nodes.forEach((node: TreeNode) => {
       if (node.type === "file") {
-        node.className = "spin";
-        node.iconName = "pt-icon-locate";
+        node.spin();
       }
 
       node.itBlocks.map(it => {
@@ -146,17 +133,15 @@ export default class Files {
     });
   }
 
-  resetStatusToAll() {
-    this.resetStatus();
-  }
-
   // Unhighlight all the nodes
+  @action
   unhighlightAll() {
     this.nodes.forEach((node: TreeNode) => {
       node.isSelected = false;
     });
   }
 
+  @action
   search(text: string) {
     this.text = text;
   }
@@ -188,10 +173,10 @@ export default class Files {
   }
 
   // Resets previous execution status of the UI
-  private resetStatus() {
+  @action
+  resetStatus() {
     this.nodes.forEach((node: TreeNode) => {
-      node.iconName = Icons.FileIcon;
-      node.className = "";
+      node.setToFileIcon();
       node.itBlocks.map(it => {
         it.isExecuting = false;
         it.status = "";

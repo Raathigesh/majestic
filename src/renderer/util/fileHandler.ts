@@ -1,6 +1,8 @@
 const dirTree = require("directory-tree");
 const chokidar = require("chokidar");
 import { setTimeout } from "timers";
+import { getTestFilePattern } from "./workspace";
+import { join } from "path";
 
 export function getTestFiles(directory: string) {
   return dirTree(directory, {
@@ -8,21 +10,33 @@ export function getTestFiles(directory: string) {
   });
 }
 
+export function getCoverageFiles(directory: string) {
+  return dirTree(directory, {
+    extensions: /\.html/
+  });
+}
+
 export default function readAndWatchDirectory(root: string) {
-  let subscribeCallback = (value: any) => {};
+  const isTest = getTestFilePattern(root);
+
+  let subscribeCallback = (value: any, event: string) => {};
   let changeCallback = (path: string) => {};
 
   setTimeout(() => {
-    subscribeCallback(getTestFiles(root));
+    subscribeCallback(getTestFiles(root), "");
   }, 0);
 
   chokidar
     .watch(root, { ignored: /node_modules/, ignoreInitial: true })
     .on("all", (event, path) => {
       if (event === "change") {
-        changeCallback(path);
-      } else {
-        subscribeCallback(getTestFiles(root));
+        if (isTest(path)) {
+          changeCallback(path);
+        }
+      } else if (event === "add" || event === "unlink") {
+        if (isTest(path)) {
+          subscribeCallback(getTestFiles(root), event);
+        }
       }
     });
 
@@ -30,6 +44,28 @@ export default function readAndWatchDirectory(root: string) {
     subscribe(callBack) {
       subscribeCallback = callBack;
     },
+    change(callback) {
+      changeCallback = callback;
+    }
+  };
+}
+
+export function watchCoverageFiles(root: string) {
+  const coveragePath = join(root, "coverage");
+
+  let changeCallback = (path: string) => {};
+
+  setTimeout(() => {
+    changeCallback(getCoverageFiles(coveragePath));
+  }, 0);
+
+  chokidar
+    .watch(coveragePath, { ignoreInitial: true })
+    .on("all", (event, path) => {
+      changeCallback(getCoverageFiles(coveragePath));
+    });
+
+  return {
     change(callback) {
       changeCallback = callback;
     }

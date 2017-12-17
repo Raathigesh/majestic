@@ -30,7 +30,7 @@ function Content({ workspace, preference }: ContentProps) {
         endRow: value.end.line - 1,
         endCol: value.end.column,
         className: "warning",
-        type: "background"
+        type: "line"
       };
     });
   }

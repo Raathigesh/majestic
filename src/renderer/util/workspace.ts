@@ -34,6 +34,32 @@ export const _replaceRootDirInPath = (
   );
 };
 
+function getConfig(rootPath) {
+  const packageJsonObj = __non_webpack_require__(pathToPackageJSON(rootPath));
+  if (packageJsonObj.jest) {
+    return packageJsonObj.jest;
+  }
+
+  const configFilePath = getConfigFilePath(rootPath);
+  if (configFilePath !== null) {
+    return __non_webpack_require__(configFilePath);
+  }
+}
+
+export function getConfigFilePath(rootPath: string) {
+  const defaultConfigPath = join(rootPath, "jest.config.js");
+  if (existsSync(defaultConfigPath)) {
+    return defaultConfigPath;
+  }
+
+  const packageJsonObj = __non_webpack_require__(pathToPackageJSON(rootPath));
+  if (packageJsonObj.jestConfig) {
+    return join(rootPath, packageJsonObj.jestConfig);
+  }
+
+  return "";
+}
+
 export function getTestFilePattern(rootPath: string) {
   let config: any = {};
   if (isBootstrappedWithCreateReactApp(rootPath)) {
@@ -44,19 +70,10 @@ export function getTestFilePattern(rootPath: string) {
       return _replaceRootDirInPath(rootPath, match);
     });
   } else {
-    const packageJsonPath = pathToPackageJSON(rootPath);
-    if (packageJsonPath === null) {
-      throw new Error("Unable to find package json.");
-    }
+    config = getConfig(rootPath);
 
-    const content = readFileSync(packageJsonPath);
-    const packageJsonObj = JSON.parse(content.toString());
-    if (packageJsonObj.jest) {
-      config = packageJsonObj.jest;
-    }
-
-    if (packageJsonObj.jest && packageJsonObj.jest.testMatch) {
-      config.testMatch = packageJsonObj.jest.testMatch.map(match => {
+    if (config && config.testMatch) {
+      config.testMatch = config.testMatch.map(match => {
         return _replaceRootDirInPath(rootPath, match);
       });
     }
@@ -90,14 +107,6 @@ export function pathToConfig(pathToConfig: string) {
 }
 
 export function pathToPackageJSON(rootPath: string) {
-  let path = "";
-  if (isBootstrappedWithCreateReactApp(rootPath)) {
-    path = normalize(
-      "node_modules/react-scripts/node_modules/jest/package.json"
-    );
-  } else {
-    path = normalize("package.json");
-  }
-
+  let path = normalize("package.json");
   return join(rootPath, path);
 }

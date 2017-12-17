@@ -2,9 +2,13 @@ import * as React from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
-  height: 100px;
-  padding: 20px;
   text-align: center;
+`;
+
+const Logo = styled.img`
+  height: 49px;
+  width: auto;
+  padding: 7px;
 `;
 
 interface HeaderProps {}
@@ -12,7 +16,7 @@ interface HeaderProps {}
 const Header: React.SFC<HeaderProps> = props => {
   return (
     <Container>
-      <img src={require("../assets/logo.png")} width="100%" />
+      <Logo src={require("../assets/logo.png")} />
     </Container>
   );
 };

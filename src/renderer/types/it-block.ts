@@ -8,6 +8,7 @@ interface ItBlockWithStatus extends ItBlock {
   assertionMessage?: string;
   isExecuting: boolean;
   snapshotErrorStatus: SnapshotErrorStatus;
+  updatingSnapshot: boolean;
 }
 
 export default ItBlockWithStatus;

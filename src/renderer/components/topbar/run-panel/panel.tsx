@@ -58,7 +58,7 @@ function RunPanel({ workspace }: RunPanelProps) {
               "pt-disabled": isRunning
             })}
             onClick={() => {
-              workspace.runProject(false);
+              workspace.runProject();
             }}
           >
             {runButonLabel(isRunning, isWatching)}

@@ -8,6 +8,8 @@ import {
 } from "jest-editor-support";
 import { readFile } from "fs";
 import CoverageSummary from "./CoverageSummary";
+import { FileExecutingIcon } from "../constants/ui";
+import { Icons } from "../util/constants";
 
 class TreeNode implements ITreeNode {
   @observable childNodes?: ITreeNode[];
@@ -17,7 +19,7 @@ class TreeNode implements ITreeNode {
   @observable isExpanded?: boolean;
   @observable isSelected?: boolean = false;
   @observable label: string | JSX.Element;
-  @observable secondaryLabel?: string | JSX.Element;
+  @observable secondaryLabel?: string | JSX.Element = "";
   @observable className?: string;
   @observable path: string;
   @observable status: TestReconcilationState;
@@ -29,9 +31,16 @@ class TreeNode implements ITreeNode {
   @observable coverage = new CoverageSummary();
 
   @action
-  toggleCurrent() {
+  setToFileIcon() {
+    this.secondaryLabel = "";
+    this.iconName = Icons.FileIcon;
+    this.className = "";
+  }
+
+  @action
+  spin() {
     this.className = "spin";
-    this.iconName = "pt-icon-locate";
+    this.iconName = FileExecutingIcon;
   }
 
   @action
@@ -55,7 +64,7 @@ class TreeNode implements ITreeNode {
   }
 
   @action
-  parseItBlocks() {
+  parseItBlocks(shouldExecute) {
     let itBlocks: ItBlockWithStatus[] = [];
 
     if (this.type === "file" && this.isTest) {
@@ -64,8 +73,9 @@ class TreeNode implements ITreeNode {
           ...block,
           status: "" as TestReconcilationState,
           assertionMessage: "",
-          isExecuting: false,
-          snapshotErrorStatus: "unknown" as SnapshotErrorStatus
+          isExecuting: shouldExecute,
+          snapshotErrorStatus: "unknown" as SnapshotErrorStatus,
+          updatingSnapshot: false
         })
       );
     }
