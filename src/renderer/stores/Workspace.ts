@@ -104,14 +104,19 @@ export class Workspace {
 
     this.selectedTest.spin();
     this.selectedTest.toggleAllTests();
-    this.runner.filterByTestFileName(this.selectedTest.path as string);
+    this.runner.filterByTestFileName(
+      this.selectedTest.getRelativePath(this.preference.rootPath)
+    );
   }
 
   runTest(it: ItBlockWithStatus) {
     if (!this.selectedTest) return;
     this.selectedTest.spin();
     it.isExecuting = true;
-    this.runner.filterByTestName(this.selectedTest.path, it.name);
+    this.runner.filterByTestName(
+      this.selectedTest.getRelativePath(this.preference.rootPath),
+      it.name
+    );
   }
 
   search(query: string) {

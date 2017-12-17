@@ -83,6 +83,10 @@ class TreeNode implements ITreeNode {
     this.itBlocks.clear();
     this.itBlocks.push(...itBlocks);
   }
+
+  getRelativePath(rootPath: string) {
+    return this.path.replace(rootPath, "");
+  }
 }
 
 export default TreeNode;
