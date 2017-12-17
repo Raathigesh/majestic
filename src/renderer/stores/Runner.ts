@@ -5,6 +5,7 @@ import {
   TestFileAssertionStatus
 } from "jest-editor-support";
 import * as Rx from "rxjs";
+import { platform } from "os";
 import { observable } from "mobx";
 import { createProcess } from "../util/Process";
 import { executeInSequence } from "../util/jest";
@@ -180,8 +181,14 @@ export default class TestRunner {
   private setTestFilterPatterns(fileName, testName) {
     this.watcherDetails.fileName = fileName;
     this.watcherDetails.testName = testName;
+    let replacePattern = /\//g;
+
+    if (platform() === "win32") {
+      replacePattern = /\\/g;
+    }
+
     this.testFileNamePattern =
-      fileName !== "" ? `^${fileName.replace(/\\/g, ".")}$` : "";
+      fileName !== "" ? `^${fileName.replace(replacePattern, ".")}$` : "";
     this.testNamePattern = testName !== "" ? `^${testName}$` : "";
   }
 
