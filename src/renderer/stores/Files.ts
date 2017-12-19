@@ -4,7 +4,6 @@ import TreeNode from "../stores/TreeNode";
 import { TestReconcilationState } from "jest-editor-support";
 import getLabel, { getTestStatusLabel } from "../components/tree-node-label";
 import { filterFiles, filterTree } from "../util/search";
-
 import { Coverage } from "./Coverage";
 import { TotalResult } from "./TotalResult";
 import CoverageSummary from "./CoverageSummary";
@@ -24,11 +23,7 @@ export default class Files {
   @observable nodes: Map<string, TreeNode> = new Map();
 
   @action
-  initialize(
-    tests: TreeNode[],
-    files: TreeNode[],
-    nodes: Map<string, TreeNode>
-  ) {
+  initialize(tests: TreeNode[], nodes: Map<string, TreeNode>) {
     const rootNode = new TreeNode();
     rootNode.label = "root";
     rootNode.childNodes = tests;

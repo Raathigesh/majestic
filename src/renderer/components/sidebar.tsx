@@ -10,8 +10,8 @@ import { Workspace } from "../stores/Workspace";
 
 const Container = styled.div`
   height: 100vh;
-  width: 400px;
-  padding: 15px;
+  min-width: 400px;
+  padding: 5px;
   display: flex;
   flex-direction: column;
   border-right: 1px solid #ececec;

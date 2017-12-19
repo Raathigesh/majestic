@@ -28,10 +28,10 @@ function TestFileContent({ workspace }: TestFileContentProps) {
         {(
           (workspace.selectedTest && workspace.selectedTest.itBlocks) ||
           observable([])
-        ).map(it => {
+        ).map((it, i) => {
           return (
             <It
-              key={it.name}
+              key={`${it.name}:${i}`}
               it={it}
               workspace={workspace}
               test={workspace.selectedTest}

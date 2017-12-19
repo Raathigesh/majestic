@@ -8,7 +8,7 @@
     "dist": "yarn compile && electron-builder",
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
     "rebuild": "electron-rebuild",
-    "postinstall": "yarn rebuild"
+    "postinstall": "yarn rebuild && yarn link jest-editor-support"
   },
   "dependencies": {
     "@blueprintjs/core": "^1.32.0",
@@ -20,6 +20,7 @@
     "classnames": "^2.2.5",
     "directory-tree": "^2.0.0",
     "electron-updater": "^2.16.3",
+    "fuse.js": "^3.2.0",
     "istanbul-lib-coverage": "^1.1.1",
     "istanbul-lib-source-maps": "^1.2.2",
     "jest-editor-support": "^21.2.0",
@@ -29,6 +30,7 @@
     "mobx": "^3.3.1",
     "mobx-react": "^4.3.3",
     "mobx-react-devtools": "^4.2.15",
+    "mousetrap": "^1.6.1",
     "node-pty": "^0.7.3",
     "react": "^16.0.0",
     "react-ace": "^5.7.0",
@@ -37,6 +39,7 @@
     "react-dom": "^16.0.0",
     "react-highlight": "^0.10.0",
     "react-loading": "^1.0.2",
+    "react-split-pane": "^0.1.71",
     "rx-ipc-electron": "^0.1.2",
     "rxjs": "^5.5.2",
     "source-map-support": "^0.5.0",

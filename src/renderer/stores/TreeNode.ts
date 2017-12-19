@@ -64,24 +64,39 @@ class TreeNode implements ITreeNode {
   }
 
   @action
-  parseItBlocks(shouldExecute) {
+  parseItBlocks(shouldExecute = false) {
     let itBlocks: ItBlockWithStatus[] = [];
+    let itBlocksJs: ItBlockWithStatus[] = [];
 
     if (this.type === "file" && this.isTest) {
-      itBlocks = babylonParse(this.path).itBlocks.map(block =>
-        observable({
+      itBlocks = babylonParse(this.path).itBlocks.map(block => {
+        itBlocksJs.push({
           ...block,
-          status: "" as TestReconcilationState,
-          assertionMessage: "",
           isExecuting: shouldExecute,
-          snapshotErrorStatus: "unknown" as SnapshotErrorStatus,
-          updatingSnapshot: false
-        })
-      );
+          filePath: this.path
+        });
+
+        const it = new ItBlockWithStatus();
+        it.name = block.name;
+        it.isExecuting = shouldExecute;
+        it.filePath = this.path;
+        return it;
+      });
     }
 
     this.itBlocks.clear();
     this.itBlocks.push(...itBlocks);
+
+    return itBlocksJs;
+  }
+
+  @action
+  highlightItBlocks(name: string) {
+    this.itBlocks.forEach(it => {
+      if (it.name === name) {
+        it.active = true;
+      }
+    });
   }
 }
 

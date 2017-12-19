@@ -4,17 +4,20 @@ import TreeNodeType from "../types/node-type";
 import TreeNode from "../stores/TreeNode";
 import { Icons } from "./constants";
 import { getTestFilePattern } from "./workspace";
+import ItBlockWithStatus from "../types/it-block";
 
 let nodes = new Map<string, TreeNode>();
+let itBlocks = new Map<string, ItBlockWithStatus[]>();
 
 export function processTests(rootPath, value, allFiles) {
   nodes = new Map<string, TreeNode>();
+  itBlocks = new Map<string, ItBlockWithStatus[]>();
+
   const tests = tranform(rootPath, value, allFiles);
-  const files = tranform(rootPath, value, allFiles);
   return {
     tests,
-    files,
-    nodes
+    nodes,
+    itBlocks
   };
 }
 
@@ -26,6 +29,12 @@ function tranform(rootPath, node, allFiles, tree = []) {
     node.children.forEach(child => {
       const path = child.path;
       let node;
+
+      if (child.type === "file" && !matcher(path)) {
+        // if not a test, don't bother
+        return;
+      }
+
       if (nodes.get(path) && child.type === "file") {
         node = nodes.get(path);
       } else {
@@ -81,6 +90,10 @@ function createNode(
   node.output = "";
   node.type = type;
   node.isTest = isTest;
-  node.parseItBlocks();
+
+  // collect all the it blocks in a map. This is used for quick search
+  const its = node.parseItBlocks();
+  itBlocks.set(path, its);
+
   return node;
 }

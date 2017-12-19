@@ -1,4 +1,5 @@
-import { observable, computed, action } from "mobx";
+import { observable, computed, action, IObservableArray } from "mobx";
+import Mousetrap from "mousetrap";
 import Runner, { TestExecutionResults } from "./runner";
 import readAndWatchDirectory, { watchCoverageFiles } from "../util/fileHandler";
 import { processTests } from "../util/tree";
@@ -17,11 +18,27 @@ export class Workspace {
   @observable selectedTest?: TreeNode;
   @observable preference: Preference;
   @observable error: string = "";
+  @observable showOmni: boolean = false;
+  @observable
+  itStatements: IObservableArray<ItBlockWithStatus> = observable([]);
+  itBlocks: Map<string, ItBlockWithStatus[]> = new Map();
 
   coverage: Coverage;
 
   constructor() {
     this.preference = new Preference();
+
+    Mousetrap.bind(["command+k", "ctrl+k"], () => {
+      this.showOmni = !this.showOmni;
+      // return false to prevent default behavior and stop event from bubbling
+      return false;
+    });
+
+    Mousetrap.bind("esc", () => {
+      this.showOmni = false;
+      // return false to prevent default behavior and stop event from bubbling
+      return false;
+    });
   }
 
   initializeRunner() {
@@ -45,12 +62,16 @@ export class Workspace {
   loadTestFiles(allFiles = false) {
     const directory = readAndWatchDirectory(this.preference.rootPath);
     directory.subscribe((tree, event) => {
-      const { tests, files, nodes } = processTests(
+      const { tests, nodes, itBlocks } = processTests(
         this.preference.rootPath,
         tree,
         allFiles
       );
-      this.files.initialize(tests, files, nodes);
+      this.files.initialize(tests, nodes);
+
+      itBlocks.forEach((value: ItBlockWithStatus[], key: string) => {
+        this.itBlocks.set(key, value);
+      });
     });
 
     directory.change(path => {
@@ -158,6 +179,26 @@ export class Workspace {
   @computed
   get isProjectAvailable() {
     return !!this.preference.rootPath;
+  }
+
+  allItBlocks() {
+    const itBlocksWithStatus: ItBlockWithStatus[] = [];
+    this.itBlocks.forEach((value: ItBlockWithStatus[], key: string) => {
+      itBlocksWithStatus.push(...value);
+    });
+
+    return itBlocksWithStatus;
+  }
+
+  @action
+  highlightTestInFile(path: string, testName: string) {
+    const file = this.files.getNodeByPath(path);
+    if (!file) {
+      return;
+    }
+
+    this.selectedTest = file;
+    file.highlightItBlocks(testName);
   }
 }
 

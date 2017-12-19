@@ -20,6 +20,7 @@ const Container = styled.div`
   flex-direction: column;
   border: 1px solid #d8d8d8;
   border-radius: 3px;
+  background-color: ${props => (props.active ? "wheat" : "")};
 `;
 
 interface StatusIndicatorProps {
@@ -90,7 +91,7 @@ export interface ItBlockProps {
 
 function It({ it, workspace, test }: ItBlockProps) {
   return (
-    <Container>
+    <Container active={it.active}>
       <Header>
         <Run
           type="button"
