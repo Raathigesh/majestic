@@ -8,6 +8,7 @@ import TestFileContent from "./test-file/test-file-content";
 import EmptyContent from "./empty-content";
 import CodeViewer from "./code-viewer";
 import Topbar from "./topbar";
+import FailSummary from "./fail-summary/fail-summary";
 
 const Container = styled.div`
   width: 100%;
@@ -49,17 +50,22 @@ function Content({ workspace, preference }: ContentProps) {
       {!workspace.isProjectAvailable && (
         <EmptyContent preference={preference} workspace={workspace} />
       )}
-      {workspace.selectedTest && workspace.selectedTest.isTest ? (
-        <TestFileContent workspace={workspace} />
-      ) : (
-        workspace.selectedTest && (
+      {workspace.showFailureSummary && <FailSummary workspace={workspace} />}
+      {workspace.selectedTest &&
+        workspace.selectedTest.isTest &&
+        !workspace.showFailureSummary && (
+          <TestFileContent workspace={workspace} />
+        )}
+      {workspace.selectedTest &&
+        !workspace.selectedTest.isTest &&
+        !workspace.showFailureSummary &&
+        (workspace.selectedTest && (
           <CodeViewer
             node={workspace.selectedTest}
             code={workspace.selectedTest.content}
             markers={markers}
           />
-        )
-      )}
+        ))}
     </Container>
   );
 }

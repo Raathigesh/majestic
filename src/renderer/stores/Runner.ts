@@ -228,7 +228,7 @@ export default class TestRunner {
       },
       {
         fn: () => debugProcess.stdin.write(testNameRegex),
-        delay: 100
+        delay: 500
       },
       {
         fn: () => debugProcess.stdin.write(new Buffer("0d", "hex").toString()),

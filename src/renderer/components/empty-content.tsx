@@ -17,9 +17,7 @@ export default function EmptyContent({
         <span className="pt-icon pt-icon-helper-management" />
       </div>
       <h4 className="pt-non-ideal-state-title">It's empty in here</h4>
-      <div className="pt-non-ideal-state-description">
-        Select a test file from the sidebar.
-      </div>
+      <div className="pt-non-ideal-state-description">Open a project</div>
       <button
         type="button"
         className="pt-button"

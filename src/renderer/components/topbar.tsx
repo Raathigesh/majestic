@@ -40,7 +40,10 @@ function Topbar({ workspace, onPreferenceToggle }: TopbarProps) {
     <Container>
       <RunPanel workspace={workspace} />
       <TestSummaryContainer>
-        <TestSummary totalResult={workspace.files.totalResult} />
+        <TestSummary
+          totalResult={workspace.files.totalResult}
+          workspace={workspace}
+        />
       </TestSummaryContainer>
       <CoverageSummary>
         <TestCoverage totalCoverage={workspace.files.totalCoverage} />

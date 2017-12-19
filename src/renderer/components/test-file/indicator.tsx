@@ -14,9 +14,7 @@ const Container = styled.div`
 
 export default function Indicator({ status, isExecuting }: IndicatorProps) {
   let iconName: IconName = "pt-icon-ring";
-  if (status === "Unknown") {
-    iconName = "pt-icon-ring";
-  } else if (status === "KnownSuccess") {
+  if (status === "KnownSuccess") {
     iconName = "pt-icon-tick-circle";
   } else if (status === "KnownFail") {
     iconName = "pt-icon-error";

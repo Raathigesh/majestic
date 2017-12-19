@@ -7,6 +7,7 @@ import { filterFiles, filterTree } from "../util/search";
 import { Coverage } from "./Coverage";
 import { TotalResult } from "./TotalResult";
 import CoverageSummary from "./CoverageSummary";
+import ItBlockWithStatus from "../types/it-block";
 
 // wiretap("App");
 
@@ -159,6 +160,24 @@ export default class Files {
     return filterFiles(this.nodes, this.text, node => {
       return !!(node && node.isTest);
     });
+  }
+
+  getFailedItStatements() {
+    const failedTests = new Map<string, ItBlockWithStatus[]>();
+    this.nodes.forEach((testFile, index) => {
+      const failedTestsForFile: ItBlockWithStatus[] = [];
+      testFile.itBlocks.forEach(it => {
+        if (it.status === "KnownFail") {
+          failedTestsForFile.push(it);
+        }
+      });
+
+      if (failedTestsForFile.length > 0) {
+        failedTests.set(testFile.path, failedTestsForFile);
+      }
+    });
+
+    return failedTests;
   }
 
   @action

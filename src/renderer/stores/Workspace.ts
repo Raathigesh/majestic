@@ -19,10 +19,10 @@ export class Workspace {
   @observable preference: Preference;
   @observable error: string = "";
   @observable showOmni: boolean = false;
+  @observable showFailureSummary: boolean = false;
   @observable
   itStatements: IObservableArray<ItBlockWithStatus> = observable([]);
   itBlocks: Map<string, ItBlockWithStatus[]> = new Map();
-
   coverage: Coverage;
 
   constructor() {
@@ -30,13 +30,11 @@ export class Workspace {
 
     Mousetrap.bind(["command+space", "ctrl+space"], () => {
       this.showOmni = !this.showOmni;
-      // return false to prevent default behavior and stop event from bubbling
       return false;
     });
 
     Mousetrap.bind("esc", () => {
       this.showOmni = false;
-      // return false to prevent default behavior and stop event from bubbling
       return false;
     });
   }
@@ -116,6 +114,7 @@ export class Workspace {
   }
 
   runProject() {
+    this.files.resetStatus();
     this.files.toggleStatusToAll();
     this.runner.start();
   }
@@ -156,6 +155,8 @@ export class Workspace {
       this.files.unhighlightAll();
       this.selectedTest.highlight();
 
+      this.showFailureSummary = false;
+
       if (!this.selectedTest.isTest) {
         this.selectedTest.readContent();
       }
@@ -164,7 +165,6 @@ export class Workspace {
 
   stop() {
     this.runner.terminate();
-    this.files.resetStatus();
   }
 
   @computed
