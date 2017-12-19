@@ -18,6 +18,7 @@ function QuickSearch({ workspace }: QuickSearchProps) {
   return (
     <ItBlockOmniBox
       isOpen={workspace.showOmni}
+      resetOnSelect={true}
       noResults={<MenuItem disabled text="No results." />}
       itemRenderer={({ handleClick, isActive, item }) => {
         if (!item) {
@@ -58,6 +59,9 @@ function QuickSearch({ workspace }: QuickSearchProps) {
         };
         var fuse = new Fuse(item, options);
         return fuse.search(query) as any;
+      }}
+      onClose={() => {
+        workspace.showOmni = false;
       }}
       inputProps={{
         onBlur: () => {

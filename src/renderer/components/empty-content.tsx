@@ -30,6 +30,9 @@ export default function EmptyContent({
         <span className="pt-icon-standard pt-icon-folder-open" />
         Open Project
       </button>
+      <h4 className="pt-non-ideal-state-title">
+        Press Ctrl or Cmd + Space for quick search
+      </h4>
     </div>
   );
 }

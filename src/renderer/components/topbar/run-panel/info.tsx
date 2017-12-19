@@ -50,11 +50,16 @@ const Row = styled.div`
 const FileName = styled.span`
   font-size: 14px;
   color: #c44e58;
+  word-wrap: break-word;
 `;
 
 const Header = styled.div`
   color: #556270;
   font-size: 12px;
+`;
+
+const InnerDiv = styled.div`
+  width: 100%;
 `;
 
 export interface InfoProps {
@@ -100,7 +105,7 @@ function Info({ workspace }: InfoProps) {
 
   return (
     <Container>
-      <div>
+      <InnerDiv>
         <StatusBar>
           {displayText && (
             <ReactLoadingCustom
@@ -120,7 +125,7 @@ function Info({ workspace }: InfoProps) {
           <FileName>{getTestName(runner)}</FileName>
           <Header>Test being watched</Header>
         </Row>
-      </div>
+      </InnerDiv>
     </Container>
   );
 }

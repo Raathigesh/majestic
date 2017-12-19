@@ -28,7 +28,7 @@ export class Workspace {
   constructor() {
     this.preference = new Preference();
 
-    Mousetrap.bind(["command+k", "ctrl+k"], () => {
+    Mousetrap.bind(["command+space", "ctrl+space"], () => {
       this.showOmni = !this.showOmni;
       // return false to prevent default behavior and stop event from bubbling
       return false;

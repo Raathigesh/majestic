@@ -118,7 +118,7 @@ body {
 }
 
 .pt-omnibox {
-  margin-top: calc(60vh/2);
+  margin-top: 50px;
   width: 500px;
   position: fixed;
   left: 50%;
