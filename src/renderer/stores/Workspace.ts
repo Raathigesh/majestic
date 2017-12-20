@@ -197,8 +197,13 @@ export class Workspace {
       return;
     }
 
-    this.selectedTest = file;
     file.highlightItBlocks(testName);
+
+    if (this.selectedTest) {
+      this.selectedTest.unhighlight();
+    }
+    this.selectedTest = file;
+    this.selectedTest.highlight();
   }
 }
 

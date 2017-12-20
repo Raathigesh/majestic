@@ -57,6 +57,11 @@ class TreeNode implements ITreeNode {
   }
 
   @action
+  unhighlight() {
+    this.isSelected = false;
+  }
+
+  @action
   readContent() {
     readFile(this.path, (err, data) => {
       this.content = data.toString();

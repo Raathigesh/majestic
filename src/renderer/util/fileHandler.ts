@@ -6,7 +6,7 @@ import { join } from "path";
 
 export function getTestFiles(directory: string) {
   return dirTree(directory, {
-    exclude: /node_modules/
+    exclude: /node_modules|\.git/
   });
 }
 
@@ -27,7 +27,7 @@ export default function readAndWatchDirectory(root: string) {
   }, 0);
 
   chokidar
-    .watch(root, { ignored: /node_modules/, ignoreInitial: true })
+    .watch(root, { ignored: /node_modules|\.git/, ignoreInitial: true })
     .on("all", (event, path) => {
       if (event === "change") {
         if (isTest(path)) {

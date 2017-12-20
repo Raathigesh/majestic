@@ -20,7 +20,7 @@ class ItBlockWithStatus extends ItBlock {
       if (this.active) {
         setTimeout(() => {
           this.active = false;
-        }, 2000);
+        }, 5000);
       }
     });
   }
