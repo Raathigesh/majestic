@@ -1,9 +1,4 @@
 import * as React from "react";
-import "brace";
-import AceEditor from "react-ace";
-import "brace/mode/javascript";
-import "brace/theme/solarized_light";
-import FileCoverage from "./test-file/coverage";
 import TreeNode from "../stores/TreeNode";
 
 export interface CodeViewerProps {
@@ -12,12 +7,10 @@ export interface CodeViewerProps {
   markers: any[];
 }
 
-declare const webview: any;
-
 export default function CodeViewer({ code, markers, node }: CodeViewerProps) {
   return (
     <div>
-      <FileCoverage node={node} />
+      {/* <FileCoverage node={node} /> */}
       {/* <AceEditor
         mode="javascript"
         theme="solarized_light"
@@ -33,7 +26,7 @@ export default function CodeViewer({ code, markers, node }: CodeViewerProps) {
       <webview
         id="foo"
         src={node.path}
-        style={{ height: "calc(100vh - 250px)" }}
+        style={{ height: "calc(100vh - 200px)" }}
       />
     </div>
   );

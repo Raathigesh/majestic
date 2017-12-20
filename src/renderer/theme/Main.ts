@@ -1,7 +1,7 @@
 const MainTheme = {
   TestStatus: {
     KnownSuccess: "#23a16d",
-    KnownFail: "#ff4545",
+    KnownFail: "rgba(191, 10, 26, 0.98)",
     KnownSkip: "#e8b14d",
     Unknown: "blue"
   },

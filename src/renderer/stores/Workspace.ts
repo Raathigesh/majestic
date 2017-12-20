@@ -92,7 +92,10 @@ export class Workspace {
         this.preference.rootPath,
         files
       );
-      this.files.initializeCoverageFiles(coverageFiles.files);
+      this.files.initializeCoverageFiles(
+        coverageFiles.files,
+        coverageFiles.nodes
+      );
     });
   }
 

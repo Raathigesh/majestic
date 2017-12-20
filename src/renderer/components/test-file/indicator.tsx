@@ -17,7 +17,7 @@ export default function Indicator({ status, isExecuting }: IndicatorProps) {
   if (status === "KnownSuccess") {
     iconName = "pt-icon-tick-circle";
   } else if (status === "KnownFail") {
-    iconName = "pt-icon-error";
+    iconName = "pt-icon-symbol-circle";
   } else if (status === "KnownSkip") {
     iconName = "pt-icon-record";
   }

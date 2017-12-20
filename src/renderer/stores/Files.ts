@@ -22,6 +22,7 @@ export default class Files {
   // A flat map of all the nodes of the directory tree.
   // We use this to perform updates on the tree nodes.
   @observable nodes: Map<string, TreeNode> = new Map();
+  @observable coverageNodes: Map<string, TreeNode> = new Map();
 
   @action
   initialize(tests: TreeNode[], nodes: Map<string, TreeNode>) {
@@ -39,13 +40,23 @@ export default class Files {
   }
 
   @action
-  initializeCoverageFiles(files: TreeNode[]) {
+  initializeCoverageFiles(files: TreeNode[], nodes: Map<string, TreeNode>) {
     this.files.clear();
     this.files.push(...files);
+
+    this.coverageNodes.clear();
+    nodes.forEach((value: TreeNode, key: string) => {
+      this.coverageNodes.set(key, value);
+    });
   }
 
   getNodeByPath(path: string) {
-    return this.nodes.get(path);
+    const testFile = this.nodes.get(path);
+    if (testFile) {
+      return testFile;
+    }
+
+    return this.coverageNodes.get(path);
   }
 
   @action
@@ -133,6 +144,10 @@ export default class Files {
   @action
   unhighlightAll() {
     this.nodes.forEach((node: TreeNode) => {
+      node.isSelected = false;
+    });
+
+    this.coverageNodes.forEach((node: TreeNode) => {
       node.isSelected = false;
     });
   }
