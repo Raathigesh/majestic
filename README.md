@@ -16,7 +16,7 @@ Majestic is an electron app which tries to put a UI for Jest.
 * Zero configuration (Sorry, I had to)
 * Supports Create-react-app out of the box
 
-### Exteral jest configuration file
+### External jest configuration file
 
 Majestic is a zero config tool if you keep all your jest configuration in the `package.json` file.
 
