@@ -106,7 +106,7 @@ function TestSummary({ totalResult, workspace }: TestSummaryProps) {
           </Failed>
         </ResultContainer>
       </Row>
-      {(totalResult.numFailedTests || totalResult.unmatchedSnapshots) && (
+      {(!!totalResult.numFailedTests || !!totalResult.unmatchedSnapshots) && (
         <ShowFailureButton
           type="button"
           className="pt-button pt-minimal pt-icon-list-detail-view pt-small pt-intent-danger"

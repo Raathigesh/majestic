@@ -35,7 +35,8 @@ export interface TestCoverageProps {
   totalCoverage: CoverageSummary;
 }
 
-const getLabel = value => (value === undefined ? "-" : `${value}%`);
+const getLabel = value =>
+  value === undefined || value === "Unknown" ? "-" : `${value}%`;
 
 function TestCoverage({ totalCoverage }: TestCoverageProps) {
   return (

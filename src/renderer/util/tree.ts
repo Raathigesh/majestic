@@ -82,7 +82,7 @@ function createNode(
   node.hasCaret = child.type === "directory";
   node.iconName = child.type === "file" ? Icons.FileIcon : Icons.FolderIcon;
   node.label = child.name;
-  node.isExpanded = true;
+  node.isExpanded = false;
   node.childNodes = tranform(rootPath, child, allFiles, tree);
   node.className = "tree-node-custom";
   node.path = path;

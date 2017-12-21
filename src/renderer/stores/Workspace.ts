@@ -77,7 +77,10 @@ export class Workspace {
       if (nodeForPath) {
         let shouldExecute = false;
         if (this.runner.isWatching) {
-          if (this.runner.watcherDetails.fileName === path) {
+          if (
+            this.runner.watcherDetails.fileName === path ||
+            !this.runner.watcherDetails.fileName
+          ) {
             shouldExecute = true;
           }
         }
