@@ -29,6 +29,7 @@ class TreeNode implements ITreeNode {
   @observable isTest: boolean;
   @observable content: string;
   @observable coverage = new CoverageSummary();
+  parent: TreeNode;
 
   @action
   setToFileIcon() {
@@ -54,11 +55,21 @@ class TreeNode implements ITreeNode {
   @action
   highlight() {
     this.isSelected = true;
+    this.expandNode(this);
   }
 
   @action
   unhighlight() {
     this.isSelected = false;
+  }
+
+  @action
+  expandNode(node: TreeNode) {
+    if (node !== null) {
+      node.isExpanded = true;
+
+      this.expandNode(node.parent);
+    }
   }
 
   @action

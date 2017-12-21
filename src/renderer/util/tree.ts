@@ -13,7 +13,7 @@ export function processTests(rootPath, value, allFiles) {
   nodes = new Map<string, TreeNode>();
   itBlocks = new Map<string, ItBlockWithStatus[]>();
 
-  const tests = tranform(rootPath, value, allFiles);
+  const tests = tranform(rootPath, value, allFiles, null);
   return {
     tests,
     nodes,
@@ -21,7 +21,7 @@ export function processTests(rootPath, value, allFiles) {
   };
 }
 
-function tranform(rootPath, node, allFiles, tree = []) {
+function tranform(rootPath, node, allFiles, parent) {
   const children = observable<TreeNode>([]);
   const matcher = getTestFilePattern(rootPath);
 
@@ -38,16 +38,10 @@ function tranform(rootPath, node, allFiles, tree = []) {
       if (nodes.get(path) && child.type === "file") {
         node = nodes.get(path);
       } else {
-        node = createNode(
-          path,
-          child,
-          tree,
-          child.type,
-          rootPath,
-          allFiles,
-          matcher
-        );
+        node = createNode(path, child, child.type, rootPath, allFiles, matcher);
       }
+
+      node.parent = parent;
 
       if (
         child.type !== "file" &&
@@ -70,7 +64,6 @@ function tranform(rootPath, node, allFiles, tree = []) {
 function createNode(
   path: string,
   child: any,
-  tree,
   type: TreeNodeType,
   rootPath: string,
   allFiles,
@@ -83,7 +76,7 @@ function createNode(
   node.iconName = child.type === "file" ? Icons.FileIcon : Icons.FolderIcon;
   node.label = child.name;
   node.isExpanded = false;
-  node.childNodes = tranform(rootPath, child, allFiles, tree);
+  node.childNodes = tranform(rootPath, child, allFiles, node);
   node.className = "tree-node-custom";
   node.path = path;
   node.status = "Unknown" as TestReconcilationState;
