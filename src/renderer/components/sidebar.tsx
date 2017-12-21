@@ -11,22 +11,23 @@ import { Workspace } from "../stores/Workspace";
 const Container = styled.div`
   height: 100vh;
   min-width: 400px;
-  padding: 5px;
+  padding: 15px;
   display: flex;
   flex-direction: column;
   border-right: 1px solid #ececec;
+  background-color: #f5f6fa;
 `;
 
 const Tab = styled.div`
   border: 1px solid #eaeaea;
   border-radius: 3px;
-  min-height: 35px;
+  min-height: 30px;
+  margin-bottom: 3px;
 `;
 
 const Footer = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: #efefef;
   padding: 5px;
   border-radius: 3px;
   min-height: 50px;
@@ -94,7 +95,7 @@ class Sidebar extends React.Component<ISidebarProps, ISidebarState> {
               });
             }}
           >
-            Files
+            Coverage
           </a>
         </Tab>
 

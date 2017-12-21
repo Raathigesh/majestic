@@ -6,9 +6,9 @@ const Container = styled.div`
 `;
 
 const Logo = styled.img`
-  height: 49px;
+  height: 60px;
   width: auto;
-  padding: 7px;
+  padding: 4px;
 `;
 
 interface HeaderProps {}

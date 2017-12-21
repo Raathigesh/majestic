@@ -14,9 +14,9 @@ const CustomIcon = styled(Icon)`
 export function getTestStatusLabel(status: TestReconcilationState) {
   let icon = "";
   if (status === "KnownSuccess") {
-    icon = "pt-icon-tick-circle";
+    icon = "pt-icon-tick";
   } else if (status === "KnownFail") {
-    icon = "pt-icon-ban-circle";
+    icon = "pt-icon-issue";
   }
 
   return <CustomIcon iconName={icon as IconName} />;

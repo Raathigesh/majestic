@@ -18,7 +18,8 @@ const Container = styled.div`
   margin: 15px;
   display: flex;
   flex-direction: column;
-  border: 1px solid #d8d8d8;
+  background-color: #f5f6fa;
+  border: 1px solid #e6e6e6;
   border-radius: 3px;
   background-color: ${props => (props.active ? "wheat" : "")};
 `;
@@ -77,10 +78,11 @@ const SnapshotUpdatedStatus = styled.span`
 const Error = styled.pre`
   color: #c44d58;
   box-shadow: none;
+  border-radius: 5px;
 `;
 
 const ExecutingLabel = styled.label`
-  color: rgba(196, 79, 89, 0.98);
+  color: #474f57;
 `;
 
 export interface ItBlockProps {

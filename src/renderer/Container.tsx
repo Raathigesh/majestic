@@ -15,7 +15,6 @@ const ContainerDiv = styled.div`
 function Container({ updater, workspace }) {
   return (
     <ContainerDiv>
-      <DevTools />
       <QuickSearch workspace={workspace} />
       <SplitPane split="vertical" minSize={400} defaultSize={400}>
         <Sidebar updater={updater} workspace={workspace} />

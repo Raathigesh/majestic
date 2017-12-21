@@ -11,6 +11,7 @@ const Container = styled.div`
   flex-direction: row;
   border-bottom: 1px solid #ececec;
   padding: 10px;
+  background-color: #f5f6fa;
 `;
 
 const TestSummaryContainer = styled.div`

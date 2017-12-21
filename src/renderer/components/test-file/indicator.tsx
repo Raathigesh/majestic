@@ -13,7 +13,7 @@ const Container = styled.div`
 `;
 
 export default function Indicator({ status, isExecuting }: IndicatorProps) {
-  let iconName: IconName = "pt-icon-ring";
+  let iconName: null | string = null;
   if (status === "KnownSuccess") {
     iconName = "pt-icon-tick-circle";
   } else if (status === "KnownFail") {
@@ -24,7 +24,7 @@ export default function Indicator({ status, isExecuting }: IndicatorProps) {
 
   return (
     <Container>
-      <Icon iconName={iconName} iconSize={16} />
+      {iconName && <Icon iconName={iconName as IconName} iconSize={16} />}
     </Container>
   );
 }
