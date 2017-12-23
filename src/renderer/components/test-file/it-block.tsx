@@ -87,6 +87,10 @@ const ExecutingLabel = styled.label`
   color: #474f57;
 `;
 
+const OpenInEditorButton = styled.button`
+  margin-left: 10px;
+`;
+
 export interface ItBlockProps {
   test?: TreeNode;
   it: ItBlockWithStatus;
@@ -112,7 +116,7 @@ function It({ it, workspace, test }: ItBlockProps) {
           intent={Intent.PRIMARY}
           placement="bottom"
         >
-          <button
+          <OpenInEditorButton
             type="button"
             className="pt-button pt-icon-document-open pt-small pt-minimal"
             onClick={() => {

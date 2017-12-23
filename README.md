@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="./docs/logo.png" alt="logo" width="300px" height="70px" />
+  <img src="./docs/logo.png" alt="logo" width="350px" height="70px" />
   <h3 align="center">A UI for Jest</h3>
   <h4> 🛣 This is still work in progress 🛣 </h4>
 </h1>
