@@ -9,6 +9,7 @@ import TreeNode from "./TreeNode";
 import ItBlockWithStatus from "../types/it-block";
 import { Coverage } from "./Coverage";
 import { processCoverageTree } from "../util/coverage-files";
+import launchEditor from "react-dev-utils/launchEditor";
 
 export class Workspace {
   @observable runner: Runner;
@@ -210,6 +211,10 @@ export class Workspace {
     }
     this.selectedTest = file;
     this.selectedTest.highlight();
+  }
+
+  launchEditor(it: ItBlockWithStatus) {
+    launchEditor(it.filePath, it.lineNumber);
   }
 }
 

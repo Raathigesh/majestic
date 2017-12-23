@@ -1,11 +1,12 @@
 import { ITreeNode, IconName } from "@blueprintjs/core";
 import { observable, action, IObservableArray } from "mobx";
-import ItBlockWithStatus, { SnapshotErrorStatus } from "../types/it-block";
+import ItBlockWithStatus from "../types/it-block";
 import TreeNodeType from "../types/node-type";
 import {
   TestReconcilationState,
-  parse as babylonParse
+  parse as parseJavaScript
 } from "jest-editor-support";
+import { parse as parseTypeScript } from "jest-test-typescript-parser";
 import { readFile } from "fs";
 import CoverageSummary from "./CoverageSummary";
 import { FileExecutingIcon } from "../constants/ui";
@@ -79,13 +80,20 @@ class TreeNode implements ITreeNode {
     });
   }
 
+  getParser() {
+    const isTypeScript = this.path.match(/\.tsx?$/);
+    return isTypeScript ? parseTypeScript : parseJavaScript;
+  }
+
   @action
   parseItBlocks(shouldExecute = false) {
     let itBlocks: ItBlockWithStatus[] = [];
     let itBlocksJs: ItBlockWithStatus[] = [];
 
+    const parser = this.getParser();
+
     if (this.type === "file" && this.isTest) {
-      itBlocks = babylonParse(this.path).itBlocks.map(block => {
+      itBlocks = parser(this.path).itBlocks.map(block => {
         itBlocksJs.push({
           ...block,
           isExecuting: shouldExecute,
@@ -96,6 +104,7 @@ class TreeNode implements ITreeNode {
         it.name = block.name;
         it.isExecuting = shouldExecute;
         it.filePath = this.path;
+        it.lineNumber = block.start.line;
         return it;
       });
     }

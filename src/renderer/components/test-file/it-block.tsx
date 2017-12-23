@@ -7,6 +7,8 @@ import { Workspace } from "../../stores/Workspace";
 import TreeNode from "../../stores/TreeNode";
 import ItBlockWithStatus from "../../types/it-block";
 import { getStatusLabel } from "../../util/label";
+import { Tooltip2 } from "@blueprintjs/labs";
+import { Intent } from "@blueprintjs/core";
 require("react-ansi-style/inject-css");
 
 import "highlight.js/styles/idea.css";
@@ -104,6 +106,20 @@ function It({ it, workspace, test }: ItBlockProps) {
         />
 
         <Title>{it.name}</Title>
+        <Tooltip2
+          content="Open editor and go to this test"
+          inline={true}
+          intent={Intent.PRIMARY}
+          placement="bottom"
+        >
+          <button
+            type="button"
+            className="pt-button pt-icon-document-open pt-small pt-minimal"
+            onClick={() => {
+              workspace.launchEditor(it);
+            }}
+          />
+        </Tooltip2>
         <RightContent>
           {it.snapshotErrorStatus === "error" && (
             <AcceptSnapshot

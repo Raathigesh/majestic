@@ -13,6 +13,9 @@ class ItBlockWithStatus extends ItBlock {
   @observable filePath?: string;
   @observable active?: boolean = false;
 
+  // location of the it statement in the source file
+  @observable lineNumber: number = 0;
+
   constructor() {
     super();
 
