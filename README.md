@@ -6,15 +6,21 @@
 
 ## What is Majestic?
 
-Majestic is an electron app which tries to put a UI for Jest.
+Majestic is an electron app for running tests with Jest. Majestic is a tool built for providing great developer experience when you write tests with Jest.
+
+Jest CLI itself is one of the best CLI experience you can get out there today. But Majestic tries to bring that CLI experience in a form of a UI app.
 
 ## Features
 
 * Run particular tests with a click
+* Watch the whole project, a file or a test
 * Update specific snapshots with a click
 * Inline coverage reports
 * Zero configuration (Sorry, I had to)
-* Supports Create-react-app out of the box
+* Support for typescript projects
+* Support for Create-react-app out of the box
+* Quick search to search across all your test (It) statements
+* Failure summary shows all test failtures in a single screen. Useful when you have failures across multiple files
 
 ### External jest configuration file
 
@@ -60,7 +66,7 @@ yarn dev
 
 ## Inspiration
 
-This tool is partially inspired by https://wallabyjs.com/. Check them out.
+This tool is inspired by https://wallabyjs.com/. Check them out.
 
 ## Thanks
 
