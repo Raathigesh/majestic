@@ -45,6 +45,7 @@
     "rx-ipc-electron": "^0.1.2",
     "rxjs": "^5.5.2",
     "source-map-support": "^0.5.0",
+    "strip-ansi": "^4.0.0",
     "styled-components": "^2.2.3",
     "typescript-styled-plugin": "^0.2.0"
   },

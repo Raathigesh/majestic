@@ -23,6 +23,7 @@ export class Workspace {
   @observable showFailureSummary: boolean = false;
   @observable
   itStatements: IObservableArray<ItBlockWithStatus> = observable([]);
+  @observable showOutputPanel = false;
   itBlocks: Map<string, ItBlockWithStatus[]> = new Map();
   coverage: Coverage;
 
@@ -36,6 +37,11 @@ export class Workspace {
 
     Mousetrap.bind("esc", () => {
       this.showOmni = false;
+      return false;
+    });
+
+    Mousetrap.bind(["command+shift+space", "ctrl+shift+space"], () => {
+      this.showOutputPanel = true;
       return false;
     });
   }

@@ -7,6 +7,7 @@ import {
 import * as Rx from "rxjs";
 import { platform } from "os";
 import { observable } from "mobx";
+import stripAnsi from "strip-ansi";
 import { createProcess } from "../util/Process";
 import { executeInSequence } from "../util/jest";
 import WatcherDetails from "./WatcherDetails";
@@ -25,6 +26,9 @@ export default class TestRunner {
   @observable testNamePattern: string = "";
   @observable displayText: string = "";
   @observable watcherDetails = new WatcherDetails();
+  @observable output: string = "";
+  @observable isEmittingOutput: boolean = false;
+  timeoutHandle: any;
 
   runner: Runner;
   reconciler: TestReconciler;
@@ -73,14 +77,22 @@ export default class TestRunner {
         this.isWatching = false;
       })
       .on("executableOutput", output => {
-        console.log(
-          output
-            .replace(/\u001b/g, "")
-            .replace(/\[22?m?/g, "")
-            .replace(/\[31m/g, "")
-            .replace(/\[32m/g, "")
-            .replace(/\[39m/g, "")
-        );
+        if (output.trim() === "") {
+          return;
+        }
+
+        const stripped = stripAnsi(output);
+        this.output += stripped;
+        console.log(stripped);
+
+        if (this.timeoutHandle) {
+          clearTimeout(this.timeoutHandle);
+        }
+
+        this.isEmittingOutput = true;
+        setTimeout(() => {
+          this.isEmittingOutput = false;
+        }, 3000);
       })
       .on("executableStdErr", error => {
         console.log("executableStdErr", error.toString());

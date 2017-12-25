@@ -1,9 +1,10 @@
 import * as React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { observer } from "mobx-react";
 import ReactLoading from "react-loading";
 import { Workspace } from "../../../stores/Workspace";
 import Runner from "../../../stores/Runner";
+import Output from "../../output";
 
 const Container = styled.div`
   display: flex;
@@ -41,6 +42,25 @@ const ReactLoadingCustom = styled(ReactLoading)`
 
 const Title = styled.div`
   font-size: 17px;
+`;
+
+const BackgroundAnimation = keyframes`
+    0%   {background: red;}
+    25%  {background: black;}
+    50%  {background: red;}
+    75%  {background: black;}
+    100% {background: red;}
+`;
+
+const OutputIndicator = styled.div`
+  font-size: 13px;
+  margin-left: 5px;
+  padding: 2px 5px;
+  color: white;
+  background-color: #ced4dc;
+  cursor: pointer;
+  animation: ${BackgroundAnimation}
+    ${props => (props.animate ? "3s infinite" : "0s")};
 `;
 
 const Row = styled.div`
@@ -116,6 +136,16 @@ function Info({ workspace }: InfoProps) {
             />
           )}
           <Title>{displayText ? displayText : "⛱ Idling"}</Title>
+          <Output workspace={workspace}>
+            <OutputIndicator
+              animate={runner && runner.isEmittingOutput}
+              onClick={() => {
+                workspace.showOutputPanel = true;
+              }}
+            >
+              Show Output
+            </OutputIndicator>
+          </Output>
         </StatusBar>
         <Row>
           <FileName>{getFileName(runner)}</FileName>

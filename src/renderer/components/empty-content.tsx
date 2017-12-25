@@ -29,7 +29,10 @@ export default function EmptyContent({
         Open Project
       </button>
       <span className="pt-ui-text-large">
-        Press Ctrl or Cmd + Space for quick search
+        Press (Ctrl or Cmd) + Space for quick search
+      </span>
+      <span className="pt-ui-text-large">
+        Press (Ctrl or Cmd) + Shift + Space for output panel
       </span>
     </div>
   );
