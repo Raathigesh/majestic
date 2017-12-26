@@ -54,7 +54,7 @@ It's really simple.
 }
 ```
 
-### Configuring coverage in a create-react-app
+### Configuring coverage in a create-react-app project
 
 ```diff
 - "test": "react-scripts test --env=jsdom",
