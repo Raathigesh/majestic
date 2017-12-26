@@ -15,10 +15,6 @@ const LeftColumn = styled.div`
   flex-direction: column;
 `;
 
-const Name = styled.div`
-  font-size: 20px;
-  margin-bottom: 5px;
-`;
 const Path = styled.div`
   font-size: 15px;
   color: #7e8596;

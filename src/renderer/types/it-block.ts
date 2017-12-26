@@ -5,7 +5,7 @@ import { observable, autorun } from "mobx";
 export type SnapshotErrorStatus = "" | "unknown" | "error" | "updated";
 
 class ItBlockWithStatus extends ItBlock {
-  @observable status?: TestReconcilationState = "";
+  @observable status: TestReconcilationState = "";
   @observable assertionMessage?: string = "";
   @observable isExecuting: boolean;
   @observable snapshotErrorStatus?: SnapshotErrorStatus = "unknown";

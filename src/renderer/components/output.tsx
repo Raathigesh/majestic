@@ -17,6 +17,8 @@ const Pre = styled.pre`
   background-color: #474f57;
   color: white;
   overflow: auto;
+  font-family: inherit;
+  color: #e8d1a4;
 `;
 
 class ConsolePanel extends React.Component<{ output: string }, {}> {
@@ -30,7 +32,9 @@ class ConsolePanel extends React.Component<{ output: string }, {}> {
     const { output } = this.props;
     return (
       <ConsoleContainer>
-        <Pre ref={e => (this.preRef = e)}>{output}</Pre>
+        <Pre ref={e => (this.preRef = e)}>
+          {output || "The output from Jest process would show up here"}
+        </Pre>
       </ConsoleContainer>
     );
   }

@@ -31,6 +31,7 @@ const ButtonsContainer = styled.div`
   justify-content: space-between;
   border: 1px solid #d2d2d2;
   margin-top: 5px;
+  border-radius: 3px;
 `;
 
 function runButonLabel(isRunning, isWatching) {

@@ -4,8 +4,7 @@ import styled from "styled-components";
 import Sidebar from "./components/sidebar";
 import Content from "./components/content";
 import PreferenceModal from "./components/preference";
-import DevTools from "mobx-react-devtools";
-import SplitPane from "react-split-pane";
+const SplitPane = require("react-split-pane");
 import QuickSearch from "./components/quick-search";
 
 const ContainerDiv = styled.div`

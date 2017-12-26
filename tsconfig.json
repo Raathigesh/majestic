@@ -2,7 +2,9 @@
   "extends": "./node_modules/electron-webpack/tsconfig-base.json",
   "compilerOptions": {
     "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true,
     "jsx": "react",
+    "strict": false,
     "plugins": [
       {
         "name": "typescript-styled-plugin"

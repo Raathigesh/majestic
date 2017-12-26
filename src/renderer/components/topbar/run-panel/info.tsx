@@ -5,6 +5,7 @@ import ReactLoading from "react-loading";
 import { Workspace } from "../../../stores/Workspace";
 import Runner from "../../../stores/Runner";
 import Output from "../../output";
+import { styledComponentWithProps } from "../../../util/style";
 
 const Container = styled.div`
   display: flex;
@@ -20,17 +21,6 @@ const StatusBar = styled.div`
   padding: 5px;
   margin-right: 10px;
   width: 100%;
-`;
-
-const StatusText = styled.div`
-  margin-top: 2px;
-  color: #c38003;
-`;
-
-const IdelText = styled.div`
-  align-self: center;
-  font-size: 18px;
-  color: #c38003;
 `;
 
 const ReactLoadingCustom = styled(ReactLoading)`
@@ -52,9 +42,19 @@ const BackgroundAnimation = keyframes`
     100% {background: red;}
 `;
 
-const OutputIndicator = styled.div`
-  font-size: 13px;
+interface IOutputIndicator {
+  animate: boolean;
+}
+
+const ouputIndicatorDiv = styledComponentWithProps<
+  IOutputIndicator,
+  HTMLDivElement
+>(styled.div);
+
+const OutputIndicator = ouputIndicatorDiv`
+  font-size: 11px;
   margin-left: 5px;
+  margin-top: 3px;
   padding: 2px 5px;
   color: white;
   background-color: #ced4dc;

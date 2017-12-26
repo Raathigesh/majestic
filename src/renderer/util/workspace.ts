@@ -1,6 +1,6 @@
 // Copied from https://github.com/orta/vscode-jest/blob/master/src/helpers.ts
 import { platform } from "os";
-import { existsSync, readFileSync } from "fs";
+import { existsSync } from "fs";
 import { normalize, join, resolve } from "path";
 import { getTestPatterns } from "./jest";
 

@@ -67,6 +67,10 @@ body {
   background-color: rgba(196, 79, 89, 0.98);
 }
 
+.pt-popover .pt-popover-arrow-fill {
+  fill: #474f57;
+}
+
 .Resizer {
   background: #000;
   opacity: 0.2;

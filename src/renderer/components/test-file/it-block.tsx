@@ -9,13 +9,16 @@ import ItBlockWithStatus from "../../types/it-block";
 import { getStatusLabel } from "../../util/label";
 import { Tooltip2 } from "@blueprintjs/labs";
 import { Intent } from "@blueprintjs/core";
-require("react-ansi-style/inject-css");
-
-import "highlight.js/styles/idea.css";
-import "react-ansi-style/inject-css";
 import { Button } from "@blueprintjs/core";
+import { styledComponentWithProps } from "../../util/style";
 
-const Container = styled.div`
+interface YourProps {
+  active: boolean;
+}
+
+const div = styledComponentWithProps<YourProps, HTMLDivElement>(styled.div);
+
+const Container = div`
   padding: 8px;
   margin: 15px;
   display: flex;
@@ -27,7 +30,6 @@ const Container = styled.div`
 `;
 
 interface StatusIndicatorProps {
-  f;
   status: TestReconcilationState;
   theme?: any;
 }
@@ -37,7 +39,12 @@ const RightContent = styled.div`
   display: flex;
 `;
 
-const StatusIndicator = styled.div`
+const statusIndicatorDiv = styledComponentWithProps<
+  StatusIndicatorProps,
+  HTMLDivElement
+>(styled.div);
+
+const StatusIndicator = statusIndicatorDiv`
   color: white;
   font-size: 12px;
 
@@ -99,7 +106,7 @@ export interface ItBlockProps {
 
 function It({ it, workspace, test }: ItBlockProps) {
   return (
-    <Container active={it.active}>
+    <Container active={it.active || false}>
       <Header>
         <Run
           type="button"

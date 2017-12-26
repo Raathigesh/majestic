@@ -1,6 +1,5 @@
-import { escapePathForRegex, replacePathSepForRegex } from "jest-regex-util";
+import { replacePathSepForRegex } from "jest-regex-util";
 const micromatch = require("micromatch");
-import { _replaceRootDirInPath } from "./workspace";
 
 export async function executeInSequence(
   funcs: {

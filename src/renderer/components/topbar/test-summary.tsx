@@ -13,7 +13,8 @@ const Container = styled.div`
 
 const Row = styled.div`
   display: flex;
-  margin-top: 15px;
+  margin-top: 7px;
+  margin-bottom: 7px;
   & > span {
     min-width: 70px;
     font-size: 13px;

@@ -1,4 +1,5 @@
 import * as React from "react";
+import styled from "styled-components";
 import Preference from "../stores/Preference";
 import { Workspace } from "../stores/Workspace";
 
@@ -6,6 +7,10 @@ export interface EmptyContentProps {
   preference: Preference;
   workspace: Workspace;
 }
+
+const GuideText = styled.span`
+  font-size: 14px;
+`;
 
 export default function EmptyContent({
   preference,
@@ -28,12 +33,12 @@ export default function EmptyContent({
         <span className="pt-icon-standard pt-icon-folder-open" />
         Open Project
       </button>
-      <span className="pt-ui-text-large">
+      <GuideText className="pt-ui-text-large">
         Press (Ctrl or Cmd) + Space for quick search
-      </span>
-      <span className="pt-ui-text-large">
+      </GuideText>
+      <GuideText className="pt-ui-text-large">
         Press (Ctrl or Cmd) + Shift + Space for output panel
-      </span>
+      </GuideText>
     </div>
   );
 }

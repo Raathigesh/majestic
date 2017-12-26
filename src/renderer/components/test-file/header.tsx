@@ -8,6 +8,7 @@ const Container = styled.div`
   margin-left: 15px;
   justify-content: space-between;
   padding: 12px;
+  padding-left: 0px;
 `;
 
 const LeftColumn = styled.div`

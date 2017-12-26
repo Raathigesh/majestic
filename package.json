@@ -13,9 +13,7 @@
   "dependencies": {
     "@blueprintjs/core": "^1.32.0",
     "@blueprintjs/labs": "^0.14.0",
-    "array-tree-filter": "^1.0.1",
     "babylon": "6.14.1",
-    "brace": "^0.10.0",
     "chokidar": "^1.7.0",
     "classnames": "^2.2.5",
     "directory-tree": "^2.0.0",
@@ -27,22 +25,17 @@
     "jest-regex-util": "^21.2.0",
     "jest-test-typescript-parser": "^22.0.4",
     "micromatch": "2.3.11",
-    "minimatch": "^3.0.4",
     "mobx": "^3.3.1",
     "mobx-react": "^4.3.3",
     "mobx-react-devtools": "^4.2.15",
     "mousetrap": "^1.6.1",
     "node-pty": "^0.7.3",
     "react": "^16.0.0",
-    "react-ace": "^5.7.0",
     "react-addons-css-transition-group": "^15.6.2",
-    "react-ansi-style": "^1.0.0",
     "react-dev-utils": "^4.2.1",
     "react-dom": "^16.0.0",
-    "react-highlight": "^0.10.0",
     "react-loading": "^1.0.2",
     "react-split-pane": "^0.1.71",
-    "rx-ipc-electron": "^0.1.2",
     "rxjs": "^5.5.2",
     "source-map-support": "^0.5.0",
     "strip-ansi": "^4.0.0",
@@ -60,5 +53,27 @@
     "electron-webpack-ts": "^1.2.0",
     "typescript": "^2.6.1",
     "webpack": "^3.8.1"
+  },
+  "build": {
+    "appId": "com.debuggable.majestic",
+    "productName": "Majestic",
+    "mac": {
+      "category": "dev.tools",
+      "target": [
+        "zip",
+        "dmg"
+      ],
+      "identity": "Raathigeshan Kugarajan (PU9359K4W8)"
+    },
+    "nsis": {
+      "perMachine": true
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "Raathigesh",
+        "repo": "majestic"
+      }
+    ]
   }
 }

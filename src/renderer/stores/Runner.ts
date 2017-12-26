@@ -4,7 +4,6 @@ import {
   JestTotalResults,
   TestFileAssertionStatus
 } from "jest-editor-support";
-import * as Rx from "rxjs";
 import { platform } from "os";
 import { observable } from "mobx";
 import stripAnsi from "strip-ansi";
@@ -32,14 +31,25 @@ export default class TestRunner {
 
   runner: Runner;
   reconciler: TestReconciler;
-  executableJSONEmitter: Rx.Subject<TestExecutionResults>;
+  executableJSONEmitter: any;
   rootPath: string;
   pathToJest: string;
   localJestMajorVersion: number;
   pathToConfig: string;
 
   constructor({ rootPath, pathToJest }) {
-    this.executableJSONEmitter = new Rx.Subject<TestExecutionResults>();
+    // Had RXjs here earlier and then removed it.
+    // Trying to mimic the same RxJS subject API for now with this
+    // mock object.
+    this.executableJSONEmitter = {
+      subscribeCallback: null,
+      next: (value: any) => {
+        this.executableJSONEmitter.subscribeCallback(value);
+      },
+      subscribe: (callback: any) => {
+        this.executableJSONEmitter.subscribeCallback = callback;
+      }
+    };
     this.rootPath = rootPath;
     this.pathToJest = pathToJest;
     this.reconciler = new TestReconciler();
