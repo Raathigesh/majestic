@@ -1,6 +1,6 @@
 <h1 align="center">
   <img src="./docs/logo.png" alt="logo" width="350px" height="70px" />
-  <h3 align="center">Zero config UI app for Jest</h3>
+  <h3 align="center">Zero config UI for Jest</h3>
   <h4> 🛣 This is still work in progress 🛣 </h4>
 </h1>
 
@@ -20,7 +20,7 @@ Jest CLI itself is one of the best CLI experience you can get out there today. B
 * Support for typescript projects
 * Support for Create-react-app out of the box
 * Quick search to search across all your test (It) statements
-* Failure summary shows all test failtures in a single screen. Useful when you have failures across multiple files
+* Failure summary shows all test failtures in a single screen. Useful when you have failures across multiple files.
 
 ### External Jest configuration file
 
