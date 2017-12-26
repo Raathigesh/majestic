@@ -1,6 +1,6 @@
 <h1 align="center">
   <img src="./docs/logo.png" alt="logo" width="350px" height="70px" />
-  <h3 align="center">A UI for Jest</h3>
+  <h3 align="center">Zero config UI app for Jest</h3>
   <h4> 🛣 This is still work in progress 🛣 </h4>
 </h1>
 
@@ -23,6 +23,8 @@ Jest CLI itself is one of the best CLI experience you can get out there today. B
 * Failure summary shows all test failtures in a single screen. Useful when you have failures across multiple files
 
 ### External Jest configuration file
+
+Ok, I lied partially about the zero config part.
 
 Majestic is a zero config tool if you keep all your jest configuration in the `package.json` file.
 
