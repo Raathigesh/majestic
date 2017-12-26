@@ -96,6 +96,13 @@ This tool is inspired by https://wallabyjs.com/. Check them out.
 
 Thank you [@orta](https://github.com/orta) for building [VSCode Jest](https://github.com/jest-community/vscode-jest) and doing the heavy lifting.
 
+## Contributors
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+| [<img src="https://avatars2.githubusercontent.com/u/3108160?s=460&v=4" width="100px;"/><br /><sub>Raathigeshan</sub>](https://twitter.com/Raathigesh)<br />💻 📖 💬 👀 🤔 🎨 | 
+| :---: | 
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
 ## License
 
 MIT © [Raathigeshan](https://twitter.com/Raathigesh)
