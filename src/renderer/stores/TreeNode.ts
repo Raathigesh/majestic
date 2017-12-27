@@ -1,11 +1,10 @@
 import { ITreeNode, IconName } from "@blueprintjs/core";
 import { observable, action, IObservableArray } from "mobx";
 import ItBlockWithStatus from "../types/it-block";
-import TreeNodeType from "../types/node-type";
-import {
-  TestReconcilationState,
-  parse as parseJavaScript
-} from "jest-editor-support";
+import TreeNodeType, {
+  InternalTestReconcilationState
+} from "../types/node-type";
+import { parse as parseJavaScript } from "jest-editor-support";
 import { parse as parseTypeScript } from "jest-test-typescript-parser";
 import { readFile } from "fs";
 import CoverageSummary from "./CoverageSummary";
@@ -23,7 +22,7 @@ class TreeNode implements ITreeNode {
   @observable secondaryLabel?: string | JSX.Element = "";
   @observable className?: string;
   @observable path: string;
-  @observable status: TestReconcilationState;
+  @observable status: InternalTestReconcilationState;
   @observable output: string;
   @observable itBlocks: IObservableArray<ItBlockWithStatus> = observable([]);
   @observable type: TreeNodeType;

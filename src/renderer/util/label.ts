@@ -1,6 +1,6 @@
-import { TestReconcilationState } from "jest-editor-support";
+import { InternalTestReconcilationState } from "../types/node-type";
 
-export function getStatusLabel(status: TestReconcilationState) {
+export function getStatusLabel(status: InternalTestReconcilationState) {
   if (status === "Unknown") {
     return "Executing";
   } else if (status === "KnownSuccess") {

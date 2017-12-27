@@ -1,11 +1,10 @@
-import { TestReconcilationState } from "jest-editor-support";
 import { ItBlock } from "jest-editor-support";
 import { observable, autorun } from "mobx";
+import { InternalTestReconcilationState } from "./node-type";
 
 export type SnapshotErrorStatus = "" | "unknown" | "error" | "updated";
-
 class ItBlockWithStatus extends ItBlock {
-  @observable status: TestReconcilationState = "";
+  @observable status: InternalTestReconcilationState = "";
   @observable assertionMessage?: string = "";
   @observable isExecuting: boolean;
   @observable snapshotErrorStatus?: SnapshotErrorStatus = "unknown";

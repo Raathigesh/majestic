@@ -1,5 +1,4 @@
 import * as React from "react";
-import { TestReconcilationState } from "jest-editor-support";
 import { observer } from "mobx-react";
 import styled from "styled-components";
 import Indicator from "./indicator";
@@ -11,6 +10,7 @@ import { Tooltip2 } from "@blueprintjs/labs";
 import { Intent } from "@blueprintjs/core";
 import { Button } from "@blueprintjs/core";
 import { styledComponentWithProps } from "../../util/style";
+import { InternalTestReconcilationState } from "../../types/node-type";
 
 interface YourProps {
   active: boolean;
@@ -30,7 +30,7 @@ const Container = div`
 `;
 
 interface StatusIndicatorProps {
-  status: TestReconcilationState;
+  status: InternalTestReconcilationState;
   theme?: any;
 }
 

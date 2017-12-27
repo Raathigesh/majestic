@@ -1,11 +1,11 @@
 import * as React from "react";
 import { Icon, IconName } from "@blueprintjs/core";
-import { TestReconcilationState } from "jest-editor-support";
 import styled from "styled-components";
+import { InternalTestReconcilationState } from "../../types/node-type";
 
 export interface IndicatorProps {
   isExecuting: boolean;
-  status: TestReconcilationState;
+  status: InternalTestReconcilationState;
 }
 
 const Container = styled.div`
