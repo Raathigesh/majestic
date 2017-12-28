@@ -1,4 +1,5 @@
 var pty = require("node-pty");
+import { platform } from "os";
 /**
  * Spawns and returns a Jest process with specific args
  *
@@ -26,7 +27,10 @@ export const createProcess = (workspace: any, args: Array<string>): any => {
   // we're in a CI environment, or it will always append --watch
   const env = process.env;
   env["CI"] = "true";
-  // return pty.spawn(command, runtimeArgs, { cwd: workspace.rootPath, env });
+
+  if (platform() === "darwin") {
+    env.PATH = `${env.PATH}:/usr/local/bin`;
+  }
 
   let stdoutCallback = (data: any) => {};
   let onExitCallback = () => {};
