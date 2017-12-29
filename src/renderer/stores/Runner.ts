@@ -43,8 +43,12 @@ export default class TestRunner {
     // mock object.
     this.executableJSONEmitter = {
       subscribeCallback: null,
+      closeCallback: null,
       next: (value: any) => {
         this.executableJSONEmitter.subscribeCallback(value);
+      },
+      close: (callback: any) => {
+        this.executableJSONEmitter.closeCallback = callback;
       },
       subscribe: (callback: any) => {
         this.executableJSONEmitter.subscribeCallback = callback;
@@ -85,6 +89,7 @@ export default class TestRunner {
       .on("debuggerProcessExit", () => {
         this.isRunning = false;
         this.isWatching = false;
+        this.executableJSONEmitter.closeCallback();
       })
       .on("executableOutput", output => {
         if (output.trim() === "") {

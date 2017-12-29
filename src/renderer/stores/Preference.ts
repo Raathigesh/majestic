@@ -1,5 +1,4 @@
 import { observable, action } from "mobx";
-import { openProjectFolder } from "../util/electron";
 import { pathToJest } from "../util/workspace";
 
 export default class Preference {
@@ -11,14 +10,12 @@ export default class Preference {
   localJestMajorVersion: number = 20;
   pathToConfig: string = "";
 
-  initialize() {
-    return openProjectFolder().then((projectDirectory: string[]) => {
-      this.rootPath = projectDirectory[0] as string;
-      this.jestExecutablePath = pathToJest(
-        this.rootPath,
-        "node_modules/.bin/jest"
-      );
-    });
+  initialize(projectPath: string) {
+    this.rootPath = projectPath;
+    this.jestExecutablePath = pathToJest(
+      this.rootPath,
+      "node_modules/.bin/jest"
+    );
   }
 
   @action

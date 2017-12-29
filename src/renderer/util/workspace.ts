@@ -110,3 +110,7 @@ export function pathToPackageJSON(rootPath: string) {
   let path = normalize("package.json");
   return join(rootPath, path);
 }
+
+export function isPackageJSONExists(rootPath: string) {
+  return existsSync(pathToPackageJSON(rootPath));
+}

@@ -1,5 +1,6 @@
 import { observable, computed, action, IObservableArray } from "mobx";
 import Mousetrap from "mousetrap";
+import { Position, Toaster, IToaster, Intent } from "@blueprintjs/core";
 import Runner, { TestExecutionResults } from "./runner";
 import readAndWatchDirectory, { watchCoverageFiles } from "../util/fileHandler";
 import { processTests } from "../util/tree";
@@ -10,6 +11,8 @@ import ItBlockWithStatus from "../types/it-block";
 import { Coverage } from "./Coverage";
 import { processCoverageTree } from "../util/coverage-files";
 import launchEditor from "react-dev-utils/launchEditor";
+import { isPackageJSONExists } from "../util/workspace";
+import { openProjectFolder } from "../util/electron";
 
 export class Workspace {
   @observable runner: Runner;
@@ -27,8 +30,14 @@ export class Workspace {
   itBlocks: Map<string, ItBlockWithStatus[]> = new Map();
   coverage: Coverage;
 
+  toaster: IToaster;
+
   constructor() {
     this.preference = new Preference();
+    this.toaster = Toaster.create({
+      className: "majestic-toaster",
+      position: Position.TOP
+    });
 
     Mousetrap.bind(["command+space", "ctrl+space"], () => {
       this.showOmni = !this.showOmni;
@@ -54,7 +63,8 @@ export class Workspace {
 
     this.coverage = new Coverage(this.preference.rootPath);
 
-    this.runner.getExecutableJSONEmitter().subscribe(
+    const executableJsonEditor = this.runner.getExecutableJSONEmitter();
+    executableJsonEditor.subscribe(
       action((result: TestExecutionResults) => {
         this.files.updateWithAssertionStatus(result.testFileAssertions);
         this.files.updateTotalResult(result.totalResult);
@@ -62,6 +72,10 @@ export class Workspace {
         this.files.updateCoverage(this.coverage);
       })
     );
+
+    executableJsonEditor.close(() => {
+      this.files.resetStatus();
+    });
   }
 
   loadTestFiles(allFiles = false) {
@@ -110,9 +124,13 @@ export class Workspace {
   }
 
   openProject() {
-    this.preference.initialize().then(() => {
-      this.loadTestFiles();
-      this.initializeRunner();
+    openProjectFolder().then((projectDirectory: string[]) => {
+      const rootPath = projectDirectory[0];
+      if (this.validateProject(rootPath)) {
+        this.preference.initialize(rootPath);
+        this.loadTestFiles();
+        this.initializeRunner();
+      }
     });
   }
 
@@ -178,6 +196,18 @@ export class Workspace {
 
   stop() {
     this.runner.terminate();
+  }
+
+  validateProject(rootPath: string) {
+    const packageJSONExists = isPackageJSONExists(rootPath);
+    if (!packageJSONExists) {
+      this.toaster.show({
+        message: "This folder does not have a package.json file.",
+        intent: Intent.DANGER
+      });
+    }
+
+    return packageJSONExists;
   }
 
   @computed
