@@ -1,5 +1,6 @@
 <h1 align="center">
   <img src="./docs/logo.png" alt="logo" width="350px" height="70px" />
+  <img src="./docs/majestic.gif" alt="Wiretap" style="margin-top: 15px">
   <h3 align="center">Zero config UI for Jest</h3>
   <h4> 🛣 This is still work in progress 🛣 </h4>
 </h1>
@@ -99,9 +100,13 @@ Thank you [@orta](https://github.com/orta) for building [VSCode Jest](https://gi
 ## Contributors
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-| [<img src="https://avatars2.githubusercontent.com/u/3108160?s=460&v=4" width="100px;"/><br /><sub>Raathigeshan</sub>](https://twitter.com/Raathigesh)<br />💻 📖 💬 👀 🤔 🎨 | 
-| :---: | 
+
+| [<img src="https://avatars2.githubusercontent.com/u/3108160?s=460&v=4" width="100px;"/><br /><sub>Raathigeshan</sub>](https://twitter.com/Raathigesh)<br />💻 📖 💬 👀 🤔 🎨 |
+| :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
+
 This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification.
 Contributions of any kind are welcome!
 
