@@ -9,7 +9,12 @@
     "dist": "yarn compile && electron-builder",
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
     "rebuild": "electron-rebuild",
-    "postinstall": "yarn rebuild && yarn link jest-editor-support"
+    "postinstall": "yarn rebuild && yarn link jest-editor-support",
+    "mac": "npm run compile && node_modules/.bin/build --mac",
+    "win": "npm run compile && node_modules/.bin/build --win",
+    "linux": "npm run compile && node_modules/.bin/build --linux",
+    "all-build": "npm run compile && node_modules/.bin/build --win --mac",
+    "ship": "npm run compile && node_modules/.bin/build --win --mac -p always"
   },
   "dependencies": {
     "@blueprintjs/core": "^1.32.0",
