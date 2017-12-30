@@ -1,6 +1,7 @@
 "use strict";
 
 import { app, BrowserWindow } from "electron";
+import MenuBuilder from "./menu";
 
 const isDevelopment = process.env.NODE_ENV !== "production";
 
@@ -22,7 +23,6 @@ function createMainWindow() {
   if (isDevelopment) {
     window.webContents.openDevTools();
   }
-  window.webContents.openDevTools();
   window.loadURL(url);
 
   window.on("closed", () => {
@@ -55,4 +55,6 @@ app.on("activate", () => {
 // Create main BrowserWindow when electron is ready
 app.on("ready", () => {
   mainWindow = createMainWindow();
+  const menuBuilder = new MenuBuilder(mainWindow);
+  menuBuilder.buildMenu();
 });

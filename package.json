@@ -1,7 +1,8 @@
 {
-  "name": "electron-webpack-quick-start",
-  "version": "0.0.0",
+  "name": "majestic",
+  "version": "0.0.1",
   "license": "MIT",
+  "description": "Zero config UI for Jest",
   "scripts": {
     "dev": "electron-webpack dev",
     "compile": "electron-webpack",
@@ -59,10 +60,7 @@
     "productName": "Majestic",
     "mac": {
       "category": "dev.tools",
-      "target": [
-        "zip",
-        "dmg"
-      ],
+      "target": ["zip", "dmg"],
       "identity": "Raathigeshan Kugarajan (PU9359K4W8)"
     },
     "nsis": {
