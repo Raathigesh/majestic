@@ -50,34 +50,30 @@ export default class MenuBuilder {
   }
 
   buildDefaultTemplate() {
-    const templateDefault = [
-      {
-        label: "Help",
-        submenu: [
-          {
-            label: "Open dev tools",
-            click: () => {
-              this.mainWindow.webContents.openDevTools();
-            }
-          },
-          {
-            label: "Documentation",
-            click() {
-              shell.openExternal("https://github.com/Raathigesh/majestic");
-            }
-          },
-          {
-            label: "Report an Issues",
-            click() {
-              shell.openExternal(
-                "https://github.com/Raathigesh/majestic/issues"
-              );
-            }
+    const helpTemplate = {
+      label: "Help",
+      submenu: [
+        {
+          label: "Open dev tools",
+          click: () => {
+            this.mainWindow.webContents.openDevTools();
           }
-        ]
-      }
-    ];
+        },
+        {
+          label: "Documentation",
+          click() {
+            shell.openExternal("https://github.com/Raathigesh/majestic");
+          }
+        },
+        {
+          label: "Report an Issues",
+          click() {
+            shell.openExternal("https://github.com/Raathigesh/majestic/issues");
+          }
+        }
+      ]
+    };
 
-    return templateDefault;
+    return helpTemplate;
   }
 }

@@ -15,7 +15,7 @@ export const UpdaterStatus = {
 export class Updater {
   @observable updateStatus = UpdaterStatus.NoUpdate;
   @observable currentVersion: string = app.getVersion();
-  @observable progress: number = 80;
+  @observable progress: number = 0;
 
   constructor() {
     autoUpdater.on("checking-for-update", () => {

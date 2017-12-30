@@ -12,7 +12,7 @@ export default function CodeViewer({ code, markers, node }: CodeViewerProps) {
     <div>
       {React.createElement("webview", {
         id: "foo",
-        src: node.path,
+        src: `file://${node.path}`,
         style: { height: "calc(100vh - 200px)" }
       })}
     </div>

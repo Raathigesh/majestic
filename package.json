@@ -14,7 +14,8 @@
     "win": "npm run compile && node_modules/.bin/build --win",
     "linux": "npm run compile && node_modules/.bin/build --linux",
     "all-build": "npm run compile && node_modules/.bin/build --win --mac",
-    "ship": "npm run compile && node_modules/.bin/build --win --mac -p always"
+    "ship-win": "npm run compile && node_modules/.bin/build --win -p always",
+    "ship-mac": "npm run compile && node_modules/.bin/build --mac -p always"
   },
   "dependencies": {
     "@blueprintjs/core": "^1.32.0",
