@@ -21,6 +21,7 @@ Jest CLI itself is one of the best CLI experience you can get out there today. B
 * Support for Create-react-app out of the box
 * Quick search to search across all your test (It) statements
 * Failure summary shows all test failtures in a single screen. Useful when you have failures across multiple files.
+* Locate a specific test in your editor with a click of a button
 
 ### External Jest configuration file
 
