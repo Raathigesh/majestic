@@ -2,7 +2,6 @@
   <img src="./docs/logo.png" alt="logo" width="350px" height="70px" />
   <img src="./docs/majestic.gif" alt="Wiretap" style="margin-top: 15px">
   <h3 align="center">Zero config UI for Jest</h3>
-  <h4> 🛣 This is still work in progress 🛣 </h4>
 </h1>
 
 ## What is Majestic?
@@ -23,6 +22,11 @@ Jest CLI itself is one of the best CLI experience you can get out there today. B
 * Quick search to search across all your test (It) statements
 * Failure summary shows all test failtures in a single screen. Useful when you have failures across multiple files.
 * Locate a specific test in your editor with a click of a button
+
+### 1) Download the app
+
+* [OS X](https://github.com/Raathigesh/majestic/releases/download/v0.1.0/Majestic-0.1.0.dmg)
+* [Windows](https://github.com/Raathigesh/majestic/releases/download/v0.1.0/majestic-setup-0.1.0.exe)
 
 ### External Jest configuration file
 
