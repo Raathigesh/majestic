@@ -1,6 +1,6 @@
-<h1 align="center">
-  <img src="./docs/majestic.gif" alt="Wiretap" style="margin-top: 15px">
+<h1 align="center">  
   <img src="./docs/logo.png" alt="logo" width="350px" height="70px" />  
+  <img src="./docs/majestic.gif" alt="Wiretap" style="margin-top: 15px" />
   <h4 align="center">Zero config UI for Jest</h4>  
 </h1>
 
