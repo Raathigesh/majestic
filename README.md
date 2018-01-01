@@ -1,7 +1,7 @@
 <h1 align="center">
-  <img src="./docs/logo.png" alt="logo" width="350px" height="70px" />
-  <img src="./docs/majestic.gif" alt="Wiretap" style="margin-top: 15px">
+  <img src="./docs/logo.png" alt="logo" width="350px" height="70px" />  
   <h3 align="center">Zero config UI for Jest</h3>
+  <img src="./docs/majestic.gif" alt="Wiretap" style="margin-top: 15px">
 </h1>
 
 ## What is Majestic?
