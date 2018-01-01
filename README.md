@@ -4,8 +4,6 @@
   <h4 align="center">Zero config UI for Jest</h4>  
 </h1>
 
-<p align="center">
-</p>
 ## What is Majestic?
 
 Majestic is an electron app for running tests with Jest. Majestic is a tool built for providing great developer experience when you write tests with Jest.
