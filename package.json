@@ -2,6 +2,10 @@
   "name": "majestic",
   "version": "0.1.0",
   "license": "MIT",
+  "author": {
+    "name": "Raathigeshan",
+    "url": "https://twitter.com/Raathigesh"
+  },
   "description": "Zero config UI for Jest",
   "scripts": {
     "dev": "electron-webpack dev",
