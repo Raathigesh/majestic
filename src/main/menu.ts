@@ -12,7 +12,7 @@ export default class MenuBuilder {
     if (process.platform === "darwin") {
       template = this.buildDarwinTemplate();
     } else {
-      template = this.buildDefaultTemplate();
+      template = [this.buildDefaultTemplate()];
     }
 
     const menu = Menu.buildFromTemplate(template);

@@ -139,7 +139,13 @@ export default class TestRunner {
     this.isWatchMode = toggle || !this.isWatchMode;
   }
 
+  resetOutputText() {
+    this.output = "";
+  }
+
   start(testFileNamePattern: string = "", testNamePattern: string = "") {
+    this.resetOutputText();
+
     if (this.isWatching) {
       this.setTestFilterPatterns("", "");
       return this.rerunAllTests();
@@ -170,6 +176,8 @@ export default class TestRunner {
   }
 
   filterByTestFileName(testFileNamePattern: string) {
+    this.resetOutputText();
+
     this.setTestFilterPatterns(testFileNamePattern, "");
 
     if (this.isWatching) {
@@ -180,6 +188,8 @@ export default class TestRunner {
   }
 
   filterByTestName(testFileNamePattern: string, testNamePattern: string) {
+    this.resetOutputText();
+
     const shouldRerunFile =
       testFileNamePattern !== this.watcherDetails.fileName;
 
