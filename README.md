@@ -1,9 +1,11 @@
 <h1 align="center">
-  <img src="./docs/logo.png" alt="logo" width="350px" height="70px" />  
-  <h3 align="center">Zero config UI for Jest</h3>
   <img src="./docs/majestic.gif" alt="Wiretap" style="margin-top: 15px">
+  <img src="./docs/logo.png" alt="logo" width="350px" height="70px" />  
+  <h4 align="center">Zero config UI for Jest</h4>  
 </h1>
 
+<p align="center">
+</p>
 ## What is Majestic?
 
 Majestic is an electron app for running tests with Jest. Majestic is a tool built for providing great developer experience when you write tests with Jest.
