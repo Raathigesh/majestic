@@ -12,7 +12,7 @@ Jest CLI itself is one of the best CLI experience you can get out there today. B
 
 ## Features
 
-* Run particular tests with a click
+* Run the whole project, a file or a particular test with a click
 * Watch the whole project, a file or a test
 * Update specific snapshots with a click
 * Inline coverage reports
