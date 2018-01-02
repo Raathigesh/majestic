@@ -2,7 +2,7 @@ import * as React from "react";
 import { Classes, MenuItem } from "@blueprintjs/core";
 import { Omnibox } from "@blueprintjs/labs";
 import { observer } from "mobx-react";
-import classNames from "classNames";
+import classNames from "classnames";
 import Fuse from "fuse.js";
 import { Workspace } from "../stores/Workspace";
 import ItBlockWithStatus from "../types/it-block";
