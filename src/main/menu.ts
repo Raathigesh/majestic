@@ -66,7 +66,7 @@ export default class MenuBuilder {
           }
         },
         {
-          label: "Report an Issues",
+          label: "Report an issue",
           click() {
             shell.openExternal("https://github.com/Raathigesh/majestic/issues");
           }
