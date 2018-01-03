@@ -9,14 +9,14 @@ let nodes = new Map<string, TreeNode>();
 
 export function processCoverageTree(rootPath, value) {
   nodes = new Map<string, TreeNode>();
-  const files = tranform(rootPath, value);
+  const files = transform(rootPath, value);
   return {
     files,
     nodes
   };
 }
 
-function tranform(rootPath, node, tree = []) {
+function transform(rootPath, node, tree = []) {
   const children = observable<TreeNode>([]);
   const matcher = getTestFilePattern(rootPath);
 
@@ -63,7 +63,7 @@ function createNode(
   node.iconName = child.type === "file" ? Icons.FileIcon : Icons.FolderIcon;
   node.label = child.name.replace(".html", "");
   node.isExpanded = true;
-  node.childNodes = tranform(rootPath, child, tree);
+  node.childNodes = transform(rootPath, child, tree);
   node.className = "tree-node-custom";
   node.path = path;
   node.status = "Unknown" as TestReconcilationState;
