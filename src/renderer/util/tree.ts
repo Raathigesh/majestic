@@ -13,7 +13,7 @@ export function processTests(rootPath, value, allFiles) {
   nodes = new Map<string, TreeNode>();
   itBlocks = new Map<string, ItBlockWithStatus[]>();
 
-  const tests = tranform(rootPath, value, allFiles, null);
+  const tests = transform(rootPath, value, allFiles, null);
   return {
     tests,
     nodes,
@@ -21,7 +21,7 @@ export function processTests(rootPath, value, allFiles) {
   };
 }
 
-function tranform(rootPath, node, allFiles, parent) {
+function transform(rootPath, node, allFiles, parent) {
   const children = observable<TreeNode>([]);
   const matcher = getTestFilePattern(rootPath);
 
@@ -76,7 +76,7 @@ function createNode(
   node.iconName = child.type === "file" ? Icons.FileIcon : Icons.FolderIcon;
   node.label = child.name;
   node.isExpanded = false;
-  node.childNodes = tranform(rootPath, child, allFiles, node);
+  node.childNodes = transform(rootPath, child, allFiles, node);
   node.className = "tree-node-custom";
   node.path = path;
   node.status = "Unknown" as TestReconcilationState;

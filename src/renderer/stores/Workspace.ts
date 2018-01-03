@@ -1,7 +1,7 @@
 import { observable, computed, action, IObservableArray } from "mobx";
 import Mousetrap from "mousetrap";
 import { Position, Toaster, IToaster, Intent } from "@blueprintjs/core";
-import Runner, { TestExecutionResults } from "./runner";
+import Runner, { TestExecutionResults } from "./Runner";
 import readAndWatchDirectory, { watchCoverageFiles } from "../util/fileHandler";
 import { processTests } from "../util/tree";
 import Preference from "./Preference";

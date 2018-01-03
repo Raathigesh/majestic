@@ -12,7 +12,7 @@ Jest CLI itself is one of the best CLI experience you can get out there today. B
 
 ## Features
 
-* Run particular tests with a click
+* Run the whole project, a file or a particular test with a click
 * Watch the whole project, a file or a test
 * Update specific snapshots with a click
 * Inline coverage reports
@@ -69,7 +69,7 @@ It's really simple.
 
 ## Contribute
 
-Majestic relies on [`jest-editor-support`](https://github.com/facebook/jest/tree/master/packages/jest-editor-support), a module from jest, which allows to execute jest programatically.
+Majestic relies on [`jest-editor-support`](https://github.com/facebook/jest/tree/master/packages/jest-editor-support), a module from jest, which allows to execute jest programmatically.
 
 ```
 git clone https://github.com/facebook/jest.git
