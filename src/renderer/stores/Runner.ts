@@ -226,7 +226,7 @@ export default class TestRunner {
 
     this.testFileNamePattern =
       fileName !== "" ? `^${fileName.replace(replacePattern, ".")}$` : "";
-    this.testNamePattern = testName !== "" ? `^${testName}$` : "";
+    this.testNamePattern = testName;
   }
 
   private rerunAllTests() {
