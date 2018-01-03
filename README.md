@@ -69,7 +69,7 @@ It's really simple.
 
 ## Contribute
 
-Majestic relies on [`jest-editor-support`](https://github.com/facebook/jest/tree/master/packages/jest-editor-support), a module from jest, which allows to execute jest programatically.
+Majestic relies on [`jest-editor-support`](https://github.com/facebook/jest/tree/master/packages/jest-editor-support), a module from jest, which allows to execute jest programmatically.
 
 ```
 git clone https://github.com/facebook/jest.git
