@@ -77,6 +77,13 @@ export function getTestFilePattern(rootPath: string) {
         return _replaceRootDirInPath(rootPath, match);
       });
     }
+
+    if (config && !config.testMatch && !config.testRegex) {
+      config.testMatch = [
+        "**/__tests__/**/*.js?(x)",
+        "**/?(*.)(spec|test).js?(x)"
+      ];
+    }
   }
 
   return getTestPatterns(config);
