@@ -25,7 +25,7 @@ Jest CLI itself is one of the best CLI experience you can get out there today. B
 
 ## Download the app
 
-* [OS X](https://github.com/Raathigesh/majestic/releases/download/v0.1.0/Majestic-0.1.0.dmg)
+* [macOS](https://github.com/Raathigesh/majestic/releases/download/v0.1.0/Majestic-0.1.0.dmg)
 * [Windows](https://github.com/Raathigesh/majestic/releases/download/v0.1.0/majestic-setup-0.1.0.exe)
 
 ### External Jest configuration file
