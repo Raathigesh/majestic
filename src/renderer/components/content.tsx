@@ -21,22 +21,6 @@ interface ContentProps {
 }
 
 function Content({ workspace, preference }: ContentProps) {
-  let markers: any[] = [];
-
-  if (workspace.coverageForFile) {
-    markers = Object.keys(workspace.coverageForFile.statementMap).map(key => {
-      const value = workspace.coverageForFile.statementMap[key];
-      return {
-        startRow: value.start.line - 1,
-        startCol: value.start.column,
-        endRow: value.end.line - 1,
-        endCol: value.end.column,
-        className: "warning",
-        type: "line"
-      };
-    });
-  }
-
   return (
     <Container>
       {workspace.isProjectAvailable && (
@@ -60,11 +44,7 @@ function Content({ workspace, preference }: ContentProps) {
         !workspace.selectedTest.isTest &&
         !workspace.showFailureSummary &&
         (workspace.selectedTest && (
-          <CodeViewer
-            node={workspace.selectedTest}
-            code={workspace.selectedTest.content}
-            markers={markers}
-          />
+          <CodeViewer node={workspace.selectedTest} />
         ))}
     </Container>
   );

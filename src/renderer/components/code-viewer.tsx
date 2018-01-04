@@ -3,11 +3,9 @@ import TreeNode from "../stores/TreeNode";
 
 export interface CodeViewerProps {
   node: TreeNode;
-  code: string;
-  markers: any[];
 }
 
-export default function CodeViewer({ code, markers, node }: CodeViewerProps) {
+export default function CodeViewer({ node }: CodeViewerProps) {
   return (
     <div>
       {React.createElement("webview", {

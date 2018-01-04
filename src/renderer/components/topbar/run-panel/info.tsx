@@ -140,7 +140,7 @@ function Info({ workspace }: InfoProps) {
             <OutputIndicator
               animate={runner && runner.isEmittingOutput}
               onClick={() => {
-                workspace.showOutputPanel = true;
+                workspace.showOutputPanel = !workspace.showOutputPanel;
               }}
             >
               Show Output

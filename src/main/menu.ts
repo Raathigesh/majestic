@@ -70,6 +70,13 @@ export default class MenuBuilder {
           click() {
             shell.openExternal("https://github.com/Raathigesh/majestic/issues");
           }
+        },
+        {
+          label: "Reload",
+          accelerator: "CmdOrCtrl+R",
+          click(item, focusedWindow) {
+            if (focusedWindow) focusedWindow.reload();
+          }
         }
       ]
     };

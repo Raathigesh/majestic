@@ -1,13 +1,12 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { Popover, Position } from "@blueprintjs/core";
 import styled from "styled-components";
 import { Workspace } from "../stores/Workspace";
 import { observer } from "mobx-react";
 
 const ConsoleContainer = styled.div`
-  width: calc(100vw/2);
-  height: calc(100vh/2);
+  height: 100vh;
+  width: 600px;
   overflow: auto;
 `;
 
@@ -45,21 +44,45 @@ interface IOutputProps {
   children: any;
 }
 
+const SlidingPanel = styled.div`
+  height: 100vh;
+  width: 600px;
+  background-color: black;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 99999;
+`;
+
+const Overlay = styled.div`
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 9999;
+  right: 0;
+  background-color: transparent;
+  left: 0;
+`;
+
 function Output({ workspace, children }: IOutputProps) {
   return (
-    <Popover
-      position={Position.BOTTOM}
-      isOpen={workspace.showOutputPanel}
-      onClose={() => {
-        workspace.showOutputPanel = false;
-      }}
-      canEscapeKeyClose
-      content={
-        <ConsolePanel output={workspace.runner && workspace.runner.output} />
-      }
-    >
+    <div>
+      {workspace.showOutputPanel && (
+        <Overlay
+          onClick={() => {
+            workspace.showOutputPanel = false;
+          }}
+        >
+          <SlidingPanel>
+            <ConsolePanel
+              output={workspace.runner && workspace.runner.output}
+            />
+          </SlidingPanel>
+        </Overlay>
+      )}
       {children}
-    </Popover>
+    </div>
   );
 }
 

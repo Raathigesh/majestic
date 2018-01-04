@@ -27,6 +27,7 @@ export class Workspace {
   @observable
   itStatements: IObservableArray<ItBlockWithStatus> = observable([]);
   @observable showOutputPanel = false;
+  @observable showSidebar = true;
   itBlocks: Map<string, ItBlockWithStatus[]> = new Map();
   coverage: Coverage;
 
@@ -53,6 +54,11 @@ export class Workspace {
       this.showOutputPanel = true;
       return false;
     });
+
+    Mousetrap.bind(["command+b", "ctrl+b"], () => {
+      this.showSidebar = !this.showSidebar;
+      return false;
+    });
   }
 
   initializeRunner() {
@@ -66,6 +72,7 @@ export class Workspace {
     const executableJsonEditor = this.runner.getExecutableJSONEmitter();
     executableJsonEditor.subscribe(
       action((result: TestExecutionResults) => {
+        // after each test exectuion, results would be given
         this.files.updateWithAssertionStatus(result.testFileAssertions);
         this.files.updateTotalResult(result.totalResult);
         this.coverage.mapCoverage((result.totalResult as any).coverageMap);
@@ -74,6 +81,7 @@ export class Workspace {
     );
 
     executableJsonEditor.close(() => {
+      // the jest process is exiting, reset the file status
       this.files.resetStatus();
     });
   }
@@ -81,11 +89,17 @@ export class Workspace {
   loadTestFiles(allFiles = false) {
     const directory = readAndWatchDirectory(this.preference.rootPath);
     directory.subscribe((tree, event) => {
+      // this would be called when the adds a new file or removes an existing file.
+
+      // the file tree should be converted into a format that blueprint js tree component accepts
+      // http://blueprintjs.com/docs/#core/components/tree.tree-node-interface
       const { tests, nodes, itBlocks } = processTests(
         this.preference.rootPath,
         tree,
         allFiles
       );
+
+      // set the nodes to files model
       this.files.initialize(tests, nodes);
 
       itBlocks.forEach((value: ItBlockWithStatus[], key: string) => {
@@ -93,6 +107,7 @@ export class Workspace {
       });
     });
 
+    // this handles the file changes particularly.
     directory.change(path => {
       const nodeForPath = this.files.getNodeByPath(path);
       if (nodeForPath) {
@@ -102,14 +117,18 @@ export class Workspace {
             this.runner.watcherDetails.fileName === path ||
             !this.runner.watcherDetails.fileName
           ) {
+            // if the file that is changed if the file that is currently being watched
+            // set the execution label
             shouldExecute = true;
           }
         }
 
+        // parse the it statements of the file again
         nodeForPath.parseItBlocks(shouldExecute);
       }
     });
 
+    // This part monitors the coverage directory for changes
     const coverageWatcher = watchCoverageFiles(this.preference.rootPath);
     coverageWatcher.change(files => {
       const coverageFiles = processCoverageTree(
@@ -172,6 +191,7 @@ export class Workspace {
   updateSnapshot(it: ItBlockWithStatus) {
     it.updatingSnapshot = true;
     this.runner.updateSnapshot(it.name).then(() => {
+      // set the status of the it statement
       it.snapshotErrorStatus = "updated";
       it.status = "KnownSuccess";
       it.assertionMessage = "";

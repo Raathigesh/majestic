@@ -15,8 +15,16 @@ function Container({ updater, workspace }) {
   return (
     <ContainerDiv>
       <QuickSearch workspace={workspace} />
-      <SplitPane split="vertical" minSize={400} defaultSize={400}>
-        <Sidebar updater={updater} workspace={workspace} />
+      <SplitPane
+        split="vertical"
+        minSize={workspace.showSidebar ? 300 : 0}
+        defaultSize={workspace.showSidebar ? 400 : 0}
+      >
+        {workspace.showSidebar ? (
+          <Sidebar updater={updater} workspace={workspace} />
+        ) : (
+          <div />
+        )}
         <Content workspace={workspace} preference={workspace.preference} />
       </SplitPane>
       <PreferenceModal preference={workspace.preference} />

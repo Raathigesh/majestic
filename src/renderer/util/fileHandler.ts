@@ -51,6 +51,7 @@ export default function readAndWatchDirectory(root: string) {
 }
 
 export function watchCoverageFiles(root: string) {
+  // TODO: remove hardcoded "coverage". Read from config. This is configurable.
   const coveragePath = join(root, "coverage");
 
   let changeCallback = (path: string) => {};
