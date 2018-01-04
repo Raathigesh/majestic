@@ -61,25 +61,27 @@ const Overlay = styled.div`
   top: 0;
   z-index: 9999;
   right: 0;
-  background-color: transparent;
+  background-color: rgba(0, 0, 0, 0.5);
   left: 0;
+  cursor: pointer;
 `;
 
 function Output({ workspace, children }: IOutputProps) {
   return (
     <div>
       {workspace.showOutputPanel && (
-        <Overlay
-          onClick={() => {
-            workspace.showOutputPanel = false;
-          }}
-        >
+        <div>
+          <Overlay
+            onClick={() => {
+              workspace.showOutputPanel = false;
+            }}
+          />
           <SlidingPanel>
             <ConsolePanel
               output={workspace.runner && workspace.runner.output}
             />
           </SlidingPanel>
-        </Overlay>
+        </div>
       )}
       {children}
     </div>
