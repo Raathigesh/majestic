@@ -69,7 +69,7 @@ function TestSummary({ totalResult, workspace }: TestSummaryProps) {
     <Container>
       <div>Execution Summary</div>
       <Row>
-        <span>Test Suits</span>
+        <span>Test Suites</span>
         <ResultContainer>
           <Success>
             {getLabel(totalResult.numPassedTestSuites)}
