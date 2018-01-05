@@ -1,5 +1,4 @@
 import { app, Menu, shell, BrowserWindow } from "electron";
-
 export default class MenuBuilder {
   mainWindow: BrowserWindow;
   constructor(mainWindow) {
@@ -12,7 +11,7 @@ export default class MenuBuilder {
     if (process.platform === "darwin") {
       template = this.buildDarwinTemplate();
     } else {
-      template = [this.buildDefaultTemplate()];
+      template = [this.buildFileTemplate(), this.buildHelpTemplate()];
     }
 
     const menu = Menu.buildFromTemplate(template);
@@ -46,10 +45,33 @@ export default class MenuBuilder {
       ]
     };
 
-    return [EditMenu, this.buildDefaultTemplate()];
+    return [EditMenu, this.buildFileTemplate(), this.buildHelpTemplate()];
+  }
+  buildFileTemplate() {
+    const fileTemplate = {
+      label: "File",
+      submenu: [
+        {
+          label: "Open Project...",
+          click: () => {
+            //Fire a message to the renderer process.
+            //Handled in stores/Workspace
+            this.mainWindow.webContents.send("openProject");
+          }
+        },
+        {
+          label: "Exit",
+          click: () => {
+            this.mainWindow.close();
+          }
+        }
+      ]
+    };
+
+    return fileTemplate;
   }
 
-  buildDefaultTemplate() {
+  buildHelpTemplate() {
     const helpTemplate = {
       label: "Help",
       submenu: [
