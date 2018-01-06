@@ -98,7 +98,9 @@ export default class MenuBuilder {
           label: "Reload",
           accelerator: "CmdOrCtrl+R",
           click(item, focusedWindow) {
-            if (focusedWindow) focusedWindow.reload();
+            if (focusedWindow) {
+              focusedWindow.reload();
+            }
           }
         }
       ]

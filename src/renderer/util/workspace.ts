@@ -114,7 +114,7 @@ export function pathToConfig(pathToConfig: string) {
 }
 
 export function pathToPackageJSON(rootPath: string) {
-  let path = normalize("package.json");
+  const path = normalize("package.json");
   return join(rootPath, path);
 }
 

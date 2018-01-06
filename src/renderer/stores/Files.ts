@@ -92,7 +92,7 @@ export default class Files {
 
   @action
   updateCoverage(coverage: Coverage) {
-    for (let node of this.nodes.values()) {
+    for (const node of this.nodes.values()) {
       if (!node.isTest) {
         const coverageForFile = coverage.getCoverageForFile(node.path);
         if (coverageForFile) {

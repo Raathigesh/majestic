@@ -2,10 +2,10 @@ import { replacePathSepForRegex } from "jest-regex-util";
 const micromatch = require("micromatch");
 
 export async function executeInSequence(
-  funcs: {
+  funcs: Array<{
     fn: () => void;
     delay: number;
-  }[]
+  }>
 ) {
   for (let i = 0; i < funcs.length; i++) {
     await setTimeoutPromisify(funcs[i].fn, funcs[i].delay);

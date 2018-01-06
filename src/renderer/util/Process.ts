@@ -1,4 +1,4 @@
-var pty = require("node-pty");
+const pty = require("node-pty");
 import { platform } from "os";
 /**
  * Spawns and returns a Jest process with specific args
@@ -6,7 +6,7 @@ import { platform } from "os";
  * @param {string[]} args
  * @returns {ChildProcess}
  */
-export const createProcess = (workspace: any, args: Array<string>): any => {
+export const createProcess = (workspace: any, args: string[]): any => {
   // A command could look like `npm run test`, which we cannot use as a command
   // as they can only be the first command, so take out the command, and add
   // any other bits into the args
@@ -14,7 +14,7 @@ export const createProcess = (workspace: any, args: Array<string>): any => {
   const parameters = runtimeExecutable.split(" ");
   const command = parameters[0];
   const initialArgs = parameters.slice(1);
-  const runtimeArgs = ([] as Array<string>).concat(initialArgs, args);
+  const runtimeArgs = ([] as string[]).concat(initialArgs, args);
 
   // If a path to configuration file was defined, push it to runtimeArgs
   const configPath = workspace.pathToConfig;
@@ -26,7 +26,7 @@ export const createProcess = (workspace: any, args: Array<string>): any => {
   // To use our own commands in create-react, we need to tell the command that
   // we're in a CI environment, or it will always append --watch
   const env = process.env;
-  env["CI"] = "true";
+  env.CI = "true";
 
   if (platform() === "darwin") {
     env.PATH = `${env.PATH}:/usr/local/bin`;
@@ -41,7 +41,7 @@ export const createProcess = (workspace: any, args: Array<string>): any => {
     cols: 80,
     rows: 30,
     cwd: workspace.rootPath,
-    env: env
+    env
   });
 
   ptyProcess.on("data", function(data) {
