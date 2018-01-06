@@ -20,7 +20,7 @@
     "all-build": "npm run compile && node_modules/.bin/build --win --mac",
     "ship-win": "npm run compile && node_modules/.bin/build --win -p always",
     "ship-mac": "npm run compile && node_modules/.bin/build --mac -p always",
-    "test": "jest --config ./config/jest/jest.config.js"
+    "test": "jest"
   },
   "dependencies": {
     "@blueprintjs/core": "^1.32.0",
@@ -58,10 +58,6 @@
     "@types/jest": "^22.0.1",
     "@types/react": "^16.0.19",
     "@types/react-dom": "^16.0.2",
-    "babel-core": "^6.26.0",
-    "babel-jest": "^22.0.4",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-react": "^6.24.1",
     "electron": "1.7.9",
     "electron-builder": "^19.42.1",
     "electron-react-devtools": "^0.5.2",
@@ -72,7 +68,6 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.0",
     "jest": "^22.0.4",
-    "jest-runner-tsc": "^1.1.0",
     "jest-styled-components": "^4.9.0",
     "ts-jest": "^22.0.1",
     "typescript": "^2.6.1",
@@ -83,10 +78,7 @@
     "productName": "Majestic",
     "mac": {
       "category": "dev.tools",
-      "target": [
-        "zip",
-        "dmg"
-      ],
+      "target": ["zip", "dmg"],
       "identity": "Raathigeshan Kugarajan (PU9359K4W8)"
     },
     "nsis": {
