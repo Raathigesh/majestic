@@ -62,6 +62,7 @@ export default class TestRunner {
   }
 
   initializeRunner({ testFileNamePattern, testNamePattern }) {
+    // @ts-ignore
     this.runner = new Runner(
       {
         rootPath: this.rootPath,
@@ -168,6 +169,7 @@ export default class TestRunner {
 
   updateSnapshot(testName: string) {
     return new Promise((resolve, reject) => {
+      // @ts-ignore
       this.runner.runJestWithUpdateForSnapshots(
         () => {
           resolve();
