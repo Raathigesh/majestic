@@ -6,6 +6,7 @@ import Content from "./components/content";
 import PreferenceModal from "./components/preference";
 const SplitPane = require("react-split-pane");
 import QuickSearch from "./components/quick-search";
+import ConsolePanel from "./components/debugging/console-panel";
 
 const ContainerDiv = styled.div`
   display: flex;
@@ -14,6 +15,7 @@ const ContainerDiv = styled.div`
 function Container({ updater, workspace }) {
   return (
     <ContainerDiv>
+      <ConsolePanel workspace={workspace} />
       <QuickSearch workspace={workspace} />
       <SplitPane
         split="vertical"

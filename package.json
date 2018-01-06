@@ -45,6 +45,7 @@
     "react-addons-css-transition-group": "^15.6.2",
     "react-dev-utils": "^4.2.1",
     "react-dom": "^16.0.0",
+    "react-draggable": "^3.0.4",
     "react-loading": "^1.0.2",
     "react-split-pane": "^0.1.71",
     "rxjs": "^5.5.2",

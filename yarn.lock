@@ -2332,6 +2332,10 @@ electron-publish@19.42.0:
     fs-extra-p "^4.4.4"
     mime "^2.0.3"
 
+electron-react-devtools@^0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/electron-react-devtools/-/electron-react-devtools-0.5.2.tgz#97619cdb7a8fc2a444b323245889a3f4bf54a647"
+
 electron-rebuild@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/electron-rebuild/-/electron-rebuild-1.6.0.tgz#e8d26f4d8e9fe5388df35864b3658e5cfd4dcb7e"
@@ -5360,6 +5364,13 @@ react-dom@^16.0.0:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
+    prop-types "^15.6.0"
+
+react-draggable@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/react-draggable/-/react-draggable-3.0.4.tgz#71cff58441e0fa2be9e1cd88f66718a8495210f7"
+  dependencies:
+    classnames "^2.2.5"
     prop-types "^15.6.0"
 
 react-error-overlay@^3.0.0:

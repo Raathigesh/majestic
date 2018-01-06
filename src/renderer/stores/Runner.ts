@@ -25,7 +25,7 @@ export default class TestRunner {
   @observable watcherDetails = new WatcherDetails();
   @observable output: string = "";
   @observable isEmittingOutput: boolean = false;
-  @observable consoleLogs: any[] = [];
+  @observable consoleLogs: any[] = observable([]);
   timeoutHandle: any;
 
   runner: Runner;
@@ -293,7 +293,9 @@ export default class TestRunner {
   private detectEchancedConsoleLog(output: string) {
     var number_regex = /\$\$.*\$\$/g;
     output.replace(number_regex, match => {
-      this.consoleLogs.push(match);
+      const initialRemoved = match.substr(2);
+      const laterRemoved = initialRemoved.substr(0, initialRemoved.length - 2);
+      this.consoleLogs.push(laterRemoved);
       return "";
     });
   }
