@@ -94,6 +94,12 @@ yarn install
 yarn dev
 ```
 
+To use react dev tools, you can use [electron-react-devtools](https://github.com/firejune/electron-react-devtools), which should already be installed. When you open devtools, type the following into the console:
+```javascript
+require('electron-react-devtools').install()
+```
+
+And then simply refresh (F5). You'll now see a React tab in dev tools. Happy debugging!  
 ## Inspiration
 
 This tool is inspired by https://wallabyjs.com/. Check it out.
@@ -106,8 +112,8 @@ Thank you [@orta](https://github.com/orta) for building [VSCode Jest](https://gi
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 
-| [<img src="https://avatars2.githubusercontent.com/u/3108160?s=460&v=4" width="100px;"/><br /><sub>Raathigeshan</sub>](https://twitter.com/Raathigesh)<br />💻 📖 💬 👀 🤔 🎨 |
-| :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| [<img src="https://avatars2.githubusercontent.com/u/3108160?s=460&v=4" width="100px;"/><br /><sub>Raathigeshan</sub>](https://twitter.com/Raathigesh)<br />💻 📖 💬 👀 🤔 🎨 | [<img src="https://avatars0.githubusercontent.com/u/9067274?s=400&v=4" width="100px;"/><br /><sub>James Adams</sub>](https://twitter.com/jamesadams0)<br />💻 🐛 🤔 | 
+| :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------: |
 
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->

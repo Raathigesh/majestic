@@ -60,6 +60,7 @@
     "babel-preset-react": "^6.24.1",
     "electron": "1.7.9",
     "electron-builder": "^19.42.1",
+    "electron-react-devtools": "^0.5.2",
     "electron-rebuild": "^1.6.0",
     "electron-webpack": "1.10.1",
     "electron-webpack-ts": "^1.2.0",

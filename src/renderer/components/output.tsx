@@ -32,7 +32,7 @@ class ConsolePanel extends React.Component<{ output: string }, {}> {
     return (
       <ConsoleContainer>
         <Pre ref={e => (this.preRef = e)}>
-          {output || "The output from Jest process would show up here"}
+          {output || "The output from Jest process will show up here"}
         </Pre>
       </ConsoleContainer>
     );

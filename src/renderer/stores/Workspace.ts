@@ -1,6 +1,6 @@
 import { observable, computed, action, IObservableArray } from "mobx";
 import Mousetrap from "mousetrap";
-const { ipcRenderer } = require("electron");
+import { ipcRenderer } from "electron";
 import { Position, Toaster, IToaster, Intent } from "@blueprintjs/core";
 import Runner, { TestExecutionResults } from "./Runner";
 import readAndWatchDirectory, { watchCoverageFiles } from "../util/fileHandler";
@@ -60,6 +60,14 @@ export class Workspace {
     Mousetrap.bind(["command+b", "ctrl+b"], () => {
       this.showSidebar = !this.showSidebar;
       return false;
+    });
+    Mousetrap.bind(["command+o", "ctrl+o"], () => {
+      this.openProject();
+      return false;
+    });
+    //Listen for event from main process.
+    ipcRenderer.on("openProject", () => {
+      this.openProject();
     });
   }
 
@@ -146,6 +154,9 @@ export class Workspace {
 
   openProject() {
     openProjectFolder().then((projectDirectory: string[]) => {
+      if (this.isProjectAvailable) {
+        this.closeProject();
+      }
       const rootPath = projectDirectory[0];
       if (this.validateProject(rootPath)) {
         this.preference.initialize(rootPath);

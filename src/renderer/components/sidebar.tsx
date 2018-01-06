@@ -120,7 +120,7 @@ class Sidebar extends React.Component<ISidebarProps, ISidebarState> {
               className="pt-button pt-icon-satellite pt-small pt-minimal"
               onClick={updater.checkForUpdate}
             >
-              Check for update
+              Check for updates
             </button>
           )}
           {updater.updateStatus === UpdaterStatus.CheckingUpdate && (
