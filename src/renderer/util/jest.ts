@@ -1,5 +1,6 @@
 import { replacePathSepForRegex } from "jest-regex-util";
 const micromatch = require("micromatch");
+import { platform } from "os";
 
 export async function executeInSequence(
   funcs: {
@@ -50,4 +51,14 @@ export function getTestPatterns(config) {
   }
 
   return matcher;
+}
+
+export function getTestPatternForPath(filePath: string) {
+  let replacePattern = /\//g;
+
+  if (platform() === "win32") {
+    replacePattern = /\\/g;
+  }
+
+  return filePath.replace(replacePattern, ".");
 }

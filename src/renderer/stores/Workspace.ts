@@ -1,5 +1,6 @@
 import { observable, computed, action, IObservableArray } from "mobx";
 import Mousetrap from "mousetrap";
+const { ipcRenderer } = require("electron");
 import { Position, Toaster, IToaster, Intent } from "@blueprintjs/core";
 import Runner, { TestExecutionResults } from "./Runner";
 import readAndWatchDirectory, { watchCoverageFiles } from "../util/fileHandler";
@@ -13,6 +14,7 @@ import { processCoverageTree } from "../util/coverage-files";
 import launchEditor from "react-dev-utils/launchEditor";
 import { isPackageJSONExists } from "../util/workspace";
 import { openProjectFolder } from "../util/electron";
+import { getTestPatternForPath } from "../util/jest";
 
 export class Workspace {
   @observable runner: Runner;
@@ -271,6 +273,13 @@ export class Workspace {
 
   launchEditor(it: ItBlockWithStatus) {
     launchEditor(it.filePath, it.lineNumber);
+  }
+
+  startDebugging() {
+    ipcRenderer.send(
+      "startDebug",
+      getTestPatternForPath(this.selectedTest.path)
+    );
   }
 }
 

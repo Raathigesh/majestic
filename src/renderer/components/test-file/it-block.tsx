@@ -131,6 +131,13 @@ function It({ it, workspace, test }: ItBlockProps) {
             }}
           />
         </Tooltip2>
+        <OpenInEditorButton
+          type="button"
+          className="pt-button pt-icon-ring pt-small pt-minimal"
+          onClick={() => {
+            workspace.startDebugging();
+          }}
+        />
         <RightContent>
           {it.snapshotErrorStatus === "error" && (
             <AcceptSnapshot

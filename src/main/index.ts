@@ -2,6 +2,7 @@
 
 import { app, BrowserWindow } from "electron";
 import MenuBuilder from "./menu";
+import "./server";
 
 const isDevelopment = process.env.NODE_ENV !== "production";
 

@@ -4,14 +4,12 @@ import {
   JestTotalResults,
   TestFileAssertionStatus
 } from "jest-editor-support";
-import { platform } from "os";
 import { observable } from "mobx";
 import stripAnsi from "strip-ansi";
 import { createProcess } from "../util/Process";
-import { executeInSequence } from "../util/jest";
+import { executeInSequence, getTestPatternForPath } from "../util/jest";
 import WatcherDetails from "./WatcherDetails";
 import { getConfigFilePath } from "../util/workspace";
-
 export interface TestExecutionResults {
   totalResult: JestTotalResults;
   testFileAssertions: TestFileAssertionStatus[];
@@ -27,6 +25,7 @@ export default class TestRunner {
   @observable watcherDetails = new WatcherDetails();
   @observable output: string = "";
   @observable isEmittingOutput: boolean = false;
+  @observable consoleLogs: any[] = [];
   timeoutHandle: any;
 
   runner: Runner;
@@ -97,6 +96,9 @@ export default class TestRunner {
         }
 
         const stripped = stripAnsi(output);
+
+        this.detectEchancedConsoleLog(stripped);
+
         this.output += stripped;
         console.log(stripped);
 
@@ -218,14 +220,9 @@ export default class TestRunner {
   private setTestFilterPatterns(fileName, testName) {
     this.watcherDetails.fileName = fileName;
     this.watcherDetails.testName = testName;
-    let replacePattern = /\//g;
-
-    if (platform() === "win32") {
-      replacePattern = /\\/g;
-    }
 
     this.testFileNamePattern =
-      fileName !== "" ? `^${fileName.replace(replacePattern, ".")}$` : "";
+      fileName !== "" ? `^${getTestPatternForPath(fileName)}$` : "";
     this.testNamePattern = testName;
   }
 
@@ -291,5 +288,13 @@ export default class TestRunner {
         delay: 200
       }
     ]);
+  }
+
+  private detectEchancedConsoleLog(output: string) {
+    var number_regex = /\$\$.*\$\$/g;
+    output.replace(number_regex, match => {
+      this.consoleLogs.push(match);
+      return "";
+    });
   }
 }
