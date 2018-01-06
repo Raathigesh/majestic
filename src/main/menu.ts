@@ -63,7 +63,7 @@ export default class MenuBuilder {
         {
           label: "Exit",
           click: () => {
-            this.mainWindow.close();
+            app.quit();
           }
         }
       ]

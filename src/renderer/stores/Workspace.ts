@@ -154,6 +154,9 @@ export class Workspace {
 
   openProject() {
     openProjectFolder().then((projectDirectory: string[]) => {
+      if (this.isProjectAvailable) {
+        this.closeProject();     
+      }       
       const rootPath = projectDirectory[0];
       if (this.validateProject(rootPath)) {
         this.preference.initialize(rootPath);
