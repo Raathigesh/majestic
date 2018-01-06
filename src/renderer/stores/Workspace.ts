@@ -61,6 +61,10 @@ export class Workspace {
       this.showSidebar = !this.showSidebar;
       return false;
     });
+    Mousetrap.bind(["command+o", "ctrl+o"], () => {
+      this.openProject();
+      return false;
+    });
     //Listen for event from main process. 
     ipcRenderer.on('openProject', () => {
       this.openProject();

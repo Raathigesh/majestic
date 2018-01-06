@@ -53,6 +53,7 @@ export default class MenuBuilder {
       submenu: [
         {
           label: "Open Project...",
+          accelerator: "CmdOrCtrl+O",
           click: () => {
             //Fire a message to the renderer process.
             //Handled in stores/Workspace
