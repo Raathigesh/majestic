@@ -64,14 +64,21 @@ function RunPanel({ workspace }: RunPanelProps) {
           >
             {runButonLabel(isRunning, isWatching)}
           </a>
-          <a
-            className={cn("pt-button pt-icon-stop", {
-              "pt-disabled": !isRunning && !isWatching
-            })}
-            onClick={() => {
-              workspace.stop();
-            }}
-          />
+          <Tooltip2
+            content="Stop tests"
+            inline={true}
+            intent={Intent.PRIMARY}
+            placement="bottom"
+          >
+            <a
+              className={cn("pt-button pt-icon-stop", {
+                "pt-disabled": !isRunning && !isWatching
+              })}
+              onClick={() => {
+                workspace.stop();
+              }}
+            />
+          </Tooltip2>
           <Tooltip2
             content="Close project"
             inline={true}
