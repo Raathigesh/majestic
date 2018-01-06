@@ -20,7 +20,8 @@
     "all-build": "npm run compile && node_modules/.bin/build --win --mac",
     "ship-win": "npm run compile && node_modules/.bin/build --win -p always",
     "ship-mac": "npm run compile && node_modules/.bin/build --mac -p always",
-    "test": "jest"
+    "test": "jest",
+    "lint": "tslint \"src/**/*.ts\""
   },
   "dependencies": {
     "@blueprintjs/core": "^1.32.0",
@@ -52,6 +53,7 @@
     "source-map-support": "^0.5.0",
     "strip-ansi": "^4.0.0",
     "styled-components": "^2.2.3",
+    "tslint-react": "^3.3.3",
     "typescript-styled-plugin": "^0.2.0"
   },
   "devDependencies": {
@@ -69,7 +71,11 @@
     "enzyme-to-json": "^3.3.0",
     "jest": "^22.0.4",
     "jest-styled-components": "^4.9.0",
+    "prettier": "^1.9.2",
     "ts-jest": "^22.0.1",
+    "tslint": "^5.8.0",
+    "tslint-config-prettier": "^1.6.0",
+    "tslint-plugin-prettier": "^1.3.0",
     "typescript": "^2.6.1",
     "webpack": "^3.8.1"
   },
@@ -78,7 +84,10 @@
     "productName": "Majestic",
     "mac": {
       "category": "dev.tools",
-      "target": ["zip", "dmg"],
+      "target": [
+        "zip",
+        "dmg"
+      ],
       "identity": "Raathigeshan Kugarajan (PU9359K4W8)"
     },
     "nsis": {
