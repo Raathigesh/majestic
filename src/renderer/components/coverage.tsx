@@ -23,6 +23,7 @@ const Coverage = styled.div`
   }
 `;
 
+// tslint:disable-next-line:no-empty-interface
 export interface FileCoverageProps {}
 
 export default function FileCoverage({  }: FileCoverageProps) {

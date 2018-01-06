@@ -22,7 +22,7 @@ function FailSummary({ workspace }: FailSummaryProps) {
     <Container>
       {[...failedTests.entries()].map(([path, its]) => {
         return (
-          <div>
+          <div key={path}>
             <Header filePath={path} workspace={workspace} />
             {its.map((it, i) => {
               return (

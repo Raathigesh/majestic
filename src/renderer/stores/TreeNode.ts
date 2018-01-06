@@ -87,7 +87,7 @@ class TreeNode implements ITreeNode {
   @action
   parseItBlocks(shouldExecute = false) {
     let itBlocks: ItBlockWithStatus[] = [];
-    let itBlocksJs: ItBlockWithStatus[] = [];
+    const itBlocksJs: ItBlockWithStatus[] = [];
 
     const parser = this.getParser();
 

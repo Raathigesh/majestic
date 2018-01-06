@@ -39,7 +39,7 @@ class ConsolePanel extends React.Component<{ output: string }, {}> {
   }
 }
 
-interface IOutputProps {
+interface OutputProps {
   workspace: Workspace;
   children: any;
 }
@@ -66,7 +66,7 @@ const Overlay = styled.div`
   cursor: pointer;
 `;
 
-function Output({ workspace, children }: IOutputProps) {
+function Output({ workspace, children }: OutputProps) {
   return (
     <div>
       {workspace.showOutputPanel && (

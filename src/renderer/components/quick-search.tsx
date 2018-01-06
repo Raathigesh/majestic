@@ -52,12 +52,12 @@ function QuickSearch({ workspace }: QuickSearchProps) {
           return item;
         }
 
-        var options = {
+        const options = {
           keys: ["name"],
           minMatchCharLength: 4,
           threshold: 0.3
         };
-        var fuse = new Fuse(item, options);
+        const fuse = new Fuse(item, options);
         return fuse.search(query) as any;
       }}
       onClose={() => {

@@ -102,7 +102,9 @@ function RunPanel({ workspace }: RunPanelProps) {
           label="Watch tests"
           checked={workspace.runner && workspace.runner.isWatchMode}
           onChange={() => {
-            workspace.runner && workspace.runner.toggleWatchModel();
+            if (workspace.runner) {
+              workspace.runner.toggleWatchModel();
+            }
           }}
           disabled={isRunning}
         />

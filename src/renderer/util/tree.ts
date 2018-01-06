@@ -25,10 +25,10 @@ function transform(rootPath, node, allFiles, parent) {
   const children = observable<TreeNode>([]);
   const matcher = getTestFilePattern(rootPath);
 
-  node.children &&
+  if (node.children) {
     node.children.forEach(child => {
       const path = child.path;
-      let node;
+      let treeNode;
 
       if (child.type === "file" && !matcher(path)) {
         // if not a test, don't bother
@@ -36,27 +36,35 @@ function transform(rootPath, node, allFiles, parent) {
       }
 
       if (nodes.get(path) && child.type === "file") {
-        node = nodes.get(path);
+        treeNode = nodes.get(path);
       } else {
-        node = createNode(path, child, child.type, rootPath, allFiles, matcher);
+        treeNode = createNode(
+          path,
+          child,
+          child.type,
+          rootPath,
+          allFiles,
+          matcher
+        );
       }
 
-      node.parent = parent;
+      treeNode.parent = parent;
 
       if (
         child.type !== "file" &&
-        node.childNodes &&
-        node.childNodes.length > 0
+        treeNode.childNodes &&
+        treeNode.childNodes.length > 0
       ) {
-        children.push(node);
+        children.push(treeNode);
       } else if (child.type === "file") {
-        children.push(node);
+        children.push(treeNode);
       }
 
       if (child.type === "file" && !nodes.get(path)) {
-        nodes.set(path, node);
+        nodes.set(path, treeNode);
       }
     });
+  }
 
   return children;
 }

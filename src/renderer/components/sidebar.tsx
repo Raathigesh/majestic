@@ -48,16 +48,16 @@ const UpdateLabel = styled.div`
   margin-bottom: 5px;
 `;
 
-export interface ISidebarProps {
+export interface SidebarProps {
   updater: Updater;
   workspace: Workspace;
 }
 
-export interface ISidebarState {
+export interface SidebarState {
   activeTab: string;
 }
 
-class Sidebar extends React.Component<ISidebarProps, ISidebarState> {
+class Sidebar extends React.Component<SidebarProps, SidebarState> {
   state = {
     activeTab: "tests"
   };
