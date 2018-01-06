@@ -21,7 +21,7 @@
     "ship-win": "npm run compile && node_modules/.bin/build --win -p always",
     "ship-mac": "npm run compile && node_modules/.bin/build --mac -p always",
     "test": "jest",
-    "lint": "tslint \"src/**/*.ts\""
+    "lint": "tslint \"src/**/*.ts\" \"src/**/*.tsx\""
   },
   "dependencies": {
     "@blueprintjs/core": "^1.32.0",
@@ -84,10 +84,7 @@
     "productName": "Majestic",
     "mac": {
       "category": "dev.tools",
-      "target": [
-        "zip",
-        "dmg"
-      ],
+      "target": ["zip", "dmg"],
       "identity": "Raathigeshan Kugarajan (PU9359K4W8)"
     },
     "nsis": {
