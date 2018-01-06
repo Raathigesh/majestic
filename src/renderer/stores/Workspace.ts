@@ -13,6 +13,8 @@ import { processCoverageTree } from "../util/coverage-files";
 import launchEditor from "react-dev-utils/launchEditor";
 import { isPackageJSONExists } from "../util/workspace";
 import { openProjectFolder } from "../util/electron";
+import {ipcRenderer} from 'electron';
+
 
 export class Workspace {
   @observable runner: Runner;
@@ -59,6 +61,14 @@ export class Workspace {
       this.showSidebar = !this.showSidebar;
       return false;
     });
+    Mousetrap.bind(["command+o", "ctrl+o"], () => {
+      this.openProject();
+      return false;
+    });
+    //Listen for event from main process. 
+    ipcRenderer.on('openProject', () => {
+      this.openProject();
+  });
   }
 
   initializeRunner() {
@@ -144,6 +154,9 @@ export class Workspace {
 
   openProject() {
     openProjectFolder().then((projectDirectory: string[]) => {
+      if (this.isProjectAvailable) {
+        this.closeProject();     
+      }       
       const rootPath = projectDirectory[0];
       if (this.validateProject(rootPath)) {
         this.preference.initialize(rootPath);
