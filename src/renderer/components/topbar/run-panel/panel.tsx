@@ -34,7 +34,7 @@ const ButtonsContainer = styled.div`
   border-radius: 3px;
 `;
 
-function runButonLabel(isRunning, isWatching) {
+function runButtonLabel(isRunning, isWatching) {
   if (isWatching) {
     return isRunning ? "Running" : "Rerun all tests";
   } else {
@@ -54,16 +54,21 @@ function RunPanel({ workspace }: RunPanelProps) {
       <Info workspace={workspace} />
       <ButtonsContainer>
         <ButtonGroup className="pt-button-group pt-minimal">
-          <a
-            className={cn("pt-button  pt-minimal pt-icon-play", {
-              "pt-disabled": isRunning
-            })}
-            onClick={() => {
-              workspace.runProject();
-            }}
+          <Tooltip2
+            content={runButtonLabel(isRunning, isWatching)}
+            inline={true}
+            intent={Intent.PRIMARY}
+            placement="bottom"
           >
-            {runButonLabel(isRunning, isWatching)}
-          </a>
+            <a
+              className={cn("pt-button  pt-minimal pt-icon-play", {
+                "pt-disabled": isRunning
+              })}
+              onClick={() => {
+                workspace.runProject();
+              }}
+            />
+          </Tooltip2>
           <Tooltip2
             content="Stop tests"
             inline={true}
