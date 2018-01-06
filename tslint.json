@@ -5,6 +5,8 @@
     "prettier": true,
     "member-access": false,
     "object-literal-sort-keys": false,
-    "ordered-imports": false
+    "ordered-imports": false,
+    "interface-name": [true, "never-prefix"],
+    "no-empty": false
   }
 }

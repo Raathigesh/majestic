@@ -3,7 +3,7 @@ import TreeNode from "../stores/TreeNode";
 export function filterFiles(
   nodes,
   filter,
-  filterFunc: (node?: TreeNode) => Boolean = () => true
+  filterFunc: (node?: TreeNode) => boolean = () => true
 ) {
   const result: TreeNode[] = [];
   nodes.forEach((node: TreeNode) => {

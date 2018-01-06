@@ -1,4 +1,4 @@
-const pty = require("node-pty");
+import * as pty from "node-pty";
 import { platform } from "os";
 /**
  * Spawns and returns a Jest process with specific args
@@ -44,7 +44,7 @@ export const createProcess = (workspace: any, args: string[]): any => {
     env
   });
 
-  ptyProcess.on("data", function(data) {
+  ptyProcess.on("data", data => {
     let output = data;
     if (data.includes("Test results written to")) {
       output = data.substring(data.indexOf("Test results written to"));

@@ -64,7 +64,7 @@ export class Workspace {
       this.openProject();
       return false;
     });
-    //Listen for event from main process.
+    // Listen for event from main process.
     ipcRenderer.on("openProject", () => {
       this.openProject();
     });
@@ -169,6 +169,7 @@ export class Workspace {
     try {
       this.runner.terminate();
     } catch (e) {
+      // tslint:disable-next-line:no-console
       console.log("Process was terminated already.");
     }
     this.preference.rootPath = "";
@@ -201,7 +202,9 @@ export class Workspace {
   }
 
   search(query: string) {
-    this.files && this.files.search(query);
+    if (this.files) {
+      this.files.search(query);
+    }
   }
 
   updateSnapshot(it: ItBlockWithStatus) {

@@ -12,6 +12,8 @@ import { executeInSequence } from "../util/jest";
 import WatcherDetails from "./WatcherDetails";
 import { getConfigFilePath } from "../util/workspace";
 
+// tslint:disable:no-console
+
 export interface TestExecutionResults {
   totalResult: JestTotalResults;
   testFileAssertions: TestFileAssertionStatus[];

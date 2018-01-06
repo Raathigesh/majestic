@@ -1,5 +1,5 @@
-const dirTree = require("directory-tree");
-const chokidar = require("chokidar");
+import * as dirTree from "directory-tree";
+import * as chokidar from "chokidar";
 import { setTimeout } from "timers";
 import { getTestFilePattern } from "./workspace";
 import { join } from "path";

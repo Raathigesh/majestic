@@ -1,5 +1,5 @@
 import { replacePathSepForRegex } from "jest-regex-util";
-const micromatch = require("micromatch");
+import * as micromatch from "micromatch";
 
 export async function executeInSequence(
   funcs: Array<{
@@ -7,8 +7,8 @@ export async function executeInSequence(
     delay: number;
   }>
 ) {
-  for (let i = 0; i < funcs.length; i++) {
-    await setTimeoutPromisify(funcs[i].fn, funcs[i].delay);
+  for (const { fn, delay } of funcs) {
+    await setTimeoutPromisify(fn, delay);
   }
 }
 

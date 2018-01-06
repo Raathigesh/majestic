@@ -96,13 +96,13 @@ export default class Files {
       if (!node.isTest) {
         const coverageForFile = coverage.getCoverageForFile(node.path);
         if (coverageForFile) {
-          const summary = coverageForFile.toSummary();
-          node.coverage.branchesPercentage = summary.branches.pct;
-          node.coverage.linePercentage = summary.lines.pct;
-          node.coverage.functionPercentage = summary.functions.pct;
-          node.coverage.statementPercentage = summary.statements.pct;
+          const coverageSummary = coverageForFile.toSummary();
+          node.coverage.branchesPercentage = coverageSummary.branches.pct;
+          node.coverage.linePercentage = coverageSummary.lines.pct;
+          node.coverage.functionPercentage = coverageSummary.functions.pct;
+          node.coverage.statementPercentage = coverageSummary.statements.pct;
 
-          node.secondaryLabel = getLabel(`${summary.lines.pct}%`);
+          node.secondaryLabel = getLabel(`${coverageSummary.lines.pct}%`);
         }
       }
     }

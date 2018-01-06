@@ -4,8 +4,8 @@ import { existsSync } from "fs";
 import { normalize, join, resolve } from "path";
 import { getTestPatterns } from "./jest";
 
-export function pathToJest(rootPath: string, pathToJest: string) {
-  let path = normalize(pathToJest);
+export function pathToJest(rootPath: string, filePath: string) {
+  let path = normalize(filePath);
 
   const defaultPath = normalize("node_modules/.bin/jest");
   if (path === defaultPath && isBootstrappedWithCreateReactApp(rootPath)) {
@@ -20,10 +20,7 @@ export function pathToJest(rootPath: string, pathToJest: string) {
   return join(rootPath, path);
 }
 
-export const _replaceRootDirInPath = (
-  rootDir: string,
-  filePath: string
-): string => {
+const replaceRootDirInPath = (rootDir: string, filePath: string): string => {
   if (!/^<rootDir>/.test(filePath)) {
     return filePath;
   }
@@ -67,14 +64,14 @@ export function getTestFilePattern(rootPath: string) {
       "<rootDir>/src/**/__tests__/**/*.{js,jsx,mjs}",
       "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,mjs}"
     ].map(match => {
-      return _replaceRootDirInPath(rootPath, match);
+      return replaceRootDirInPath(rootPath, match);
     });
   } else {
     config = getConfig(rootPath);
 
     if (config && config.testMatch) {
       config.testMatch = config.testMatch.map(match => {
-        return _replaceRootDirInPath(rootPath, match);
+        return replaceRootDirInPath(rootPath, match);
       });
     }
 
@@ -106,9 +103,9 @@ function hasExecutable(rootPath: string, executablePath: string): boolean {
   return existsSync(absolutePath);
 }
 
-export function pathToConfig(pathToConfig: string) {
-  if (pathToConfig !== "") {
-    return normalize(pathToConfig);
+export function pathToConfig(filePath: string) {
+  if (filePath !== "") {
+    return normalize(filePath);
   }
   return "";
 }

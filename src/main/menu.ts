@@ -55,8 +55,8 @@ export default class MenuBuilder {
           label: "Open Project...",
           accelerator: "CmdOrCtrl+O",
           click: () => {
-            //Fire a message to the renderer process.
-            //Handled in stores/Workspace
+            // Fire a message to the renderer process.
+            // Handled in stores/Workspace
             this.mainWindow.webContents.send("openProject");
           }
         },
