@@ -19,8 +19,6 @@
 
 Majestic is an electron app that provides a UI for running tests with Jest. Jest CLI itself provides one of the best testing experiences available today. But Majestic humbly tries to expand upon it by providing a rich UI to be used during the dev/test loop. 
 
-[![Discord](https://img.shields.io/discord/398357112549277696.svg)]()
-
 ## Features
 
 * Run the whole project, a file or a particular test with a click
