@@ -112,8 +112,8 @@ Thank you [@orta](https://github.com/orta) for building [VSCode Jest](https://gi
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 
-| [<img src="https://avatars2.githubusercontent.com/u/3108160?s=460&v=4" width="100px;"/><br /><sub>Raathigeshan</sub>](https://twitter.com/Raathigesh)<br />💻 📖 💬 👀 🤔 🎨 | [<img src="https://avatars0.githubusercontent.com/u/9067274?s=400&v=4" width="100px;"/><br /><sub>James Adams</sub>](https://twitter.com/jamesadams0)<br />💻 🐛 🤔 | 
-| :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------: |
+| [<img src="https://avatars2.githubusercontent.com/u/3108160?s=460&v=4" width="100px;"/><br /><sub>Raathigeshan</sub>](https://twitter.com/Raathigesh)<br />💻 📖 💬 👀 🤔 🎨 | [<img src="https://avatars0.githubusercontent.com/u/9067274?s=400&v=4" width="100px;"/><br /><sub>James Adams</sub>](https://twitter.com/jamesadams0)<br />💻 🐛 📖 🤔 | [<img src="https://avatars2.githubusercontent.com/u/1297597?s=460&v=4" width="100px;"/><br /><sub>Lucas Azzola</sub>](https://twitter.com/lucasazzola)<br />💻 👀 🤔 | 
+| :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------: |  :---------------------------: |
 
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
