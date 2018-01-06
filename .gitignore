@@ -2,3 +2,4 @@
 dist/
 node_modules/
 thumbs.db
+coverage

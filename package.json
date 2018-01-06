@@ -19,7 +19,8 @@
     "linux": "npm run compile && node_modules/.bin/build --linux",
     "all-build": "npm run compile && node_modules/.bin/build --win --mac",
     "ship-win": "npm run compile && node_modules/.bin/build --win -p always",
-    "ship-mac": "npm run compile && node_modules/.bin/build --mac -p always"
+    "ship-mac": "npm run compile && node_modules/.bin/build --mac -p always",
+    "test": "jest"
   },
   "dependencies": {
     "@blueprintjs/core": "^1.32.0",
@@ -54,15 +55,21 @@
     "typescript-styled-plugin": "^0.2.0"
   },
   "devDependencies": {
+    "@types/jest": "^22.0.1",
     "@types/react": "^16.0.19",
     "@types/react-dom": "^16.0.2",
-    "babel-preset-react": "^6.24.1",
     "electron": "1.7.9",
     "electron-builder": "^19.42.1",
     "electron-react-devtools": "^0.5.2",
     "electron-rebuild": "^1.6.0",
     "electron-webpack": "1.10.1",
     "electron-webpack-ts": "^1.2.0",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-to-json": "^3.3.0",
+    "jest": "^22.0.4",
+    "jest-styled-components": "^4.9.0",
+    "ts-jest": "^22.0.1",
     "typescript": "^2.6.1",
     "webpack": "^3.8.1"
   },
@@ -71,10 +78,7 @@
     "productName": "Majestic",
     "mac": {
       "category": "dev.tools",
-      "target": [
-        "zip",
-        "dmg"
-      ],
+      "target": ["zip", "dmg"],
       "identity": "Raathigeshan Kugarajan (PU9359K4W8)"
     },
     "nsis": {
