@@ -69,9 +69,9 @@ const Header = styled.div`
 `;
 const Title = styled.span`
   font-size: 15px;
+  margin-left: 10px;
 `;
 const Run = styled.button`
-  margin-right: 10px;
   width: 34px;
 `;
 const AcceptSnapshot = styled(Button)`
@@ -94,9 +94,7 @@ const ExecutingLabel = styled.label`
   color: #474f57;
 `;
 
-const OpenInEditorButton = styled.button`
-  margin-left: 10px;
-`;
+const OpenInEditorButton = styled.button``;
 
 export interface ItBlockProps {
   test?: TreeNode;
@@ -115,8 +113,6 @@ function It({ it, workspace, test }: ItBlockProps) {
             workspace.runTest(it);
           }}
         />
-
-        <Title>{it.name}</Title>
         <Tooltip2
           content="Open editor and go to this test"
           inline={true}
@@ -125,21 +121,29 @@ function It({ it, workspace, test }: ItBlockProps) {
         >
           <OpenInEditorButton
             type="button"
-            className="pt-button pt-icon-document-open pt-small pt-minimal"
+            className="pt-button pt-icon-document-open pt-minimal"
             onClick={() => {
               workspace.launchEditor(it);
             }}
           />
         </Tooltip2>
         {workspace.vsCodeAvailable && (
-          <OpenInEditorButton
-            type="button"
-            className="pt-button pt-icon-ring pt-small pt-minimal"
-            onClick={() => {
-              workspace.startDebugging(it.name);
-            }}
-          />
+          <Tooltip2
+            content="Start debugging in VS Code"
+            inline={true}
+            intent={Intent.PRIMARY}
+            placement="bottom"
+          >
+            <OpenInEditorButton
+              type="button"
+              className="pt-button pt-icon-ring pt-minimal"
+              onClick={() => {
+                workspace.startDebugging(it.name);
+              }}
+            />
+          </Tooltip2>
         )}
+        <Title>{it.name}</Title>
         <RightContent>
           {it.snapshotErrorStatus === "error" && (
             <AcceptSnapshot

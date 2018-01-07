@@ -1,6 +1,6 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { Button, Classes, Dialog, Tooltip, Checkbox } from "@blueprintjs/core";
+import { Button, Classes, Dialog, Checkbox } from "@blueprintjs/core";
 import PreferenceStore from "../stores/Preference";
 
 export interface PreferenceProps {
