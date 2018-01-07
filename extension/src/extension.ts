@@ -9,7 +9,6 @@ socket.on("connect", _ => {
 
 export function activate(context: vscode.ExtensionContext) {
   socket.on("startDebug", config => {
-    const launchConfig = vscode.workspace.getConfiguration("launch");
     if (
       config.rootPath.toLowerCase() !== vscode.workspace.rootPath.toLowerCase()
     ) {

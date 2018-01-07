@@ -72,26 +72,20 @@ export class Workspace {
       this.openProject();
     });
 
-    ipcRenderer.on("vsCodeConnected", (event, rootPath) => {
-      if (!this.vsCodeInstances.get(rootPath)) {
-        this.vsCodeInstances.set(rootPath, "dummy");
-        this.checkVsCodeAvailability();
-      }
-    });
+    ipcRenderer.send("getVsCodeConnections");
 
-    ipcRenderer.on("vsCodeDisconnected", (event, rootPath) => {
-      if (this.vsCodeInstances.get(rootPath)) {
-        this.vsCodeInstances.delete(rootPath);
-        this.checkVsCodeAvailability();
+    ipcRenderer.on("vsCodeConnectionsChange", (event, projectPaths) => {
+      this.vsCodeInstances.clear();
+      for (const path of projectPaths) {
+        this.vsCodeInstances.set(path, path);
       }
+
+      this.checkVsCodeAvailability();
     });
   }
 
   checkVsCodeAvailability() {
-    if (this.vsCodeInstances.size === 0) {
-      this.vsCodeAvailable = false;
-      return;
-    }
+    this.vsCodeAvailable = false;
 
     for (const rootPath of this.vsCodeInstances) {
       if (

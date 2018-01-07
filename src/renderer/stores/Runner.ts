@@ -6,6 +6,7 @@ import {
 } from "jest-editor-support";
 import { observable } from "mobx";
 import stripAnsi from "strip-ansi";
+const AnsiToHtml = require("ansi-to-html");
 import { createProcess } from "../util/Process";
 import { executeInSequence, getTestPatternForPath } from "../util/jest";
 import WatcherDetails from "./WatcherDetails";
@@ -27,6 +28,7 @@ export default class TestRunner {
   @observable isEmittingOutput: boolean = false;
   @observable consoleLogs = observable.shallowArray([]);
   timeoutHandle: any;
+  ansiToHtmlConverter = new AnsiToHtml();
 
   runner: Runner;
   reconciler: TestReconciler;
@@ -96,10 +98,10 @@ export default class TestRunner {
         }
 
         const stripped = stripAnsi(output);
-
         this.detectEchancedConsoleLog(stripped);
-
-        this.output += stripped;
+        let covertedHtml = this.ansiToHtmlConverter.toHtml(output);
+        covertedHtml = covertedHtml.replace(/(\?25l|\?25h)/g, "");
+        this.output += covertedHtml;
         console.log(stripped);
 
         if (this.timeoutHandle) {

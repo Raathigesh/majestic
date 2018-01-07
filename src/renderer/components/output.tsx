@@ -13,7 +13,7 @@ const ConsoleContainer = styled.div`
 const Pre = styled.pre`
   height: 100%;
   margin: 0;
-  background-color: #474f57;
+  background-color: #252525;
   color: white;
   overflow: auto;
   font-family: inherit;
@@ -31,9 +31,12 @@ class ConsolePanel extends React.Component<{ output: string }, {}> {
     const { output } = this.props;
     return (
       <ConsoleContainer>
-        <Pre ref={e => (this.preRef = e)}>
-          {output || "The output from Jest process will show up here"}
-        </Pre>
+        {
+          <Pre
+            ref={e => (this.preRef = e)}
+            dangerouslySetInnerHTML={{ __html: output }}
+          />
+        }
       </ConsoleContainer>
     );
   }

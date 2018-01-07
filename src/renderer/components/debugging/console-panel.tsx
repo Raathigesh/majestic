@@ -26,7 +26,7 @@ const Item = styled.div`
 `;
 
 const File = styled.span`
-  font-size: 12px;
+  font-size: 14px;
   color: #5c7080;
 `;
 

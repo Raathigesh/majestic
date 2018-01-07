@@ -136,7 +136,7 @@ function It({ it, workspace, test }: ItBlockProps) {
           >
             <OpenInEditorButton
               type="button"
-              className="pt-button pt-icon-ring pt-minimal"
+              className="pt-button pt-icon-record pt-minimal"
               onClick={() => {
                 workspace.startDebugging(it.name);
               }}
