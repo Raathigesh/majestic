@@ -85,6 +85,9 @@
     "typescript": "^2.6.1",
     "webpack": "^3.8.1"
   },
+  "electronWebpack": {
+    "whiteListedModules": ["vscode"]
+  },
   "build": {
     "appId": "com.debuggable.majestic",
     "productName": "Majestic",
