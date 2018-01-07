@@ -1,22 +1,27 @@
 {
   "name": "majestic",
-  "displayName": "majestic",
+  "displayName": "Majestic",
   "description": "",
   "version": "0.0.1",
-  "publisher": "debuggable",
+  "publisher": "Raathigeshan",
   "engines": {
     "vscode": "^1.19.0"
   },
-  "categories": ["Other"],
-  "activationEvents": ["*"],
+  "preview": true,
+  "categories": [
+    "Debuggers"
+  ],
+  "activationEvents": [
+    "*"
+  ],
   "main": "./out/extension",
   "contributes": {
-    "commands": [
-      {
-        "command": "extension.sayHello",
-        "title": "Hello World"
-      }
-    ]
+    "commands": []
+  },
+  "icon": "images/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Raathigesh/majestic.git"
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
