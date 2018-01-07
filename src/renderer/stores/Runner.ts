@@ -6,7 +6,7 @@ import {
 } from "jest-editor-support";
 import { observable } from "mobx";
 import stripAnsi from "strip-ansi";
-const AnsiToHtml = require("ansi-to-html");
+import AnsiToHtml from "ansi-to-html";
 import { createProcess } from "../util/Process";
 import { executeInSequence, getTestPatternForPath } from "../util/jest";
 import WatcherDetails from "./WatcherDetails";
@@ -87,6 +87,7 @@ export default class TestRunner {
 
         this.isRunning = false;
 
+        // tslint:disable-next-line
         console.log("executableJSON", data);
       })
       .on("debuggerProcessExit", () => {
@@ -104,6 +105,7 @@ export default class TestRunner {
         let covertedHtml = this.ansiToHtmlConverter.toHtml(output);
         covertedHtml = covertedHtml.replace(/(\?25l|\?25h)/g, "");
         this.output += covertedHtml;
+        // tslint:disable-next-line
         console.log(stripped);
 
         if (this.timeoutHandle) {
@@ -116,12 +118,15 @@ export default class TestRunner {
         }, 3000);
       })
       .on("executableStdErr", error => {
+        // tslint:disable-next-line
         console.log("executableStdErr", error.toString());
       })
       .on("nonTerminalError", error => {
+        // tslint:disable-next-line
         console.log("nonTerminalError", error);
       })
       .on("exception", result => {
+        // tslint:disable-next-line
         console.log("exception", result);
       })
       .on("terminalError", (error: Buffer) => {
@@ -130,8 +135,11 @@ export default class TestRunner {
           /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
           ""
         );
+
+        // tslint:disable-next-line
         console.log("terminalError", message);
         if (noANSI.includes("snapshot test failed")) {
+          // tslint:disable-next-line
           console.log("terminalError", message);
         }
       });
@@ -305,6 +313,7 @@ export default class TestRunner {
 
         let logContent = null;
         try {
+          // tslint:disable-next-line
           logContent = eval(`(${logText.trim()})`);
         } catch (e) {
           logContent = logText;

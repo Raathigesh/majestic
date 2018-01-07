@@ -40,19 +40,19 @@ const BottomBar = styled.div`
   justify-content: flex-end;
 `;
 
-interface IConsolePanel {
+interface ConsolePanel {
   workspace: Workspace;
 }
 
-function ConsolePanel({ workspace }: IConsolePanel) {
+function ConsolePanel({ workspace }: ConsolePanel) {
   return (
     <Draggable>
       <Container className="pt-card">
         <ConsoleContent>
           {workspace.runner &&
-            workspace.runner.consoleLogs.map(log => {
+            workspace.runner.consoleLogs.map((log, i) => {
               return (
-                <Item>
+                <Item key={i}>
                   <File>{log.file}</File>
 
                   {typeof log.content === "string" ? (

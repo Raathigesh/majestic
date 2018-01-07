@@ -68,7 +68,7 @@ export class Workspace {
       return false;
     });
 
-    //Listen for event from main process.
+    // Listen for event from main process.
     ipcRenderer.on("openProject", () => {
       this.openProject();
     });

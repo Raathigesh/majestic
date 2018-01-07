@@ -30,7 +30,7 @@ const globsToMatcher = globs => {
   }
 
   const matchers = globs.map(each => micromatch.matcher(each, { dot: true }));
-  return path => matchers.some(each => each(path));
+  return value => matchers.some(each => each(value));
 };
 
 const pathToRegex = p => replacePathSepForRegex(p);
@@ -40,7 +40,7 @@ const regexToMatcher = (testRegex: string) => {
   }
 
   const regex = new RegExp(pathToRegex(testRegex));
-  return path => regex.test(path);
+  return value => regex.test(value);
 };
 
 export function getTestPatterns(config) {

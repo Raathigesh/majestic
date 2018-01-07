@@ -1,8 +1,9 @@
-import { BrowserWindow } from "electron";
+import { BrowserWindow, ipcMain } from "electron";
+import http from "http";
+import Socket from "socket.io";
 
-const { ipcMain } = require("electron");
-const server = require("http").createServer();
-const io = require("socket.io")(server);
+const server = http.createServer();
+const io = Socket(server);
 const vsCodeConnections = new Map();
 
 function getRootPaths() {
@@ -26,14 +27,17 @@ export default function initialize(window: BrowserWindow) {
     });
 
     socket.on("hello", path => {
+      // tslint:disable-next-line
       console.log("path:", path);
       vsCodeConnections.set(socket.id, path);
+      // tslint:disable-next-line
       console.log("connection", getRootPaths());
       window.webContents.send("vsCodeConnectionsChange", getRootPaths());
     });
 
     socket.on("disconnect", reason => {
       vsCodeConnections.delete(socket.id);
+      // tslint:disable-next-line
       console.log("disconnection", getRootPaths());
       window.webContents.send("vsCodeConnectionsChange", getRootPaths());
     });
