@@ -1,6 +1,7 @@
 import { observable } from "mobx";
-const { autoUpdater } = require("electron").remote.require("electron-updater");
-const { app } = require("electron").remote;
+import { remote } from "electron";
+const { autoUpdater } = remote.require("electron-updater");
+const { app } = remote;
 autoUpdater.autoDownload = false;
 
 export const UpdaterStatus = {
@@ -29,6 +30,7 @@ export class Updater {
     });
     autoUpdater.on("error", err => {
       this.updateStatus = UpdaterStatus.NoUpdate;
+      // tslint:disable-next-line:no-console
       console.error(err);
     });
     autoUpdater.on("update-downloaded", info => {

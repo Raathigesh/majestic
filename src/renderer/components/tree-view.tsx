@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 import { Workspace } from "../stores/Workspace";
 
-let ObserverTree = observer(Tree);
+const ObserverTree = observer(Tree);
 const StyledObserverTree = styled(ObserverTree)`
   flex-grow: 1;
   overflow: auto;

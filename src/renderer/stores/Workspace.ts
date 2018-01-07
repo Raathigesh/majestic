@@ -67,13 +67,13 @@ export class Workspace {
       this.openProject();
       return false;
     });
+
     //Listen for event from main process.
     ipcRenderer.on("openProject", () => {
       this.openProject();
     });
 
     ipcRenderer.send("getVsCodeConnections");
-
     ipcRenderer.on("vsCodeConnectionsChange", (event, projectPaths) => {
       this.vsCodeInstances.clear();
       for (const path of projectPaths) {
@@ -196,6 +196,7 @@ export class Workspace {
     try {
       this.runner.terminate();
     } catch (e) {
+      // tslint:disable-next-line:no-console
       console.log("Process was terminated already.");
     }
     this.preference.rootPath = "";
@@ -209,7 +210,9 @@ export class Workspace {
   }
 
   runCurrentFile() {
-    if (!this.selectedTest) return;
+    if (!this.selectedTest) {
+      return;
+    }
 
     this.selectedTest.spin();
     this.selectedTest.toggleAllTests();
@@ -217,14 +220,18 @@ export class Workspace {
   }
 
   runTest(it: ItBlockWithStatus) {
-    if (!this.selectedTest) return;
+    if (!this.selectedTest) {
+      return;
+    }
     this.selectedTest.spin();
     it.isExecuting = true;
     this.runner.filterByTestName(this.selectedTest.path, it.name);
   }
 
   search(query: string) {
-    this.files && this.files.search(query);
+    if (this.files) {
+      this.files.search(query);
+    }
   }
 
   updateSnapshot(it: ItBlockWithStatus) {

@@ -11,6 +11,7 @@ const Logo = styled.img`
   padding: 4px;
 `;
 
+// tslint:disable-next-line:no-empty-interface
 interface HeaderProps {}
 
 const Header: React.SFC<HeaderProps> = props => {

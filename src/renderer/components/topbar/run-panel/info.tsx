@@ -42,12 +42,12 @@ const BackgroundAnimation = keyframes`
     100% {background: red;}
 `;
 
-interface IOutputIndicator {
+interface OutputIndicator {
   animate: boolean;
 }
 
 const ouputIndicatorDiv = styledComponentWithProps<
-  IOutputIndicator,
+  OutputIndicator,
   HTMLDivElement
 >(styled.div);
 

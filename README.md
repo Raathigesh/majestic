@@ -4,11 +4,20 @@
   <h3 align="center">⚗ Zero config UI for Jest ⚗</h3>
 </h1>
 
+<p align="center">
+  <a href="https://travis-ci.org/Raathigesh/majestic">
+    <img src="https://travis-ci.org/Raathigesh/majestic.svg?branch=master"
+         alt="Travis Build">
+  </a>
+   <a href="https://discord.gg/wycjmJh">
+    <img src="https://img.shields.io/discord/398357112549277696.svg"
+         alt="Discord">
+  </a>
+</p>
+
 ## What is Majestic?
 
 Majestic is an electron app that provides a UI for running tests with Jest. Jest CLI itself provides one of the best testing experiences available today. But Majestic humbly tries to expand upon it by providing a rich UI to be used during the dev/test loop. 
-
-[![Discord](https://img.shields.io/discord/398357112549277696.svg)]()
 
 ## Features
 

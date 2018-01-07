@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Sidebar from "./components/sidebar";
 import Content from "./components/content";
 import PreferenceModal from "./components/preference";
+// tslint:disable-next-line:no-var-requires
 const SplitPane = require("react-split-pane");
 import QuickSearch from "./components/quick-search";
 import ConsolePanel from "./components/debugging/console-panel";
