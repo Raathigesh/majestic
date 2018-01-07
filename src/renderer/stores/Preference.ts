@@ -1,5 +1,7 @@
 import { observable, action } from "mobx";
+import Config from "electron-config";
 import { pathToJest } from "../util/workspace";
+import * as UserSetting from "../constants/user-setting";
 
 export default class Preference {
   @observable isPreferenceOpen: boolean = false;
@@ -7,8 +9,17 @@ export default class Preference {
   @observable rootPath: string = "";
   @observable jestExecutablePath: string = "";
   @observable testFileNamePattern: string = "";
+  @observable logToInbuiltConsole = false;
   localJestMajorVersion: number = 20;
   pathToConfig: string = "";
+
+  userSetting = new Config();
+
+  constructor() {
+    this.logToInbuiltConsole = this.userSetting.get(
+      UserSetting.LogToBuiltInConsole
+    );
+  }
 
   initialize(projectPath: string) {
     this.rootPath = projectPath;
@@ -36,5 +47,11 @@ export default class Preference {
   @action
   setPreferenceOpen(toggle: boolean) {
     this.isPreferenceOpen = toggle;
+  }
+
+  @action
+  setLogToInbuiltConsole(value: boolean) {
+    this.logToInbuiltConsole = value;
+    this.userSetting.set(UserSetting.LogToBuiltInConsole, value);
   }
 }

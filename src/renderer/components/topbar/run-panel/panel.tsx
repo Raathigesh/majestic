@@ -25,6 +25,9 @@ const WatchModeToggle = styled(Switch)`
 `;
 
 const ButtonGroup = styled.div``;
+const RightButtons = styled.div`
+  display: flex;
+`;
 
 const ButtonsContainer = styled.div`
   display: flex;
@@ -98,14 +101,29 @@ function RunPanel({ workspace }: RunPanelProps) {
             />
           </Tooltip2>
         </ButtonGroup>
-        <WatchModeToggle
-          label="Watch tests"
-          checked={workspace.runner && workspace.runner.isWatchMode}
-          onChange={() => {
-            workspace.runner && workspace.runner.toggleWatchModel();
-          }}
-          disabled={isRunning}
-        />
+        <RightButtons>
+          <WatchModeToggle
+            label="Watch tests"
+            checked={workspace.runner && workspace.runner.isWatchMode}
+            onChange={() => {
+              workspace.runner && workspace.runner.toggleWatchModel();
+            }}
+            disabled={isRunning}
+          />
+          <Tooltip2
+            content="Preference"
+            inline={true}
+            intent={Intent.PRIMARY}
+            placement="bottom"
+          >
+            <a
+              className={cn("pt-button pt-icon-cog pt-minimal")}
+              onClick={() => {
+                workspace.preference.setPreferenceOpen(true);
+              }}
+            />
+          </Tooltip2>
+        </RightButtons>
       </ButtonsContainer>
     </BasicContent>
   );

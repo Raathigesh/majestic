@@ -25,7 +25,7 @@ export default class TestRunner {
   @observable watcherDetails = new WatcherDetails();
   @observable output: string = "";
   @observable isEmittingOutput: boolean = false;
-  @observable consoleLogs: any[] = observable([]);
+  @observable consoleLogs = observable.shallowArray([]);
   timeoutHandle: any;
 
   runner: Runner;
@@ -143,6 +143,7 @@ export default class TestRunner {
 
   resetOutputText() {
     this.output = "";
+    this.consoleLogs.clear();
   }
 
   start(testFileNamePattern: string = "", testNamePattern: string = "") {
@@ -291,12 +292,26 @@ export default class TestRunner {
   }
 
   private detectEchancedConsoleLog(output: string) {
-    var number_regex = /\$\$.*\$\$/g;
-    output.replace(number_regex, match => {
-      const initialRemoved = match.substr(2);
-      const laterRemoved = initialRemoved.substr(0, initialRemoved.length - 2);
-      this.consoleLogs.push(laterRemoved);
-      return "";
-    });
+    const toeksn = output.match(/^ *console\.log .*$(\n|\r\n).*/gm);
+    if (toeksn && toeksn.length) {
+      const parsed = toeksn.map(tok => {
+        const headerAndContent = tok.split(/(\n|\r\n)/);
+        const logText = headerAndContent[2];
+
+        let logContent = null;
+        try {
+          logContent = eval(`(${logText.trim()})`);
+        } catch (e) {
+          logContent = logText;
+        }
+
+        return {
+          file: headerAndContent[0].trim().split(" ")[1],
+          content: logContent
+        };
+      });
+
+      this.consoleLogs.push(...parsed);
+    }
   }
 }

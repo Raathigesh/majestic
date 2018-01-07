@@ -15,7 +15,11 @@ const ContainerDiv = styled.div`
 function Container({ updater, workspace }) {
   return (
     <ContainerDiv>
-      <ConsolePanel workspace={workspace} />
+      {workspace.runner &&
+        workspace.preference.logToInbuiltConsole &&
+        workspace.runner.consoleLogs.length > 0 && (
+          <ConsolePanel workspace={workspace} />
+        )}
       <QuickSearch workspace={workspace} />
       <SplitPane
         split="vertical"

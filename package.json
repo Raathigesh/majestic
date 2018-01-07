@@ -29,6 +29,7 @@
     "chokidar": "^1.7.0",
     "classnames": "^2.2.5",
     "directory-tree": "^2.0.0",
+    "electron-config": "^1.0.0",
     "electron-updater": "^2.16.3",
     "fuse.js": "^3.2.0",
     "istanbul-lib-coverage": "^1.1.1",
@@ -47,7 +48,9 @@
     "react-dev-utils": "^4.2.1",
     "react-dom": "^16.0.0",
     "react-draggable": "^3.0.4",
+    "react-json-tree": "^0.11.0",
     "react-loading": "^1.0.2",
+    "react-object-inspector": "^0.2.1",
     "react-split-pane": "^0.1.71",
     "rxjs": "^5.5.2",
     "socket.io": "1.6.0",
@@ -80,7 +83,10 @@
     "productName": "Majestic",
     "mac": {
       "category": "dev.tools",
-      "target": ["zip", "dmg"],
+      "target": [
+        "zip",
+        "dmg"
+      ],
       "identity": "Raathigeshan Kugarajan (PU9359K4W8)"
     },
     "nsis": {

@@ -2,7 +2,7 @@
 
 import { app, BrowserWindow } from "electron";
 import MenuBuilder from "./menu";
-import "./server";
+import initialize from "./server";
 
 const isDevelopment = process.env.NODE_ENV !== "production";
 
@@ -58,4 +58,5 @@ app.on("ready", () => {
   mainWindow = createMainWindow();
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
+  initialize(mainWindow);
 });

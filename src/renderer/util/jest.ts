@@ -1,6 +1,8 @@
 import { replacePathSepForRegex } from "jest-regex-util";
 const micromatch = require("micromatch");
 import { platform } from "os";
+import path from "path";
+import fs from "fs";
 
 export async function executeInSequence(
   funcs: {
@@ -61,4 +63,76 @@ export function getTestPatternForPath(filePath: string) {
   }
 
   return filePath.replace(replacePattern, ".");
+}
+
+export function resolvePathToJestBin(root: string, pathToJest: string) {
+  let jest = pathToJest;
+  if (!path.isAbsolute(jest)) {
+    jest = path.join(root, jest);
+  }
+
+  const basename = path.basename(jest);
+  switch (basename) {
+    case "jest.js": {
+      return jest;
+    }
+
+    case "jest.cmd": {
+      /* i need to extract '..\jest-cli\bin\jest.js' from line 2
+
+      @IF EXIST "%~dp0\node.exe" (
+        "%~dp0\node.exe"  "%~dp0\..\jest-cli\bin\jest.js" %*
+      ) ELSE (
+        @SETLOCAL
+        @SET PATHEXT=%PATHEXT:;.JS;=;%
+        node  "%~dp0\..\jest-cli\bin\jest.js" %*
+      )
+      */
+      const line = fs.readFileSync(jest, "utf8").split("\n")[1];
+      const match = /^\s*"[^"]+"\s+"%~dp0\\([^"]+)"/.exec(line);
+      return path.join(path.dirname(jest), match[1]);
+    }
+
+    case "jest": {
+      /* file without extension uses first line as file type
+         in case of node script i can use this file directly,
+         in case of linux shell script i need to extract path from line 9
+      #!/bin/sh
+      basedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+
+      case `uname` in
+          *CYGWIN*) basedir=`cygpath -w "$basedir"`;;
+      esac
+
+      if [ -x "$basedir/node" ]; then
+        "$basedir/node"  "$basedir/../jest-cli/bin/jest.js" "$@"
+        ret=$?
+      else
+        node  "$basedir/../jest-cli/bin/jest.js" "$@"
+        ret=$?
+      fi
+      exit $ret
+      */
+      const lines = fs.readFileSync(jest, "utf8").split("\n");
+      switch (lines[0]) {
+        case "#!/usr/bin/env node": {
+          return jest;
+        }
+
+        case "#!/bin/sh": {
+          const line = lines[8];
+          const match = /^\s*"[^"]+"\s+"$basedir\/([^"]+)"/.exec(line);
+          if (match) {
+            return path.join(path.dirname(jest), match[1]);
+          }
+
+          break;
+        }
+      }
+
+      break;
+    }
+  }
+
+  return undefined;
 }

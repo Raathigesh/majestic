@@ -12,9 +12,9 @@ import ItBlockWithStatus from "../types/it-block";
 import { Coverage } from "./Coverage";
 import { processCoverageTree } from "../util/coverage-files";
 import launchEditor from "react-dev-utils/launchEditor";
-import { isPackageJSONExists } from "../util/workspace";
+import { isPackageJSONExists, getConfigFilePath } from "../util/workspace";
 import { openProjectFolder } from "../util/electron";
-import { getTestPatternForPath } from "../util/jest";
+import { getTestPatternForPath, resolvePathToJestBin } from "../util/jest";
 
 export class Workspace {
   @observable runner: Runner;
@@ -32,6 +32,8 @@ export class Workspace {
   @observable showSidebar = true;
   itBlocks: Map<string, ItBlockWithStatus[]> = new Map();
   coverage: Coverage;
+  @observable vsCodeAvailable = false;
+  @observable vsCodeInstances = new Map<string, string>();
 
   toaster: IToaster;
 
@@ -69,6 +71,35 @@ export class Workspace {
     ipcRenderer.on("openProject", () => {
       this.openProject();
     });
+
+    ipcRenderer.on("vsCodeConnected", (event, rootPath) => {
+      if (!this.vsCodeInstances.get(rootPath)) {
+        this.vsCodeInstances.set(rootPath, "dummy");
+        this.checkVsCodeAvailability();
+      }
+    });
+
+    ipcRenderer.on("vsCodeDisconnected", (event, rootPath) => {
+      if (this.vsCodeInstances.get(rootPath)) {
+        this.vsCodeInstances.delete(rootPath);
+        this.checkVsCodeAvailability();
+      }
+    });
+  }
+
+  checkVsCodeAvailability() {
+    if (this.vsCodeInstances.size === 0) {
+      this.vsCodeAvailable = false;
+      return;
+    }
+
+    for (const rootPath of this.vsCodeInstances) {
+      if (
+        rootPath[0].toLowerCase() === this.preference.rootPath.toLowerCase()
+      ) {
+        this.vsCodeAvailable = true;
+      }
+    }
   }
 
   initializeRunner() {
@@ -162,6 +193,7 @@ export class Workspace {
         this.preference.initialize(rootPath);
         this.loadTestFiles();
         this.initializeRunner();
+        this.checkVsCodeAvailability();
       }
     });
   }
@@ -286,11 +318,17 @@ export class Workspace {
     launchEditor(it.filePath, it.lineNumber);
   }
 
-  startDebugging() {
-    ipcRenderer.send(
-      "startDebug",
-      getTestPatternForPath(this.selectedTest.path)
-    );
+  startDebugging(testName: string) {
+    ipcRenderer.send("startDebug", {
+      program: resolvePathToJestBin(
+        this.preference.rootPath,
+        this.preference.jestExecutablePath
+      ),
+      fileName: getTestPatternForPath(this.selectedTest.path),
+      identifier: testName,
+      pathToConfig: getConfigFilePath(this.preference.rootPath),
+      rootPath: this.preference.rootPath
+    });
   }
 }
 
