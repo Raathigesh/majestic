@@ -86,7 +86,12 @@
     "webpack": "^3.8.1"
   },
   "electronWebpack": {
-    "whiteListedModules": ["vscode"]
+    "main": {
+      "sourceDirectory": "src/main"
+    },
+    "renderer": {
+      "sourceDirectory": "src/renderer"
+    }
   },
   "build": {
     "appId": "com.debuggable.majestic",
