@@ -102,7 +102,7 @@
       "identity": "Raathigeshan Kugarajan (PU9359K4W8)"
     },
     "nsis": {
-      "perMachine": true
+      "perMachine": false
     },
     "publish": [
       {
