@@ -1,5 +1,7 @@
 import * as pty from "node-pty";
 import { platform } from "os";
+import { getMajesticConfig } from "./workspace";
+
 /**
  * Spawns and returns a Jest process with specific args
  *
@@ -12,7 +14,7 @@ export const createProcess = (workspace: any, args: string[]): any => {
   // any other bits into the args
   const runtimeExecutable = workspace.pathToJest;
   const parameters = runtimeExecutable.split(" ");
-  const command = parameters[0];
+  let command = parameters[0];
   const initialArgs = parameters.slice(1);
   const runtimeArgs = ([] as string[]).concat(initialArgs, args);
 
@@ -23,6 +25,16 @@ export const createProcess = (workspace: any, args: string[]): any => {
     runtimeArgs.push(configPath);
   }
 
+  const runScript = getMajesticConfig(workspace.rootPath).runScript;
+  if (runScript) {
+    // if the custom script starts with "jest", use the full path
+    const initialToken = runScript.split(" ")[0];
+    if (initialToken !== "jest") {
+      command = initialToken;
+    }
+    const restOfScriptParams = runScript.split(" ").slice(1);
+    runtimeArgs.push(...restOfScriptParams);
+  }
   // To use our own commands in create-react, we need to tell the command that
   // we're in a CI environment, or it will always append --watch
   const env = process.env;

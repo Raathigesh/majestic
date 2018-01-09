@@ -15,7 +15,6 @@ const Container = styled.div`
   bottom: 10px;
   right: 10px;
   padding: 10px;
-  overflow: auto;
 `;
 
 const Item = styled.div`
@@ -33,6 +32,7 @@ const File = styled.span`
 const ConsoleContent = styled.div`
   align-content: space-between;
   flex-grow: 1;
+  overflow: auto;
 `;
 
 const BottomBar = styled.div`

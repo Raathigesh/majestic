@@ -4,7 +4,7 @@ import TreeNodeType from "../types/node-type";
 import TreeNode from "../stores/TreeNode";
 import { Icons } from "./constants";
 import { getTestFilePattern } from "./workspace";
-import ItBlockWithStatus from "../types/it-block";
+import ItBlockWithStatus from "../stores/ItBlock";
 
 let nodes = new Map<string, TreeNode>();
 let itBlocks = new Map<string, ItBlockWithStatus[]>();

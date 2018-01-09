@@ -43,6 +43,11 @@ function getConfig(rootPath) {
   }
 }
 
+export function getMajesticConfig(rootPath) {
+  const packageJsonObj = __non_webpack_require__(pathToPackageJSON(rootPath));
+  return packageJsonObj.majestic;
+}
+
 export function getConfigFilePath(rootPath: string) {
   const defaultConfigPath = join(rootPath, "jest.config.js");
   if (existsSync(defaultConfigPath)) {
@@ -52,6 +57,10 @@ export function getConfigFilePath(rootPath: string) {
   const packageJsonObj = __non_webpack_require__(pathToPackageJSON(rootPath));
   if (packageJsonObj.jestConfig) {
     return join(rootPath, packageJsonObj.jestConfig);
+  }
+
+  if (packageJsonObj.majestic && packageJsonObj.majestic.jestConfig) {
+    return join(rootPath, packageJsonObj.majestic.jestConfig);
   }
 
   return "";

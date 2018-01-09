@@ -8,7 +8,7 @@ import { processTests } from "../util/tree";
 import Preference from "./Preference";
 import Files from "./Files";
 import TreeNode from "./TreeNode";
-import ItBlockWithStatus from "../types/it-block";
+import ItBlockWithStatus from "../stores/ItBlock";
 import { Coverage } from "./Coverage";
 import { processCoverageTree } from "../util/coverage-files";
 import launchEditor from "react-dev-utils/launchEditor";
