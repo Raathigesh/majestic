@@ -1,6 +1,6 @@
 import { ItBlock } from "jest-editor-support";
 import { observable, autorun } from "mobx";
-import { InternalTestReconcilationState } from "./node-type";
+import { InternalTestReconcilationState } from "../types/node-type";
 
 export type SnapshotErrorStatus = "" | "unknown" | "error" | "updated";
 class ItBlockWithStatus extends ItBlock {

@@ -5,7 +5,7 @@ import { observer } from "mobx-react";
 import classNames from "classnames";
 import Fuse from "fuse.js";
 import { Workspace } from "../stores/Workspace";
-import ItBlockWithStatus from "../types/it-block";
+import ItBlockWithStatus from "../stores/ItBlock";
 
 export interface QuickSearchProps {
   workspace: Workspace;

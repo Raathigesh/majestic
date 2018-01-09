@@ -1,6 +1,6 @@
 import { ITreeNode, IconName } from "@blueprintjs/core";
 import { observable, action, IObservableArray } from "mobx";
-import ItBlockWithStatus from "../types/it-block";
+import ItBlockWithStatus from "../stores/ItBlock";
 import TreeNodeType, {
   InternalTestReconcilationState
 } from "../types/node-type";

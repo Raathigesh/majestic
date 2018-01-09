@@ -7,7 +7,7 @@ import { filterFiles, filterTree } from "../util/search";
 import { Coverage } from "./Coverage";
 import { TotalResult } from "./TotalResult";
 import CoverageSummary from "./CoverageSummary";
-import ItBlockWithStatus from "../types/it-block";
+import ItBlockWithStatus from "../stores/ItBlock";
 
 // wiretap("App");
 
