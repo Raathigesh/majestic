@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { observer } from "mobx-react";
 import Header from "./header";
 import { Workspace } from "../../stores/Workspace";
-import It from "../../stores/ItBlock";
+import It from "../test-file/it-block";
 
 const Container = styled.div`
   display: flex;

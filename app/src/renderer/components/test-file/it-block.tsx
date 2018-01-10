@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Indicator from "./indicator";
 import { Workspace } from "../../stores/Workspace";
 import TreeNode from "../../stores/TreeNode";
-import ItBlockWithStatus from "../../types/it-block";
+import ItBlockWithStatus from "../../stores/ItBlock";
 import { getStatusLabel } from "../../util/label";
 import { Tooltip2 } from "@blueprintjs/labs";
 import { Intent } from "@blueprintjs/core";
