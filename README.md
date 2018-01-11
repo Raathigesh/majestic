@@ -31,11 +31,13 @@ Majestic is an electron app that provides a UI for running tests with Jest. Jest
 * Quick search to search across all your test (It) statements
 * Failure summary shows all test failtures in a single screen. Useful when you have failures across multiple files.
 * Locate a specific test in your editor with the click of a button
+* Debug in VSCode with a click
+* Console.log() would show up on the UI
 
 ## Download the app
 
-* [macOS](https://github.com/Raathigesh/majestic/releases/download/v0.1.0/Majestic-0.1.0.dmg)
-* [Windows](https://github.com/Raathigesh/majestic/releases/download/v0.1.0/majestic-setup-0.1.0.exe)
+* [macOS](https://github.com/Raathigesh/majestic/releases/download/0.2.0/Majestic-0.2.0.dmg)
+* [Windows](https://github.com/Raathigesh/majestic/releases/download/0.2.0/majestic-setup-0.2.0.exe)
 
 ### External Jest configuration file
 
@@ -50,9 +52,18 @@ If you have an external `jest` config file, you should have a `jestConfig` key i
   "name": "my-awesome-proj",
   "version": "0.1.0",
   "description": "..",
-  "jestConfig": "./jest-custom.config.js"
+  "majestic": {
+    "jestConfig": "./jest-custom.config.js"
+  }
 }
 ```
+
+### Debug in VS Code
+
+* Install the [VSCode majestic extension](https://marketplace.visualstudio.com/items?itemName=Raathigeshan.majestic)
+* Open the Project in VS Code
+* Open the same project in Majestic
+* Click the debug button on the test you want to debug
 
 ### Enabling coverage report
 
@@ -74,6 +85,21 @@ It's really simple.
 ```diff
 - "test": "react-scripts test --env=jsdom",
 + "test": "react-scripts test --env=jsdom --coverage",
+```
+
+## Using custom run script
+
+If you want to provide additional parameters to jest, you can define a custom run script in the package.json file as below.
+
+```json
+{
+  "name": "my-awesome-proj",
+  "version": "0.1.0",
+  "description": "..",
+  "majestic": {
+    "runScript": "jest --silent"
+  }
+}
 ```
 
 ## Contribute
