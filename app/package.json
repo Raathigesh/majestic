@@ -1,6 +1,6 @@
 {
   "name": "majestic",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "author": {
     "name": "Raathigeshan",
@@ -98,10 +98,7 @@
     "productName": "Majestic",
     "mac": {
       "category": "dev.tools",
-      "target": [
-        "zip",
-        "dmg"
-      ],
+      "target": ["zip", "dmg"],
       "identity": "Raathigeshan Kugarajan (PU9359K4W8)"
     },
     "nsis": {

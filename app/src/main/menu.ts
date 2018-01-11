@@ -9,7 +9,11 @@ export default class MenuBuilder {
     let template;
 
     if (process.platform === "darwin") {
-      template = this.buildDarwinTemplate();
+      template = [
+        this.buildFileTemplate(),
+        this.buildDarwinTemplate(),
+        this.buildHelpTemplate()
+      ];
     } else {
       template = [this.buildFileTemplate(), this.buildHelpTemplate()];
     }
