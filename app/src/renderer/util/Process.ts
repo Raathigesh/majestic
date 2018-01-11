@@ -25,7 +25,8 @@ export const createProcess = (workspace: any, args: string[]): any => {
     runtimeArgs.push(configPath);
   }
 
-  const runScript = getMajesticConfig(workspace.rootPath).runScript;
+  const majesticConfig = getMajesticConfig(workspace.rootPath);
+  const runScript = majesticConfig && majesticConfig.runScript;
   if (runScript) {
     // if the custom script starts with "jest", use the full path
     const initialToken = runScript.split(" ")[0];
