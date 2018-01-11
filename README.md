@@ -36,8 +36,8 @@ Majestic is an electron app that provides a UI for running tests with Jest. Jest
 
 ## Download the app
 
-* [macOS](https://github.com/Raathigesh/majestic/releases/download/0.2.0/Majestic-0.2.0.dmg)
-* [Windows](https://github.com/Raathigesh/majestic/releases/download/0.2.0/majestic-setup-0.2.0.exe)
+* [macOS](https://github.com/Raathigesh/majestic/releases/download/v0.2.0/Majestic-0.2.0.dmg)
+* [Windows](https://github.com/Raathigesh/majestic/releases/download/v0.2.0/majestic-setup-0.2.0.exe)
 
 ### External Jest configuration file
 
