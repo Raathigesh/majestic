@@ -15,6 +15,8 @@
   </a>
 </p>
 
+## [The plan for Majestic v1](https://github.com/Raathigesh/majestic/issues/50)
+
 ## What is Majestic?
 
 Majestic is an electron app that provides a UI for running tests with Jest. Jest CLI itself provides one of the best testing experiences available today. But Majestic humbly tries to expand upon it by providing a rich UI to be used during the dev/test loop.
