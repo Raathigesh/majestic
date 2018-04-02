@@ -3,8 +3,15 @@ import { observer } from 'mobx-react';
 import styled from 'styled-components';
 import It from '../stores/It';
 import StatusIcon from './ItStatusIcon';
+var Convert = require('ansi-to-html');
+var convert = new Convert();
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Bar = styled.div`
   display: flex;
   background-color: white;
   color: #0a0724;
@@ -21,6 +28,12 @@ const RightContent = styled.div`
   flex-grow: 1;
 `;
 
+const CodePanel = styled.pre`
+  color: white !important;
+  background-color: #0a0724 !important;
+  border: 0px !important;
+`;
+
 interface ItBlockProps {
   itBlock: It;
   onRunTest: () => void;
@@ -29,17 +42,26 @@ interface ItBlockProps {
 function ItBlock({ itBlock, onRunTest }: ItBlockProps) {
   return (
     <Container>
-      <RightContent>
-        <StatusIcon status={itBlock.status} />
-        {itBlock.name}
-      </RightContent>
-      <button
-        type="button"
-        className="pt-button pt-small pt-minimal pt-icon-play"
-        onClick={() => {
-          onRunTest();
-        }}
-      />
+      <Bar>
+        <RightContent>
+          <StatusIcon status={itBlock.status} />
+          {itBlock.name}
+        </RightContent>
+        <button
+          type="button"
+          className="pt-button pt-small pt-minimal pt-icon-play"
+          onClick={() => {
+            onRunTest();
+          }}
+        />
+      </Bar>
+      {itBlock.failureMessage && (
+        <CodePanel
+          dangerouslySetInnerHTML={{
+            __html: convert.toHtml(itBlock.failureMessage)
+          }}
+        />
+      )}
     </Container>
   );
 }

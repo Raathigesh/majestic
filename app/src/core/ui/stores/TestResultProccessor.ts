@@ -43,6 +43,7 @@ export default class TestResultProcessor {
         return;
       }
       itBlock.status = assertionResult.status;
+      itBlock.failureMessage = assertionResult.failureMessages[0];
     }
   }
 
