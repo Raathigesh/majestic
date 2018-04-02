@@ -1,115 +1,61 @@
 {
-  "name": "majestic",
-  "version": "0.2.0",
-  "license": "MIT",
-  "author": {
-    "name": "Raathigeshan",
-    "url": "https://twitter.com/Raathigesh"
-  },
-  "description": "Zero config UI for Jest",
-  "scripts": {
-    "dev": "electron-webpack dev",
-    "compile": "electron-webpack",
-    "dist": "yarn compile && electron-builder",
-    "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
-    "rebuild": "electron-rebuild",
-    "postinstall": "yarn rebuild",
-    "mac": "npm run compile && node_modules/.bin/build --mac",
-    "win": "npm run compile && node_modules/.bin/build --win",
-    "linux": "npm run compile && node_modules/.bin/build --linux",
-    "all-build": "npm run compile && node_modules/.bin/build --win --mac",
-    "ship-win": "npm run compile && node_modules/.bin/build --win -p always",
-    "ship-mac": "npm run compile && node_modules/.bin/build --mac -p always",
-    "test": "jest",
-    "lint": "tslint \"src/**/*.ts\" \"src/**/*.tsx\""
-  },
+  "name": "appa",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "@blueprintjs/core": "^1.32.0",
-    "@blueprintjs/labs": "^0.14.0",
-    "ansi-to-html": "^0.6.3",
-    "babylon": "6.14.1",
-    "chokidar": "^1.7.0",
-    "classnames": "^2.2.5",
-    "directory-tree": "^2.0.0",
-    "electron-config": "^1.0.0",
-    "electron-updater": "^2.16.3",
-    "fuse.js": "^3.2.0",
-    "istanbul-lib-coverage": "^1.1.1",
-    "istanbul-lib-source-maps": "^1.2.2",
-    "jest-editor-support": "22.0.4",
-    "jest-regex-util": "^21.2.0",
-    "jest-test-typescript-parser": "^22.0.4",
-    "micromatch": "2.3.11",
-    "mobx": "^3.3.1",
-    "mobx-react": "^4.3.3",
-    "mobx-react-devtools": "^4.2.15",
-    "mousetrap": "^1.6.1",
-    "node-pty": "^0.7.3",
-    "react": "^16.0.0",
-    "react-addons-css-transition-group": "^15.6.2",
-    "react-dev-utils": "^4.2.1",
-    "react-dom": "^16.0.0",
-    "react-draggable": "^3.0.4",
-    "react-json-tree": "^0.11.0",
-    "react-loading": "^1.0.2",
-    "react-object-inspector": "^0.2.1",
-    "react-split-pane": "^0.1.71",
-    "rxjs": "^5.5.2",
-    "socket.io": "1.6.0",
-    "source-map-support": "^0.5.0",
+    "@blueprintjs/core": "^2.0.0",
+    "@types/express": "^4.11.1",
+    "@types/invariant": "^2.2.29",
+    "@types/socket.io-client": "^1.4.32",
+    "ansi-to-html": "^0.6.4",
+    "directory-tree": "^2.1.0",
+    "dnode": "^1.2.2",
+    "express": "^4.16.3",
+    "jest": "^22.4.3",
+    "jest-config": "^22.4.3",
+    "jest-editor-support": "^22.4.3",
+    "jest-regex-util": "^22.4.3",
+    "jest-test-typescript-parser": "^22.4.3",
+    "micromatch": "^3.1.10",
+    "mobx": "^4.1.0",
+    "mobx-react": "^5.0.0",
+    "p-is-promise": "^1.1.0",
+    "react": "^16.2.0",
+    "react-docgen": "^2.20.1",
+    "react-dom": "^16.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-scripts-ts": "2.14.0",
+    "react-split-pane": "^0.1.77",
+    "react-transition-group": "^2.2.1",
+    "rxjs": "^5.5.7",
+    "socket.io": "^2.0.4",
+    "socket.io-client": "^2.0.4",
+    "sockette": "^2.0.0",
     "strip-ansi": "^4.0.0",
-    "styled-components": "^2.2.3",
-    "tslint-react": "^3.3.3",
-    "typescript-styled-plugin": "^0.2.0"
+    "styled-components": "^3.2.3",
+    "ts-node": "^5.0.1",
+    "unstated": "^1.2.0",
+    "ws": "^5.1.0",
+    "z": "^1.0.4"
+  },
+  "scripts": {
+    "start": "react-scripts-ts start",
+    "build": "react-scripts-ts build",
+    "test": "react-scripts-ts test --env=jsdom",
+    "eject": "react-scripts-ts eject",
+    "debug": "nodemon",
+    "jest": "jest --reporters ./src/core/engine/reporter.js"
   },
   "devDependencies": {
-    "@types/jest": "^22.0.1",
-    "@types/react": "^16.0.19",
-    "@types/react-dom": "^16.0.2",
-    "electron": "1.7.9",
-    "electron-builder": "^19.42.1",
-    "electron-react-devtools": "^0.5.2",
-    "electron-rebuild": "^1.6.0",
-    "electron-webpack": "1.10.1",
-    "electron-webpack-ts": "^1.2.0",
-    "enzyme": "^3.3.0",
-    "enzyme-adapter-react-16": "^1.1.1",
-    "enzyme-to-json": "^3.3.0",
-    "jest": "^22.0.4",
-    "jest-styled-components": "^4.9.0",
-    "prettier": "^1.9.2",
-    "ts-jest": "^22.0.1",
-    "tslint": "^5.8.0",
-    "tslint-config-prettier": "^1.6.0",
-    "tslint-plugin-prettier": "^1.3.0",
-    "typescript": "^2.6.1",
-    "webpack": "^3.8.1"
+    "@types/jest": "^22.2.2",
+    "@types/node": "^9.6.0",
+    "@types/react": "^16.0.40",
+    "@types/react-dom": "^16.0.4",
+    "@types/react-router-dom": "^4.2.5",
+    "nodemon": "^1.17.2",
+    "typescript": "^2.7.2"
   },
-  "electronWebpack": {
-    "main": {
-      "sourceDirectory": "src/main"
-    },
-    "renderer": {
-      "sourceDirectory": "src/renderer"
-    }
-  },
-  "build": {
-    "appId": "com.debuggable.majestic",
-    "productName": "Majestic",
-    "mac": {
-      "category": "dev.tools",
-      "target": ["zip", "dmg"],
-      "identity": "Raathigeshan Kugarajan (PU9359K4W8)"
-    },
-    "nsis": {
-      "perMachine": false
-    },
-    "publish": [
-      {
-        "provider": "github",
-        "owner": "Raathigesh",
-        "repo": "majestic"
-      }
-    ]
+  "prettier": {
+    "singleQuote": true
   }
 }
