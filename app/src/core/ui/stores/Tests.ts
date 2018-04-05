@@ -7,9 +7,9 @@ import ExecutionSummary from './ExecutionSummary';
 export default class Tests {
   @observable nodes: IObservableArray<Node> = observable([]);
   @observable selectedTest?: Node;
+  @observable executionSummary: ExecutionSummary = new ExecutionSummary();
   resultProcessor: TestResultProcessor = new TestResultProcessor(this);
   flatNodeMap: Map<string, Node> = new Map();
-  @observable executionSummary: ExecutionSummary = new ExecutionSummary();
 
   initialize(files: FileNode[]) {
     for (const file of files) {
@@ -18,7 +18,7 @@ export default class Tests {
   }
 
   getByPath(path: string) {
-    return this.flatNodeMap.get(path);
+    return this.flatNodeMap.get(path.toLowerCase());
   }
 
   changeCurrentSelection(path: string) {
@@ -27,7 +27,7 @@ export default class Tests {
       this.selectedTest.toggleSelection(false);
     }
 
-    this.selectedTest = this.flatNodeMap.get(path);
+    this.selectedTest = this.flatNodeMap.get(path.toLowerCase());
     if (this.selectedTest) {
       this.selectedTest.toggleSelection();
     }

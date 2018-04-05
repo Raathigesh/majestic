@@ -10,7 +10,7 @@ const app = express();
 const server = http.createServer(app);
 
 const engine = new Engine(join(process.cwd(), 'app'));
-console.log(engine.testFiles.read(engine.root));
+engine.testFiles.read(engine.root);
 
 server.listen(process.env.PORT || 3005, (err: any) => {
   if (err) {

@@ -17,10 +17,11 @@ const Bar = styled.div`
   color: #0a0724;
   font-size: 13px;
   font-weight: 600;
-  box-shadow: 0px 1px 0px 0px #d3cffb;
-  border: 1px solid #d3cffb;
+  border: 1px solid #ebebeb;
   border-radius: 2px;
   margin-bottom: 10px;
+  align-items: center;
+  height: 35px;
 `;
 
 const RightContent = styled.div`

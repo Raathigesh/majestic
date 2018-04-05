@@ -17,7 +17,7 @@ const StatCell = styled.div`
 `;
 const StatLabel = styled.div`
   flex-grow: 1;
-  font-size: 12px;
+  font-size: 14px;
   border-bottom: 1px solid #0090f9;
 `;
 

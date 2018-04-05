@@ -19,9 +19,9 @@ interface YourProps {
 const div = styledComponentWithProps<YourProps, HTMLDivElement>(styled.div);
 const StatLabel = div`
   flex-grow: 1;
-  font-size: 12px;
+  font-size: 14px;
   border-bottom: 1px solid ${props =>
-    props.type === 'failure' ? '#b80000' : ' #00f900'};
+    props.type === 'failure' ? '#F32F38' : ' #00f900'};
 `;
 
 const Header = styled.div`

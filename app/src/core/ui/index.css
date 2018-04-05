@@ -1,14 +1,25 @@
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans');
 
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Nunito', sans-serif !important;
+  font-family: 'Nunito Sans', sans-serif !important;
 }
 
 svg.pt-icon {
   height: 13px;
   width: 13px;
+}
+
+.pt-button {
+  background-color: white !important;
+  color: #252950 !important;
+  border-radius: 0px !important;
+}
+
+.pt-active {
+  background-color: #252950 !important;
+  color: white !important;
 }
 
 .pt-card {
@@ -17,6 +28,15 @@ svg.pt-icon {
 
 .pt-tree-node-content {
   height: 23px !important;
+}
+
+.pt-dark .pt-tree-node-icon {
+  color: #ffffff !important;
+}
+
+.pt-tree-node-label {
+  font-weight: 600 !important;
+  font-size: 14px !important;
 }
 
 .SplitPane.vertical {

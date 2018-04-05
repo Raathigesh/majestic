@@ -1,5 +1,5 @@
 import { ITreeNode, IconName } from '@blueprintjs/core';
-import { observable, IObservableArray } from 'mobx';
+import { observable, IObservableArray, computed } from 'mobx';
 import It from './It';
 import TreeNodeType from '../../../types/nodeTypes';
 import CoverageSummary from './CoverageSummary';
@@ -25,6 +25,7 @@ export default class Node implements ITreeNode {
   @observable isTest: boolean;
   @observable content: string;
   @observable coverage = new CoverageSummary();
+  @observable executionTime: number = 0;
 
   public static convertToNode(
     { path, type, label, children, itBlocks }: FileNode,
@@ -32,7 +33,7 @@ export default class Node implements ITreeNode {
     parent?: Node
   ) {
     const node = new Node(path, type, label, itBlocks || []);
-    flatNodeMap.set(path, node);
+    flatNodeMap.set(path.toLowerCase(), node);
     if (!children) {
       return {
         node,
@@ -85,5 +86,25 @@ export default class Node implements ITreeNode {
 
   public getItBlockByTitle(title: string) {
     return this.itBlocks.find(it => it.name === title);
+  }
+
+  @computed
+  public get totalTests() {
+    return this.itBlocks.length;
+  }
+
+  @computed
+  public get totalPassedTests() {
+    return this.itBlocks.filter(e => e.status === 'passed').length;
+  }
+
+  @computed
+  public get totalFailedTests() {
+    return this.itBlocks.filter(e => e.status === 'failed').length;
+  }
+
+  @computed
+  public get totalSkippedTests() {
+    return this.itBlocks.filter(e => e.status === 'skipped').length;
   }
 }

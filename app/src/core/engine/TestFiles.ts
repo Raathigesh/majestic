@@ -1,9 +1,10 @@
 import Engine from '.';
 import { basename } from 'path';
 const dirTree = require('directory-tree');
-import { parse as parseJavaScript, ItBlock } from 'jest-editor-support';
+import { parse as parseJavaScript } from 'jest-editor-support';
 const { parse: parseTypeScript } = require('jest-test-typescript-parser');
 import { FileNode } from './types/FileNode';
+import { ItBlock } from './types/ItBlock';
 
 export default class TestFiles {
   engine: Engine;

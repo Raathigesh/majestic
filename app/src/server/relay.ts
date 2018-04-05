@@ -22,7 +22,7 @@ function initializeConnection() {
       console.log('connection estalished');
 
       ws.on('message', (message: any) => {
-        console.log(message);
+        // console.log(message);
         wss.clients.forEach((client: any) => {
           if (client !== ws && client.readyState === WS.OPEN) {
             client.send(message);

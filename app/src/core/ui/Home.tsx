@@ -5,7 +5,7 @@ import Sidebar from './components/Sidebar';
 import styled from 'styled-components';
 import './index.css';
 import Workspace from './stores/Workspace';
-import TestPanel from './components/TestsPanel';
+import TestFile from './components/TestFile';
 import SummaryPanel from './components/SummaryPanel';
 
 const Container = styled.div`
@@ -37,12 +37,17 @@ class Home extends React.Component<HomeProps, {}> {
             defaultSize={320}
           >
             <Sidebar workspace={workspace} />
-            <TestPanel
-              testFile={workspace.tests.selectedTest}
-              onRunTest={() => {
-                workspace.run();
-              }}
-            />
+            {workspace.tests.selectedTest && (
+              <TestFile
+                testFile={workspace.tests.selectedTest}
+                onRunTest={() => {
+                  workspace.run();
+                }}
+                onRunFile={() => {
+                  workspace.runFile(workspace.tests.selectedTest);
+                }}
+              />
+            )}
           </SplitPane>
         </MainWorkSpace>
         <SummaryPanel workspace={workspace} />

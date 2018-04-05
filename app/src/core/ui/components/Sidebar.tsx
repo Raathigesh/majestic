@@ -9,7 +9,13 @@ const ObservedTree = observer(Tree);
 
 const Container = styled.div`
   height: 100%;
-  background-color: #0a0723 !important;
+  padding: 10px !important;
+  background-color: #242850 !important;
+`;
+
+const SearchBox = styled.input`
+  border-radius: 3px !important;
+  background: rgba(151, 173, 187, 0.3) !important;
 `;
 
 interface TestsPanelProps {
@@ -21,7 +27,16 @@ export default class TestsPanel extends React.Component<TestsPanelProps, {}> {
   public render() {
     const { workspace } = this.props;
     return (
-      <Container className="pt-card pt-dark">
+      <Container className="pt-card pt-dark pt-small">
+        <div className="pt-input-group">
+          <span className="pt-icon pt-icon-search" />
+          <SearchBox
+            className="pt-input"
+            type="text"
+            placeholder="Search input"
+            dir="auto"
+          />
+        </div>
         <ObservedTree
           contents={workspace.tests.nodes}
           onNodeClick={(node: Node) => {

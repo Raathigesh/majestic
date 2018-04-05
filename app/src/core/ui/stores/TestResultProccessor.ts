@@ -30,11 +30,12 @@ export default class TestResultProcessor {
   }
 
   private handleOnTestResult(test: Test, testResult: TestResult) {
-    console.log(testResult);
     const testNode = this.testFiles.getByPath(test.path);
     if (!testNode) {
       return;
     }
+
+    testNode.executionTime = test.duration || 0;
 
     for (const assertionResult of testResult.testResults) {
       const itBlock = testNode.getItBlockByTitle(assertionResult.title);

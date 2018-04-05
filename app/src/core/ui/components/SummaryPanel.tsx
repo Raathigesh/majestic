@@ -9,7 +9,9 @@ import Workspace from '../stores/Workspace';
 const Container = styled.div`
   width: 400px;
   height: 100;
-  background-color: #0a0723 !important;
+  background-color: #f7fbff !important;
+  box-shadow: none !important;
+  color: #25294f !important;
 `;
 
 interface SummaryPanelProps {
@@ -23,6 +25,11 @@ function SummaryPanel({ workspace }: SummaryPanelProps) {
         onRunTests={() => {
           workspace.run();
         }}
+        isWatching={workspace.watching}
+        toggleWatch={() => {
+          workspace.toggleWatch();
+        }}
+        isExecuting={workspace.isExecuting}
       />
       <ExecutionSummary executionSummary={workspace.tests.executionSummary} />
       <CoverageSummary />

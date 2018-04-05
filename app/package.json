@@ -8,6 +8,7 @@
     "@types/invariant": "^2.2.29",
     "@types/socket.io-client": "^1.4.32",
     "ansi-to-html": "^0.6.4",
+    "classnames": "^2.2.5",
     "directory-tree": "^2.1.0",
     "dnode": "^1.2.2",
     "express": "^4.16.3",
@@ -19,6 +20,7 @@
     "micromatch": "^3.1.10",
     "mobx": "^4.1.0",
     "mobx-react": "^5.0.0",
+    "node-pty": "^0.7.4",
     "p-is-promise": "^1.1.0",
     "react": "^16.2.0",
     "react-docgen": "^2.20.1",
@@ -44,7 +46,8 @@
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject",
     "debug": "nodemon",
-    "jest": "jest --reporters ./src/core/engine/reporter.js"
+    "jest": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
+    "server": "ts-node ./src/server/index.ts"
   },
   "devDependencies": {
     "@types/jest": "^22.2.2",
