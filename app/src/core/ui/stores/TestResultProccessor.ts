@@ -30,6 +30,7 @@ export default class TestResultProcessor {
   }
 
   private handleOnTestResult(test: Test, testResult: TestResult) {
+    console.log(testResult);
     const testNode = this.testFiles.getByPath(test.path);
     if (!testNode) {
       return;
@@ -43,6 +44,7 @@ export default class TestResultProcessor {
       if (!itBlock) {
         return;
       }
+      itBlock.setTimeTaken(assertionResult.duration || 0);
       itBlock.status = assertionResult.status;
       itBlock.failureMessage = assertionResult.failureMessages[0];
       itBlock.stopExecuting();

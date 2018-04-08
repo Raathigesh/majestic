@@ -88,6 +88,12 @@ export default class Node implements ITreeNode {
     return this.itBlocks.find(it => it.name === title);
   }
 
+  public executeAll() {
+    for (const it of this.itBlocks) {
+      it.startExecting();
+    }
+  }
+
   @computed
   public get totalTests() {
     return this.itBlocks.length;

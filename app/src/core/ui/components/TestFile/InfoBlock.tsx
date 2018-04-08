@@ -18,6 +18,7 @@ const IconSpan = styledComponentWithProps<
   },
   HTMLSpanElement
 >(styled.span);
+
 const Icon = IconSpan`
   &::before {
     font-size: 14px;

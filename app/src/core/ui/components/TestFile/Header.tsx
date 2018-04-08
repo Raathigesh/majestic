@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Button } from '@blueprintjs/core';
 import Node from '../../stores/Node';
 import InfoBlock from './InfoBlock';
+import { observer } from 'mobx-react';
 
 const Content = styled.div`
   flex-grow: 1;
@@ -44,7 +45,7 @@ interface HeaderProps {
   onRunFile: () => void;
 }
 
-export default function Header({ testFile, onRunFile }: HeaderProps) {
+function Header({ testFile, onRunFile }: HeaderProps) {
   return (
     <Container>
       <Content>
@@ -85,3 +86,5 @@ export default function Header({ testFile, onRunFile }: HeaderProps) {
     </Container>
   );
 }
+
+export default observer(Header);

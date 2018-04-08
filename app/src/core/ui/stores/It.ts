@@ -6,6 +6,7 @@ export default class It {
   @observable public status: Status;
   @observable public failureMessage: string;
   @observable public executing: boolean = false;
+  @observable public timeTaken: number = 0;
 
   constructor(name: string) {
     this.name = name;
@@ -17,5 +18,9 @@ export default class It {
 
   stopExecuting() {
     this.executing = false;
+  }
+
+  setTimeTaken(timeTaken: number) {
+    this.timeTaken = timeTaken;
   }
 }

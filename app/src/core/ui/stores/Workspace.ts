@@ -44,6 +44,7 @@ export default class Workspace {
     }
 
     this.remoteReady.then((remote: any) => {
+      node.executeAll();
       if (this.isExecuting) {
         remote.filterFileInWatch(node.path);
       } else {

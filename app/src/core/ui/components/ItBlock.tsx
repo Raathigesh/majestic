@@ -42,6 +42,13 @@ const ExcutingLabel = styled.span`
   font-size: 12px;
 `;
 
+const TimeTakenLabel = styled.span`
+  color: gray;
+  font-weight: 400 !important;
+  font-size: 12px;
+  margin-left: 10px;
+`;
+
 interface ItBlockProps {
   itBlock: It;
   onRunTest: (it: It) => void;
@@ -54,6 +61,9 @@ function ItBlock({ itBlock, onRunTest }: ItBlockProps) {
         <RightContent>
           <StatusIcon status={itBlock.status} />
           {itBlock.name}
+          {itBlock.timeTaken > 0 && (
+            <TimeTakenLabel>{itBlock.timeTaken} ms</TimeTakenLabel>
+          )}
         </RightContent>
         {itBlock.executing && <ExcutingLabel>⚡ Executing</ExcutingLabel>}
         <button
