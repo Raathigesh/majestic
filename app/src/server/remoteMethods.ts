@@ -16,6 +16,10 @@ export default function getRemoteMethods(engine: Engine) {
     filterFileInWatch(fileName: string) {
       engine.testRunner.runTestByFileInteractive(fileName);
       return JSON.stringify({});
+    },
+    filterTestInWatch(fileName: string, testName: string) {
+      engine.testRunner.runTestByTestNameInteractive(fileName, testName);
+      return JSON.stringify({});
     }
   };
 }

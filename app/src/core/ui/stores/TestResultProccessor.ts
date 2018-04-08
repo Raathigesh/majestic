@@ -45,6 +45,7 @@ export default class TestResultProcessor {
       }
       itBlock.status = assertionResult.status;
       itBlock.failureMessage = assertionResult.failureMessages[0];
+      itBlock.stopExecuting();
     }
   }
 

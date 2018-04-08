@@ -7,6 +7,7 @@ import './index.css';
 import Workspace from './stores/Workspace';
 import TestFile from './components/TestFile';
 import SummaryPanel from './components/SummaryPanel';
+import It from './stores/It';
 
 const Container = styled.div`
   height: 100vh;
@@ -40,8 +41,11 @@ class Home extends React.Component<HomeProps, {}> {
             {workspace.tests.selectedTest && (
               <TestFile
                 testFile={workspace.tests.selectedTest}
-                onRunTest={() => {
-                  workspace.run();
+                onRunTest={(it: It) => {
+                  if (!workspace.tests.selectedTest) {
+                    return;
+                  }
+                  workspace.runTest(workspace.tests.selectedTest, it);
                 }}
                 onRunFile={() => {
                   workspace.runFile(workspace.tests.selectedTest);

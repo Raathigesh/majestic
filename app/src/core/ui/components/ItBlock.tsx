@@ -33,11 +33,18 @@ const CodePanel = styled.pre`
   color: white !important;
   background-color: #0a0724 !important;
   border: 0px !important;
+  margin-top: -10px;
+`;
+
+const ExcutingLabel = styled.span`
+  color: blue;
+  font-weight: 400 !important;
+  font-size: 12px;
 `;
 
 interface ItBlockProps {
   itBlock: It;
-  onRunTest: () => void;
+  onRunTest: (it: It) => void;
 }
 
 function ItBlock({ itBlock, onRunTest }: ItBlockProps) {
@@ -48,11 +55,12 @@ function ItBlock({ itBlock, onRunTest }: ItBlockProps) {
           <StatusIcon status={itBlock.status} />
           {itBlock.name}
         </RightContent>
+        {itBlock.executing && <ExcutingLabel>⚡ Executing</ExcutingLabel>}
         <button
           type="button"
           className="pt-button pt-small pt-minimal pt-icon-play"
           onClick={() => {
-            onRunTest();
+            onRunTest(itBlock);
           }}
         />
       </Bar>

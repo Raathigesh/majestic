@@ -2,13 +2,16 @@ import { join } from 'path';
 import Engine from '.';
 import { ChildProcess, spawn } from 'child_process';
 import { executeInSequence, getTestPatternForPath } from './util';
+import { Config } from './types/Config';
 
 export default class TestRunner {
   private engine: Engine;
   private jestProcess: ChildProcess;
+  private config: Config;
 
-  constructor(engine: Engine) {
+  constructor(engine: Engine, config: Config) {
     this.engine = engine;
+    this.config = config;
   }
 
   public start(
@@ -16,19 +19,23 @@ export default class TestRunner {
     testFile: string = '',
     testName: string = ''
   ) {
-    const patchJsFile = join(this.engine.root, './src/core/engine/patch.js');
+    const patchJsFile = join(__dirname, './patch.js');
+    const repoterPath = join(__dirname, './reporter.js');
     this.jestProcess = spawn(
       `node -r ${patchJsFile} ${join(
         this.engine.root,
-        './node_modules/jest-cli/bin/jest.js'
+        this.config.jestScript
       )} `,
       [
         ...(watch ? ['--watchAll'] : []),
-        ...(testName ? ['--testNamePattern', testName] : []),
+        ...(testName
+          ? ['--testNamePattern', testName.replace(/\s/g, '.')]
+          : []),
         ...(testFile ? [getTestPatternForPath(testFile)] : []),
         '--reporters',
         'default',
-        './src/core/engine/reporter.js'
+        repoterPath,
+        ...(this.config.args ? this.config.args : [])
       ],
       {
         cwd: this.engine.root,
@@ -73,6 +80,38 @@ export default class TestRunner {
         fn: () =>
           this.jestProcess.stdin.write(getTestPatternForPath(testFileName)),
         delay: 100
+      },
+      {
+        fn: () =>
+          this.jestProcess.stdin.write(new Buffer('0d', 'hex').toString()),
+        delay: 200
+      }
+    ]);
+  }
+
+  public runTestByTestNameInteractive(testFileName: string, testName: string) {
+    executeInSequence([
+      {
+        fn: () => this.jestProcess.stdin.write('p'),
+        delay: 0
+      },
+      {
+        fn: () =>
+          this.jestProcess.stdin.write(getTestPatternForPath(testFileName)),
+        delay: 100
+      },
+      {
+        fn: () =>
+          this.jestProcess.stdin.write(new Buffer('0d', 'hex').toString()),
+        delay: 200
+      },
+      {
+        fn: () => this.jestProcess.stdin.write('t'),
+        delay: 200
+      },
+      {
+        fn: () => this.jestProcess.stdin.write(testName),
+        delay: 500
       },
       {
         fn: () =>

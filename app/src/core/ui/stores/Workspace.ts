@@ -3,11 +3,12 @@ import register from '../../portal/client';
 import { FileNode } from '../../engine/types/FileNode';
 import Tests from './Tests';
 import Node from './Node';
+import It from './It';
 
 type RunStatus = 'idle' | 'started' | 'run-complete';
 
 export default class Workspace {
-  @observable public watching: boolean = true;
+  @observable public watching: boolean = false;
   @observable public tests: Tests;
 
   @observable private runStatus: RunStatus = 'idle';
@@ -43,10 +44,22 @@ export default class Workspace {
     }
 
     this.remoteReady.then((remote: any) => {
-      if (this.watching && this.runStatus === 'started') {
+      if (this.isExecuting) {
         remote.filterFileInWatch(node.path);
       } else {
         remote.run(this.watching, node.path);
+      }
+    });
+  }
+
+  public runTest(node: Node, test: It) {
+    this.remoteReady.then((remote: any) => {
+      test.startExecting();
+      if (this.isExecuting) {
+        remote.filterTestInWatch(node.path, test.name);
+      } else {
+        remote.run(this.watching, node.path, test.name);
+        this.setRunStatus('started');
       }
     });
   }
@@ -62,7 +75,6 @@ export default class Workspace {
       if (!this.watching) {
         this.runStatus = 'idle';
       }
-      return this.runStatus;
     }
 
     this.runStatus = status;
