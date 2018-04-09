@@ -20,6 +20,9 @@ export default function getRemoteMethods(engine: Engine) {
     filterTestInWatch(fileName: string, testName: string) {
       engine.testRunner.runTestByTestNameInteractive(fileName, testName);
       return JSON.stringify({});
+    },
+    updateSnapshot(fileName: string, testName: string) {
+      return engine.testRunner.updateSnapshot(fileName, testName);
     }
   };
 }

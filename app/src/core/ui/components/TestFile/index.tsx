@@ -20,9 +20,15 @@ interface TestPanelProps {
   testFile: Node;
   onRunTest: (it: It) => void;
   onRunFile: () => void;
+  onUpdateSnapshot: (it: It, testFileName: Node) => void;
 }
 
-function TestFile({ testFile, onRunTest, onRunFile }: TestPanelProps) {
+function TestFile({
+  testFile,
+  onRunTest,
+  onRunFile,
+  onUpdateSnapshot
+}: TestPanelProps) {
   return (
     <Container className="pt-card pt-dark">
       <Header testFile={testFile} onRunFile={onRunFile} />
@@ -30,7 +36,14 @@ function TestFile({ testFile, onRunTest, onRunFile }: TestPanelProps) {
         <Tests>
           {testFile &&
             testFile.itBlocks.map((itBlock, i) => (
-              <ItBlock key={i} itBlock={itBlock} onRunTest={onRunTest} />
+              <ItBlock
+                key={i}
+                itBlock={itBlock}
+                onRunTest={onRunTest}
+                onUpdateSnapshot={() => {
+                  onUpdateSnapshot(itBlock, testFile);
+                }}
+              />
             ))}
         </Tests>
       </Scrollbars>

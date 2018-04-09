@@ -5,6 +5,7 @@ import { observer } from 'mobx-react';
 import styled from 'styled-components';
 import Workspace from '../stores/Workspace';
 import Node from '../stores/Node';
+import SearchResults from './searchResults';
 const ObservedTree = observer(Tree);
 
 const Container = styled.div`
@@ -35,15 +36,28 @@ export default class TestsPanel extends React.Component<TestsPanelProps, {}> {
             type="text"
             placeholder="Search input"
             dir="auto"
+            value={workspace.searcher.query}
+            onChange={e => {
+              workspace.searcher.setQuery(e.target.value);
+            }}
           />
         </div>
-        <ObservedTree
-          contents={workspace.tests.nodes}
-          onNodeClick={(node: Node) => {
+        {!workspace.searcher.isSearching && (
+          <ObservedTree
+            contents={workspace.tests.nodes}
+            onNodeClick={(node: Node) => {
+              workspace.tests.changeCurrentSelection(node.path);
+            }}
+            onNodeCollapse={this.handleNodeCollapse}
+            onNodeExpand={this.handleNodeExpand}
+          />
+        )}
+        <SearchResults
+          items={workspace.searcher.results}
+          onSearchItemClick={(node: Node) => {
             workspace.tests.changeCurrentSelection(node.path);
+            workspace.searcher.setQuery('');
           }}
-          onNodeCollapse={this.handleNodeCollapse}
-          onNodeExpand={this.handleNodeExpand}
         />
       </Container>
     );

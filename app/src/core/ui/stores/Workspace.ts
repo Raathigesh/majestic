@@ -1,21 +1,23 @@
-import { observable, computed } from 'mobx';
+import { observable, computed, action } from 'mobx';
 import register from '../../portal/client';
 import { FileNode } from '../../engine/types/FileNode';
 import Tests from './Tests';
 import Node from './Node';
 import It from './It';
+import Searcher from './Searcher';
 
 type RunStatus = 'idle' | 'started' | 'run-complete';
 
 export default class Workspace {
   @observable public watching: boolean = false;
   @observable public tests: Tests;
-
+  @observable public searcher: Searcher;
   @observable private runStatus: RunStatus = 'idle';
   private remoteReady: Promise<any>;
 
   constructor() {
     this.tests = new Tests();
+    this.searcher = new Searcher(this);
 
     this.remoteReady = new Promise(resolve => {
       register('ui', {}, (remote: any) => {
@@ -62,6 +64,14 @@ export default class Workspace {
         remote.run(this.watching, node.path, test.name);
         this.setRunStatus('started');
       }
+    });
+  }
+
+  @action.bound
+  public updateSnapshot(test: It, node: Node) {
+    this.remoteReady.then(remote => {
+      const updateStatus = remote.updateSnapshot(node.path, test.name);
+      test.updateSnapshot(updateStatus);
     });
   }
 

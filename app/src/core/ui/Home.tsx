@@ -50,6 +50,7 @@ class Home extends React.Component<HomeProps, {}> {
                 onRunFile={() => {
                   workspace.runFile(workspace.tests.selectedTest);
                 }}
+                onUpdateSnapshot={workspace.updateSnapshot}
               />
             )}
           </SplitPane>

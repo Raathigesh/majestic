@@ -7,6 +7,9 @@ export default function getConfig(): Config {
       '<rootDir>/src/**/?(*.)(spec|test).{js,jsx,mjs}'
     ],
     jestScript: '/node_modules/react-scripts/scripts/test.js',
-    args: ['--env=jsdom']
+    args: ['--env=jsdom'],
+    env: {
+      CI: 'true'
+    }
   };
 }

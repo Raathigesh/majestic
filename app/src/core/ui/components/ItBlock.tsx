@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import styled from 'styled-components';
 import It from '../stores/It';
 import StatusIcon from './ItStatusIcon';
+import { Tooltip, Intent } from '@blueprintjs/core';
 var Convert = require('ansi-to-html');
 var convert = new Convert();
 
@@ -52,9 +53,10 @@ const TimeTakenLabel = styled.span`
 interface ItBlockProps {
   itBlock: It;
   onRunTest: (it: It) => void;
+  onUpdateSnapshot: () => void;
 }
 
-function ItBlock({ itBlock, onRunTest }: ItBlockProps) {
+function ItBlock({ itBlock, onRunTest, onUpdateSnapshot }: ItBlockProps) {
   return (
     <Container>
       <Bar>
@@ -66,6 +68,24 @@ function ItBlock({ itBlock, onRunTest }: ItBlockProps) {
           )}
         </RightContent>
         {itBlock.executing && <ExcutingLabel>⚡ Executing</ExcutingLabel>}
+        {itBlock.updatingSnapshot && (
+          <ExcutingLabel>⚡ Updating snapshot</ExcutingLabel>
+        )}
+        {itBlock.isSnapshotFailure && (
+          <Tooltip
+            content={'Update snapshot'}
+            className={'pt-dark'}
+            intent={Intent.PRIMARY}
+          >
+            <button
+              type="button"
+              className="pt-button pt-small pt-minimal pt-icon-camera"
+              onClick={() => {
+                onUpdateSnapshot();
+              }}
+            />
+          </Tooltip>
+        )}
         <button
           type="button"
           className="pt-button pt-small pt-minimal pt-icon-play"

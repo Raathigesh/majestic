@@ -22,7 +22,6 @@ export default class Node implements ITreeNode {
   @observable output: string;
   @observable itBlocks: IObservableArray<It> = observable([]);
   @observable type: TreeNodeType;
-  @observable isTest: boolean;
   @observable content: string;
   @observable coverage = new CoverageSummary();
   @observable executionTime: number = 0;

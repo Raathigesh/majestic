@@ -61,6 +61,43 @@ export default class TestRunner {
     });
   }
 
+  public updateSnapshot(testFile: string, testName: string) {
+    return new Promise(resolve => {
+      const patchJsFile = join(__dirname, './patch.js');
+
+      const env = process.env || {};
+      if (this.config.env) {
+        for (const [key, value] of Object.entries(this.config.env)) {
+          env[key] = value as string;
+        }
+      }
+
+      const updateProcess = spawn(
+        `node -r ${patchJsFile} ${join(
+          this.engine.root,
+          this.config.jestScript
+        )} `,
+        [
+          '--updateSnapshot',
+          ...(testName
+            ? ['--testNamePattern', testName.replace(/\s/g, '.')]
+            : []),
+          ...(testFile ? [getTestPatternForPath(testFile)] : [])
+        ],
+        {
+          cwd: this.engine.root,
+          shell: true,
+          stdio: 'pipe',
+          env
+        }
+      );
+
+      updateProcess.on('close', () => {
+        resolve(JSON.stringify({}));
+      });
+    });
+  }
+
   public kill() {
     if (process.platform === 'win32') {
       // Windows doesn't exit the process when it should.

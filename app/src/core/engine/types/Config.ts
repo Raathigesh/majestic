@@ -3,4 +3,5 @@ export interface Config {
   testRegex?: string;
   jestScript: string;
   args?: string[];
+  env?: any;
 }
