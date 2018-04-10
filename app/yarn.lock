@@ -8262,6 +8262,10 @@ xmlhttprequest-ssl@~1.5.4:
   version "1.5.5"
   resolved "https://registry.yarnpkg.com/xmlhttprequest-ssl/-/xmlhttprequest-ssl-1.5.5.tgz#c2876b06168aadc40e57d97e81191ac8f4398b3e"
 
+xstate@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/xstate/-/xstate-3.1.1.tgz#7d6b5f77a35547ec21269ac8f67e4ad60fd25fbe"
+
 xtend@^4.0.0, xtend@~4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/xtend/-/xtend-4.0.1.tgz#a5c6d532be656e23db820efb943a1f04998d63af"

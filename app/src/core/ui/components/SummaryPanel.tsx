@@ -25,7 +25,7 @@ function SummaryPanel({ workspace }: SummaryPanelProps) {
         onRunTests={() => {
           workspace.run();
         }}
-        isWatching={workspace.watching}
+        isWatching={workspace.watch}
         toggleWatch={() => {
           workspace.toggleWatch();
         }}

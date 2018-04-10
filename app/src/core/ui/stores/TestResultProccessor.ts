@@ -4,13 +4,16 @@ import {
   TestResult,
   AggregatedResultWithoutCoverage
 } from './types/JestRepoter';
+import Workspace from './Workspace';
 const Sockette = require('sockette');
 
 export default class TestResultProcessor {
+  private workspace: Workspace;
   private testFiles: Tests;
 
-  constructor(testFiles: Tests) {
+  constructor(workspace: Workspace, testFiles: Tests) {
     this.testFiles = testFiles;
+    this.workspace = workspace;
 
     const ws = new Sockette.default('ws://localhost:7777', {
       timeout: 5e3,
@@ -49,6 +52,8 @@ export default class TestResultProcessor {
       itBlock.failureMessage = assertionResult.failureMessages[0];
       itBlock.stopExecuting();
     }
+
+    testNode.setStatus();
   }
 
   private handleOnRunComplete(results: AggregatedResultWithoutCoverage) {
@@ -66,5 +71,7 @@ export default class TestResultProcessor {
       results.snapshot.matched,
       results.snapshot.unmatched
     );
+
+    this.workspace.setRunStatus('complete');
   }
 }

@@ -39,7 +39,8 @@
     "styled-components": "^3.2.3",
     "ts-node": "^5.0.1",
     "unstated": "^1.2.0",
-    "ws": "^5.1.0"
+    "ws": "^5.1.0",
+    "xstate": "^3.1.1"
   },
   "scripts": {
     "start": "react-scripts-ts start",

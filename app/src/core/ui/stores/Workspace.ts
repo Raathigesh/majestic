@@ -5,18 +5,21 @@ import Tests from './Tests';
 import Node from './Node';
 import It from './It';
 import Searcher from './Searcher';
+import RunnerMachine from './RunnerStatus';
 
-type RunStatus = 'idle' | 'started' | 'run-complete';
+type RunStatus = 'stopped' | 'running' | 'watching';
+type RunAction = 'run' | 'watch' | 'stop' | 'complete';
 
 export default class Workspace {
-  @observable public watching: boolean = false;
+  @observable public watch: boolean = false;
   @observable public tests: Tests;
   @observable public searcher: Searcher;
-  @observable private runStatus: RunStatus = 'idle';
+  @observable
+  private runStatus: RunStatus = RunnerMachine.initialState.value as RunStatus;
   private remoteReady: Promise<any>;
 
   constructor() {
-    this.tests = new Tests();
+    this.tests = new Tests(this);
     this.searcher = new Searcher(this);
 
     this.remoteReady = new Promise(resolve => {
@@ -32,11 +35,11 @@ export default class Workspace {
     this.remoteReady.then((remote: any) => {
       if (this.isExecuting) {
         remote.stop();
-        return this.setRunStatus('idle');
+        return this.setRunStatus('stop');
       }
 
-      remote.run(this.watching);
-      return this.setRunStatus('started');
+      remote.run(this.watch);
+      this.setRunStatus(this.watch ? 'watch' : 'run');
     });
   }
 
@@ -50,7 +53,8 @@ export default class Workspace {
       if (this.isExecuting) {
         remote.filterFileInWatch(node.path);
       } else {
-        remote.run(this.watching, node.path);
+        remote.run(this.watch, node.path);
+        this.setRunStatus(this.watch ? 'watch' : 'run');
       }
     });
   }
@@ -61,8 +65,8 @@ export default class Workspace {
       if (this.isExecuting) {
         remote.filterTestInWatch(node.path, test.name);
       } else {
-        remote.run(this.watching, node.path, test.name);
-        this.setRunStatus('started');
+        remote.run(this.watch, node.path, test.name);
+        this.setRunStatus(this.watch ? 'watch' : 'run');
       }
     });
   }
@@ -76,24 +80,17 @@ export default class Workspace {
   }
 
   public toggleWatch() {
-    this.watching = !this.watching;
+    this.watch = !this.watch;
   }
 
-  public setRunStatus(status: RunStatus) {
-    if (status === 'run-complete') {
-      // if the status is run-complete, the test processor is trying to indicate the
-      // run is complete. But if the watch mode is on, the runner is still running.
-      if (!this.watching) {
-        this.runStatus = 'idle';
-      }
-    }
-
-    this.runStatus = status;
+  public setRunStatus(nextAction: RunAction) {
+    this.runStatus = RunnerMachine.transition(this.runStatus, nextAction)
+      .value as RunStatus;
   }
 
   @computed
   public get isExecuting() {
-    return this.watching && this.runStatus === 'started';
+    return this.runStatus === 'watching' || this.runStatus === 'running';
   }
 
   private SubscribeToTestFiles() {

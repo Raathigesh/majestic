@@ -18,13 +18,13 @@ export default class Node implements ITreeNode {
   @observable secondaryLabel?: string | JSX.Element = '';
   @observable className?: string;
   @observable path: string;
-  @observable status: Status;
   @observable output: string;
   @observable itBlocks: IObservableArray<It> = observable([]);
   @observable type: TreeNodeType;
   @observable content: string;
   @observable coverage = new CoverageSummary();
   @observable executionTime: number = 0;
+  @observable status: Status = 'pending';
 
   public static convertToNode(
     { path, type, label, children, itBlocks }: FileNode,
@@ -75,14 +75,6 @@ export default class Node implements ITreeNode {
     this.isSelected = selection;
   }
 
-  public toggleStatus() {
-    return {
-      skipped: () => (this.status = 'skipped'),
-      passed: () => (this.status = 'passed'),
-      failed: () => (this.status = 'failed')
-    };
-  }
-
   public getItBlockByTitle(title: string) {
     return this.itBlocks.find(it => it.name === title);
   }
@@ -111,5 +103,26 @@ export default class Node implements ITreeNode {
   @computed
   public get totalSkippedTests() {
     return this.itBlocks.filter(e => e.status === 'skipped').length;
+  }
+
+  public setStatus() {
+    const isFailed = this.itBlocks.some(it => it.status === 'failed');
+    const allPassed = this.itBlocks.every(
+      it => it.status === 'passed' || it.status === 'pending'
+    );
+
+    if (isFailed) {
+      this.status = 'failed';
+    } else if (allPassed) {
+      this.status = 'passed';
+    } else {
+      this.status = 'pending';
+    }
+
+    if (this.status === 'failed') {
+      this.icon = 'cross';
+    } else if (this.status === 'passed') {
+      this.icon = 'tick';
+    }
   }
 }
