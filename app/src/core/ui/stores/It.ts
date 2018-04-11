@@ -25,13 +25,12 @@ export default class It {
     this.timeTaken = timeTaken;
   }
 
-  public updateSnapshot(promise: Promise<any>) {
+  public async updateSnapshot(promise: Promise<any>) {
     this.updatingSnapshot = true;
-    promise.then(() => {
-      this.updatingSnapshot = false;
-      this.failureMessage = '';
-      this.status = 'passed';
-    });
+    await promise;
+    this.updatingSnapshot = false;
+    this.failureMessage = '';
+    this.status = 'passed';
   }
 
   @computed

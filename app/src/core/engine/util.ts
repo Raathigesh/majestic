@@ -1,3 +1,7 @@
+import { ItBlock } from './types/ItBlock';
+import { parse as parseJavaScript } from 'jest-editor-support';
+const { parse: parseTypeScript } = require('jest-test-typescript-parser');
+
 export async function executeInSequence(
   funcs: Array<{
     fn: () => void;
@@ -26,4 +30,14 @@ export function getTestPatternForPath(filePath: string) {
   }
 
   return `^${filePath.replace(replacePattern, '.')}$`;
+}
+
+export function getItBlocks(path: string): ItBlock[] {
+  const parser = getParser(path);
+  return parser(path).itBlocks;
+}
+
+function getParser(path: string) {
+  const isTypeScript = path.match(/\.tsx?$/);
+  return isTypeScript ? parseTypeScript : parseJavaScript;
 }

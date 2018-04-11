@@ -4,6 +4,8 @@ import { FileNode } from '../../engine/types/FileNode';
 import TestResultProcessor from './TestResultProccessor';
 import ExecutionSummary from './ExecutionSummary';
 import Workspace from './Workspace';
+import { ItBlock } from '../../engine/types/ItBlock';
+import It from './It';
 
 export default class Tests {
   @observable nodes: IObservableArray<Node> = observable([]);
@@ -19,6 +21,8 @@ export default class Tests {
   }
 
   initialize(files: FileNode[]) {
+    this.nodes.clear();
+    this.flatNodeMap.clear();
     for (const file of files) {
       this.nodes.push(Node.convertToNode(file, this.flatNodeMap).node);
     }
@@ -26,6 +30,17 @@ export default class Tests {
 
   getByPath(path: string) {
     return this.flatNodeMap.get(path.toLowerCase());
+  }
+
+  public setItBlocks(path: string, itBlocks: ItBlock[]) {
+    const node = this.getByPath(path);
+
+    if (node) {
+      node.itBlocks.clear();
+      for (const { name } of itBlocks) {
+        node.itBlocks.push(new It(name));
+      }
+    }
   }
 
   changeCurrentSelection(path: string) {

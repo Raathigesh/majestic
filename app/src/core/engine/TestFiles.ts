@@ -1,10 +1,8 @@
 import Engine from '.';
 import { basename } from 'path';
 const dirTree = require('directory-tree');
-import { parse as parseJavaScript } from 'jest-editor-support';
-const { parse: parseTypeScript } = require('jest-test-typescript-parser');
 import { FileNode } from './types/FileNode';
-import { ItBlock } from './types/ItBlock';
+import { getItBlocks } from './util';
 
 export default class TestFiles {
   engine: Engine;
@@ -17,6 +15,9 @@ export default class TestFiles {
   }
 
   public read(path: string) {
+    this.files = [];
+    this.nodes.clear();
+
     const files = dirTree(path, {
       exclude: /node_modules|\.git/
     });
@@ -66,31 +67,13 @@ export default class TestFiles {
     return children;
   }
 
-  public getItBlocks(path: string): ItBlock[] {
-    const parser = this.getParser(path);
-    try {
-      return parser(path).itBlocks;
-    } catch (e) {
-      return [];
-    }
-  }
-
-  public applyRunResult() {
-    return null;
-  }
-
-  private getParser(path: string) {
-    const isTypeScript = path.match(/\.tsx?$/);
-    return isTypeScript ? parseTypeScript : parseJavaScript;
-  }
-
   private createFile(path: string, child: FileNode) {
     const node: FileNode = {
       label: basename(path),
       children: [],
       path,
       type: child.type,
-      itBlocks: child.type === 'file' ? this.getItBlocks(path) : []
+      itBlocks: child.type === 'file' ? getItBlocks(path) : []
     };
     node.children = this.transform(child, node);
     return node;

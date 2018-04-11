@@ -3,7 +3,7 @@ import Engine from '../core/engine';
 export default function getRemoteMethods(engine: Engine) {
   return {
     getFiles() {
-      return JSON.stringify(engine.testFiles.files);
+      return JSON.stringify(engine.testFiles.read(engine.root));
     },
     run(watch: boolean, testFile: string = '', testName: string = '') {
       engine.testRunner.start(watch, testFile, testName);

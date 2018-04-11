@@ -5,6 +5,7 @@ import Engine from '../core/engine';
 import getRemoteMethods from './remoteMethods';
 import { getConnection } from './relay';
 import getConfig from '../core/engine/config/craConfig';
+import { ItBlock } from '../core/engine/types/ItBlock';
 
 const app = express();
 const server = http.createServer(app);
@@ -21,7 +22,19 @@ server.listen(process.env.PORT || 3005, (err: any) => {
 
 bootstrap(server).then(() => {
   register('ui', getRemoteMethods(engine), (remote: any) => {
-    return null;
+    engine.watcher.handlers(
+      (path: string) => {
+        remote.onFileAdd(path, engine.testFiles.read(engine.root));
+      },
+      (path: string) => {
+        remote.onFileDelete(path, engine.testFiles.read(engine.root));
+      },
+      (path: string, itBlocks?: ItBlock[]) => {
+        if (itBlocks) {
+          remote.onFileChange(path, itBlocks);
+        }
+      }
+    );
   });
 });
 

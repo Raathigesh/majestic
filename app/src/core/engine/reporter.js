@@ -65,7 +65,8 @@ class MyCustomReporter {
           source: 'jest-test-reporter',
           event: 'onRunComplete',
           payload: {
-            results
+            results,
+            contexts
           }
         })
       );

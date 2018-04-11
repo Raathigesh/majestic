@@ -3,6 +3,7 @@ import { getTestPatternsMatcher } from './fileMatcher';
 import TestFiles from './TestFiles';
 import Runner from './Runner';
 import { Config } from './types/Config';
+import Watcher from './Watcher';
 
 export default class Engine {
   root: string;
@@ -10,6 +11,7 @@ export default class Engine {
   testMatcher: (path: string) => boolean;
   testFiles: TestFiles;
   testRunner: Runner;
+  watcher: Watcher;
 
   constructor(rootPath: string, config: Config) {
     this.root = rootPath;
@@ -17,5 +19,6 @@ export default class Engine {
     this.testMatcher = getTestPatternsMatcher(rootPath, config);
     this.testFiles = new TestFiles(this);
     this.testRunner = new Runner(this, config);
+    this.watcher = new Watcher(rootPath);
   }
 }

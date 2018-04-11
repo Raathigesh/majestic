@@ -40,7 +40,8 @@ export default class TestRunner {
       {
         cwd: this.engine.root,
         shell: true,
-        stdio: 'pipe'
+        stdio: 'pipe',
+        env: this.getEnvironment()
       }
     );
 
@@ -65,13 +66,6 @@ export default class TestRunner {
     return new Promise(resolve => {
       const patchJsFile = join(__dirname, './patch.js');
 
-      const env = process.env || {};
-      if (this.config.env) {
-        for (const [key, value] of Object.entries(this.config.env)) {
-          env[key] = value as string;
-        }
-      }
-
       const updateProcess = spawn(
         `node -r ${patchJsFile} ${join(
           this.engine.root,
@@ -88,7 +82,7 @@ export default class TestRunner {
           cwd: this.engine.root,
           shell: true,
           stdio: 'pipe',
-          env
+          env: this.getEnvironment()
         }
       );
 
@@ -99,6 +93,10 @@ export default class TestRunner {
   }
 
   public kill() {
+    if (!this.jestProcess) {
+      return;
+    }
+
     if (process.platform === 'win32') {
       // Windows doesn't exit the process when it should.
       spawn('taskkill', ['/pid', '' + this.jestProcess.pid, '/T', '/F']);
@@ -156,5 +154,16 @@ export default class TestRunner {
         delay: 200
       }
     ]);
+  }
+
+  private getEnvironment() {
+    const env = process.env || {};
+    if (this.config.env) {
+      for (const [key, value] of Object.entries(this.config.env)) {
+        env[key] = value as string;
+      }
+    }
+
+    return env;
   }
 }

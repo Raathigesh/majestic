@@ -8,6 +8,7 @@
     "@types/invariant": "^2.2.29",
     "@types/socket.io-client": "^1.4.32",
     "ansi-to-html": "^0.6.4",
+    "chokidar": "^2.0.3",
     "classnames": "^2.2.5",
     "directory-tree": "^2.1.0",
     "evergreen-ui": "^3.0.0",

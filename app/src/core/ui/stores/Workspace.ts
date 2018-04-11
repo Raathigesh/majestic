@@ -16,67 +16,82 @@ export default class Workspace {
   @observable public searcher: Searcher;
   @observable
   private runStatus: RunStatus = RunnerMachine.initialState.value as RunStatus;
-  private remoteReady: Promise<any>;
+  private remote: Promise<any>;
 
   constructor() {
     this.tests = new Tests(this);
     this.searcher = new Searcher(this);
 
-    this.remoteReady = new Promise(resolve => {
-      register('ui', {}, (remote: any) => {
-        resolve(remote);
-      });
+    this.remote = new Promise(resolve => {
+      register(
+        'ui',
+        {
+          onFileChange: (file: string, itBlocks: any) => {
+            this.tests.setItBlocks(file, itBlocks);
+            return JSON.stringify({});
+          },
+          onFileAdd: (path: string, files: FileNode[]) => {
+            this.tests.initialize(files);
+            this.tests.changeCurrentSelection(path);
+            return JSON.stringify({});
+          },
+          onFileDelete: (path: string, files: FileNode[]) => {
+            this.tests.initialize(files);
+            this.tests.changeCurrentSelection(path);
+            return JSON.stringify({});
+          }
+        },
+        (remote: any) => {
+          resolve(remote);
+        }
+      );
     });
 
     this.SubscribeToTestFiles();
   }
 
-  public run() {
-    this.remoteReady.then((remote: any) => {
-      if (this.isExecuting) {
-        remote.stop();
-        return this.setRunStatus('stop');
-      }
+  public async run() {
+    const remote = await this.remote;
+    if (this.isExecuting) {
+      remote.stop();
+      return this.setRunStatus('stop');
+    }
 
-      remote.run(this.watch);
-      this.setRunStatus(this.watch ? 'watch' : 'run');
-    });
+    remote.run(this.watch);
+    this.setRunStatus(this.watch ? 'watch' : 'run');
   }
 
-  public runFile(node?: Node) {
+  public async runFile(node?: Node) {
     if (!node) {
       return;
     }
 
-    this.remoteReady.then((remote: any) => {
-      node.executeAll();
-      if (this.isExecuting) {
-        remote.filterFileInWatch(node.path);
-      } else {
-        remote.run(this.watch, node.path);
-        this.setRunStatus(this.watch ? 'watch' : 'run');
-      }
-    });
+    const remote = await this.remote;
+    node.executeAll();
+    if (this.isExecuting) {
+      remote.filterFileInWatch(node.path);
+    } else {
+      remote.run(this.watch, node.path);
+      this.setRunStatus(this.watch ? 'watch' : 'run');
+    }
   }
 
-  public runTest(node: Node, test: It) {
-    this.remoteReady.then((remote: any) => {
-      test.startExecting();
-      if (this.isExecuting) {
-        remote.filterTestInWatch(node.path, test.name);
-      } else {
-        remote.run(this.watch, node.path, test.name);
-        this.setRunStatus(this.watch ? 'watch' : 'run');
-      }
-    });
+  public async runTest(node: Node, test: It) {
+    const remote = await this.remote;
+    test.startExecting();
+    if (this.isExecuting) {
+      remote.filterTestInWatch(node.path, test.name);
+    } else {
+      remote.run(this.watch, node.path, test.name);
+      this.setRunStatus(this.watch ? 'watch' : 'run');
+    }
   }
 
   @action.bound
-  public updateSnapshot(test: It, node: Node) {
-    this.remoteReady.then(remote => {
-      const updateStatus = remote.updateSnapshot(node.path, test.name);
-      test.updateSnapshot(updateStatus);
-    });
+  public async updateSnapshot(test: It, node: Node) {
+    const remote = await this.remote;
+    const updateStatus = remote.updateSnapshot(node.path, test.name);
+    test.updateSnapshot(updateStatus);
   }
 
   public toggleWatch() {
@@ -93,11 +108,9 @@ export default class Workspace {
     return this.runStatus === 'watching' || this.runStatus === 'running';
   }
 
-  private SubscribeToTestFiles() {
-    this.remoteReady.then((remote: any) => {
-      remote
-        .getFiles()
-        .then((files: FileNode[]) => this.tests.initialize(files));
-    });
+  private async SubscribeToTestFiles() {
+    const remote = await this.remote;
+    const files: FileNode[] = await remote.getFiles();
+    this.tests.initialize(files);
   }
 }

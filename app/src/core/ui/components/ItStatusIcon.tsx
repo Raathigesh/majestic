@@ -39,7 +39,7 @@ function StatusIcon({ status }: StatusIconProps) {
   } else if (status === 'passed') {
     icon = 'pt-icon-small-tick';
   } else if (status === 'pending') {
-    icon = 'pt-icon-time';
+    icon = 'pt-icon-circle';
   }
   return <Status className={`pt-icon-standard ${icon}`} status={status} />;
 }
