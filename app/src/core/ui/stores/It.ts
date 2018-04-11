@@ -8,9 +8,11 @@ export default class It {
   @observable public executing: boolean = false;
   @observable public timeTaken: number = 0;
   @observable public updatingSnapshot: boolean = false;
+  public line: number;
 
-  constructor(name: string) {
+  constructor(name: string, line: number) {
     this.name = name;
+    this.line = line;
   }
 
   startExecting() {

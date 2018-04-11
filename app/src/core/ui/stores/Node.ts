@@ -33,6 +33,7 @@ export default class Node implements ITreeNode {
   ) {
     const node = new Node(path, type, label, itBlocks || []);
     flatNodeMap.set(path.toLowerCase(), node);
+
     if (!children) {
       return {
         node,
@@ -60,8 +61,8 @@ export default class Node implements ITreeNode {
     this.type = type;
     this.label = label;
 
-    for (const { name } of itBlocks) {
-      this.itBlocks.push(new It(name));
+    for (const { name, start: { line } } of itBlocks) {
+      this.itBlocks.push(new It(name, line));
     }
 
     if (type === 'directory') {
@@ -103,6 +104,13 @@ export default class Node implements ITreeNode {
   @computed
   public get totalSkippedTests() {
     return this.itBlocks.filter(e => e.status === 'skipped').length;
+  }
+
+  public setItBlocks(itBlocks: ItBlock[]) {
+    this.itBlocks.clear();
+    for (const { name, start: { line } } of itBlocks) {
+      this.itBlocks.push(new It(name, line));
+    }
   }
 
   public setStatus() {

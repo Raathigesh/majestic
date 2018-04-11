@@ -25,6 +25,7 @@
     "p-is-promise": "^1.1.0",
     "react": "^16.2.0",
     "react-custom-scrollbars": "^4.2.1",
+    "react-dev-utils": "^5.0.1",
     "react-docgen": "^2.20.1",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",

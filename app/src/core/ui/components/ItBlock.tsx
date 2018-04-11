@@ -54,9 +54,15 @@ interface ItBlockProps {
   itBlock: It;
   onRunTest: (it: It) => void;
   onUpdateSnapshot: () => void;
+  launchInEditor: (test: It) => void;
 }
 
-function ItBlock({ itBlock, onRunTest, onUpdateSnapshot }: ItBlockProps) {
+function ItBlock({
+  itBlock,
+  onRunTest,
+  onUpdateSnapshot,
+  launchInEditor
+}: ItBlockProps) {
   return (
     <Container>
       <Bar>
@@ -86,6 +92,13 @@ function ItBlock({ itBlock, onRunTest, onUpdateSnapshot }: ItBlockProps) {
             />
           </Tooltip>
         )}
+        <button
+          type="button"
+          className="pt-button pt-small pt-minimal pt-icon-document-open"
+          onClick={() => {
+            launchInEditor(itBlock);
+          }}
+        />
         <button
           type="button"
           className="pt-button pt-small pt-minimal pt-icon-play"

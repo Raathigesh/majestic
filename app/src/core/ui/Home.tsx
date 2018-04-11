@@ -8,6 +8,7 @@ import Workspace from './stores/Workspace';
 import TestFile from './components/TestFile';
 import SummaryPanel from './components/SummaryPanel';
 import It from './stores/It';
+import Node from './stores/Node';
 
 const Container = styled.div`
   height: 100vh;
@@ -51,6 +52,9 @@ class Home extends React.Component<HomeProps, {}> {
                   workspace.runFile(workspace.tests.selectedTest);
                 }}
                 onUpdateSnapshot={workspace.updateSnapshot}
+                launchEditor={(it: It, testFileName: Node) => {
+                  workspace.launchInEditor(testFileName, it);
+                }}
               />
             )}
           </SplitPane>

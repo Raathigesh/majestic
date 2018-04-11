@@ -23,6 +23,10 @@ export default function getRemoteMethods(engine: Engine) {
     },
     updateSnapshot(fileName: string, testName: string) {
       return engine.testRunner.updateSnapshot(fileName, testName);
+    },
+    launchInEditor(fileName: string, lineNumber: number) {
+      engine.launchEditor(fileName, lineNumber);
+      return JSON.stringify({});
     }
   };
 }

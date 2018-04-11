@@ -21,13 +21,15 @@ interface TestPanelProps {
   onRunTest: (it: It) => void;
   onRunFile: () => void;
   onUpdateSnapshot: (it: It, testFileName: Node) => void;
+  launchEditor: (it: It, testFileName: Node) => void;
 }
 
 function TestFile({
   testFile,
   onRunTest,
   onRunFile,
-  onUpdateSnapshot
+  onUpdateSnapshot,
+  launchEditor
 }: TestPanelProps) {
   return (
     <Container className="pt-card pt-dark">
@@ -42,6 +44,9 @@ function TestFile({
                 onRunTest={onRunTest}
                 onUpdateSnapshot={() => {
                   onUpdateSnapshot(itBlock, testFile);
+                }}
+                launchInEditor={(it: It) => {
+                  launchEditor(it, testFile);
                 }}
               />
             ))}

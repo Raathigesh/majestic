@@ -4,6 +4,7 @@ import TestFiles from './TestFiles';
 import Runner from './Runner';
 import { Config } from './types/Config';
 import Watcher from './Watcher';
+const launchEditor = require('react-dev-utils/launchEditor');
 
 export default class Engine {
   root: string;
@@ -20,5 +21,9 @@ export default class Engine {
     this.testFiles = new TestFiles(this);
     this.testRunner = new Runner(this, config);
     this.watcher = new Watcher(rootPath);
+  }
+
+  launchEditor(path: string, lineNo: number) {
+    launchEditor(path, lineNo);
   }
 }

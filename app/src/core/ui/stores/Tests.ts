@@ -4,8 +4,6 @@ import { FileNode } from '../../engine/types/FileNode';
 import TestResultProcessor from './TestResultProccessor';
 import ExecutionSummary from './ExecutionSummary';
 import Workspace from './Workspace';
-import { ItBlock } from '../../engine/types/ItBlock';
-import It from './It';
 
 export default class Tests {
   @observable nodes: IObservableArray<Node> = observable([]);
@@ -20,7 +18,7 @@ export default class Tests {
     this.resultProcessor = new TestResultProcessor(this.workspace, this);
   }
 
-  initialize(files: FileNode[]) {
+  public initialize(files: FileNode[]) {
     this.nodes.clear();
     this.flatNodeMap.clear();
     for (const file of files) {
@@ -28,29 +26,19 @@ export default class Tests {
     }
   }
 
-  getByPath(path: string) {
+  public getByPath(path: string) {
     return this.flatNodeMap.get(path.toLowerCase());
   }
 
-  public setItBlocks(path: string, itBlocks: ItBlock[]) {
-    const node = this.getByPath(path);
-
-    if (node) {
-      node.itBlocks.clear();
-      for (const { name } of itBlocks) {
-        node.itBlocks.push(new It(name));
+  public changeCurrentSelection(path: string) {
+    const nextSelection = this.flatNodeMap.get(path.toLowerCase());
+    if (nextSelection) {
+      // if there is a previous selection, unselect it
+      if (this.selectedTest) {
+        this.selectedTest.toggleSelection(false);
       }
-    }
-  }
 
-  changeCurrentSelection(path: string) {
-    // if there is a previous selection, unselect it
-    if (this.selectedTest) {
-      this.selectedTest.toggleSelection(false);
-    }
-
-    this.selectedTest = this.flatNodeMap.get(path.toLowerCase());
-    if (this.selectedTest) {
+      this.selectedTest = nextSelection;
       this.selectedTest.toggleSelection();
     }
   }

@@ -27,7 +27,10 @@ export default class Workspace {
         'ui',
         {
           onFileChange: (file: string, itBlocks: any) => {
-            this.tests.setItBlocks(file, itBlocks);
+            const node = this.tests.getByPath(file);
+            if (node) {
+              node.setItBlocks(itBlocks);
+            }
             return JSON.stringify({});
           },
           onFileAdd: (path: string, files: FileNode[]) => {
@@ -106,6 +109,11 @@ export default class Workspace {
   @computed
   public get isExecuting() {
     return this.runStatus === 'watching' || this.runStatus === 'running';
+  }
+
+  public async launchInEditor(file: Node, test: It) {
+    const remote = await this.remote;
+    remote.launchInEditor(file.path, test.line);
   }
 
   private async SubscribeToTestFiles() {
