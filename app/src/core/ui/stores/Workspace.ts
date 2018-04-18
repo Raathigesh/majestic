@@ -1,60 +1,26 @@
 import { observable, computed, action } from 'mobx';
-import register from '../../portal/client';
-import { FileNode } from '../../engine/types/FileNode';
-import Tests from './Tests';
+import remoteInterface from './remote';
+import { runCompleteStream$ } from './relay';
 import Node from './Node';
 import It from './It';
-import Searcher from './Searcher';
 import RunnerMachine from './RunnerStatus';
 
 type RunStatus = 'stopped' | 'running' | 'watching';
 type RunAction = 'run' | 'watch' | 'stop' | 'complete';
 
-export default class Workspace {
+export class Workspace {
   @observable public watch: boolean = false;
-  @observable public tests: Tests;
-  @observable public searcher: Searcher;
   @observable
   private runStatus: RunStatus = RunnerMachine.initialState.value as RunStatus;
-  private remote: Promise<any>;
 
   constructor() {
-    this.tests = new Tests(this);
-    this.searcher = new Searcher(this);
-
-    this.remote = new Promise(resolve => {
-      register(
-        'ui',
-        {
-          onFileChange: (file: string, itBlocks: any) => {
-            const node = this.tests.getByPath(file);
-            if (node) {
-              node.setItBlocks(itBlocks);
-            }
-            return JSON.stringify({});
-          },
-          onFileAdd: (path: string, files: FileNode[]) => {
-            this.tests.initialize(files);
-            this.tests.changeCurrentSelection(path);
-            return JSON.stringify({});
-          },
-          onFileDelete: (path: string, files: FileNode[]) => {
-            this.tests.initialize(files);
-            this.tests.changeCurrentSelection(path);
-            return JSON.stringify({});
-          }
-        },
-        (remote: any) => {
-          resolve(remote);
-        }
-      );
+    runCompleteStream$.subscribe(() => {
+      this.setRunStatus('complete');
     });
-
-    this.SubscribeToTestFiles();
   }
 
   public async run() {
-    const remote = await this.remote;
+    const remote = await remoteInterface;
     if (this.isExecuting) {
       remote.stop();
       return this.setRunStatus('stop');
@@ -69,7 +35,7 @@ export default class Workspace {
       return;
     }
 
-    const remote = await this.remote;
+    const remote = await remoteInterface;
     node.executeAll();
     if (this.isExecuting) {
       remote.filterFileInWatch(node.path);
@@ -80,7 +46,7 @@ export default class Workspace {
   }
 
   public async runTest(node: Node, test: It) {
-    const remote = await this.remote;
+    const remote = await remoteInterface;
     test.startExecting();
     if (this.isExecuting) {
       remote.filterTestInWatch(node.path, test.name);
@@ -92,7 +58,7 @@ export default class Workspace {
 
   @action.bound
   public async updateSnapshot(test: It, node: Node) {
-    const remote = await this.remote;
+    const remote = await remoteInterface;
     const updateStatus = remote.updateSnapshot(node.path, test.name);
     test.updateSnapshot(updateStatus);
   }
@@ -110,15 +76,6 @@ export default class Workspace {
   public get isExecuting() {
     return this.runStatus === 'watching' || this.runStatus === 'running';
   }
-
-  public async launchInEditor(file: Node, test: It) {
-    const remote = await this.remote;
-    remote.launchInEditor(file.path, test.line);
-  }
-
-  private async SubscribeToTestFiles() {
-    const remote = await this.remote;
-    const files: FileNode[] = await remote.getFiles();
-    this.tests.initialize(files);
-  }
 }
+
+export default new Workspace();

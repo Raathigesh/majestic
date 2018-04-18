@@ -6,7 +6,6 @@ import ExecutionSummaryStore from '../../../stores/ExecutionSummary';
 
 const Container = styled.div`
   margin-top: 15px;
-  margin-bottom: 40px;
 `;
 
 interface ExecutionSummaryProps {

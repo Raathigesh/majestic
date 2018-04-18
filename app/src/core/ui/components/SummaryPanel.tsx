@@ -4,7 +4,8 @@ import { observer } from 'mobx-react';
 import RunPanel from './summarPanel/RunPanel';
 import ExecutionSummary from './summarPanel/executionSummary';
 import CoverageSummary from './summarPanel/coverageSummary';
-import Workspace from '../stores/Workspace';
+import { Workspace } from '../stores/Workspace';
+import { Tests } from '../stores/Tests';
 
 const Container = styled.div`
   width: 400px;
@@ -16,9 +17,10 @@ const Container = styled.div`
 
 interface SummaryPanelProps {
   workspace: Workspace;
+  tests: Tests;
 }
 
-function SummaryPanel({ workspace }: SummaryPanelProps) {
+function SummaryPanel({ workspace, tests }: SummaryPanelProps) {
   return (
     <Container className="pt-card pt-dark">
       <RunPanel
@@ -31,7 +33,7 @@ function SummaryPanel({ workspace }: SummaryPanelProps) {
         }}
         isExecuting={workspace.isExecuting}
       />
-      <ExecutionSummary executionSummary={workspace.tests.executionSummary} />
+      <ExecutionSummary executionSummary={tests.executionSummary} />
       <CoverageSummary />
     </Container>
   );

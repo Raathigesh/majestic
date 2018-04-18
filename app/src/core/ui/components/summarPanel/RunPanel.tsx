@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Button } from '@blueprintjs/core';
 import { observer } from 'mobx-react';
-const classnames = require('classnames');
+import Button from '../primitive/button';
+const { Eye, Play } = require('react-feather');
 
 const Container = styled.div`
   display: flex;
@@ -14,20 +14,6 @@ const RunTestContainer = styled.div`
 `;
 
 const WatchContainer = styled.div``;
-const MainButton = styled.button`
-  background-color: white !important;
-  color: #252950 !important;
-  border-radius: 0px !important;
-
-  &:hover {
-    background-color: #242850 !important;
-    color: white !important;
-  }
-
-  &::before {
-    color: #242850 !important;
-  }
-`;
 
 interface RunPanelProps {
   isWatching: boolean;
@@ -45,23 +31,12 @@ function RunPanel({
   return (
     <Container>
       <RunTestContainer>
-        <MainButton
-          type="button"
-          onClick={() => {
-            onRunTests();
-          }}
-          className={classnames('pt-button pt-fill', {
-            'pt-icon-stop': isExecuting,
-            'pt-icon-play': !isExecuting
-          })}
-        >
-          {isExecuting ? 'Stop' : 'Run all tests'}
-        </MainButton>
+        <Button label="Run Tests" primary={true} icon={<Play size={16} />} />
       </RunTestContainer>
       <WatchContainer>
         <Button
-          className="pt-button pt-icon-eye-open"
-          active={isWatching}
+          label="Watch"
+          icon={<Eye size={16} />}
           onClick={() => {
             toggleWatch();
           }}

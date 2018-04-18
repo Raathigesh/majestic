@@ -1,5 +1,6 @@
 import { join } from 'path';
 import Engine from '.';
+import fetch from 'node-fetch';
 import { ChildProcess, spawn } from 'child_process';
 import { executeInSequence, getTestPatternForPath } from './util';
 import { Config } from './types/Config';
@@ -8,6 +9,8 @@ export default class TestRunner {
   private engine: Engine;
   private jestProcess: ChildProcess;
   private config: Config;
+  private onDebuggerExit: () => void;
+  private inspectProcess: ChildProcess;
 
   constructor(engine: Engine, config: Config) {
     this.engine = engine;
@@ -21,6 +24,7 @@ export default class TestRunner {
   ) {
     const patchJsFile = join(__dirname, './patch.js');
     const repoterPath = join(__dirname, './reporter.js');
+    const loggerPath = join(__dirname, './logger.js');
     this.jestProcess = spawn(
       `node -r ${patchJsFile} ${join(
         this.engine.root,
@@ -32,9 +36,8 @@ export default class TestRunner {
           ? ['--testNamePattern', testName.replace(/\s/g, '.')]
           : []),
         ...(testFile ? [getTestPatternForPath(testFile)] : []),
-        '--reporters',
-        'default',
-        repoterPath,
+        ...['--reporters', 'default', repoterPath],
+        ...['--setupFiles', loggerPath],
         ...(this.config.args ? this.config.args : [])
       ],
       {
@@ -92,16 +95,57 @@ export default class TestRunner {
     });
   }
 
-  public kill() {
-    if (!this.jestProcess) {
+  public startInspect(testFile: string, testName: string) {
+    return new Promise(resolve => {
+      // kill the existing inspect process
+      this.kill(this.inspectProcess);
+
+      const inspectProcess = spawn(
+        `node --inspect-brk ${join(this.engine.root, this.config.jestScript)} `,
+        [
+          ...(testName
+            ? ['--testNamePattern', testName.replace(/\s/g, '.')]
+            : []),
+          ...(testFile ? [getTestPatternForPath(testFile)] : [])
+        ],
+        {
+          cwd: this.engine.root,
+          shell: true,
+          stdio: 'pipe',
+          env: this.getEnvironment()
+        }
+      );
+
+      inspectProcess.on('close', () => {
+        if (this.onDebuggerExit) {
+          this.onDebuggerExit();
+        }
+      });
+
+      this.getDebuggerUrl().then(url => {
+        resolve(
+          JSON.stringify({
+            url
+          })
+        );
+      });
+    });
+  }
+
+  public registerOnDebuggerExit(callback: () => void) {
+    this.onDebuggerExit = callback;
+  }
+
+  public kill(processToKill: ChildProcess = this.jestProcess) {
+    if (!processToKill) {
       return;
     }
 
     if (process.platform === 'win32') {
       // Windows doesn't exit the process when it should.
-      spawn('taskkill', ['/pid', '' + this.jestProcess.pid, '/T', '/F']);
+      spawn('taskkill', ['/pid', '' + processToKill.pid, '/T', '/F']);
     } else {
-      this.jestProcess.kill();
+      processToKill.kill();
     }
   }
 
@@ -165,5 +209,17 @@ export default class TestRunner {
     }
 
     return env;
+  }
+
+  private getDebuggerUrl() {
+    return fetch('http://localhost:9229/json')
+      .then((response: any) => {
+        return response.json();
+      })
+      .then((debugInfo: any) => {
+        return `chrome-devtools://devtools/bundled/inspector.html?experiments=true&v8only=true&ws=localhost:9229/${
+          debugInfo[0].id
+        }`;
+      });
   }
 }

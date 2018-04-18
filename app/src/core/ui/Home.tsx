@@ -4,11 +4,16 @@ const SplitPane = require('react-split-pane');
 import Sidebar from './components/Sidebar';
 import styled from 'styled-components';
 import './index.css';
-import Workspace from './stores/Workspace';
+import { Workspace } from './stores/Workspace';
 import TestFile from './components/TestFile';
 import SummaryPanel from './components/SummaryPanel';
 import It from './stores/It';
 import Node from './stores/Node';
+import DebugLink from './components/debugLink';
+import Console from './components/consolePanel';
+import { Tests } from './stores/Tests';
+import { Debugger } from './stores/Debugger';
+import { Searcher } from './stores/Searcher';
 
 const Container = styled.div`
   height: 100vh;
@@ -23,12 +28,15 @@ const MainWorkSpace = styled.div`
 
 interface HomeProps {
   workspace: Workspace;
+  tests: Tests;
+  debug: Debugger;
+  searcher: Searcher;
 }
 
 @observer
 class Home extends React.Component<HomeProps, {}> {
   public render() {
-    const { workspace } = this.props;
+    const { workspace, tests, debug, searcher } = this.props;
     return (
       <Container className="Home">
         <MainWorkSpace>
@@ -38,28 +46,34 @@ class Home extends React.Component<HomeProps, {}> {
             minSize={320}
             defaultSize={320}
           >
-            <Sidebar workspace={workspace} />
-            {workspace.tests.selectedTest && (
+            <Sidebar tests={tests} searcher={searcher} />
+            {tests.selectedTest && (
               <TestFile
-                testFile={workspace.tests.selectedTest}
+                testFile={tests.selectedTest}
                 onRunTest={(it: It) => {
-                  if (!workspace.tests.selectedTest) {
+                  if (!tests.selectedTest) {
                     return;
                   }
-                  workspace.runTest(workspace.tests.selectedTest, it);
+                  workspace.runTest(tests.selectedTest, it);
                 }}
                 onRunFile={() => {
-                  workspace.runFile(workspace.tests.selectedTest);
+                  workspace.runFile(tests.selectedTest);
                 }}
                 onUpdateSnapshot={workspace.updateSnapshot}
                 launchEditor={(it: It, testFileName: Node) => {
-                  workspace.launchInEditor(testFileName, it);
+                  debug.launchInEditor(testFileName, it);
                 }}
+                debugTest={(it: It, testFileName: Node) => {
+                  debug.startDebugging(testFileName, it);
+                }}
+                isDebugging={debug.running}
               />
             )}
           </SplitPane>
         </MainWorkSpace>
-        <SummaryPanel workspace={workspace} />
+        <SummaryPanel workspace={workspace} tests={tests} />
+        <DebugLink workspace={workspace} debug={debug} />
+        <Console />
       </Container>
     );
   }

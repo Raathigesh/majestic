@@ -20,15 +20,13 @@ const div = styledComponentWithProps<YourProps, HTMLDivElement>(styled.div);
 const StatLabel = div`
   flex-grow: 1;
   font-size: 14px;
-  border-bottom: 1px solid ${props =>
-    props.type === 'failure' ? '#F32F38' : ' #00f900'};
 `;
 
 const Header = styled.div`
   margin-top: 5px;
   display: flex;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
 `;
 
 interface SummaryItemProps {

@@ -27,6 +27,9 @@ export default function getRemoteMethods(engine: Engine) {
     launchInEditor(fileName: string, lineNumber: number) {
       engine.launchEditor(fileName, lineNumber);
       return JSON.stringify({});
+    },
+    startDebugging(fileName: string, testName: string) {
+      return engine.testRunner.startInspect(fileName, testName);
     }
   };
 }

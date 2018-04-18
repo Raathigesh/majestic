@@ -11,12 +11,6 @@ svg.pt-icon {
   width: 13px;
 }
 
-.pt-button {
-  background-color: white !important;
-  color: #252950 !important;
-  border-radius: 0px !important;
-}
-
 .pt-active {
   background-color: #252950 !important;
   color: white !important;
@@ -28,6 +22,10 @@ svg.pt-icon {
 
 .pt-tree-node-content {
   height: 23px !important;
+}
+
+.pt-dark .pt-tree-node.pt-tree-node-selected > .pt-tree-node-content {
+  background-color: #e73c2f !important;
 }
 
 .pt-dark .pt-tree-node-icon {

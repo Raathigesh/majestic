@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   display: flex;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   flex-direction: row;
 `;
 const StatsContainer = styled.div`
@@ -18,7 +18,6 @@ const StatCell = styled.div`
 const StatLabel = styled.div`
   flex-grow: 1;
   font-size: 14px;
-  border-bottom: 1px solid #0090f9;
 `;
 
 interface SummaryItemProps {

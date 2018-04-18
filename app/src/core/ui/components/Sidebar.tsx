@@ -3,15 +3,16 @@ import * as React from 'react';
 import { Tree } from '@blueprintjs/core';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
-import Workspace from '../stores/Workspace';
 import Node from '../stores/Node';
 import SearchResults from './searchResults';
+import { Searcher } from '../stores/Searcher';
+import { Tests } from '../stores/Tests';
 const ObservedTree = observer(Tree);
 
 const Container = styled.div`
   height: 100%;
   padding: 10px !important;
-  background-color: #242850 !important;
+  background-color: ${props => props.theme.main} !important;
 `;
 
 const SearchBox = styled.input`
@@ -20,13 +21,14 @@ const SearchBox = styled.input`
 `;
 
 interface TestsPanelProps {
-  workspace: Workspace;
+  tests: Tests;
+  searcher: Searcher;
 }
 
 @observer
 export default class TestsPanel extends React.Component<TestsPanelProps, {}> {
   public render() {
-    const { workspace } = this.props;
+    const { searcher, tests } = this.props;
     return (
       <Container className="pt-card pt-dark pt-small">
         <div className="pt-input-group">
@@ -36,27 +38,27 @@ export default class TestsPanel extends React.Component<TestsPanelProps, {}> {
             type="text"
             placeholder="Search input"
             dir="auto"
-            value={workspace.searcher.query}
+            value={searcher.query}
             onChange={e => {
-              workspace.searcher.setQuery(e.target.value);
+              searcher.setQuery(tests.flatNodeMap, e.target.value);
             }}
           />
         </div>
-        {!workspace.searcher.isSearching && (
+        {!searcher.isSearching && (
           <ObservedTree
-            contents={workspace.tests.nodes}
+            contents={tests.nodes}
             onNodeClick={(node: Node) => {
-              workspace.tests.changeCurrentSelection(node.path);
+              tests.changeCurrentSelection(node.path);
             }}
             onNodeCollapse={this.handleNodeCollapse}
             onNodeExpand={this.handleNodeExpand}
           />
         )}
         <SearchResults
-          items={workspace.searcher.results}
+          items={searcher.results}
           onSearchItemClick={(node: Node) => {
-            workspace.tests.changeCurrentSelection(node.path);
-            workspace.searcher.setQuery('');
+            tests.changeCurrentSelection(node.path);
+            searcher.setQuery(tests.flatNodeMap, '');
           }}
         />
       </Container>

@@ -9,11 +9,13 @@ import It from '../../stores/It';
 
 const Container = styled.div`
   height: 100%;
-  background-color: #f5f9fc !important;
+  background-color: white !important;
+  padding: 0 !important;
 `;
 
 const Tests = styled.div`
   margin-right: 10px;
+  margin-left: 10px;
 `;
 
 interface TestPanelProps {
@@ -22,6 +24,8 @@ interface TestPanelProps {
   onRunFile: () => void;
   onUpdateSnapshot: (it: It, testFileName: Node) => void;
   launchEditor: (it: It, testFileName: Node) => void;
+  debugTest: (it: It, testFileName: Node) => void;
+  isDebugging: boolean;
 }
 
 function TestFile({
@@ -29,7 +33,9 @@ function TestFile({
   onRunTest,
   onRunFile,
   onUpdateSnapshot,
-  launchEditor
+  launchEditor,
+  debugTest,
+  isDebugging
 }: TestPanelProps) {
   return (
     <Container className="pt-card pt-dark">
@@ -42,11 +48,15 @@ function TestFile({
                 key={i}
                 itBlock={itBlock}
                 onRunTest={onRunTest}
+                isDebugging={isDebugging}
                 onUpdateSnapshot={() => {
                   onUpdateSnapshot(itBlock, testFile);
                 }}
                 launchInEditor={(it: It) => {
                   launchEditor(it, testFile);
+                }}
+                debugTest={() => {
+                  debugTest(itBlock, testFile);
                 }}
               />
             ))}

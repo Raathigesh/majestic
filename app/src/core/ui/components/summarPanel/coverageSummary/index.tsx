@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import SummaryItem from './SummaryItem';
 
 const Header = styled.div`
-  margin-top: 5px;
+  margin-bottom: 5px;
   display: flex;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
 `;
 export default function CoverageSummary() {
   return (

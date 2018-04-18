@@ -35,6 +35,10 @@ bootstrap(server).then(() => {
         }
       }
     );
+
+    engine.testRunner.registerOnDebuggerExit(() => {
+      remote.onDebuggerExit();
+    });
   });
 });
 

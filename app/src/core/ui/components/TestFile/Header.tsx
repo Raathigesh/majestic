@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Button } from '@blueprintjs/core';
 import Node from '../../stores/Node';
 import InfoBlock from './InfoBlock';
+import Button from '../primitive/button';
 import { observer } from 'mobx-react';
 
 const Content = styled.div`
@@ -28,9 +28,7 @@ const Container = styled.div`
   margin-bottom: 20px;
   display: flex;
   flex-direction: row;
-  background: #d5e9fd;
-  padding: 10px;
-  border-radius: 5px;
+  padding: 20px;
 `;
 
 const InfoBar = styled.div`
@@ -76,12 +74,11 @@ function Header({ testFile, onRunFile }: HeaderProps) {
       </Content>
       <RightContent>
         <Button
+          label="Run File"
           onClick={() => {
             onRunFile();
           }}
-        >
-          Run File
-        </Button>
+        />
       </RightContent>
     </Container>
   );
