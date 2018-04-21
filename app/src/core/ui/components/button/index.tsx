@@ -10,11 +10,12 @@ const PrimaryElement = styled.button`
   padding: 6px;
   cursor: pointer;
   min-width: 150px;
-
+  min-height: 31px;
   display: flex;
   align-self: auto;
   justify-content: center;
   align-items: center;
+  font-weight: 600;
 
   &:hover {
     background-color: ${props => darken(0.1, props.theme.primary)};
@@ -52,7 +53,9 @@ interface ButtonProps {
   primary?: boolean;
   className?: string;
   icon?: any;
+  isActive?: boolean;
   onClick?: () => void;
+  children?: any;
 }
 
 export default function Button({
@@ -60,13 +63,20 @@ export default function Button({
   primary,
   className,
   icon,
-  onClick
+  isActive,
+  onClick,
+  children
 }: ButtonProps) {
   const Element = primary ? PrimaryElement : SecondaryElement;
   return (
     <Element className={className} onClick={onClick}>
-      {icon && <ButtonSpan>{icon}</ButtonSpan>}
-      <span>{label}</span>
+      {!children && (
+        <React.Fragment>
+          {icon && <ButtonSpan>{icon}</ButtonSpan>}
+          <span>{label}</span>
+        </React.Fragment>
+      )}
+      {children}
     </Element>
   );
 }

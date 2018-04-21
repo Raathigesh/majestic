@@ -1,8 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { observer } from 'mobx-react';
-import Button from '../primitive/button';
-const { Eye, Play } = require('react-feather');
+import Button from '../button';
+import SelfBuildingSquareSpinner from '../spinners/SelfBuildingSquare';
+const { Eye, EyeOff, Play } = require('react-feather');
 
 const Container = styled.div`
   display: flex;
@@ -28,15 +29,18 @@ function RunPanel({
   isExecuting,
   toggleWatch
 }: RunPanelProps) {
+  const watchLabel = isWatching ? 'Stop Watching' : 'Watch';
+  const WatchIcon = isWatching ? <EyeOff size={16} /> : <Eye size={16} />;
+  const icon = isExecuting ? <SelfBuildingSquareSpinner /> : <Play size={16} />;
   return (
     <Container>
       <RunTestContainer>
-        <Button label="Run Tests" primary={true} icon={<Play size={16} />} />
+        <Button label="Run Tests" primary={true} icon={icon} />
       </RunTestContainer>
       <WatchContainer>
         <Button
-          label="Watch"
-          icon={<Eye size={16} />}
+          label={watchLabel}
+          icon={WatchIcon}
           onClick={() => {
             toggleWatch();
           }}

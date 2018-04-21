@@ -2,9 +2,12 @@ import * as React from 'react';
 import styled from 'styled-components';
 import Node from '../../stores/Node';
 import InfoBlock from './InfoBlock';
-import Button from '../primitive/button';
+import Button from '../button';
 import { observer } from 'mobx-react';
-
+const { Play } = require('react-feather');
+import { Workspace } from '../../stores/Workspace';
+import HollowDotsSpinner from '../summarPanel/HollowDotsSpinner';
+import theme from '../../theme';
 const Content = styled.div`
   flex-grow: 1;
 `;
@@ -17,11 +20,14 @@ const RightContent = styled.div`
 const FileName = styled.div`
   font-size: 22px;
   color: #0a0723;
+  margin-bottom: 4px;
+  color: ${props => props.theme.text} !important;
 `;
 
 const FilePath = styled.div`
   font-size: 14px;
-  color: #0a0723;
+  color: ${props => props.theme.text} !important;
+  margin-bottom: 4px;
 `;
 
 const Container = styled.div`
@@ -40,10 +46,11 @@ const InfoBar = styled.div`
 
 interface HeaderProps {
   testFile: Node;
+  workspace: Workspace;
   onRunFile: () => void;
 }
 
-function Header({ testFile, onRunFile }: HeaderProps) {
+function Header({ testFile, onRunFile, workspace }: HeaderProps) {
   return (
     <Container>
       <Content>
@@ -53,17 +60,17 @@ function Header({ testFile, onRunFile }: HeaderProps) {
           <InfoBlock
             icon="code"
             label={`${testFile.totalTests} Tests`}
-            color="blue"
+            color={theme.extra.moon}
           />
           <InfoBlock
             icon="tick"
             label={`${testFile.totalPassedTests} Passed Tests`}
-            color="green"
+            color={theme.extra.mercury}
           />
           <InfoBlock
             icon="cross"
             label={`${testFile.totalFailedTests} Failed Tests`}
-            color="red"
+            color={theme.extra.mars}
           />
           <InfoBlock
             icon="time"
@@ -75,10 +82,13 @@ function Header({ testFile, onRunFile }: HeaderProps) {
       <RightContent>
         <Button
           label="Run File"
+          icon={<Play size={13} />}
           onClick={() => {
             onRunFile();
           }}
-        />
+        >
+          {workspace.isExecuting && <HollowDotsSpinner />}
+        </Button>
       </RightContent>
     </Container>
   );

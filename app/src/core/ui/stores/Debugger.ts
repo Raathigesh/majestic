@@ -1,16 +1,28 @@
-import { observable } from 'mobx';
+import { observable, IObservableArray, computed } from 'mobx';
 import Node from './Node';
 import It from './It';
 import { default as remoteInterface, debuggerExitStream$ } from './remote';
+import { loggerStream$ } from './relay';
 
 export class Debugger {
   @observable public debugUrl: string = '';
   @observable public showDebugPanel: boolean = false;
   @observable public running: boolean = false;
+  @observable public logs: IObservableArray<any> = observable([]);
 
   constructor() {
     debuggerExitStream$.subscribe(() => {
       this.stopDebugger();
+    });
+
+    loggerStream$.subscribe((log: any) => {
+      if (typeof log === 'string') {
+        this.logs.push({
+          text: log
+        });
+      } else {
+        this.logs.push(log);
+      }
     });
   }
 
@@ -37,6 +49,15 @@ export class Debugger {
     const debugResult: any = await remote.startDebugging(node.path, test.name);
     this.setDebugUrl(debugResult.url);
     this.toggleDebugPanel(true);
+  }
+
+  @computed
+  public get isLogsAvailable() {
+    return this.logs.length > 0;
+  }
+
+  public clearLogs() {
+    this.logs.clear();
   }
 }
 

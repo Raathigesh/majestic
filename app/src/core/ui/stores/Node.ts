@@ -6,6 +6,7 @@ import CoverageSummary from './CoverageSummary';
 import { FileNode } from '../../engine/types/FileNode';
 import { ItBlock } from '../../engine/types/ItBlock';
 import { Status } from './types/JestRepoter';
+import { getLabel } from '../components/statusLabel';
 
 export default class Node implements ITreeNode {
   @observable childNodes?: Node[];
@@ -61,7 +62,10 @@ export default class Node implements ITreeNode {
     this.type = type;
     this.label = label;
 
-    for (const { name, start: { line } } of itBlocks) {
+    for (const {
+      name,
+      start: { line }
+    } of itBlocks) {
       this.itBlocks.push(new It(name, line));
     }
 
@@ -108,7 +112,10 @@ export default class Node implements ITreeNode {
 
   public setItBlocks(itBlocks: ItBlock[]) {
     this.itBlocks.clear();
-    for (const { name, start: { line } } of itBlocks) {
+    for (const {
+      name,
+      start: { line }
+    } of itBlocks) {
       this.itBlocks.push(new It(name, line));
     }
   }
@@ -128,9 +135,11 @@ export default class Node implements ITreeNode {
     }
 
     if (this.status === 'failed') {
-      this.icon = 'cross';
+      this.secondaryLabel = getLabel('fail');
+      // this.icon = 'cross';
     } else if (this.status === 'passed') {
-      this.icon = 'tick';
+      this.secondaryLabel = getLabel('pass');
+      // this.icon = 'tick';
     }
   }
 }

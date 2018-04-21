@@ -8,11 +8,11 @@ import { Workspace } from '../stores/Workspace';
 import { Tests } from '../stores/Tests';
 
 const Container = styled.div`
-  width: 400px;
+  width: 350px;
   height: 100;
-  background-color: #f7fbff !important;
+  background-color: ${props => props.theme.main} !important;
   box-shadow: none !important;
-  color: #25294f !important;
+  color: ${props => props.theme.text} !important;
 `;
 
 interface SummaryPanelProps {

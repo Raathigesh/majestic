@@ -18,6 +18,7 @@ const Container = styled.div`
 const SearchBox = styled.input`
   border-radius: 3px !important;
   background: rgba(151, 173, 187, 0.3) !important;
+  margin-bottom: 10px;
 `;
 
 interface TestsPanelProps {

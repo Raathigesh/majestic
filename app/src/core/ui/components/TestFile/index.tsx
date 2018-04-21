@@ -3,14 +3,17 @@ import styled from 'styled-components';
 const { Scrollbars } = require('react-custom-scrollbars');
 import { observer } from 'mobx-react';
 import Node from '../../stores/Node';
-import ItBlock from '../ItBlock';
+import ItBlock from './itBlock';
 import Header from './Header';
 import It from '../../stores/It';
+import { Workspace } from '../../stores/Workspace';
+import { lighten } from 'polished';
 
+// tslint:disable:max-line-length
 const Container = styled.div`
   height: 100%;
-  background-color: white !important;
   padding: 0 !important;
+  background-color: ${props => lighten(0.1, props.theme.main)} !important;
 `;
 
 const Tests = styled.div`
@@ -20,6 +23,7 @@ const Tests = styled.div`
 
 interface TestPanelProps {
   testFile: Node;
+  workspace: Workspace;
   onRunTest: (it: It) => void;
   onRunFile: () => void;
   onUpdateSnapshot: (it: It, testFileName: Node) => void;
@@ -30,6 +34,7 @@ interface TestPanelProps {
 
 function TestFile({
   testFile,
+  workspace,
   onRunTest,
   onRunFile,
   onUpdateSnapshot,
@@ -39,7 +44,7 @@ function TestFile({
 }: TestPanelProps) {
   return (
     <Container className="pt-card pt-dark">
-      <Header testFile={testFile} onRunFile={onRunFile} />
+      <Header testFile={testFile} workspace={workspace} onRunFile={onRunFile} />
       <Scrollbars style={{ height: 'calc(100vh - 128px)' }}>
         <Tests>
           {testFile &&

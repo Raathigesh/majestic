@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { observer } from 'mobx-react';
-import { styledComponentWithProps } from '../util/styled';
-import { Status } from '../stores/types/JestRepoter';
+import { styledComponentWithProps } from '../../../util/styled';
+import { Status } from '../../../stores/types/JestRepoter';
 
 function getIconColor(status: Status) {
   switch (status) {

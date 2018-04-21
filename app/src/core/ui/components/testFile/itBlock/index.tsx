@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
-import It from '../stores/It';
+import It from '../../../stores/It';
 import StatusIcon from './ItStatusIcon';
 import { Tooltip, Intent, Button } from '@blueprintjs/core';
 var Convert = require('ansi-to-html');
@@ -13,16 +13,16 @@ const Container = styled.div`
 `;
 
 const Bar = styled.div`
+  border-top: 2px solid #008dfc;
   display: flex;
-  background-color: white;
-  color: #0a0724;
+  background-color: ${props => props.theme.main};
+  color: ${props => props.theme.text};
   font-size: 13px;
   font-weight: 600;
   border-radius: 2px;
   margin-bottom: 12px;
   align-items: center;
   height: 35px;
-  box-shadow: 0 1px 1px 0 hsla(0, 0%, 0%, 0.1) !important;
 `;
 
 const RightContent = styled.div`
@@ -32,15 +32,19 @@ const RightContent = styled.div`
 
 const CodePanel = styled.pre`
   color: white !important;
-  background-color: #0a0724 !important;
+  background-color: ${props => props.theme.main} !important;
   border: 0px !important;
-  margin-top: -10px;
+  border-radius: 0px;
+  margin-top: -12px;
+  white-space: pre-wrap;
+  font-size: 14px;
 `;
 
 const ExcutingLabel = styled.span`
   color: blue;
   font-weight: 400 !important;
   font-size: 12px;
+  color: ${props => props.theme.text};
 `;
 
 const TimeTakenLabel = styled.span`
@@ -48,6 +52,12 @@ const TimeTakenLabel = styled.span`
   font-weight: 400 !important;
   font-size: 12px;
   margin-left: 10px;
+`;
+
+const ThemedButton = styled(Button)`
+  &:before {
+    color: #429ade !important;
+  }
 `;
 
 interface ItBlockProps {
@@ -114,7 +124,7 @@ function ItBlock({
           className={'pt-dark'}
           intent={Intent.PRIMARY}
         >
-          <Button
+          <ThemedButton
             type="button"
             className="pt-button pt-small pt-minimal pt-icon-pulse"
             onClick={() => {

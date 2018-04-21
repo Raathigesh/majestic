@@ -4,13 +4,16 @@ import { bootstrap, register } from '../core/portal/server';
 import Engine from '../core/engine';
 import getRemoteMethods from './remoteMethods';
 import { getConnection } from './relay';
-import getConfig from '../core/engine/config/craConfig';
+import getConfig from '../core/engine/config/defaultConfig';
 import { ItBlock } from '../core/engine/types/ItBlock';
 
 const app = express();
 const server = http.createServer(app);
 
-const engine = new Engine('D:\\sample\\majestic-cra-integration', getConfig());
+const engine = new Engine(
+  'D:\\sample\\simple-jest',
+  getConfig('D:\\sample\\simple-jest')
+);
 engine.testFiles.read(engine.root);
 
 server.listen(process.env.PORT || 3005, (err: any) => {

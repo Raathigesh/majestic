@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Workspace } from '../../stores/Workspace';
 import { observer } from 'mobx-react';
-import Button from '../primitive/button';
+import Button from '../button';
 import { Debugger } from '../../stores/Debugger';
 const { Transition } = require('react-spring');
 const { Copy } = require('react-feather');

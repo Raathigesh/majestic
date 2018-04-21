@@ -25,11 +25,16 @@ svg.pt-icon {
 }
 
 .pt-dark .pt-tree-node.pt-tree-node-selected > .pt-tree-node-content {
-  background-color: #e73c2f !important;
+  background-color: #5a5858 !important;
+  border-radius: 3px;
 }
 
 .pt-dark .pt-tree-node-icon {
-  color: #ffffff !important;
+  color: #8484ff !important;
+}
+
+.pt-tree-node {
+  cursor: pointer;
 }
 
 .pt-tree-node-label {

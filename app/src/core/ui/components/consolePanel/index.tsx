@@ -2,6 +2,8 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { observer } from 'mobx-react';
 import Draggable from 'react-draggable';
+import { Debugger } from '../../stores/Debugger';
+import Button from '../button';
 const ObjectInspector = require('react-object-inspector');
 
 const Container = styled.div`
@@ -18,13 +20,28 @@ const Container = styled.div`
   z-index: 999;
 `;
 
-function Console() {
+const ClearButton = styled(Button)`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 5px;
+`;
+
+interface ConsoleProps {
+  debug: Debugger;
+}
+
+function Console({ debug }: ConsoleProps) {
   return (
     <Draggable bounds="parent">
       <Container>
-        <ObjectInspector data={{ value: 3 }} />
-        <ObjectInspector data={{ value: 3 }} />
-        <ObjectInspector data={{ value: 3 }} />
+        {debug.logs.map((log, i) => <ObjectInspector key={i} data={log} />)}
+        <ClearButton
+          label="Clear"
+          onClick={() => {
+            debug.clearLogs();
+          }}
+        />
       </Container>
     </Draggable>
   );

@@ -10,6 +10,7 @@ interface InfoBlockProps {
 
 const Container = styled.span`
   margin-right: 15px;
+  color: ${props => props.theme.text} !important;
 `;
 
 const IconSpan = styledComponentWithProps<
@@ -22,7 +23,8 @@ const IconSpan = styledComponentWithProps<
 const Icon = IconSpan`
   &::before {
     font-size: 14px;
-    color: ${props => props.color}
+    color: ${props => props.color};
+    margin-right: 3px;
   }
 
   margin-right: 3px;
