@@ -11,7 +11,7 @@ import { getLabel } from '../components/statusLabel';
 export default class Node implements ITreeNode {
   @observable childNodes?: Node[];
   @observable hasCaret?: boolean;
-  @observable icon?: IconName;
+  @observable icon?: IconName | JSX.Element;
   @observable id: string | number;
   @observable isExpanded?: boolean = true;
   @observable isSelected?: boolean = false;
@@ -133,13 +133,6 @@ export default class Node implements ITreeNode {
     } else {
       this.status = 'pending';
     }
-
-    if (this.status === 'failed') {
-      this.secondaryLabel = getLabel('fail');
-      // this.icon = 'cross';
-    } else if (this.status === 'passed') {
-      this.secondaryLabel = getLabel('pass');
-      // this.icon = 'tick';
-    }
+    this.secondaryLabel = getLabel(this.status);
   }
 }

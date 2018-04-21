@@ -9,7 +9,6 @@ import It from '../../stores/It';
 import { Workspace } from '../../stores/Workspace';
 import { lighten } from 'polished';
 
-// tslint:disable:max-line-length
 const Container = styled.div`
   height: 100%;
   padding: 0 !important;

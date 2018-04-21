@@ -3,17 +3,7 @@ import styled from 'styled-components';
 import { observer } from 'mobx-react';
 import { styledComponentWithProps } from '../../../util/styled';
 import { Status } from '../../../stores/types/JestRepoter';
-
-function getIconColor(status: Status) {
-  switch (status) {
-    case 'failed':
-      return '#b80000';
-    case 'passed':
-      return '#00f900';
-    default:
-      return '#008ff9';
-  }
-}
+import { getColorForStatus } from '../../../theme';
 
 const StatusIconSpan = styledComponentWithProps<
   {
@@ -24,7 +14,7 @@ const StatusIconSpan = styledComponentWithProps<
 
 const Status = StatusIconSpan`
   margin-right: 5px;
-  color: ${props => getIconColor(props.status)};
+  color: ${props => getColorForStatus(props.status)};
 `;
 
 interface StatusIconProps {

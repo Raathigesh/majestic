@@ -87,13 +87,19 @@ function generateSpinners(num: number) {
   ));
 }
 
-const SelfBuildingSquareSpinner = () => {
+interface SelfBuildingSquareSpinnerProps {
+  color?: string;
+}
+
+function SelfBuildingSquareSpinner({
+  color = 'white'
+}: SelfBuildingSquareSpinnerProps) {
   const initialTopPosition = 14 / 6;
 
   return (
     <BuildingSquare
       size={14}
-      color={'white'}
+      color={color}
       animationDuration={1000}
       className={`self-building-square-spinner`}
       initialTopPosition={initialTopPosition}
@@ -101,6 +107,6 @@ const SelfBuildingSquareSpinner = () => {
       {generateSpinners(9)}
     </BuildingSquare>
   );
-};
+}
 
 export default SelfBuildingSquareSpinner;

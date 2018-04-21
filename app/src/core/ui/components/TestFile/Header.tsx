@@ -6,7 +6,7 @@ import Button from '../button';
 import { observer } from 'mobx-react';
 const { Play } = require('react-feather');
 import { Workspace } from '../../stores/Workspace';
-import HollowDotsSpinner from '../summarPanel/HollowDotsSpinner';
+import SelfBuildingSquareSpinner from '../spinners/SelfBuildingSquare';
 import theme from '../../theme';
 const Content = styled.div`
   flex-grow: 1;
@@ -34,7 +34,7 @@ const Container = styled.div`
   margin-bottom: 20px;
   display: flex;
   flex-direction: row;
-  padding: 20px;
+  padding: 14px;
 `;
 
 const InfoBar = styled.div`
@@ -51,6 +51,11 @@ interface HeaderProps {
 }
 
 function Header({ testFile, onRunFile, workspace }: HeaderProps) {
+  const icon = workspace.isExecuting ? (
+    <SelfBuildingSquareSpinner color={theme.main} />
+  ) : (
+    <Play size={16} />
+  );
   return (
     <Container>
       <Content>
@@ -70,7 +75,7 @@ function Header({ testFile, onRunFile, workspace }: HeaderProps) {
           <InfoBlock
             icon="cross"
             label={`${testFile.totalFailedTests} Failed Tests`}
-            color={theme.extra.mars}
+            color={theme.primary}
           />
           <InfoBlock
             icon="time"
@@ -81,14 +86,12 @@ function Header({ testFile, onRunFile, workspace }: HeaderProps) {
       </Content>
       <RightContent>
         <Button
-          label="Run File"
-          icon={<Play size={13} />}
+          label={workspace.isExecuting ? 'Stop' : 'Run File'}
+          icon={icon}
           onClick={() => {
             onRunFile();
           }}
-        >
-          {workspace.isExecuting && <HollowDotsSpinner />}
-        </Button>
+        />
       </RightContent>
     </Container>
   );

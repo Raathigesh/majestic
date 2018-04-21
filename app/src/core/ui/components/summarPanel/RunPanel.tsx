@@ -29,13 +29,21 @@ function RunPanel({
   isExecuting,
   toggleWatch
 }: RunPanelProps) {
-  const watchLabel = isWatching ? 'Stop Watching' : 'Watch';
+  const runLabel = isExecuting ? 'Stop' : 'Run Tests';
+  const watchLabel = isWatching ? 'Stop watching' : 'Watch changes';
   const WatchIcon = isWatching ? <EyeOff size={16} /> : <Eye size={16} />;
   const icon = isExecuting ? <SelfBuildingSquareSpinner /> : <Play size={16} />;
   return (
     <Container>
       <RunTestContainer>
-        <Button label="Run Tests" primary={true} icon={icon} />
+        <Button
+          label={runLabel}
+          onClick={() => {
+            onRunTests();
+          }}
+          primary={true}
+          icon={icon}
+        />
       </RunTestContainer>
       <WatchContainer>
         <Button

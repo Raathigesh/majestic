@@ -4,16 +4,26 @@ import styled from 'styled-components';
 import It from '../../../stores/It';
 import StatusIcon from './ItStatusIcon';
 import { Tooltip, Intent, Button } from '@blueprintjs/core';
+import { styledComponentWithProps } from '../../../util/styled';
+import { Status } from '../../../stores/types/JestRepoter';
+import { getColorForStatus } from '../../../theme';
 var Convert = require('ansi-to-html');
 var convert = new Convert();
+
+const BarDiv = styledComponentWithProps<
+  {
+    status: Status;
+  },
+  HTMLDivElement
+>(styled.span);
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-const Bar = styled.div`
-  border-top: 2px solid #008dfc;
+const Bar = BarDiv`
+  border-top: 2px solid ${props => getColorForStatus(props.status)};
   display: flex;
   background-color: ${props => props.theme.main};
   color: ${props => props.theme.text};
@@ -79,7 +89,7 @@ function ItBlock({
 }: ItBlockProps) {
   return (
     <Container>
-      <Bar>
+      <Bar status={itBlock.status}>
         <RightContent>
           <StatusIcon status={itBlock.status} />
           {itBlock.name}

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { darken } from 'polished';
+import { observer } from 'mobx-react';
 
 const PrimaryElement = styled.button`
   border-radius: 3px;
@@ -58,7 +59,7 @@ interface ButtonProps {
   children?: any;
 }
 
-export default function Button({
+function Button({
   label,
   primary,
   className,
@@ -80,3 +81,5 @@ export default function Button({
     </Element>
   );
 }
+
+export default observer(Button);
