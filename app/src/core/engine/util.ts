@@ -33,8 +33,12 @@ export function getTestPatternForPath(filePath: string) {
 }
 
 export function getItBlocks(path: string): ItBlock[] {
-  const parser = getParser(path);
-  return parser(path).itBlocks;
+  try {
+    const parser = getParser(path);
+    return parser(path).itBlocks;
+  } catch (e) {
+    return [];
+  }
 }
 
 function getParser(path: string) {

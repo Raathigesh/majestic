@@ -35,6 +35,7 @@ function SummaryPanel({ workspace, tests }: SummaryPanelProps) {
       />
       <ExecutionSummary executionSummary={tests.executionSummary} />
       <CoverageSummary />
+      {`Time taken is ${tests.executionSummary.timeTaken}`}
     </Container>
   );
 }

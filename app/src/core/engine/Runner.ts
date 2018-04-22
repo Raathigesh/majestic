@@ -25,11 +25,9 @@ export default class TestRunner {
     const patchJsFile = join(__dirname, './patch.js');
     const repoterPath = join(__dirname, './reporter.js');
     const loggerPath = join(__dirname, './logger.js');
+    const jestScript = join(this.engine.root, this.config.jestScript);
     this.jestProcess = spawn(
-      `node -r ${patchJsFile} ${join(
-        this.engine.root,
-        this.config.jestScript
-      )} `,
+      `node -r ${patchJsFile} ${jestScript}`,
       [
         ...(watch ? ['--watchAll'] : []),
         ...(testName

@@ -36,7 +36,7 @@ export class Workspace {
     }
 
     const remote = await remoteInterface;
-    node.executeAll();
+    node.execute();
     if (this.isExecuting) {
       remote.filterFileInWatch(node.path);
     } else {

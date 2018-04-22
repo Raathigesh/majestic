@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import styled from 'styled-components';
 import It from '../../../stores/It';
 import StatusIcon from './ItStatusIcon';
-import { Tooltip, Intent, Button } from '@blueprintjs/core';
+import { Tooltip, Intent } from '@blueprintjs/core';
 import { styledComponentWithProps } from '../../../util/styled';
 import { Status } from '../../../stores/types/JestRepoter';
 import { getColorForStatus } from '../../../theme';
@@ -16,6 +16,13 @@ const BarDiv = styledComponentWithProps<
   },
   HTMLDivElement
 >(styled.span);
+
+const ActionButton = styledComponentWithProps<
+  {
+    status: Status;
+  },
+  HTMLDivElement
+>(styled.button);
 
 const Container = styled.div`
   display: flex;
@@ -64,9 +71,9 @@ const TimeTakenLabel = styled.span`
   margin-left: 10px;
 `;
 
-const ThemedButton = styled(Button)`
+const ThemedButton = ActionButton`
   &:before {
-    color: #429ade !important;
+    color: ${props => getColorForStatus(props.status)} !important;
   }
 `;
 
@@ -93,7 +100,7 @@ function ItBlock({
         <RightContent>
           <StatusIcon status={itBlock.status} />
           {itBlock.name}
-          {itBlock.timeTaken > 0 && (
+          {itBlock.timeTaken !== undefined && (
             <TimeTakenLabel>{itBlock.timeTaken} ms</TimeTakenLabel>
           )}
         </RightContent>
@@ -121,8 +128,9 @@ function ItBlock({
           className={'pt-dark'}
           intent={Intent.PRIMARY}
         >
-          <button
+          <ThemedButton
             type="button"
+            status={itBlock.status}
             className="pt-button pt-small pt-minimal pt-icon-document-open"
             onClick={() => {
               launchInEditor(itBlock);
@@ -137,6 +145,7 @@ function ItBlock({
           <ThemedButton
             type="button"
             className="pt-button pt-small pt-minimal pt-icon-pulse"
+            status={itBlock.status}
             onClick={() => {
               debugTest();
             }}
@@ -147,9 +156,10 @@ function ItBlock({
           className={'pt-dark'}
           intent={Intent.PRIMARY}
         >
-          <button
+          <ThemedButton
             type="button"
             className="pt-button pt-small pt-minimal pt-icon-play"
+            status={itBlock.status}
             onClick={() => {
               onRunTest(itBlock);
             }}

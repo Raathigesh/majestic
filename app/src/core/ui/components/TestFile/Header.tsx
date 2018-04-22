@@ -8,6 +8,7 @@ const { Play } = require('react-feather');
 import { Workspace } from '../../stores/Workspace';
 import SelfBuildingSquareSpinner from '../spinners/SelfBuildingSquare';
 import theme from '../../theme';
+import { lighten } from 'polished';
 const Content = styled.div`
   flex-grow: 1;
 `;
@@ -50,9 +51,15 @@ interface HeaderProps {
   onRunFile: () => void;
 }
 
+const RunFileButton = styled(Button)`
+  border: 1.5px solid ${props => lighten(0.5, props.theme.main)};
+  padding: 1px;
+  min-width: 108px;
+`;
+
 function Header({ testFile, onRunFile, workspace }: HeaderProps) {
   const icon = workspace.isExecuting ? (
-    <SelfBuildingSquareSpinner color={theme.main} />
+    <SelfBuildingSquareSpinner color={theme.text} />
   ) : (
     <Play size={16} />
   );
@@ -85,9 +92,10 @@ function Header({ testFile, onRunFile, workspace }: HeaderProps) {
         </InfoBar>
       </Content>
       <RightContent>
-        <Button
+        <RunFileButton
           label={workspace.isExecuting ? 'Stop' : 'Run File'}
           icon={icon}
+          minimal={true}
           onClick={() => {
             onRunFile();
           }}

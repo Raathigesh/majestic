@@ -6,7 +6,7 @@ export default class It {
   @observable public status: Status;
   @observable public failureMessage: string = '';
   @observable public executing: boolean = false;
-  @observable public timeTaken: number = 0;
+  @observable public timeTaken: number;
   @observable public updatingSnapshot: boolean = false;
   public line: number;
 

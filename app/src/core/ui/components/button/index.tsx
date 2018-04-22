@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { darken } from 'polished';
+import { darken, lighten } from 'polished';
 import { observer } from 'mobx-react';
 
 const PrimaryElement = styled.button`
@@ -44,6 +44,18 @@ const SecondaryElement = PrimaryElement.extend`
   }
 `;
 
+const MinimalElement = PrimaryElement.extend`
+  background-color: inherit;
+  color: ${props => props.theme.text};
+  &:hover {
+    background-color: ${props => lighten(0.2, props.theme.main)};
+  }
+
+  &:active {
+    background-color: ${props => lighten(0.2, props.theme.main)};
+  }
+`;
+
 const ButtonSpan = styled.span`
   margin-right: 10px;
   margin-top: 2px;
@@ -52,6 +64,7 @@ const ButtonSpan = styled.span`
 interface ButtonProps {
   label: string;
   primary?: boolean;
+  minimal?: boolean;
   className?: string;
   icon?: any;
   isActive?: boolean;
@@ -62,13 +75,15 @@ interface ButtonProps {
 function Button({
   label,
   primary,
+  minimal,
   className,
   icon,
   isActive,
   onClick,
   children
 }: ButtonProps) {
-  const Element = primary ? PrimaryElement : SecondaryElement;
+  let Element = primary ? PrimaryElement : SecondaryElement;
+  Element = minimal ? MinimalElement : Element;
   return (
     <Element className={className} onClick={onClick}>
       {!children && (

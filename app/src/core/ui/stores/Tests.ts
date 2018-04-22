@@ -114,6 +114,8 @@ export class Tests {
       results.snapshot.matched,
       results.snapshot.unmatched
     );
+
+    this.executionSummary.updateTimeTaken(results.startTime);
   }
 
   private async SubscribeToTestFiles() {

@@ -4,15 +4,15 @@ import { bootstrap, register } from '../core/portal/server';
 import Engine from '../core/engine';
 import getRemoteMethods from './remoteMethods';
 import { getConnection } from './relay';
-import getConfig from '../core/engine/config/defaultConfig';
+import getConfig from '../core/engine/config/defaultConfig20';
 import { ItBlock } from '../core/engine/types/ItBlock';
 
 const app = express();
 const server = http.createServer(app);
 
 const engine = new Engine(
-  'D:\\sample\\simple-jest',
-  getConfig('D:\\sample\\simple-jest')
+  'D:\\sandbox\\react-color',
+  getConfig('D:\\sandbox\\react-color')
 );
 engine.testFiles.read(engine.root);
 

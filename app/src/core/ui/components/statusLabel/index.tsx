@@ -16,12 +16,11 @@ const Container = ContainerSpan`
   background-color: ${props => getColorForStatus(props.status)};
   color: white;
   font-size: 11px;
-  border-radius: 13px;
+  border-radius: 4px;
   width: 58px;
-  padding-right: 13px;
-  padding-left: 13px;
-  font-weight: 600;
-  font-size: 13px;
+  padding-right: 6px;
+  padding-left: 6px;
+  font-size: 12px;
 `;
 
 interface LabelProps {
@@ -29,7 +28,7 @@ interface LabelProps {
 }
 
 function Label({ status }: LabelProps) {
-  const text = status === 'passed' ? 'Pass' : 'Fail';
+  const text = status === 'passed' ? 'Pass' : 'Failed';
   return <Container status={status}>{text}</Container>;
 }
 

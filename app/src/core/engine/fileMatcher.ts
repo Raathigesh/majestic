@@ -24,7 +24,7 @@ const regexToMatcher = (testRegex: string) => {
 export function getTestPatternsMatcher(rootPath: string, config: Config) {
   let matcher: (path: string) => any = () => ({});
 
-  if (config.testMatch) {
+  if (config.testMatch && config.testMatch.length) {
     matcher = globsToMatcher(
       config.testMatch.map(match => replaceRootDirInPath(rootPath, match))
     );
