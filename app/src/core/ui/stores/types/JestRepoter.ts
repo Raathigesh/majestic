@@ -51,7 +51,7 @@ export interface TestResult {
   testResults: Array<AssertionResult>;
 }
 
-export interface AggregatedResultWithoutCoverage {
+export interface AggregatedResult {
   numFailedTests: number;
   numFailedTestSuites: number;
   numPassedTests: number;
@@ -66,6 +66,7 @@ export interface AggregatedResultWithoutCoverage {
   success: boolean;
   testResults: Array<TestResult>;
   wasInterrupted: boolean;
+  coverageMap?: any;
 }
 
 export interface SnapshotSummary {

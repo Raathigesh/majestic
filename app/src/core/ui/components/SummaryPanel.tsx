@@ -34,8 +34,9 @@ function SummaryPanel({ workspace, tests }: SummaryPanelProps) {
         isExecuting={workspace.isExecuting}
       />
       <ExecutionSummary executionSummary={tests.executionSummary} />
-      <CoverageSummary />
-      {`Time taken is ${tests.executionSummary.timeTaken}`}
+      {tests.coverageSummary.isCoverageAvailable && (
+        <CoverageSummary coverageSummary={tests.coverageSummary} />
+      )}
     </Container>
   );
 }

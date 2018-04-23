@@ -38,11 +38,11 @@ export default function SummaryItem({
   return (
     <Container>
       <StatsContainer>
-        <StatCell>{firstCount}</StatCell>
+        <StatCell>{`${firstCount}%`}</StatCell>
         <StatLabel>{firstLabel}</StatLabel>
       </StatsContainer>
       <StatsContainer>
-        <StatCell>{secondCount}</StatCell>
+        <StatCell>{`${secondCount}%`}</StatCell>
         <StatLabel>{secondLabel}</StatLabel>
       </StatsContainer>
     </Container>

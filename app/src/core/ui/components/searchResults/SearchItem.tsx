@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import { lighten, darken } from 'polished';
 
 const Container = styled.div`
-  padding: 5px !important;
+  padding: 8px !important;
   margin-top: 5px !important;
   cursor: pointer;
   border-radius: 3px;
   background-color: ${props => lighten(0.2, props.theme.main)};
   &:hover {
-    background-color: ${props => darken(0.2, props.theme.main)};
+    background-color: ${props => darken(0.05, props.theme.main)};
   }
 `;
 

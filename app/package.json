@@ -14,11 +14,14 @@
     "chrome-launcher": "^0.10.2",
     "classnames": "^2.2.5",
     "clipboard-copy": "^2.0.0",
+    "date-fns": "^1.29.0",
     "directory-tree": "^2.1.0",
     "evergreen-ui": "^3.0.0",
     "express": "^4.16.3",
     "fuzzysearch": "^1.0.3",
     "inversify": "^4.13.0",
+    "istanbul-lib-coverage": "^1.2.0",
+    "istanbul-lib-source-maps": "^1.2.3",
     "jest": "^22.4.3",
     "jest-config": "^22.4.3",
     "jest-editor-support": "^22.4.3",
@@ -68,6 +71,8 @@
     "server": "ts-node ./src/server/index.ts"
   },
   "devDependencies": {
+    "@types/istanbul-lib-coverage": "^1.1.0",
+    "@types/istanbul-lib-source-maps": "^1.2.1",
     "@types/jest": "^22.2.2",
     "@types/node": "^9.6.0",
     "@types/react": "^16.0.40",

@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { observer } from 'mobx-react';
 import SummaryItem from './SummaryItem';
+import RunTime from './RunTime';
 import ExecutionSummaryStore from '../../../stores/ExecutionSummary';
 
 const Container = styled.div`
@@ -15,6 +16,7 @@ interface ExecutionSummaryProps {
 function ExecutionSummary({ executionSummary }: ExecutionSummaryProps) {
   return (
     <Container>
+      <RunTime executionSummary={executionSummary} />
       <SummaryItem
         header="Test suits"
         firstCount={executionSummary.successfulSuits}

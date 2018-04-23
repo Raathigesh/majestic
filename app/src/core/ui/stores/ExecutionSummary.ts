@@ -1,4 +1,5 @@
-import { observable, computed } from 'mobx';
+import { observable } from 'mobx';
+// import * as distanceInWords from 'date-fns/distance_in_words';
 
 export default class ExecutionSummary {
   @observable public successfulSuits: number = 0;
@@ -7,7 +8,7 @@ export default class ExecutionSummary {
   @observable public failedTests: number = 0;
   @observable public successfulSnaphots: number = 0;
   @observable public failedSnaphots: number = 0;
-  @observable public startTime: Date = new Date();
+  @observable public timeTaken: number = 0;
 
   public updateSuitSummary(success: number, failures: number) {
     this.successfulSuits = success;
@@ -24,13 +25,7 @@ export default class ExecutionSummary {
     this.failedSnaphots = failures;
   }
 
-  public updateTimeTaken(start: number) {
-    this.startTime = new Date(0);
-    this.startTime.setUTCSeconds(start);
-  }
-
-  @computed
-  public get timeTaken() {
-    return new Date().getSeconds() - this.startTime.getSeconds();
+  public updateTimeTaken(startTime: number) {
+    this.timeTaken = (Date.now() - startTime) / 1000;
   }
 }

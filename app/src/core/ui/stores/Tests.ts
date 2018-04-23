@@ -9,16 +9,14 @@ import {
   fileDeleteStream$
 } from './remote';
 import { testResultStream$, runCompleteStream$ } from './relay';
-import {
-  TestResult,
-  Test,
-  AggregatedResultWithoutCoverage
-} from './types/JestRepoter';
+import { TestResult, Test, AggregatedResult } from './types/JestRepoter';
+import CoverageSummary from './CoverageSummary';
 
 export class Tests {
   @observable nodes: IObservableArray<Node> = observable([]);
   @observable selectedTest?: Node;
   @observable executionSummary: ExecutionSummary = new ExecutionSummary();
+  @observable coverageSummary: CoverageSummary = new CoverageSummary();
   flatNodeMap: Map<string, Node> = new Map();
 
   constructor() {
@@ -99,7 +97,8 @@ export class Tests {
     testNode.setStatus();
   }
 
-  private handleOnRunComplete(results: AggregatedResultWithoutCoverage) {
+  private handleOnRunComplete(results: AggregatedResult) {
+    console.log(results);
     this.executionSummary.updateSuitSummary(
       results.numPassedTestSuites,
       results.numFailedTestSuites
@@ -116,6 +115,10 @@ export class Tests {
     );
 
     this.executionSummary.updateTimeTaken(results.startTime);
+
+    if (results.coverageMap) {
+      this.coverageSummary.mapCoverage(results.coverageMap);
+    }
   }
 
   private async SubscribeToTestFiles() {

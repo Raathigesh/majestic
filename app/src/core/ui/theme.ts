@@ -7,7 +7,7 @@ const main = {
   text: 'white',
   extra: {
     moon: '#8484FF',
-    mercury: '#00f900',
+    mercury: '#03c803',
     jupitor: '#008dfc'
   }
 };

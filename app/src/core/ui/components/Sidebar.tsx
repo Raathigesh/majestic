@@ -37,7 +37,7 @@ export default class TestsPanel extends React.Component<TestsPanelProps, {}> {
           <SearchBox
             className="pt-input"
             type="text"
-            placeholder="Search input"
+            placeholder="Search tests"
             dir="auto"
             value={searcher.query}
             onChange={e => {

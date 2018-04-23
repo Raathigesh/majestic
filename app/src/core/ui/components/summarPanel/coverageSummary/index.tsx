@@ -1,6 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import SummaryItem from './SummaryItem';
+import Summary from '../../../stores/CoverageSummary';
+import { observer } from 'mobx-react';
 
 const Header = styled.div`
   margin-bottom: 5px;
@@ -8,7 +10,12 @@ const Header = styled.div`
   font-size: 15px;
   font-weight: 600;
 `;
-export default function CoverageSummary() {
+
+interface CoverageSummaryProps {
+  coverageSummary: Summary;
+}
+
+function CoverageSummary({ coverageSummary }: CoverageSummaryProps) {
   return (
     <div>
       <Header>
@@ -17,17 +24,19 @@ export default function CoverageSummary() {
       <SummaryItem
         header="Test suits"
         firstLabel="Statement"
-        secondLabel="Branch"
-        firstCount={12}
-        secondCount={56}
+        secondLabel="Line"
+        firstCount={coverageSummary.statementPercentage}
+        secondCount={coverageSummary.linePercentage}
       />
       <SummaryItem
         header="Test suits"
-        firstLabel="Statement"
+        firstLabel="function"
         secondLabel="Branch"
-        firstCount={12}
-        secondCount={56}
+        firstCount={coverageSummary.functionPercentage}
+        secondCount={coverageSummary.branchesPercentage}
       />
     </div>
   );
 }
+
+export default observer(CoverageSummary);
