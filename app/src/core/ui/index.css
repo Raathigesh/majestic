@@ -42,6 +42,10 @@ svg.pt-icon {
   font-size: 14px !important;
 }
 
+.pt-dialog-header {
+  display: none !important;
+}
+
 .SplitPane.vertical {
   position: relative !important;
 }

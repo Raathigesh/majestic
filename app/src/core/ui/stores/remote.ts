@@ -25,6 +25,10 @@ interface RemoteMethods {
   updateSnapshot(fileName: string, testName: string): any;
   launchInEditor(fileName: string, lineNumber: number): any;
   startDebugging(fileName: string, testName: string): any;
+  getConfig(): any;
+  setConfig(nodePath: string): any;
+  getVersion(): any;
+  getLatestVersion(): any;
 }
 
 const remoteInterface = new Promise<RemoteMethods>(resolve => {

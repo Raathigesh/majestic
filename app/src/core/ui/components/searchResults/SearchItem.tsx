@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { lighten, darken } from 'polished';
+import { lighten } from 'polished';
 
 const Container = styled.div`
   padding: 8px !important;
@@ -9,7 +9,7 @@ const Container = styled.div`
   border-radius: 3px;
   background-color: ${props => lighten(0.2, props.theme.main)};
   &:hover {
-    background-color: ${props => darken(0.05, props.theme.main)};
+    background-color: ${props => lighten(0.1, props.theme.main)};
   }
 `;
 
@@ -17,7 +17,7 @@ const Header = styled.div`
   font-weight: 600;
 `;
 const Path = styled.div`
-  font-size: 13px;
+  font-size: 12px;
   overflow: hidden;
   text-overflow: ellipsis;
 `;

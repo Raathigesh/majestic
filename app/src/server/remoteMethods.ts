@@ -1,4 +1,5 @@
 import Engine from '../core/engine';
+const latestVersion = require('latest-version');
 
 export default function getRemoteMethods(engine: Engine) {
   return {
@@ -30,6 +31,29 @@ export default function getRemoteMethods(engine: Engine) {
     },
     startDebugging(fileName: string, testName: string) {
       return engine.testRunner.startInspect(fileName, testName);
+    },
+    getConfig() {
+      return JSON.stringify({
+        nodePath: engine.preference.getNodePath()
+      });
+    },
+    setConfig(nodePath: string) {
+      engine.preference.setNodePath(nodePath);
+      return JSON.stringify({});
+    },
+    getVersion() {
+      return engine.getVersion().then((version: number) => {
+        return JSON.stringify({
+          version
+        });
+      });
+    },
+    getLatestVersion() {
+      return latestVersion('majestic').then((version: number) =>
+        JSON.stringify({
+          version
+        })
+      );
     }
   };
 }

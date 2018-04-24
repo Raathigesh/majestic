@@ -8,7 +8,7 @@ import { Workspace } from './stores/Workspace';
 import SummaryPanel from './components/SummaryPanel';
 import DebugLink from './components/debugLink';
 import Console from './components/consolePanel';
-import { Tests, Debugger, Searcher } from './stores';
+import { Tests, Debugger, Searcher, Preference, Updater } from './stores';
 import MiddlePanel from './components/MiddlePanel';
 import { lighten } from 'polished';
 
@@ -29,12 +29,21 @@ interface HomeProps {
   tests: Tests;
   debug: Debugger;
   searcher: Searcher;
+  preference: Preference;
+  updater: Updater;
 }
 
 @observer
 class Home extends React.Component<HomeProps, {}> {
   public render() {
-    const { workspace, tests, debug, searcher } = this.props;
+    const {
+      workspace,
+      tests,
+      debug,
+      searcher,
+      preference,
+      updater
+    } = this.props;
     return (
       <Container className="Home">
         <MainWorkSpace>
@@ -48,7 +57,12 @@ class Home extends React.Component<HomeProps, {}> {
             <MiddlePanel workspace={workspace} tests={tests} debug={debug} />
           </SplitPane>
         </MainWorkSpace>
-        <SummaryPanel workspace={workspace} tests={tests} />
+        <SummaryPanel
+          workspace={workspace}
+          tests={tests}
+          preference={preference}
+          updater={updater}
+        />
         <DebugLink workspace={workspace} debug={debug} />
         {debug.isLogsAvailable && <Console debug={debug} />}
       </Container>

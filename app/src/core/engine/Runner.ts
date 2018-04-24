@@ -4,6 +4,7 @@ import fetch from 'node-fetch';
 import { ChildProcess, spawn } from 'child_process';
 import { executeInSequence, getTestPatternForPath } from './util';
 import { Config } from './types/Config';
+import Preference from './Preference';
 
 export default class TestRunner {
   private engine: Engine;
@@ -11,10 +12,12 @@ export default class TestRunner {
   private config: Config;
   private onDebuggerExit: () => void;
   private inspectProcess: ChildProcess;
+  private preference: Preference;
 
-  constructor(engine: Engine, config: Config) {
+  constructor(engine: Engine, config: Config, preference: Preference) {
     this.engine = engine;
     this.config = config;
+    this.preference = preference;
   }
 
   public start(
@@ -25,9 +28,13 @@ export default class TestRunner {
     const patchJsFile = join(__dirname, './patch.js');
     const repoterPath = join(__dirname, './reporter.js');
     const loggerPath = join(__dirname, './logger.js');
+    const NodeExecutable = this.preference.getNodePath()
+      ? this.preference.getNodePath()
+      : 'node';
+
     const jestScript = join(this.engine.root, this.config.jestScript);
     this.jestProcess = spawn(
-      `node -r ${patchJsFile} ${jestScript}`,
+      `${NodeExecutable} -r ${patchJsFile} ${jestScript}`,
       [
         ...(watch ? ['--watchAll'] : []),
         ...(testName

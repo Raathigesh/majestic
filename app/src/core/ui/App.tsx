@@ -16,6 +16,8 @@ const App = () => (
         debug={stores.debug}
         tests={stores.tests}
         searcher={stores.searcher}
+        preference={stores.preference}
+        updater={stores.updater}
       />
     </Provider>
   </ThemeProvider>
