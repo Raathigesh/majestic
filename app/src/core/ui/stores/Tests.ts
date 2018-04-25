@@ -74,6 +74,10 @@ export class Tests {
     }
   }
 
+  public resetStatus() {
+    this.flatNodeMap.forEach(node => node.resetStatus());
+  }
+
   private handleOnTestResult(test: Test, testResult: TestResult) {
     console.log(testResult);
     const testNode = this.getByPath(test.path);

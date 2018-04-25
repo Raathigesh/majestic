@@ -8,7 +8,7 @@ export interface Callsite {
   line: number;
 }
 
-export type Status = 'passed' | 'failed' | 'skipped' | 'pending';
+export type Status = 'passed' | 'failed' | 'skipped' | 'pending' | '';
 
 export interface AssertionResult {
   ancestorTitles: Array<string>;

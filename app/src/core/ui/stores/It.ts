@@ -27,6 +27,11 @@ export default class It {
     this.timeTaken = timeTaken;
   }
 
+  resetStatus() {
+    this.status = '';
+    this.startExecting();
+  }
+
   public async updateSnapshot(promise: Promise<any>) {
     this.updatingSnapshot = true;
     await promise;

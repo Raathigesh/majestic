@@ -124,19 +124,25 @@ export default class Node implements ITreeNode {
     }
   }
 
+  public resetStatus() {
+    this.itBlocks.map(it => it.resetStatus());
+    this.setStatus();
+  }
+
   public setStatus() {
     const isFailed = this.itBlocks.some(it => it.status === 'failed');
+    const allPending = this.itBlocks.every(it => it.status === 'pending');
     const allPassed = this.itBlocks.every(
       it => it.status === 'passed' || it.status === 'pending'
     );
 
     if (isFailed) {
       this.status = 'failed';
-    } else if (allPassed) {
+    } else if (allPassed && !allPending) {
       this.status = 'passed';
     } else {
       this.status = 'pending';
     }
-    this.secondaryLabel = getLabel(this.status);
+    this.secondaryLabel = this.type === 'file' ? getLabel(this.status) : '';
   }
 }

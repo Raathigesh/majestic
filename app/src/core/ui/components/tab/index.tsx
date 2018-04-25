@@ -59,6 +59,7 @@ const ConsoleCount = styled.div`
   font-weight: 600;
   padding-right: 6px;
   padding-left: 6px;
+  margin-left: 10px;
 `;
 
 interface TabsProps {
