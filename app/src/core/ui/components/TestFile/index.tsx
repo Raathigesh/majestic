@@ -10,12 +10,15 @@ import { Workspace } from '../../stores/Workspace';
 import { lighten } from 'polished';
 
 const Container = styled.div`
-  height: 100%;
+  display: flex;
+  flex-direction: column;
   padding: 0 !important;
+  flex-grow: 1;
   background-color: ${props => lighten(0.1, props.theme.main)} !important;
 `;
 
 const Tests = styled.div`
+  flex-grow: 1;
   margin-right: 10px;
   margin-left: 10px;
 `;
@@ -44,7 +47,7 @@ function TestFile({
   return (
     <Container className="pt-card pt-dark">
       <Header testFile={testFile} workspace={workspace} onRunFile={onRunFile} />
-      <Scrollbars style={{ height: 'calc(100vh - 128px)' }}>
+      <Scrollbars style={{ flexGrow: '1' }}>
         <Tests>
           {testFile &&
             testFile.itBlocks.map((itBlock, i) => (

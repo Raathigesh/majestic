@@ -8,7 +8,8 @@ const main = {
   extra: {
     moon: '#8484FF',
     mercury: '#03c803',
-    jupitor: '#008dfc'
+    jupitor: '#008dfc',
+    mars: '#ffcd08'
   }
 };
 

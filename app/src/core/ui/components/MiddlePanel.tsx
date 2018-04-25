@@ -4,6 +4,14 @@ import Empty from './Empty';
 import { Workspace, Debugger, Tests, Node } from '../stores';
 import It from '../stores/It';
 import TestFile from './testFile';
+import Tab from './tab';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`;
 
 interface MiddlePanelProps {
   workspace: Workspace;
@@ -13,7 +21,7 @@ interface MiddlePanelProps {
 
 function MiddlePanel({ workspace, tests, debug }: MiddlePanelProps) {
   return (
-    <React.Fragment>
+    <Container>
       {tests.selectedTest && (
         <TestFile
           testFile={tests.selectedTest}
@@ -38,7 +46,8 @@ function MiddlePanel({ workspace, tests, debug }: MiddlePanelProps) {
         />
       )}
       {!tests.selectedTest && <Empty />}
-    </React.Fragment>
+      {tests.selectedTest && <Tab debug={debug} />}
+    </Container>
   );
 }
 

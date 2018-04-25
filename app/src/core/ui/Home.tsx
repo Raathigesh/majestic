@@ -7,7 +7,6 @@ import './index.css';
 import { Workspace } from './stores/Workspace';
 import SummaryPanel from './components/SummaryPanel';
 import DebugLink from './components/debugLink';
-import Console from './components/consolePanel';
 import { Tests, Debugger, Searcher, Preference, Updater } from './stores';
 import MiddlePanel from './components/MiddlePanel';
 import { lighten } from 'polished';
@@ -16,6 +15,7 @@ const Container = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: row;
+  justify-content: center;
 `;
 
 const MainWorkSpace = styled.div`
@@ -64,7 +64,6 @@ class Home extends React.Component<HomeProps, {}> {
           updater={updater}
         />
         <DebugLink workspace={workspace} debug={debug} />
-        {debug.isLogsAvailable && <Console debug={debug} />}
       </Container>
     );
   }

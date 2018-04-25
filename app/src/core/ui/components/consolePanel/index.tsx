@@ -1,30 +1,42 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { observer } from 'mobx-react';
-import Draggable from 'react-draggable';
 import { Debugger } from '../../stores/Debugger';
-import Button from '../button';
-const ObjectInspector = require('react-object-inspector');
+import { darken } from 'polished';
+import theme from '../../theme';
+const { ObjectInspector, chromeDark } = require('react-inspector');
+const { Scrollbars } = require('react-custom-scrollbars');
 
 const Container = styled.div`
-  width: 700px;
-  height: 400px;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  box-shadow: 0 1px 1px 0 hsla(0, 0%, 0%, 0.1) !important;
+  display: flex;
+  flex-direction: column;
+  height: 300px;
   padding: 5px;
-  background-color: #ebedf0;
-  border-radius: 3px;
-  margin: 10px;
-  z-index: 999;
+  background-color: ${props => darken(0.1, props.theme.main)};
+  box-shadow: 0 4px 6px 0 hsla(0, 0%, 0%, 0.2) !important;
 `;
 
-const ClearButton = styled(Button)`
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  margin: 5px;
+const LogEntry = styled.div`
+  margin-bottom: 4px;
+`;
+
+const Info = styled.div`
+  color: ${props => props.theme.text};
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  height: 100%;
+  font-size: 15px;
+
+  & span {
+    font-weight: 600;
+    color: ${props => props.theme.main};
+    background-color: ${props => props.theme.extra.mars};
+    border-radius: 4px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
 `;
 
 interface ConsoleProps {
@@ -33,17 +45,35 @@ interface ConsoleProps {
 
 function Console({ debug }: ConsoleProps) {
   return (
-    <Draggable bounds="parent">
-      <Container>
-        {debug.logs.map((log, i) => <ObjectInspector key={i} data={log} />)}
-        <ClearButton
-          label="Clear"
-          onClick={() => {
-            debug.clearLogs();
-          }}
-        />
-      </Container>
-    </Draggable>
+    <Container>
+      {debug.isLogsAvailable && (
+        <Scrollbars style={{ height: '400px' }}>
+          {debug.logs.map((log, i) => (
+            <LogEntry>
+              <ObjectInspector
+                theme={{
+                  ...chromeDark,
+                  ...{
+                    BASE_BACKGROUND_COLOR: darken(0.1, theme.main),
+                    TREENODE_FONT_SIZE: '13px'
+                  }
+                }}
+                key={i}
+                data={log}
+              />
+            </LogEntry>
+          ))}
+          />
+        </Scrollbars>
+      )}
+      {!debug.isLogsAvailable && (
+        <Info>
+          <div>
+            Use <span>majestic.log()</span> in your tests and inspect them here
+          </div>
+        </Info>
+      )}
+    </Container>
   );
 }
 

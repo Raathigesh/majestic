@@ -87,7 +87,7 @@ function Header({ testFile, onRunFile, workspace }: HeaderProps) {
           <InfoBlock
             icon="time"
             label={`${testFile.executionTime} ms`}
-            color="orange"
+            color={theme.extra.mars}
           />
         </InfoBar>
       </Content>

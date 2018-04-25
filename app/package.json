@@ -44,6 +44,7 @@
     "react-draggable": "^3.0.5",
     "react-epic-spinners": "^0.2.1",
     "react-feather": "^1.1.0",
+    "react-inspector": "^2.3.0",
     "react-kawaii": "^0.3.0",
     "react-object-inspector": "^0.2.1",
     "react-router-dom": "^4.2.2",
