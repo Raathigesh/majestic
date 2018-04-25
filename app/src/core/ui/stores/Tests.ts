@@ -24,6 +24,7 @@ export class Tests {
       const node = this.getByPath(file);
       if (node) {
         node.setItBlocks(itBlocks);
+        node.setStatus();
       }
     });
 

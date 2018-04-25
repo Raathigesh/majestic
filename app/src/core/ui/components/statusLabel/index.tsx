@@ -1,6 +1,5 @@
 import * as React from 'react';
 import styled from 'styled-components';
-const { File } = require('react-feather');
 import { styledComponentWithProps } from '../../util/styled';
 import { getColorForStatus } from '../../theme';
 import { Status } from '../../stores/types/JestRepoter';
@@ -28,14 +27,27 @@ interface LabelProps {
 }
 
 function Label({ status }: LabelProps) {
-  const text = status === 'passed' ? 'Pass' : 'Failed';
+  let text = '';
+
+  switch (status) {
+    case 'passed':
+      text = 'Passed';
+      break;
+    case 'failed':
+      text = 'Failed';
+      break;
+    default:
+      text = '';
+      break;
+  }
+
   return <Container status={status}>{text}</Container>;
 }
 
 export function getLabel(status: Status) {
-  return <Label status={status} />;
-}
+  if (status === 'pending') {
+    return '';
+  }
 
-export function getTreeIcon() {
-  return <File size={14} />;
+  return <Label status={status} />;
 }

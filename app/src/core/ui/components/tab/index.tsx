@@ -5,6 +5,7 @@ import { lighten, darken } from 'polished';
 const { ChevronUp, ChevronDown, Trash } = require('react-feather');
 import Console from '../consolePanel';
 import { Debugger } from '../../stores';
+import { observer } from 'mobx-react';
 
 const Container = styled.div`
   background-color: ${props => lighten(0.1, props.theme.main)};
@@ -13,7 +14,7 @@ const Container = styled.div`
 const Handle = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: ${props => props.theme.main};
+  background-color: ${props => darken(0.1, props.theme.main)};
 `;
 
 const ToggleButton = styled.div`
@@ -42,8 +43,9 @@ const TabHandle = styled.div`
   padding: 5px;
   padding-top: 7px;
   padding-left: 10px;
-  width: 150px;
-  background-color: ${props => darken(0.5, props.theme.main)};
+  width: 92px;
+  font-weight: 600;
+  background-color: ${props => darken(0.1, props.theme.main)};
   color: ${props => props.theme.text};
   cursor: pointer;
 `;
@@ -55,6 +57,8 @@ const ConsoleCount = styled.div`
   font-size: 11px;
   padding: 2px;
   font-weight: 600;
+  padding-right: 6px;
+  padding-left: 6px;
 `;
 
 interface TabsProps {
@@ -65,6 +69,7 @@ interface TabsState {
   open: boolean;
 }
 
+@observer
 export default class Tabs extends React.Component<TabsProps, TabsState> {
   state: TabsState = {
     open: false

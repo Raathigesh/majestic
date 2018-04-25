@@ -19,6 +19,7 @@ const Container = styled.div`
   background-color: ${props => props.theme.main} !important;
   box-shadow: none !important;
   color: ${props => props.theme.text} !important;
+  padding-bottom: 0px !important;
 `;
 
 interface SummaryPanelProps {
@@ -48,9 +49,7 @@ function SummaryPanel({
           isExecuting={workspace.isExecuting}
         />
         <ExecutionSummary executionSummary={tests.executionSummary} />
-        {tests.coverageSummary.isCoverageAvailable && (
-          <CoverageSummary coverageSummary={tests.coverageSummary} />
-        )}
+        <CoverageSummary coverageSummary={tests.coverageSummary} />
       </div>
       <Footer
         version={updater.version}

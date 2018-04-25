@@ -3,10 +3,10 @@ import { createSourceMapStore, MapStore } from 'istanbul-lib-source-maps';
 import { createCoverageMap, CoverageMap } from 'istanbul-lib-coverage';
 
 export default class CoverageSummary {
-  @observable statementPercentage: number;
-  @observable linePercentage: number;
-  @observable functionPercentage: number;
-  @observable branchesPercentage: number;
+  @observable statementPercentage: number = 0;
+  @observable linePercentage: number = 0;
+  @observable functionPercentage: number = 0;
+  @observable branchesPercentage: number = 0;
 
   private sourceMapStore: MapStore;
   private transformedCoverageMap: CoverageMap;
