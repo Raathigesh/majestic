@@ -11,8 +11,8 @@ const app = express();
 const server = http.createServer(app);
 
 const engine = new Engine(
-  'D:\\sandbox\\react-color',
-  getConfig('D:\\sandbox\\react-color')
+  'D:\\projects\\reference\\jest',
+  getConfig('D:\\projects\\reference\\jest')
 );
 engine.testFiles.read(engine.root);
 

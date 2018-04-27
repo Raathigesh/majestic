@@ -7,12 +7,20 @@ import Node from '../stores/Node';
 import SearchResults from './searchResults';
 import { Searcher } from '../stores/Searcher';
 import { Tests } from '../stores/Tests';
+const { Scrollbars } = require('react-custom-scrollbars');
 const ObservedTree = observer(Tree);
 
 const Container = styled.div`
   height: 100%;
   padding: 10px !important;
+  display: flex;
+  flex-direction: column;
   background-color: ${props => props.theme.main} !important;
+`;
+
+const SearchContainer = styled.div``;
+const Bottom = styled.div`
+  flex-grow: 1;
 `;
 
 const SearchBox = styled.input`
@@ -32,36 +40,43 @@ export default class TestsPanel extends React.Component<TestsPanelProps, {}> {
     const { searcher, tests } = this.props;
     return (
       <Container className="pt-card pt-dark pt-small">
-        <div className="pt-input-group">
-          <span className="pt-icon pt-icon-search" />
-          <SearchBox
-            className="pt-input"
-            type="text"
-            placeholder="Search tests"
-            dir="auto"
-            value={searcher.query}
-            onChange={e => {
-              searcher.setQuery(tests.flatNodeMap, e.target.value);
-            }}
-          />
-        </div>
-        {!searcher.isSearching && (
-          <ObservedTree
-            contents={tests.nodes}
-            onNodeClick={(node: Node) => {
+        <SearchContainer>
+          <div className="pt-input-group">
+            <span className="pt-icon pt-icon-search" />
+            <SearchBox
+              className="pt-input"
+              type="text"
+              placeholder="Search tests"
+              dir="auto"
+              value={searcher.query}
+              onChange={e => {
+                searcher.setQuery(tests.flatNodeMap, e.target.value);
+              }}
+            />
+          </div>
+        </SearchContainer>
+        <Bottom>
+          {!searcher.isSearching && (
+            <Scrollbars style={{ height: 'calc(100vh - 62px)' }}>
+              <ObservedTree
+                contents={tests.nodes}
+                onNodeClick={(node: Node) => {
+                  tests.changeCurrentSelection(node.path);
+                }}
+                onNodeCollapse={this.handleNodeCollapse}
+                onNodeExpand={this.handleNodeExpand}
+              />
+            </Scrollbars>
+          )}
+
+          <SearchResults
+            items={searcher.results}
+            onSearchItemClick={(node: Node) => {
               tests.changeCurrentSelection(node.path);
+              searcher.setQuery(tests.flatNodeMap, '');
             }}
-            onNodeCollapse={this.handleNodeCollapse}
-            onNodeExpand={this.handleNodeExpand}
           />
-        )}
-        <SearchResults
-          items={searcher.results}
-          onSearchItemClick={(node: Node) => {
-            tests.changeCurrentSelection(node.path);
-            searcher.setQuery(tests.flatNodeMap, '');
-          }}
-        />
+        </Bottom>
       </Container>
     );
   }

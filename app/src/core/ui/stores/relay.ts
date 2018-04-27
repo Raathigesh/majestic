@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 interface TestResultArg {
   test: any;
   testResult: any;
+  aggregatedResult: any;
 }
 export const testResultStream$ = new Subject<TestResultArg>();
 
@@ -25,7 +26,8 @@ const ws = new Sockette.default('ws://localhost:7777', {
     if (event === 'onTestResult') {
       testResultStream$.next({
         test: payload.test,
-        testResult: payload.testResult
+        testResult: payload.testResult,
+        aggregatedResult: payload.aggregatedResult
       });
     } else if (event === 'onRunComplete') {
       runCompleteStream$.next({

@@ -26,6 +26,7 @@ export default class Node implements ITreeNode {
   @observable coverage = new CoverageSummary();
   @observable executionTime: number = 0;
   @observable status: Status = 'pending';
+  parent?: Node;
 
   public static convertToNode(
     { path, type, label, children, itBlocks }: FileNode,
@@ -33,6 +34,9 @@ export default class Node implements ITreeNode {
     parent?: Node
   ) {
     const node = new Node(path, type, label, itBlocks || []);
+    node.isExpanded = false;
+    node.parent = parent;
+
     flatNodeMap.set(path.toLowerCase(), node);
 
     if (!children) {
@@ -78,6 +82,12 @@ export default class Node implements ITreeNode {
 
   public toggleSelection(selection: boolean = true) {
     this.isSelected = selection;
+
+    let current: Node | undefined = this;
+    while (current) {
+      current.isExpanded = true;
+      current = current.parent;
+    }
   }
 
   public getItBlockByTitle(title: string) {

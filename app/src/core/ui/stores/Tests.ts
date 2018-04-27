@@ -38,8 +38,8 @@ export class Tests {
       this.changeCurrentSelection(path);
     });
 
-    testResultStream$.subscribe(({ test, testResult }) => {
-      this.handleOnTestResult(test, testResult);
+    testResultStream$.subscribe(({ test, testResult, aggregatedResult }) => {
+      this.handleOnTestResult(test, testResult, aggregatedResult);
     });
 
     runCompleteStream$.subscribe(({ results }) => {
@@ -53,7 +53,9 @@ export class Tests {
     this.nodes.clear();
     this.flatNodeMap.clear();
     for (const file of files) {
-      this.nodes.push(Node.convertToNode(file, this.flatNodeMap).node);
+      const node = Node.convertToNode(file, this.flatNodeMap).node;
+      node.isExpanded = true;
+      this.nodes.push(node);
     }
   }
 
@@ -78,7 +80,11 @@ export class Tests {
     this.flatNodeMap.forEach(node => node.resetStatus());
   }
 
-  private handleOnTestResult(test: Test, testResult: TestResult) {
+  private handleOnTestResult(
+    test: Test,
+    testResult: TestResult,
+    aggregatedResult: AggregatedResult
+  ) {
     console.log(testResult);
     const testNode = this.getByPath(test.path);
     if (!testNode) {
@@ -100,10 +106,15 @@ export class Tests {
     }
 
     testNode.setStatus();
+
+    this.setAggregatedResults(aggregatedResult);
   }
 
   private handleOnRunComplete(results: AggregatedResult) {
-    console.log(results);
+    this.setAggregatedResults(results);
+  }
+
+  private setAggregatedResults(results: AggregatedResult) {
     this.executionSummary.updateSuitSummary(
       results.numPassedTestSuites,
       results.numFailedTestSuites
