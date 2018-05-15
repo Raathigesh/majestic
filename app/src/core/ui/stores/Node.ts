@@ -9,7 +9,7 @@ import { Status } from './types/JestRepoter';
 import { getLabel } from '../components/statusLabel';
 
 export default class Node implements ITreeNode {
-  @observable childNodes?: Node[];
+  @observable children?: Node[];
   @observable hasCaret?: boolean;
   @observable icon?: IconName | JSX.Element;
   @observable id: string | number;
@@ -36,6 +36,7 @@ export default class Node implements ITreeNode {
     const node = new Node(path, type, label, itBlocks || []);
     node.isExpanded = false;
     node.parent = parent;
+    node.isExpanded = true;
 
     flatNodeMap.set(path.toLowerCase(), node);
 
@@ -46,7 +47,7 @@ export default class Node implements ITreeNode {
       };
     }
 
-    node.childNodes = children.map(
+    node.children = children.map(
       child => Node.convertToNode(child, flatNodeMap, node).node
     );
 
@@ -65,6 +66,7 @@ export default class Node implements ITreeNode {
     this.path = path;
     this.type = type;
     this.label = label;
+    this.children = [];
 
     for (const {
       name,

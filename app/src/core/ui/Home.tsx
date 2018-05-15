@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import DevTools from 'mobx-react-devtools';
 const SplitPane = require('react-split-pane');
 import Sidebar from './components/Sidebar';
 import styled from 'styled-components';
@@ -47,7 +46,6 @@ class Home extends React.Component<HomeProps, {}> {
     } = this.props;
     return (
       <Container className="Home">
-        <DevTools />
         <MainWorkSpace>
           <SplitPane
             paneStyle={{ position: 'inherit' }}

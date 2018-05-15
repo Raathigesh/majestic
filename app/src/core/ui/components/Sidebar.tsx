@@ -1,14 +1,12 @@
 import * as React from 'react';
 
-import { Tree } from '@blueprintjs/core';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
 import Node from '../stores/Node';
 import SearchResults from './searchResults';
 import { Searcher } from '../stores/Searcher';
 import { Tests } from '../stores/Tests';
-const { Scrollbars } = require('react-custom-scrollbars');
-const ObservedTree = observer(Tree);
+import NewTree from './Tree';
 
 const Container = styled.div`
   height: 100%;
@@ -57,35 +55,26 @@ export default class TestsPanel extends React.Component<TestsPanelProps, {}> {
         </SearchContainer>
         <Bottom>
           {!searcher.isSearching && (
-            <Scrollbars style={{ height: 'calc(100vh - 62px)' }}>
-              <ObservedTree
-                contents={tests.nodes}
-                onNodeClick={(node: Node) => {
-                  tests.changeCurrentSelection(node.path);
-                }}
-                onNodeCollapse={this.handleNodeCollapse}
-                onNodeExpand={this.handleNodeExpand}
-              />
-            </Scrollbars>
+            <NewTree
+              nodes={tests.nodes || []}
+              onSearchItemClick={(node: Node) => {
+                tests.changeCurrentSelection(node.path);
+                searcher.setQuery(tests.flatNodeMap, '');
+              }}
+            />
           )}
 
-          <SearchResults
-            items={searcher.results}
-            onSearchItemClick={(node: Node) => {
-              tests.changeCurrentSelection(node.path);
-              searcher.setQuery(tests.flatNodeMap, '');
-            }}
-          />
+          {searcher.isSearching && (
+            <SearchResults
+              items={searcher.results}
+              onSearchItemClick={(node: Node) => {
+                tests.changeCurrentSelection(node.path);
+                searcher.setQuery(tests.flatNodeMap, '');
+              }}
+            />
+          )}
         </Bottom>
       </Container>
     );
   }
-
-  private handleNodeCollapse = (nodeData: Node) => {
-    nodeData.isExpanded = false;
-  };
-
-  private handleNodeExpand = (nodeData: Node) => {
-    nodeData.isExpanded = true;
-  };
 }
