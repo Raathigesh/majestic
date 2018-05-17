@@ -99,3 +99,7 @@ svg.pt-icon {
 .Resizer.disabled:hover {
   border-color: transparent;
 }
+
+.ReactVirtualized__Grid.ReactVirtualized__List {
+  outline: none;
+}

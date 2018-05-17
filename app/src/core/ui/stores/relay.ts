@@ -24,11 +24,13 @@ const ws = new Sockette.default('ws://localhost:7777', {
   onmessage: (e: any) => {
     const { event, payload, source } = JSON.parse(e.data);
     if (event === 'onTestResult') {
-      testResultStream$.next({
-        test: payload.test,
-        testResult: payload.testResult,
-        aggregatedResult: payload.aggregatedResult
-      });
+      for (let item of payload) {
+        testResultStream$.next({
+          test: item.test,
+          testResult: item.testResult,
+          aggregatedResult: item.aggregatedResult
+        });
+      }
     } else if (event === 'onRunComplete') {
       runCompleteStream$.next({
         results: payload.results

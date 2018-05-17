@@ -5,7 +5,10 @@ import 'react-virtualized/styles.css';
 import { observer } from 'mobx-react';
 import { styledComponentWithProps } from '../util/styled';
 import { Status } from '../stores/types/JestRepoter';
+import { getColorForStatus } from '../theme';
+import Node from '../stores/Node';
 const { Scrollbars } = require('react-custom-scrollbars');
+const { Tooltip } = require('react-tippy');
 
 const ObservedList = observer(ReactVirtualized.List);
 
@@ -22,6 +25,17 @@ const ItemSpan = styled.span`
   font-size: 13px !important;
 `;
 
+const StatusDotElement = styledComponentWithProps<
+  {
+    status: Status;
+  },
+  HTMLDivElement
+>(styled.span);
+
+const StatusDot = StatusDotElement`
+color: ${props => getColorForStatus(props.status)};
+`;
+
 const ItemDivElement = styledComponentWithProps<
   {
     status: Status;
@@ -30,35 +44,33 @@ const ItemDivElement = styledComponentWithProps<
   HTMLDivElement
 >(styled.div);
 
-function getLabelColor(status: string, selected: boolean, theme: any) {
-  if (selected) {
-    return theme.extra.mars;
-  }
-
-  if (status === 'passed') {
-    return theme.extra.mercury;
-  }
-
-  return theme.secondary;
-}
-
 const ItemDiv = ItemDivElement`
   cursor: pointer;
-  color: ${props => getLabelColor(props.status, props.selected, props.theme)};
+  color: ${props => (props.selected ? props.theme.extra.mars : 'white')};
   display: flex;
   height: 20px;
   margin-left: ${props => (props.type === 'file' ? '5px' : '0px')}
+  justify-content: space-between;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
+interface ItemNodeProps {
+  item: Node;
+  onItemClick: any;
+  onToggle: any;
+}
+
 @observer
-class ItemNode extends React.Component<any, any> {
-  render() {
+class ItemNode extends React.Component<ItemNodeProps, any> {
+  render(): any {
     const { item, onItemClick, onToggle } = this.props;
     var props: any = { key: item.path };
-    var children = [];
+    var children: any = [];
     var itemText;
 
-    if (item.isExpanded) {
+    if (item.isExpanded && item.children) {
       children = item.children.map((child: any, index: any) => {
         return (
           <ItemNode
@@ -89,22 +101,37 @@ class ItemNode extends React.Component<any, any> {
         className="item"
         key="label"
         status={item.status}
-        selected={item.isSelected}
+        selected={item.isSelected || false}
         type={item.type}
         onClick={(event: any) => {
-          console.log(item);
           event.stopPropagation();
-          item.isExpanded = !item.isExpanded;
-          onToggle();
 
           if (item.type !== 'directory') {
             onItemClick(item);
+          } else {
+            item.isExpanded = !item.isExpanded;
+            onToggle();
           }
         }}
       >
-        <ItemSpan className={`pt-icon-standard ${toggleIcon}`} />
-        <ItemSpan className={`pt-icon-standard ${icon}`} />
-        {itemText}
+        <div>
+          <ItemSpan className={`pt-icon-standard ${toggleIcon}`} />
+          <ItemSpan className={`pt-icon-standard ${icon}`} />
+          {itemText}
+          {item.type === 'file' &&
+            item.status !== 'pending' && (
+              <Tooltip
+                title={item.status}
+                position="right"
+                trigger="mouseenter"
+              >
+                <StatusDot
+                  status={item.status}
+                  className="pt-icon-standard pt-icon-dot"
+                />
+              </Tooltip>
+            )}
+        </div>
       </ItemDiv>
     );
     return (
@@ -128,16 +155,15 @@ export default class Tree extends React.Component<any, any> {
     );
   };
 
-  renderItem = (item: any, keyPrefix: any) => {
+  renderItem = (item: any) => {
     return (
       <ItemNode
         item={item}
-        keyPrefix={keyPrefix}
         onItemClick={(clickedItem: any) => {
           this.props.onSearchItemClick(clickedItem);
         }}
         onToggle={() => {
-          // this.List.recomputeRowHeights();
+          this.List.recomputeRowHeights();
           this.List.forceUpdate();
         }}
       />
@@ -159,10 +185,7 @@ export default class Tree extends React.Component<any, any> {
   };
 
   cellRenderer = (params: any) => {
-    var renderedCell = this.renderItem(
-      this.props.nodes[params.index],
-      params.index
-    );
+    var renderedCell = this.renderItem(this.props.nodes[params.index]);
     console.log(params.key);
     return (
       <ul
@@ -190,13 +213,13 @@ export default class Tree extends React.Component<any, any> {
           {(params: any) => {
             return (
               <ObservedList
-                height={params.height}
+                height={params.height - 100}
                 overscanRowCount={10}
                 ref={(list: any) => (this.List = list)}
                 rowHeight={this.rowHeight}
                 rowRenderer={this.cellRenderer}
                 rowCount={this.props.nodes.length}
-                width={params.width}
+                width={params.width - 30}
                 style={{
                   overflowX: false,
                   overflowY: false

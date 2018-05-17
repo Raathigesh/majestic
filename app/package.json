@@ -53,6 +53,7 @@
     "react-split-pane": "^0.1.77",
     "react-spring": "^4.0.4",
     "react-test-renderer": "^16.3.1",
+    "react-tippy": "^1.2.2",
     "react-transition-group": "^2.2.1",
     "react-virtualized": "^9.18.5",
     "read-pkg-up": "^3.0.0",

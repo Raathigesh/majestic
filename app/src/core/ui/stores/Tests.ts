@@ -1,4 +1,4 @@
-import { observable, IObservableArray } from 'mobx';
+import { observable, IObservableArray, computed, action } from 'mobx';
 import Node from './Node';
 import { FileNode } from '../../engine/types/FileNode';
 import ExecutionSummary from './ExecutionSummary';
@@ -17,7 +17,7 @@ export class Tests {
   @observable selectedTest?: Node;
   @observable executionSummary: ExecutionSummary = new ExecutionSummary();
   @observable coverageSummary: CoverageSummary = new CoverageSummary();
-  flatNodeMap: Map<string, Node> = new Map();
+  @observable flatNodeMap: Map<string, Node> = new Map();
 
   constructor() {
     fileChangeStream$.subscribe(({ file, itBlocks }) => {
@@ -63,6 +63,7 @@ export class Tests {
     return this.flatNodeMap.get(path.toLowerCase());
   }
 
+  @action.bound
   public changeCurrentSelection(path: string) {
     const nextSelection = this.flatNodeMap.get(path.toLowerCase());
     if (nextSelection) {
@@ -78,6 +79,13 @@ export class Tests {
 
   public resetStatus() {
     this.flatNodeMap.forEach(node => node.resetStatus());
+  }
+
+  @computed
+  public get failedTests() {
+    return Array.from(this.flatNodeMap)
+      .filter(([key, file]) => file.status === 'failed')
+      .map(([key, file]) => file);
   }
 
   private handleOnTestResult(

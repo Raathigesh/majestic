@@ -12,6 +12,9 @@ class MyCustomReporter {
   constructor(globalConfig, options) {
     this._globalConfig = globalConfig;
     this._options = options;
+    this.testStartQueue = [];
+    this.testResultQueue = [];
+    this.onRunStartQueue = [];
   }
 
   onTestStart(test) {
@@ -29,18 +32,20 @@ class MyCustomReporter {
   }
 
   onTestResult(test, testResult, aggregatedResult) {
+    this.testResultQueue.unshift({
+      test,
+      testResult,
+      aggregatedResult
+    });
     connectionPromise.then(connection => {
       connection.send(
         JSON.stringify({
           source: 'jest-test-reporter',
           event: 'onTestResult',
-          payload: {
-            test,
-            testResult,
-            aggregatedResult
-          }
+          payload: this.testResultQueue
         })
       );
+      this.testResultQueue = [];
     });
   }
 

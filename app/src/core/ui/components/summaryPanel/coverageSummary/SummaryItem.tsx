@@ -8,15 +8,13 @@ const Container = styled.div`
 `;
 const StatsContainer = styled.div`
   display: flex;
-  flex-grow: 1;
+  flex: 1;
   flex-direction: column;
 `;
 const StatCell = styled.div`
-  flex-grow: 1;
   font-size: 20px;
 `;
 const StatLabel = styled.div`
-  flex-grow: 1;
   font-size: 14px;
 `;
 

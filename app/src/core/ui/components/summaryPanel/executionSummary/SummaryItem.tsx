@@ -9,7 +9,7 @@ const StatsContainer = styled.div`
   display: flex;
 `;
 const StatCell = styled.div`
-  flex-grow: 1;
+  flex: 1;
   font-size: 20px;
 `;
 

@@ -9,6 +9,7 @@ import { Workspace } from '../stores/Workspace';
 import { Tests } from '../stores/Tests';
 import { Preference as PreferenceStore, Updater } from '../stores';
 import Preference from './Preference';
+import FailedTests from './summaryPanel/FailedTests';
 
 const Container = styled.div`
   width: 350px;
@@ -20,6 +21,12 @@ const Container = styled.div`
   box-shadow: none !important;
   color: ${props => props.theme.text} !important;
   padding-bottom: 0px !important;
+`;
+
+const Body = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 `;
 
 interface SummaryPanelProps {
@@ -37,7 +44,7 @@ function SummaryPanel({
 }: SummaryPanelProps) {
   return (
     <Container className="pt-card pt-dark">
-      <div>
+      <Body>
         <RunPanel
           onRunTests={() => {
             workspace.run();
@@ -51,7 +58,11 @@ function SummaryPanel({
         />
         <ExecutionSummary executionSummary={tests.executionSummary} />
         <CoverageSummary coverageSummary={tests.coverageSummary} />
-      </div>
+        <FailedTests
+          failedTetsts={tests.failedTests}
+          onChangeCurrentSelection={tests.changeCurrentSelection}
+        />
+      </Body>
       <Footer
         version={updater.version}
         onPreferenceClick={() => {
