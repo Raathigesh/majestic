@@ -4,7 +4,7 @@ import Node from '../../stores/Node';
 import InfoBlock from './InfoBlock';
 import Button from '../button';
 import { observer } from 'mobx-react';
-const { Play } = require('react-feather');
+const { Play, Bookmark } = require('react-feather');
 import { Workspace } from '../../stores/Workspace';
 import SelfBuildingSquareSpinner from '../spinners/SelfBuildingSquare';
 import theme from '../../theme';
@@ -22,6 +22,8 @@ const FileName = styled.div`
   font-size: 22px;
   color: #0a0723;
   margin-bottom: 4px;
+  display: flex;
+  flex-direction: row;
   color: ${props => props.theme.text} !important;
 `;
 
@@ -45,9 +47,25 @@ const InfoBar = styled.div`
   font-size: 13px;
 `;
 
+const BookmarkContainer = styled.div`
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+`;
+
+const BookmarkButton = styled(Bookmark)`
+  cursor: pointer;
+  color: ${(props: any) =>
+    props.selected ? props.theme.extra.mars : props.theme.extra.secondary}
+  &:hover {
+    color: ${props => props.theme.extra.mars};
+  }
+`;
+
 interface HeaderProps {
   testFile: Node;
   workspace: Workspace;
+  bookmarks: Map<string, null>;
   onRunFile: () => void;
 }
 
@@ -57,7 +75,7 @@ const RunFileButton = styled(Button)`
   min-width: 108px;
 `;
 
-function Header({ testFile, onRunFile, workspace }: HeaderProps) {
+function Header({ testFile, onRunFile, workspace, bookmarks }: HeaderProps) {
   const icon = workspace.isExecuting ? (
     <SelfBuildingSquareSpinner color={theme.text} />
   ) : (
@@ -66,7 +84,18 @@ function Header({ testFile, onRunFile, workspace }: HeaderProps) {
   return (
     <Container>
       <Content>
-        <FileName>{testFile.label}</FileName>
+        <FileName>
+          {testFile.label}
+          <BookmarkContainer>
+            <BookmarkButton
+              size={20}
+              selected={bookmarks.has(testFile.path)}
+              onClick={() => {
+                workspace.toggleBookmark(testFile.path);
+              }}
+            />
+          </BookmarkContainer>
+        </FileName>
         <FilePath>{testFile.path}</FilePath>
         <InfoBar>
           <InfoBlock

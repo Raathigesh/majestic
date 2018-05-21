@@ -3,6 +3,7 @@ const Conf = require('conf');
 export default class Preference {
   public config: any;
   public NodePath: string = 'ConfigNodePath';
+  public ShowTreeView: string = 'ShowTreeView';
 
   constructor() {
     this.config = new Conf();
@@ -14,5 +15,13 @@ export default class Preference {
 
   getNodePath() {
     return this.config.get(this.NodePath);
+  }
+
+  setShowTreeView(toggle: boolean) {
+    this.config.set(this.ShowTreeView, toggle);
+  }
+
+  getTreeViewToggle() {
+    return this.config.get(this.ShowTreeView);
   }
 }

@@ -29,6 +29,10 @@ interface RemoteMethods {
   setConfig(nodePath: string): any;
   getVersion(): any;
   getLatestVersion(): any;
+  getDebugInfo(): {
+    rootPath: string;
+    jestExecuablePath: string;
+  };
 }
 
 const remoteInterface = new Promise<RemoteMethods>(resolve => {

@@ -4,6 +4,8 @@ import tests from './Tests';
 import searcher from './Searcher';
 import preference from './Preference';
 import updater from './Updater';
+import shortcut from './Shortcut';
+import vsCodeIntegrator from './VsCodeIntegrator';
 
 export { Workspace } from './Workspace';
 export { Debugger } from './Debugger';
@@ -19,7 +21,9 @@ const stores = {
   tests,
   searcher,
   preference,
-  updater
+  updater,
+  shortcut,
+  vsCodeIntegrator
 };
 
 export default stores;

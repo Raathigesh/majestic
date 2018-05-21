@@ -2,7 +2,11 @@ import { join } from 'path';
 import Engine from '.';
 import fetch from 'node-fetch';
 import { ChildProcess, spawn } from 'child_process';
-import { executeInSequence, getTestPatternForPath } from './util';
+import {
+  executeInSequence,
+  getTestPatternForPath,
+  getTestPatternForTestName
+} from './util';
 import { Config } from './types/Config';
 import Preference from './Preference';
 
@@ -38,7 +42,7 @@ export default class TestRunner {
       [
         ...(watch ? ['--watchAll'] : []),
         ...(testName
-          ? ['--testNamePattern', testName.replace(/\s/g, '.')]
+          ? ['--testNamePattern', getTestPatternForTestName(testName)]
           : []),
         ...(testFile ? [getTestPatternForPath(testFile)] : []),
         ...['--reporters', 'default', repoterPath],
@@ -82,7 +86,7 @@ export default class TestRunner {
         [
           '--updateSnapshot',
           ...(testName
-            ? ['--testNamePattern', testName.replace(/\s/g, '.')]
+            ? ['--testNamePattern', getTestPatternForTestName(testName)]
             : []),
           ...(testFile ? [getTestPatternForPath(testFile)] : [])
         ],
@@ -203,6 +207,10 @@ export default class TestRunner {
         delay: 200
       }
     ]);
+  }
+
+  public getJestExecutablePath() {
+    return this.config.jestScript;
   }
 
   private getEnvironment() {

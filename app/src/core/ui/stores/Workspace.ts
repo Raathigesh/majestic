@@ -10,6 +10,7 @@ type RunAction = 'run' | 'watch' | 'stop' | 'complete';
 
 export class Workspace {
   @observable public watch: boolean = false;
+  @observable public bookmarks: Map<string, null> = new Map([]);
   @observable
   private runStatus: RunStatus = RunnerMachine.initialState.value as RunStatus;
 
@@ -75,6 +76,14 @@ export class Workspace {
   @computed
   public get isExecuting() {
     return this.runStatus === 'watching' || this.runStatus === 'running';
+  }
+
+  public toggleBookmark(path: string) {
+    if (this.bookmarks.has(path)) {
+      this.bookmarks.delete(path);
+    } else {
+      this.bookmarks.set(path, null);
+    }
   }
 }
 

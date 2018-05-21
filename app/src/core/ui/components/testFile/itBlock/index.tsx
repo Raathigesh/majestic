@@ -83,7 +83,9 @@ interface ItBlockProps {
   onUpdateSnapshot: () => void;
   launchInEditor: (test: It) => void;
   debugTest: () => void;
+  startVsCodeDebug: (testName: string) => void;
   isDebugging: boolean;
+  isVsCodeReady: boolean;
 }
 
 function ItBlock({
@@ -92,7 +94,9 @@ function ItBlock({
   onUpdateSnapshot,
   launchInEditor,
   debugTest,
-  isDebugging
+  isDebugging,
+  isVsCodeReady,
+  startVsCodeDebug
 }: ItBlockProps) {
   return (
     <Container>
@@ -138,7 +142,7 @@ function ItBlock({
           />
         </Tooltip>
         <Tooltip
-          content={'Launch a debug session'}
+          content={isVsCodeReady ? 'Debug in VSCode' : 'Launch a debug session'}
           className={'pt-dark'}
           intent={Intent.PRIMARY}
         >
@@ -147,7 +151,11 @@ function ItBlock({
             className="pt-button pt-small pt-minimal pt-icon-pulse"
             status={itBlock.status}
             onClick={() => {
-              debugTest();
+              if (isVsCodeReady) {
+                startVsCodeDebug(itBlock.name);
+              } else {
+                debugTest();
+              }
             }}
           />
         </Tooltip>

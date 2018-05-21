@@ -32,6 +32,10 @@ export function getTestPatternForPath(filePath: string) {
   return `^${filePath.replace(replacePattern, '.')}$`;
 }
 
+export function getTestPatternForTestName(name: string) {
+  return name.replace(/\s/g, '.');
+}
+
 export function getItBlocks(path: string): ItBlock[] {
   try {
     const parser = getParser(path);

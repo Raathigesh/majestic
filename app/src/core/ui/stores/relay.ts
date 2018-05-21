@@ -18,28 +18,47 @@ interface LoggerArg {
 }
 export const loggerStream$ = new Subject<LoggerArg>();
 
-const ws = new Sockette.default('ws://localhost:7777', {
-  timeout: 5e3,
-  maxAttempts: 10,
-  onmessage: (e: any) => {
-    const { event, payload, source } = JSON.parse(e.data);
-    if (event === 'onTestResult') {
-      for (let item of payload) {
-        testResultStream$.next({
-          test: item.test,
-          testResult: item.testResult,
-          aggregatedResult: item.aggregatedResult
+interface VsCodePluginArg {
+  event: 'workspace-path';
+  payload: any;
+}
+export const vscodePluginStream$ = new Subject<VsCodePluginArg>();
+
+const connection = new Promise(resolve => {
+  const ws = new Sockette.default('ws://localhost:7777', {
+    timeout: 5e3,
+    maxAttempts: 10,
+    onmessage: (e: any) => {
+      const { event, payload, source } = JSON.parse(e.data);
+      if (event === 'onTestResult') {
+        for (let item of payload) {
+          testResultStream$.next({
+            test: item.test,
+            testResult: item.testResult,
+            aggregatedResult: item.aggregatedResult
+          });
+        }
+      } else if (event === 'onRunComplete') {
+        runCompleteStream$.next({
+          results: payload.results
+        });
+      } else if (source === 'majestic-logger') {
+        loggerStream$.next(payload);
+      } else if (source === 'vscode-majestic' && event === 'workspace-path') {
+        vscodePluginStream$.next({
+          event,
+          payload
         });
       }
-    } else if (event === 'onRunComplete') {
-      runCompleteStream$.next({
-        results: payload.results
-      });
-    } else if (source === 'majestic-logger') {
-      loggerStream$.next(payload);
+    },
+    onopen: () => {
+      resolve(ws);
     }
-  },
-  onopen: () => {
-    ws.send('send');
-  }
+  });
 });
+
+export function send(message: any) {
+  connection.then((ws: any) => {
+    ws.send(JSON.stringify(message));
+  });
+}

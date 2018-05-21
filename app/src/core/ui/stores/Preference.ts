@@ -4,10 +4,12 @@ import remoteInterface from './remote';
 export class Preference {
   @observable public nodePath: string;
   @observable public preferenceModalOpen: boolean;
+  @observable public showTreeView: boolean;
 
   constructor() {
     this.fetchPreference();
     this.preferenceModalOpen = false;
+    this.showTreeView = true;
   }
 
   public async fetchPreference() {
@@ -15,6 +17,7 @@ export class Preference {
     const config = await remote.getConfig();
 
     this.nodePath = config.nodePath;
+    // this.showTreeView = config.showTreeView;
   }
 
   public setNodePath(path: string) {
@@ -28,6 +31,11 @@ export class Preference {
 
   public togglePreferenceModal(toggle: boolean) {
     this.preferenceModalOpen = toggle;
+  }
+
+  public toggleTreeview() {
+    this.showTreeView = !this.showTreeView;
+    this.saveConfig();
   }
 }
 

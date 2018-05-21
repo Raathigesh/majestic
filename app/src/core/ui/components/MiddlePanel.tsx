@@ -6,6 +6,7 @@ import It from '../stores/It';
 import TestFile from './testFile';
 import Tab from './tab';
 import styled from 'styled-components';
+import { VsCodeIntegrator } from '../stores/VsCodeIntegrator';
 
 const Container = styled.div`
   height: 100%;
@@ -17,9 +18,15 @@ interface MiddlePanelProps {
   workspace: Workspace;
   tests: Tests;
   debug: Debugger;
+  vsCodeIntegrator: VsCodeIntegrator;
 }
 
-function MiddlePanel({ workspace, tests, debug }: MiddlePanelProps) {
+function MiddlePanel({
+  workspace,
+  tests,
+  debug,
+  vsCodeIntegrator
+}: MiddlePanelProps) {
   return (
     <Container>
       {tests.selectedTest && (
@@ -43,6 +50,8 @@ function MiddlePanel({ workspace, tests, debug }: MiddlePanelProps) {
             debug.startDebugging(testFileName, it);
           }}
           isDebugging={debug.running}
+          vsCodeIntegrator={vsCodeIntegrator}
+          bookmarks={workspace.bookmarks}
         />
       )}
       {!tests.selectedTest && <Empty />}

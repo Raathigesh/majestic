@@ -10,6 +10,7 @@ import DebugLink from './components/debugLink';
 import { Tests, Debugger, Searcher, Preference, Updater } from './stores';
 import MiddlePanel from './components/MiddlePanel';
 import { lighten } from 'polished';
+import { VsCodeIntegrator } from './stores/VsCodeIntegrator';
 
 const Container = styled.div`
   height: 100vh;
@@ -31,6 +32,7 @@ interface HomeProps {
   searcher: Searcher;
   preference: Preference;
   updater: Updater;
+  vsCodeIntegrator: VsCodeIntegrator;
 }
 
 @observer
@@ -42,7 +44,8 @@ class Home extends React.Component<HomeProps, {}> {
       debug,
       searcher,
       preference,
-      updater
+      updater,
+      vsCodeIntegrator
     } = this.props;
     return (
       <Container className="Home">
@@ -50,11 +53,18 @@ class Home extends React.Component<HomeProps, {}> {
           <SplitPane
             paneStyle={{ position: 'inherit' }}
             split="vertical"
-            minSize={320}
-            defaultSize={320}
+            minSize={preference.showTreeView ? 320 : 0}
+            defaultSize={preference.showTreeView ? 320 : 0}
           >
-            <Sidebar tests={tests} searcher={searcher} />
-            <MiddlePanel workspace={workspace} tests={tests} debug={debug} />
+            {preference.showTreeView && (
+              <Sidebar tests={tests} searcher={searcher} />
+            )}
+            <MiddlePanel
+              workspace={workspace}
+              tests={tests}
+              debug={debug}
+              vsCodeIntegrator={vsCodeIntegrator}
+            />
           </SplitPane>
         </MainWorkSpace>
         <SummaryPanel

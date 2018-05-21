@@ -8,6 +8,7 @@ import Header from './Header';
 import It from '../../stores/It';
 import { Workspace } from '../../stores/Workspace';
 import { lighten } from 'polished';
+import { VsCodeIntegrator } from '../../stores/VsCodeIntegrator';
 
 const Container = styled.div`
   display: flex;
@@ -26,12 +27,14 @@ const Tests = styled.div`
 interface TestPanelProps {
   testFile: Node;
   workspace: Workspace;
+  bookmarks: Map<string, null>;
   onRunTest: (it: It) => void;
   onRunFile: () => void;
   onUpdateSnapshot: (it: It, testFileName: Node) => void;
   launchEditor: (it: It, testFileName: Node) => void;
   debugTest: (it: It, testFileName: Node) => void;
   isDebugging: boolean;
+  vsCodeIntegrator: VsCodeIntegrator;
 }
 
 function TestFile({
@@ -42,11 +45,18 @@ function TestFile({
   onUpdateSnapshot,
   launchEditor,
   debugTest,
-  isDebugging
+  isDebugging,
+  vsCodeIntegrator,
+  bookmarks
 }: TestPanelProps) {
   return (
     <Container className="pt-card pt-dark">
-      <Header testFile={testFile} workspace={workspace} onRunFile={onRunFile} />
+      <Header
+        testFile={testFile}
+        workspace={workspace}
+        onRunFile={onRunFile}
+        bookmarks={bookmarks}
+      />
       <Scrollbars style={{ flexGrow: '1' }}>
         <Tests>
           {testFile &&
@@ -56,6 +66,7 @@ function TestFile({
                 itBlock={itBlock}
                 onRunTest={onRunTest}
                 isDebugging={isDebugging}
+                isVsCodeReady={vsCodeIntegrator.isDebuggerReady}
                 onUpdateSnapshot={() => {
                   onUpdateSnapshot(itBlock, testFile);
                 }}
@@ -64,6 +75,9 @@ function TestFile({
                 }}
                 debugTest={() => {
                   debugTest(itBlock, testFile);
+                }}
+                startVsCodeDebug={(testName: string) => {
+                  vsCodeIntegrator.startDebug(testName, testFile.path);
                 }}
               />
             ))}

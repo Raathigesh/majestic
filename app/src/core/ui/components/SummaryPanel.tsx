@@ -10,6 +10,7 @@ import { Tests } from '../stores/Tests';
 import { Preference as PreferenceStore, Updater } from '../stores';
 import Preference from './Preference';
 import FailedTests from './summaryPanel/FailedTests';
+import Bookmarks from './bookmarks';
 
 const Container = styled.div`
   width: 350px;
@@ -58,6 +59,12 @@ function SummaryPanel({
         />
         <ExecutionSummary executionSummary={tests.executionSummary} />
         <CoverageSummary coverageSummary={tests.coverageSummary} />
+        <Bookmarks
+          bookmarks={workspace.bookmarks}
+          onClick={(path: string) => {
+            tests.changeCurrentSelection(path);
+          }}
+        />
         <FailedTests
           failedTetsts={tests.failedTests}
           onChangeCurrentSelection={tests.changeCurrentSelection}

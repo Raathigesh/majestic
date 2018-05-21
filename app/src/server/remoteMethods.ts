@@ -34,11 +34,13 @@ export default function getRemoteMethods(engine: Engine) {
     },
     getConfig() {
       return JSON.stringify({
-        nodePath: engine.preference.getNodePath()
+        nodePath: engine.preference.getNodePath(),
+        showTreeView: engine.preference.getTreeViewToggle()
       });
     },
-    setConfig(nodePath: string) {
+    setConfig(nodePath: string, showTreeView: boolean) {
       engine.preference.setNodePath(nodePath);
+      engine.preference.setShowTreeView(showTreeView);
       return JSON.stringify({});
     },
     getVersion() {
@@ -54,6 +56,12 @@ export default function getRemoteMethods(engine: Engine) {
           version
         })
       );
+    },
+    getDebugInfo() {
+      return JSON.stringify({
+        rootPath: engine.root,
+        jestExecuablePath: engine.testRunner.getJestExecutablePath()
+      });
     }
   };
 }
