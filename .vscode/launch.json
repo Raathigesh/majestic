@@ -9,7 +9,10 @@
       "request": "launch",
       "name": "Launch Program",
       "runtimeArgs": ["-r", "./app/node_modules/ts-node/register"],
-      "args": ["${workspaceFolder}/app/src/server/index.ts"],
+      "args": [
+        "${workspaceFolder}/app/src/server/index.ts",
+        "D:\\projects\\reference\\jest"
+      ],
       "console": "integratedTerminal"
     }
   ]

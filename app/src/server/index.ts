@@ -13,7 +13,7 @@ const app = express();
 app.use(express.static(join(__dirname, '../../build')));
 const server = http.createServer(app);
 
-const projectPath = process.cwd();
+const projectPath = process.argv[2] || process.cwd();
 
 const engine = new Engine(projectPath, getConfig(projectPath));
 engine.testFiles.read(engine.root);
