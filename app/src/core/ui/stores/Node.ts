@@ -1,4 +1,4 @@
-import { ITreeNode, IconName } from '@blueprintjs/core';
+import { IconName } from '@blueprintjs/core';
 import { observable, IObservableArray, computed } from 'mobx';
 import It from './It';
 import TreeNodeType from '../../../types/nodeTypes';
@@ -8,7 +8,7 @@ import { ItBlock } from '../../engine/types/ItBlock';
 import { Status } from './types/JestRepoter';
 import { getLabel } from '../components/statusLabel';
 
-export default class Node implements ITreeNode {
+export default class Node {
   @observable children?: Node[];
   @observable hasCaret?: boolean;
   @observable icon?: IconName | JSX.Element;

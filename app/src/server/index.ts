@@ -1,5 +1,7 @@
 import * as express from 'express';
 import * as http from 'http';
+import { join } from 'path';
+const chalk = require('chalk');
 import { bootstrap, register } from '../core/portal/server';
 import Engine from '../core/engine';
 import getRemoteMethods from './remoteMethods';
@@ -8,19 +10,27 @@ import getConfig from '../core/engine/config/defaultConfig20';
 import { ItBlock } from '../core/engine/types/ItBlock';
 
 const app = express();
+app.use(express.static(join(__dirname, '../../build')));
 const server = http.createServer(app);
 
-const engine = new Engine(
-  'D:\\projects\\reference\\jest',
-  getConfig('D:\\projects\\reference\\jest')
-);
-engine.testFiles.read(engine.root);
+const projectPath = process.cwd();
 
-server.listen(process.env.PORT || 3005, (err: any) => {
+const engine = new Engine(projectPath, getConfig(projectPath));
+engine.testFiles.read(engine.root);
+const port = process.env.PORT || 3005;
+server.listen(port, (err: any) => {
   if (err) {
     console.log(err);
   }
-  console.log('🚀 started');
+
+  engine.getVersion().then((version: string) => {
+    console.log(`
+     ${chalk.black.bgYellow.bold(` Majestic v${version} `)}
+  ${chalk.white('Zero config UI for Jest')}
+
+visit ${chalk.green(`http://localhost:${port}`)}
+    `);
+  });
 });
 
 bootstrap(server).then(() => {

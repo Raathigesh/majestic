@@ -1,7 +1,6 @@
 {
-  "name": "appa",
+  "name": "majestic",
   "version": "0.1.0",
-  "private": true,
   "dependencies": {
     "@blueprintjs/core": "^2.0.0",
     "@types/express": "^4.11.1",
@@ -9,18 +8,16 @@
     "@types/node-fetch": "^1.6.8",
     "@types/socket.io-client": "^1.4.32",
     "ansi-to-html": "^0.6.4",
+    "chalk": "^2.4.1",
     "chokidar": "^2.0.3",
-    "chrome-devtools-frontend": "^1.0.548690",
     "chrome-launcher": "^0.10.2",
     "classnames": "^2.2.5",
     "clipboard-copy": "^2.0.0",
     "conf": "^1.4.0",
     "date-fns": "^1.29.0",
     "directory-tree": "^2.1.0",
-    "evergreen-ui": "^3.0.0",
     "express": "^4.16.3",
     "fuzzysearch": "^1.0.3",
-    "inversify": "^4.13.0",
     "istanbul-lib-coverage": "^1.2.0",
     "istanbul-lib-source-maps": "^1.2.3",
     "jest": "^22.4.3",
@@ -41,7 +38,6 @@
     "react": "^16.2.0",
     "react-custom-scrollbars": "^4.2.1",
     "react-dev-utils": "^5.0.1",
-    "react-docgen": "^2.20.1",
     "react-dom": "^16.2.0",
     "react-draggable": "^3.0.5",
     "react-epic-spinners": "^0.2.1",
@@ -66,7 +62,6 @@
     "strip-ansi": "^4.0.0",
     "styled-components": "^3.2.3",
     "ts-node": "^5.0.1",
-    "unstated": "^1.2.0",
     "ws": "^5.1.0",
     "xstate": "^3.1.1"
   },
@@ -77,7 +72,11 @@
     "eject": "react-scripts-ts eject",
     "debug": "nodemon",
     "jest": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
-    "server": "ts-node ./src/server/index.ts"
+    "server": "ts-node ./src/server/index.ts",
+    "build-server": "tsc --project ./",
+    "run-prod": "node ./server-build/server/index.js",
+    "clean": "rimraf ./build && rimraf ./server-build",
+    "ship": "npm run clean && npm run build && npm run build-server"
   },
   "devDependencies": {
     "@types/istanbul-lib-coverage": "^1.1.0",
@@ -88,7 +87,11 @@
     "@types/react-dom": "^16.0.4",
     "@types/react-router-dom": "^4.2.5",
     "nodemon": "^1.17.2",
+    "rimraf": "^2.6.2",
     "typescript": "^2.7.2"
+  },
+  "bin": {
+    "majestic": "./server-build/server/index.js"
   },
   "prettier": {
     "singleQuote": true

@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "outDir": "build/dist",
-    "module": "esnext",
+    "outDir": "server-build",
+    "module": "commonjs",
     "target": "es5",
     "lib": ["es6", "dom", "es2017.object"],
     "sourceMap": true,
