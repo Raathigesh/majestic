@@ -1,6 +1,6 @@
 ## Majestic 1.0
 
-You are looking at a complete rewrite of majestic. Still very early. Come back in a couple of weeks.
+You are looking at a complete rewrite of majestic. Still very early. Come back in couple of weeks.
 
 ## Inspiration
 
