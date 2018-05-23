@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import * as express from 'express';
 import * as http from 'http';
 import { join } from 'path';
