@@ -36,6 +36,7 @@ export default class TestRunner {
       ? this.preference.getNodePath()
       : 'node';
 
+    const setupFilesArg = [loggerPath, ...(this.config.setupFiles || [])];
     const jestScript = join(this.engine.root, this.config.jestScript);
     this.jestProcess = spawn(
       `${NodeExecutable} -r ${patchJsFile} ${jestScript}`,
@@ -46,7 +47,7 @@ export default class TestRunner {
           : []),
         ...(testFile ? [getTestPatternForPath(testFile)] : []),
         ...['--reporters', 'default', repoterPath],
-        ...['--setupFiles', loggerPath],
+        ...['--setupFiles', ...setupFilesArg],
         ...(this.config.args ? this.config.args : [])
       ],
       {

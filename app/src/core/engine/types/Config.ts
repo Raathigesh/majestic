@@ -4,4 +4,5 @@ export interface Config {
   jestScript: string;
   args?: string[];
   env?: any;
+  setupFiles?: string[];
 }
