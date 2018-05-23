@@ -1,5 +1,4 @@
 import { observable } from 'mobx';
-// import * as distanceInWords from 'date-fns/distance_in_words';
 
 export default class ExecutionSummary {
   @observable public successfulSuits: number = 0;
