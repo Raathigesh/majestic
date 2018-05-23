@@ -100,17 +100,17 @@ function Header({ testFile, onRunFile, workspace, bookmarks }: HeaderProps) {
         <InfoBar>
           <InfoBlock
             icon="code"
-            label={`${testFile.totalTests} Tests`}
+            label={`${testFile.totalTests} Total`}
             color={theme.extra.moon}
           />
           <InfoBlock
             icon="tick"
-            label={`${testFile.totalPassedTests} Passed Tests`}
+            label={`${testFile.totalPassedTests} Passed`}
             color={theme.extra.mercury}
           />
           <InfoBlock
             icon="cross"
-            label={`${testFile.totalFailedTests} Failed Tests`}
+            label={`${testFile.totalFailedTests} Failed`}
             color={theme.primary}
           />
           <InfoBlock

@@ -8,7 +8,6 @@ const WebSocket = require("ws");
 export function activate(context: vscode.ExtensionContext) {
   let connectionPromise = new Promise(resolve => {
     const ws = new Sockette("ws://localhost:7777", {
-      timeout: 5e3,
       onopen: e => {
         ws.send(
           JSON.stringify({
@@ -28,11 +27,25 @@ export function activate(context: vscode.ExtensionContext) {
           })
         );
       },
-      onclose: e => {
-        debugger;
-      },
-      onerror: e => {
-        debugger;
+      onmessage: payload => {
+        const message = JSON.parse(payload.data);
+        if (
+          message.source === "majestic" &&
+          message.event === "start-debugging"
+        ) {
+          startDebugging(message.payload);
+        } else if (
+          message.source === "majestic" &&
+          message.event === "get-root-path"
+        ) {
+          ws.send(
+            JSON.stringify({
+              source: "vscode-majestic",
+              event: "workspace-path",
+              payload: vscode.workspace.rootPath
+            })
+          );
+        }
       }
     });
   });
@@ -44,27 +57,6 @@ export function activate(context: vscode.ExtensionContext) {
         payload: vscode.workspace.rootPath
       })
     );
-
-    connection.on("message", messageString => {
-      const message = JSON.parse(messageString);
-      if (
-        message.source === "majestic" &&
-        message.event === "start-debugging"
-      ) {
-        startDebugging(message.payload);
-      } else if (
-        message.source === "majestic" &&
-        message.event === "get-root-path"
-      ) {
-        connection.send(
-          JSON.stringify({
-            source: "vscode-majestic",
-            event: "workspace-path",
-            payload: vscode.workspace.rootPath
-          })
-        );
-      }
-    });
   });
 }
 

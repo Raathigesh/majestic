@@ -18,7 +18,9 @@ export default class Watcher {
     });
 
     this.watcher
-      .on('add', this.onAddHandler)
+      .on('add', (path: string) => {
+        this.onAddHandler(path);
+      })
       .on('change', (path: string) => {
         try {
           this.onChangeHandler(path, getItBlocks(path));
@@ -26,7 +28,9 @@ export default class Watcher {
           this.onChangeHandler(path);
         }
       })
-      .on('unlink', this.onDeleteHandler);
+      .on('unlink', (path: string) => {
+        this.onDeleteHandler(path);
+      });
   }
 
   public handlers(
