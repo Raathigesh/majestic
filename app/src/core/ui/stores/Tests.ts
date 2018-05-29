@@ -88,6 +88,10 @@ export class Tests {
       .map(([key, file]) => file);
   }
 
+  public executeAllItBlocks() {
+    this.flatNodeMap.forEach(file => file.execute());
+  }
+
   private handleOnTestResult(
     test: Test,
     testResult: TestResult,

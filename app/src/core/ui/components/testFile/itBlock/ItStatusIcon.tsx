@@ -29,7 +29,7 @@ function StatusIcon({ status }: StatusIconProps) {
   } else if (status === 'passed') {
     icon = 'pt-icon-small-tick';
   } else if (status === 'pending') {
-    icon = 'pt-icon-circle';
+    icon = 'pt-icon-small-minus';
   }
   return <Status className={`pt-icon-standard ${icon}`} status={status} />;
 }

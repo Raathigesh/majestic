@@ -49,7 +49,11 @@ function SummaryPanel({
         <RunPanel
           onRunTests={() => {
             workspace.run();
-            tests.resetStatus();
+            if (workspace.isExecuting) {
+              tests.resetStatus();
+            } else {
+              tests.executeAllItBlocks();
+            }
           }}
           isWatching={workspace.watch}
           toggleWatch={() => {

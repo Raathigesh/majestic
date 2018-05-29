@@ -29,7 +29,7 @@ export default class It {
 
   resetStatus() {
     this.status = '';
-    this.startExecting();
+    this.stopExecuting();
   }
 
   public async updateSnapshot(promise: Promise<any>) {
