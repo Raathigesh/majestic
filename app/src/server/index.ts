@@ -9,6 +9,8 @@ import getRemoteMethods from './remoteMethods';
 import { getConnection } from './relay';
 import { ConfigProvider } from '../core/engine/configProvider';
 import { ItBlock } from '../core/engine/types/ItBlock';
+const chromeLauncher = require('chrome-launcher');
+const parseArgs = require('minimist');
 
 const app = express();
 app.use(express.static(join(__dirname, '../../build')));
@@ -32,6 +34,18 @@ server.listen(port, (err: any) => {
 
 visit ${chalk.green(`http://localhost:${port}`)}
     `);
+
+    const args = parseArgs(process.argv);
+    if (args.app) {
+      chromeLauncher
+        .launch({
+          startingUrl: `http://localhost:${port}`,
+          chromeFlags: [`--app=http://localhost:${port}`]
+        })
+        .then((chrome: any) => {
+          console.log(`Chrome debugging port running on ${chrome.port}`);
+        });
+    }
   });
 });
 

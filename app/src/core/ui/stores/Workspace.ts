@@ -22,6 +22,8 @@ export class Workspace {
   }
 
   public async run() {
+    this.currentExecutingFile = '';
+
     const remote = await remoteInterface;
     if (this.isExecuting) {
       remote.stop();

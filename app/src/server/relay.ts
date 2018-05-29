@@ -19,8 +19,6 @@ function initializeConnection() {
   return new Promise<Connection>((resolve, reject) => {
     const wss = new WS.Server({ port: 7777 });
     wss.on('connection', (ws: any) => {
-      console.log('connection estalished');
-
       ws.on('message', (message: any) => {
         // console.log(message);
         wss.clients.forEach((client: any) => {
