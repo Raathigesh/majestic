@@ -11,6 +11,7 @@ type RunAction = 'run' | 'watch' | 'stop' | 'complete';
 export class Workspace {
   @observable public watch: boolean = false;
   @observable public bookmarks: Map<string, null> = new Map([]);
+  @observable public currentExecutingFile: string = '';
   @observable
   private runStatus: RunStatus = RunnerMachine.initialState.value as RunStatus;
 
@@ -35,6 +36,8 @@ export class Workspace {
     if (!node) {
       return;
     }
+
+    this.currentExecutingFile = node.path;
 
     const remote = await remoteInterface;
     node.execute();

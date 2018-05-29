@@ -1,5 +1,6 @@
 import { getItBlocks } from './util';
 import { ItBlock } from './types/ItBlock';
+import { Config } from './types/Config';
 const chokidar = require('chokidar');
 
 export default class Watcher {
@@ -11,9 +12,15 @@ export default class Watcher {
     itBlocks?: ItBlock[]
   ) => void = () => ({});
 
-  constructor(root: string) {
+  constructor(root: string, { modulePathIgnorePatterns }: Config) {
+    const ignoredPaths = [
+      'node_modules',
+      '.git',
+      ...(modulePathIgnorePatterns ? modulePathIgnorePatterns : [])
+    ];
+
     this.watcher = chokidar.watch(root, {
-      ignored: /node_modules|\.git/,
+      ignored: new RegExp(ignoredPaths.join('|')),
       ignoreInitial: true
     });
 

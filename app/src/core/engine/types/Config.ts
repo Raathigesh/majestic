@@ -5,4 +5,5 @@ export interface Config {
   args?: string[];
   env?: any;
   setupFiles?: string[];
+  modulePathIgnorePatterns?: string[];
 }

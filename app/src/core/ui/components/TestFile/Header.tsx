@@ -1,14 +1,13 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { Button } from '@blueprintjs/core';
 import Node from '../../stores/Node';
 import InfoBlock from './InfoBlock';
-import Button from '../button';
 import { observer } from 'mobx-react';
 const { Play, Bookmark } = require('react-feather');
 import { Workspace } from '../../stores/Workspace';
 import SelfBuildingSquareSpinner from '../spinners/SelfBuildingSquare';
 import theme from '../../theme';
-import { lighten } from 'polished';
 const Content = styled.div`
   flex-grow: 1;
 `;
@@ -69,14 +68,20 @@ interface HeaderProps {
   onRunFile: () => void;
 }
 
-const RunFileButton = styled(Button)`
-  border: 1.5px solid ${props => lighten(0.5, props.theme.main)};
-  padding: 1px;
-  min-width: 108px;
+const ButtonStyled = styled(Button)`
+  &:focus {
+    outline: rgba(255, 255, 255, 0.5) auto 2px;
+  }
 `;
 
+function isCurrentFileExecuting(workspace: Workspace, testFile: Node) {
+  return (
+    workspace.isExecuting && workspace.currentExecutingFile === testFile.path
+  );
+}
+
 function Header({ testFile, onRunFile, workspace, bookmarks }: HeaderProps) {
-  const icon = workspace.isExecuting ? (
+  const icon = isCurrentFileExecuting(workspace, testFile) ? (
     <SelfBuildingSquareSpinner color={theme.text} />
   ) : (
     <Play size={16} />
@@ -121,14 +126,18 @@ function Header({ testFile, onRunFile, workspace, bookmarks }: HeaderProps) {
         </InfoBar>
       </Content>
       <RightContent>
-        <RunFileButton
-          label={workspace.isExecuting ? 'Stop' : 'Run File'}
+        <ButtonStyled
           icon={icon}
-          minimal={true}
+          className="pt-minimal"
           onClick={() => {
             onRunFile();
           }}
-        />
+          disabled={workspace.isExecuting && !workspace.watch}
+        >
+          {isCurrentFileExecuting(workspace, testFile)
+            ? ' Running'
+            : 'Run File'}
+        </ButtonStyled>
       </RightContent>
     </Container>
   );

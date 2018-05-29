@@ -7,7 +7,7 @@ import { bootstrap, register } from '../core/portal/server';
 import Engine from '../core/engine';
 import getRemoteMethods from './remoteMethods';
 import { getConnection } from './relay';
-import getConfig from '../core/engine/config/defaultConfig20';
+import { ConfigProvider } from '../core/engine/configProvider';
 import { ItBlock } from '../core/engine/types/ItBlock';
 
 const app = express();
@@ -16,7 +16,8 @@ const server = http.createServer(app);
 
 const projectPath = process.argv[2] || process.cwd();
 
-const engine = new Engine(projectPath, getConfig(projectPath));
+const configProvider = new ConfigProvider(projectPath);
+const engine = new Engine(projectPath, configProvider.getConfig());
 engine.testFiles.read(engine.root);
 const port = process.env.PORT || 3005;
 server.listen(port, (err: any) => {

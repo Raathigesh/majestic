@@ -1,6 +1,7 @@
 import { join } from 'path';
 import Engine from '.';
 import fetch from 'node-fetch';
+const consola = require('consola');
 import { ChildProcess, spawn } from 'child_process';
 import {
   executeInSequence,
@@ -32,6 +33,7 @@ export default class TestRunner {
     const patchJsFile = join(__dirname, './patch.js');
     const repoterPath = join(__dirname, './reporter.js');
     const loggerPath = join(__dirname, './logger.js');
+    // const teardown = join(__dirname, './teardown.js');
     const NodeExecutable = this.preference.getNodePath()
       ? this.preference.getNodePath()
       : 'node';
@@ -49,6 +51,7 @@ export default class TestRunner {
         ...['--reporters', 'default', repoterPath],
         ...['--setupFiles', ...setupFilesArg],
         ...(this.config.args ? this.config.args : [])
+        // ...['--globalTeardown', teardown]
       ],
       {
         cwd: this.engine.root,
@@ -59,19 +62,15 @@ export default class TestRunner {
     );
 
     this.jestProcess.stdout.on('data', (data: string) => {
-      console.log(data.toString().trim());
+      consola.info(data.toString().trim());
     });
 
     this.jestProcess.stderr.on('data', (data: string) => {
-      console.log(data.toString().trim());
-    });
-
-    this.jestProcess.on('close', code => {
-      console.log(`child process exited with code ${code}`);
+      consola.info(data.toString().trim());
     });
 
     this.jestProcess.on('exit', code => {
-      console.log(`cthis is exit`);
+      consola.warn('Jest process did exit');
     });
   }
 

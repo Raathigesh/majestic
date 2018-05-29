@@ -21,7 +21,7 @@ export default class Engine {
     this.testFiles = new TestFiles(this);
     this.preference = new Preference();
     this.testRunner = new Runner(this, config, this.preference);
-    this.watcher = new Watcher(rootPath);
+    this.watcher = new Watcher(rootPath, config);
   }
 
   launchEditor(path: string, lineNo: number) {

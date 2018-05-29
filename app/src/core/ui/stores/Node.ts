@@ -103,6 +103,7 @@ export default class Node {
   }
 
   public execute() {
+    this.resetStatus();
     this.executeAllItBlocks();
   }
 
