@@ -1,0 +1,3 @@
+global.majestic = {
+  log(args) {}
+};

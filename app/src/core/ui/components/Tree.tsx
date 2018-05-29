@@ -186,7 +186,6 @@ export default class Tree extends React.Component<any, any> {
 
   cellRenderer = (params: any) => {
     var renderedCell = this.renderItem(this.props.nodes[params.index]);
-    console.log(params.key);
     return (
       <ul
         style={{ ...params.style, paddingLeft: '0px', margin: '0' }}

@@ -118,8 +118,9 @@ function ItBlock({
             className={'pt-dark'}
             intent={Intent.PRIMARY}
           >
-            <button
+            <ThemedButton
               type="button"
+              status={itBlock.status}
               className="pt-button pt-small pt-minimal pt-icon-camera"
               onClick={() => {
                 onUpdateSnapshot();
@@ -177,12 +178,19 @@ function ItBlock({
       {itBlock.failureMessage && (
         <CodePanel
           dangerouslySetInnerHTML={{
-            __html: convert.toHtml(itBlock.failureMessage)
+            __html: escapeHtml(convert.toHtml(itBlock.failureMessage))
           }}
         />
       )}
     </Container>
   );
 }
-
+function escapeHtml(unsafe: string) {
+  return unsafe
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
 export default observer(ItBlock);

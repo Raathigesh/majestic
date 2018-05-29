@@ -77,13 +77,15 @@ export default class TestRunner {
   public updateSnapshot(testFile: string, testName: string) {
     return new Promise(resolve => {
       const patchJsFile = join(__dirname, './patch.js');
-
+      const loggerPath = join(__dirname, './mockLogger.js');
+      const setupFilesArg = [loggerPath, ...(this.config.setupFiles || [])];
       const updateProcess = spawn(
         `node -r ${patchJsFile} ${join(
           this.engine.root,
           this.config.jestScript
         )} `,
         [
+          ...['--setupFiles', ...setupFilesArg],
           '--updateSnapshot',
           ...(testName
             ? ['--testNamePattern', getTestPatternForTestName(testName)]
