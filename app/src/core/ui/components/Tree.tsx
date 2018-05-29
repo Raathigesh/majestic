@@ -189,7 +189,7 @@ export default class Tree extends React.Component<any, any> {
     console.log(params.key);
     return (
       <ul
-        style={{ ...params.style, paddingLeft: '0px' }}
+        style={{ ...params.style, paddingLeft: '0px', margin: '0' }}
         key={this.props.nodes[params.index].path}
       >
         {renderedCell}

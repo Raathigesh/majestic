@@ -20,7 +20,6 @@ function initializeConnection() {
     const wss = new WS.Server({ port: 7777 });
     wss.on('connection', (ws: any) => {
       ws.on('message', (message: any) => {
-        // console.log(message);
         wss.clients.forEach((client: any) => {
           if (client !== ws && client.readyState === WS.OPEN) {
             client.send(message);
