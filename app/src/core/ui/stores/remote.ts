@@ -18,7 +18,12 @@ export const debuggerExitStream$ = new Subject();
 
 interface RemoteMethods {
   getFiles(): any;
-  run(watch: boolean, testFile?: string, testName?: string): any;
+  run(
+    watch: boolean,
+    diableCoverage: boolean,
+    testFile?: string,
+    testName?: string
+  ): any;
   stop(): any;
   filterFileInWatch(fileName: string): any;
   filterTestInWatch(fileName: string, testName: string): any;
@@ -26,7 +31,11 @@ interface RemoteMethods {
   launchInEditor(fileName: string, lineNumber: number): any;
   startDebugging(fileName: string, testName: string): any;
   getConfig(): any;
-  setConfig(nodePath: string): any;
+  setConfig(
+    nodePath: string,
+    showTreeView: boolean,
+    isLogEnabled: boolean
+  ): any;
   getVersion(): any;
   getLatestVersion(): any;
   getDebugInfo(): {

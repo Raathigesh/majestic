@@ -103,3 +103,11 @@ svg.pt-icon {
 .ReactVirtualized__Grid.ReactVirtualized__List {
   outline: none;
 }
+
+.pt-popover-arrow-fill {
+  fill: #565b5f !important;
+}
+
+.pt-button.pt-active {
+  background-color: #dfdfdf !important;
+}

@@ -4,6 +4,7 @@ export default class Preference {
   public config: any;
   public NodePath: string = 'ConfigNodePath';
   public ShowTreeView: string = 'ShowTreeView';
+  public IsMajesticLogEnabled: string = 'IsMajesticLogEnabled';
 
   constructor() {
     this.config = new Conf();
@@ -23,5 +24,13 @@ export default class Preference {
 
   getTreeViewToggle() {
     return this.config.get(this.ShowTreeView);
+  }
+
+  setMajesticLogEnabled(flag: boolean) {
+    return this.config.set(this.IsMajesticLogEnabled, flag);
+  }
+
+  getMajesticLogEnabled() {
+    return this.config.get(this.IsMajesticLogEnabled);
   }
 }

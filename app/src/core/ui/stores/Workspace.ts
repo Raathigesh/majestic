@@ -12,6 +12,7 @@ export class Workspace {
   @observable public watch: boolean = false;
   @observable public bookmarks: Map<string, null> = new Map([]);
   @observable public currentExecutingFile: string = '';
+  @observable public diableCoverage: boolean = true;
   @observable
   private runStatus: RunStatus = RunnerMachine.initialState.value as RunStatus;
 
@@ -30,7 +31,7 @@ export class Workspace {
       return this.setRunStatus('stop');
     }
 
-    remote.run(this.watch);
+    remote.run(this.watch, this.diableCoverage);
     this.setRunStatus(this.watch ? 'watch' : 'run');
   }
 
@@ -46,7 +47,7 @@ export class Workspace {
     if (this.isExecuting) {
       remote.filterFileInWatch(node.path);
     } else {
-      remote.run(this.watch, node.path);
+      remote.run(this.watch, this.diableCoverage, node.path);
       this.setRunStatus(this.watch ? 'watch' : 'run');
     }
   }
@@ -57,7 +58,7 @@ export class Workspace {
     if (this.isExecuting) {
       remote.filterTestInWatch(node.path, test.name);
     } else {
-      remote.run(this.watch, node.path, test.name);
+      remote.run(this.watch, this.diableCoverage, node.path, test.name);
       this.setRunStatus(this.watch ? 'watch' : 'run');
     }
   }
@@ -71,6 +72,10 @@ export class Workspace {
 
   public toggleWatch() {
     this.watch = !this.watch;
+  }
+
+  public toggleCoverage() {
+    this.diableCoverage = !this.diableCoverage;
   }
 
   public setRunStatus(nextAction: RunAction) {

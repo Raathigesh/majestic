@@ -6,8 +6,13 @@ export default function getRemoteMethods(engine: Engine) {
     getFiles() {
       return JSON.stringify(engine.testFiles.read(engine.root));
     },
-    run(watch: boolean, testFile: string = '', testName: string = '') {
-      engine.testRunner.start(watch, testFile, testName);
+    run(
+      watch: boolean,
+      disableCoverage: boolean,
+      testFile: string = '',
+      testName: string = ''
+    ) {
+      engine.testRunner.start(watch, disableCoverage, testFile, testName);
       return JSON.stringify({});
     },
     stop() {
@@ -35,12 +40,18 @@ export default function getRemoteMethods(engine: Engine) {
     getConfig() {
       return JSON.stringify({
         nodePath: engine.preference.getNodePath(),
-        showTreeView: engine.preference.getTreeViewToggle()
+        showTreeView: engine.preference.getTreeViewToggle(),
+        isMajesticLogEnabled: engine.preference.getMajesticLogEnabled()
       });
     },
-    setConfig(nodePath: string, showTreeView: boolean) {
+    setConfig(
+      nodePath: string,
+      showTreeView: boolean,
+      isMajesticLogEnabled: boolean
+    ) {
       engine.preference.setNodePath(nodePath);
       engine.preference.setShowTreeView(showTreeView);
+      engine.preference.setMajesticLogEnabled(isMajesticLogEnabled);
       return JSON.stringify({});
     },
     getVersion() {

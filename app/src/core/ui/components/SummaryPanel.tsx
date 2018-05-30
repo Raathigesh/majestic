@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+
 import { observer } from 'mobx-react';
 import RunPanel from './summaryPanel/RunPanel';
 import ExecutionSummary from './summaryPanel/executionSummary';
@@ -54,6 +55,10 @@ function SummaryPanel({
             } else {
               tests.executeAllItBlocks();
             }
+          }}
+          isCoverageDisabled={workspace.diableCoverage}
+          onCoverageDisableChange={() => {
+            workspace.toggleCoverage();
           }}
           isWatching={workspace.watch}
           toggleWatch={() => {

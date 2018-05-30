@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import Button from './button';
-import { Dialog, Tabs, Tab } from '@blueprintjs/core';
+import { Dialog, Tabs, Tab, Switch } from '@blueprintjs/core';
 import { observer } from 'mobx-react';
 import { Preference } from '../stores';
 const { Check } = require('react-feather');
@@ -22,6 +22,10 @@ interface PreferenceModalProps {
   preference: Preference;
 }
 
+const EnableLogCheckbox = styled(Switch)`
+  margin-top: 20px;
+`;
+
 function Settings({ preference }: { preference: Preference }) {
   return (
     <React.Fragment>
@@ -39,9 +43,18 @@ function Settings({ preference }: { preference: Preference }) {
           }}
         />
       </div>
+      <EnableLogCheckbox
+        checked={preference.isMajesticLogEnabled}
+        label="Enable Majestic.log()"
+        onClick={() => {
+          preference.toggleIsMajesticLogEnabled();
+        }}
+      />
     </React.Fragment>
   );
 }
+
+const SettingsObs = observer(Settings);
 
 const FilledTable = styled.table`
   width: 100%;
@@ -77,7 +90,7 @@ function PreferenceModal({ preference }: PreferenceModalProps) {
           <Tab
             id="Home"
             title="Settings"
-            panel={<Settings preference={preference} />}
+            panel={<SettingsObs preference={preference} />}
           />
           <Tab id="Files" title="Shortcuts" panel={<Shortcut />} />
         </Tabs>

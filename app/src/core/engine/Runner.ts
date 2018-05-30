@@ -10,6 +10,7 @@ import {
 } from './util';
 import { Config } from './types/Config';
 import Preference from './Preference';
+const logger = consola.withScope('Runner');
 
 export default class TestRunner {
   private engine: Engine;
@@ -27,6 +28,7 @@ export default class TestRunner {
 
   public start(
     watch: boolean = false,
+    disableCoverageCollection: boolean = true,
     testFile: string = '',
     testName: string = ''
   ) {
@@ -38,8 +40,15 @@ export default class TestRunner {
       ? this.preference.getNodePath()
       : 'node';
 
-    const setupFilesArg = [loggerPath, ...(this.config.setupFiles || [])];
+    const setupFilesArg = [
+      ...(this.preference.getMajesticLogEnabled() ? [loggerPath] : []),
+      ...(this.config.setupFiles || [])
+    ];
     const jestScript = join(this.engine.root, this.config.jestScript);
+
+    logger.success(`Starting jest with:
+                      📈 Coverage collection: ${!disableCoverageCollection}`);
+
     this.jestProcess = spawn(
       `${NodeExecutable} -r ${patchJsFile} ${jestScript}`,
       [
@@ -50,6 +59,7 @@ export default class TestRunner {
         ...(testFile ? [getTestPatternForPath(testFile)] : []),
         ...['--reporters', 'default', repoterPath],
         ...['--setupFiles', ...setupFilesArg],
+        ...(disableCoverageCollection ? [] : ['--collectCoverage=false']),
         ...(this.config.args ? this.config.args : [])
         // ...['--globalTeardown', teardown]
       ],
@@ -181,20 +191,6 @@ export default class TestRunner {
 
   public runTestByTestNameInteractive(testFileName: string, testName: string) {
     executeInSequence([
-      {
-        fn: () => this.jestProcess.stdin.write('p'),
-        delay: 0
-      },
-      {
-        fn: () =>
-          this.jestProcess.stdin.write(getTestPatternForPath(testFileName)),
-        delay: 100
-      },
-      {
-        fn: () =>
-          this.jestProcess.stdin.write(new Buffer('0d', 'hex').toString()),
-        delay: 200
-      },
       {
         fn: () => this.jestProcess.stdin.write('t'),
         delay: 200
