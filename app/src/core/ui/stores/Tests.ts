@@ -34,8 +34,16 @@ export class Tests {
     });
 
     fileDeleteStream$.subscribe(({ files, path }) => {
-      this.initialize(files);
-      this.changeCurrentSelection(path);
+      const toBeDeleted: Node | undefined = this.flatNodeMap.get(
+        path.toLocaleLowerCase()
+      );
+      if (toBeDeleted) {
+        const parent = toBeDeleted.parent;
+
+        if (parent && parent.children) {
+          (parent.children as IObservableArray).remove(toBeDeleted);
+        }
+      }
     });
 
     testResultStream$.subscribe(({ test, testResult, aggregatedResult }) => {

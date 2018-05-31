@@ -54,7 +54,7 @@ export default class TestFiles {
       if (!treeNode) {
         return null;
       }
-      // treeNode.parent = parent;
+
       if (
         (child.type !== 'file' &&
           treeNode.children &&

@@ -11,6 +11,7 @@ import { ConfigProvider } from '../core/engine/configProvider';
 import { ItBlock } from '../core/engine/types/ItBlock';
 const chromeLauncher = require('chrome-launcher');
 const parseArgs = require('minimist');
+const ora = require('ora');
 
 const app = express();
 app.use(express.static(join(__dirname, '../../build')));
@@ -20,7 +21,11 @@ const projectPath = process.argv[2] || process.cwd();
 
 const configProvider = new ConfigProvider(projectPath);
 const engine = new Engine(projectPath, configProvider.getConfig());
+
+const spinner = ora('Reading tests').start();
 engine.testFiles.read(engine.root);
+spinner.stop();
+
 const port = process.env.PORT || 3005;
 server.listen(port, (err: any) => {
   if (err) {
@@ -56,7 +61,7 @@ bootstrap(server).then(() => {
         remote.onFileAdd(path, engine.testFiles.read(engine.root));
       },
       (path: string) => {
-        remote.onFileDelete(path, engine.testFiles.read(engine.root));
+        remote.onFileDelete(path);
       },
       (path: string, itBlocks?: ItBlock[]) => {
         if (itBlocks) {

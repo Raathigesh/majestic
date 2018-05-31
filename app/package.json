@@ -18,6 +18,7 @@
     "minimist": "^1.2.0",
     "node-fetch": "^2.1.2",
     "opn": "^5.3.0",
+    "ora": "^2.1.0",
     "p-is-promise": "^1.1.0",
     "react-dev-utils": "^5.0.1",
     "read-pkg-up": "^3.0.0",
