@@ -18,6 +18,7 @@ export const debuggerExitStream$ = new Subject();
 
 interface RemoteMethods {
   getFiles(): any;
+  reFetchFiles(): any;
   run(
     watch: boolean,
     diableCoverage: boolean,

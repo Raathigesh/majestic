@@ -4,6 +4,9 @@ const latestVersion = require('latest-version');
 export default function getRemoteMethods(engine: Engine) {
   return {
     getFiles() {
+      return JSON.stringify(engine.testFiles.getFiles());
+    },
+    reFetchFiles() {
       return JSON.stringify(engine.testFiles.read(engine.root));
     },
     run(

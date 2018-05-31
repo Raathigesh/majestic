@@ -7,6 +7,7 @@ import SearchResults from './searchResults';
 import { Searcher } from '../stores/Searcher';
 import { Tests } from '../stores/Tests';
 import NewTree from './Tree';
+import FileTreeOptions from './FileTreeOptions';
 
 const Container = styled.div`
   height: 100%;
@@ -54,12 +55,12 @@ export default class TestsPanel extends React.Component<TestsPanelProps, {}> {
           </div>
         </SearchContainer>
         <Bottom>
+          <FileTreeOptions tests={tests} />
           {!searcher.isSearching && (
             <NewTree
               nodes={tests.nodes || []}
               onSearchItemClick={(node: Node) => {
                 tests.changeCurrentSelection(node.path);
-                searcher.setQuery(tests.flatNodeMap, '');
               }}
             />
           )}
@@ -69,7 +70,6 @@ export default class TestsPanel extends React.Component<TestsPanelProps, {}> {
               items={searcher.results}
               onSearchItemClick={(node: Node) => {
                 tests.changeCurrentSelection(node.path);
-                searcher.setQuery(tests.flatNodeMap, '');
               }}
             />
           )}

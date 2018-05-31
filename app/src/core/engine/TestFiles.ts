@@ -23,6 +23,11 @@ export default class TestFiles {
     });
 
     this.files = this.transform(files) || [];
+
+    return this.files;
+  }
+
+  public getFiles() {
     return this.files;
   }
 

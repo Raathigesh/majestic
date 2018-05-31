@@ -46,7 +46,7 @@ export class Tests {
       this.handleOnRunComplete(results);
     });
 
-    this.SubscribeToTestFiles();
+    this.readFiles();
   }
 
   public initialize(files: FileNode[]) {
@@ -77,6 +77,11 @@ export class Tests {
     }
   }
 
+  @action.bound
+  public collapseTests() {
+    (this.nodes[0].children || []).forEach(child => (child.isExpanded = false));
+  }
+
   public resetStatus() {
     this.flatNodeMap.forEach(node => node.resetStatus());
   }
@@ -90,6 +95,18 @@ export class Tests {
 
   public executeAllItBlocks() {
     this.flatNodeMap.forEach(file => file.execute());
+  }
+
+  public async reFetchFiles() {
+    const remote = await remoteInterface;
+    const files: FileNode[] = await remote.reFetchFiles();
+    this.initialize(files);
+  }
+
+  private async readFiles() {
+    const remote = await remoteInterface;
+    const files: FileNode[] = await remote.getFiles();
+    this.initialize(files);
   }
 
   private handleOnTestResult(
@@ -147,12 +164,6 @@ export class Tests {
     if (results.coverageMap) {
       this.coverageSummary.mapCoverage(results.coverageMap);
     }
-  }
-
-  private async SubscribeToTestFiles() {
-    const remote = await remoteInterface;
-    const files: FileNode[] = await remote.getFiles();
-    this.initialize(files);
   }
 }
 
