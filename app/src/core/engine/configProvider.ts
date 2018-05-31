@@ -27,8 +27,8 @@ export class ConfigProvider {
     });
 
     return Boolean(
-      results.pkg.dependencies['jest-cli'] ||
-        results.pkg.devDependencies['jest-cli']
+      (results.pkg.dependencies && results.pkg.dependencies['jest-cli']) ||
+        (results.pkg.devDependencies && results.pkg.devDependencies['jest-cli'])
     );
   }
 
