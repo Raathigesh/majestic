@@ -1,47 +1,68 @@
-import { resolve, normalize } from 'path';
 import { Config } from './types/Config';
-
 const micromatch = require('micromatch');
-const { replacePathSepForRegex } = require('jest-regex-util');
+import * as pathUtil from 'path';
+const { escapePathForRegex } = require('jest-regex-util');
 
-const globsToMatcher = (globs: any[]) => {
+const globsToMatcher = (globs?: Array<any>) => {
   if (globs == null || globs.length === 0) {
     return () => true;
   }
+
   const matchers = globs.map(each => micromatch.matcher(each, { dot: true }));
-  return (value: string) => matchers.some(each => each(value));
+  return (path: string) => {
+    return matchers.some(each => each(path));
+  };
 };
 
-const pathToRegex = (p: string) => replacePathSepForRegex(p);
 const regexToMatcher = (testRegex: string) => {
   if (!testRegex) {
     return () => true;
   }
-  const regex = new RegExp(pathToRegex(testRegex));
-  return (value: string) => regex.test(value);
+
+  const regex = new RegExp(testRegex);
+  return (path: string) => regex.test(path);
 };
 
-export function getTestPatternsMatcher(rootPath: string, config: Config) {
-  let matcher: (path: string) => any = () => ({});
+class TestFileSearcher {
+  _rootPattern: RegExp;
+  _testIgnorePattern?: RegExp;
+  _testPathCases: {
+    roots: (path: string) => boolean;
+    testMatch: (path: string) => boolean;
+    testRegex: (path: string) => boolean;
+    testPathIgnorePatterns: (path: string) => boolean;
+  };
 
-  if (config.testMatch && config.testMatch.length) {
-    matcher = globsToMatcher(
-      config.testMatch.map(match => replaceRootDirInPath(rootPath, match))
+  constructor(config: Config) {
+    this._rootPattern = new RegExp(
+      (config.jest.roots || [])
+        .map((dir: string) => escapePathForRegex(dir + pathUtil.sep))
+        .join('|')
     );
-  } else if (config.testRegex) {
-    matcher = regexToMatcher(config.testRegex);
+
+    const ignorePattern = config.jest.testPathIgnorePatterns || [];
+    this._testIgnorePattern = ignorePattern.length
+      ? new RegExp(ignorePattern.join('|'))
+      : undefined;
+
+    this._testPathCases = {
+      roots: path => this._rootPattern.test(path),
+      testMatch: globsToMatcher(config.jest.testMatch),
+      testPathIgnorePatterns: path =>
+        !this._testIgnorePattern || !this._testIgnorePattern.test(path),
+      testRegex: regexToMatcher(config.jest.testRegex || '')
+    };
   }
 
-  return matcher;
+  isTestFilePath(path: string): boolean {
+    return Object.keys(this._testPathCases).every(key =>
+      this._testPathCases[key](path)
+    );
+  }
 }
 
-function replaceRootDirInPath(rootDir: string, filePath: string): string {
-  if (!/^<rootDir>/.test(filePath)) {
-    return filePath;
-  }
+export function getTestPatternsMatcher(root: string, config: Config) {
+  const fileSearcher = new TestFileSearcher(config);
 
-  return resolve(
-    rootDir,
-    normalize('./' + filePath.substr('<rootDir>'.length))
-  );
+  return (path: string) => fileSearcher.isTestFilePath(path);
 }

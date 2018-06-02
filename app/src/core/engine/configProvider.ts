@@ -13,7 +13,7 @@ export class ConfigProvider {
 
   public getConfig() {
     if (this.isBootstrappedWithCreateReactApp(this.rootPath)) {
-      return configProviders.craConfigProvider();
+      return configProviders.craConfigProvider(this.rootPath);
     } else if (this.usesJestCli()) {
       return configProviders.jestCliConfigProvider(this.rootPath);
     }

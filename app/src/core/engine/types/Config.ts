@@ -1,9 +1,14 @@
 export interface Config {
-  testMatch?: string[];
-  testRegex?: string;
+  jest: {
+    rootDir: string;
+    roots?: string[];
+    testMatch?: string[];
+    testRegex?: string;
+    setupFiles?: string[];
+    modulePathIgnorePatterns?: string[];
+    testPathIgnorePatterns?: string[];
+  };
   jestScript: string;
   args?: string[];
   env?: any;
-  setupFiles?: string[];
-  modulePathIgnorePatterns?: string[];
 }

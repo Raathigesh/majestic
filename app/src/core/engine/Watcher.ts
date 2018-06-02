@@ -12,7 +12,7 @@ export default class Watcher {
     itBlocks?: ItBlock[]
   ) => void = () => ({});
 
-  constructor(root: string, { modulePathIgnorePatterns }: Config) {
+  constructor(root: string, { jest: { modulePathIgnorePatterns } }: Config) {
     const ignoredPaths = [
       'node_modules',
       '.git',

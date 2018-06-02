@@ -42,7 +42,7 @@ export default class TestRunner {
 
     const setupFilesArg = [
       ...(this.preference.getMajesticLogEnabled() ? [loggerPath] : []),
-      ...(this.config.setupFiles || [])
+      ...(this.config.jest.setupFiles || [])
     ];
     const jestScript = join(this.engine.root, this.config.jestScript);
 
@@ -88,7 +88,10 @@ export default class TestRunner {
     return new Promise(resolve => {
       const patchJsFile = join(__dirname, './patch.js');
       const loggerPath = join(__dirname, './mockLogger.js');
-      const setupFilesArg = [loggerPath, ...(this.config.setupFiles || [])];
+      const setupFilesArg = [
+        loggerPath,
+        ...(this.config.jest.setupFiles || [])
+      ];
       const updateProcess = spawn(
         `node -r ${patchJsFile} ${join(
           this.engine.root,
