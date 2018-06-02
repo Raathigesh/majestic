@@ -6,13 +6,24 @@ import configProviders from './config';
 
 export class ConfigProvider {
   private rootPath: string;
+  private packageJsonObj: any;
 
   constructor(rootPath: string) {
     this.rootPath = rootPath;
+    this.packageJsonObj = readPkgUp.sync({
+      cwd: this.rootPath
+    }).pkg;
   }
 
   public getConfig() {
-    if (this.isBootstrappedWithCreateReactApp(this.rootPath)) {
+    if (this.packageJsonHasConfig()) {
+      const majesticCofig = this.packageJsonObj.majestic;
+      const config = configProviders.packageJsonConfig(
+        this.rootPath,
+        majesticCofig
+      );
+      return config;
+    } else if (this.isBootstrappedWithCreateReactApp(this.rootPath)) {
       return configProviders.craConfigProvider(this.rootPath);
     } else if (this.usesJestCli()) {
       return configProviders.jestCliConfigProvider(this.rootPath);
@@ -21,14 +32,16 @@ export class ConfigProvider {
     return configProviders.defaultConfigProvider(this.rootPath);
   }
 
-  private usesJestCli() {
-    const results = readPkgUp.sync({
-      cwd: this.rootPath
-    });
+  private packageJsonHasConfig() {
+    return Boolean(this.packageJsonObj.majestic);
+  }
 
+  private usesJestCli() {
     return Boolean(
-      (results.pkg.dependencies && results.pkg.dependencies['jest-cli']) ||
-        (results.pkg.devDependencies && results.pkg.devDependencies['jest-cli'])
+      (this.packageJsonObj.dependencies &&
+        this.packageJsonObj.dependencies['jest-cli']) ||
+        (this.packageJsonObj.devDependencies &&
+          this.packageJsonObj.devDependencies['jest-cli'])
     );
   }
 
