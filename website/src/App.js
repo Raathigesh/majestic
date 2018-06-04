@@ -1,19 +1,21 @@
-import React from 'react'
-import { Router, onLoading } from 'react-static'
-import styled, { injectGlobal } from 'styled-components'
-import { hot } from 'react-hot-loader'
-import nprogress from 'nprogress'
-import { loadLanguages } from 'reprism'
+import React from "react";
+import { Router, onLoading } from "react-static";
+import styled, { injectGlobal } from "styled-components";
+import { hot } from "react-hot-loader";
+import nprogress from "nprogress";
+import { loadLanguages } from "reprism";
 //
-import Routes from 'react-static-routes'
+import Routes from "react-static-routes";
 
-import 'nprogress/nprogress.css'
-import 'react-smackdown/themes/smackdown-light.css'
+import "nprogress/nprogress.css";
+import "react-smackdown/themes/smackdown-light.css";
 
-import jsx from 'reprism/languages/jsx'
-import bash from 'reprism/languages/bash'
+import jsx from "reprism/languages/jsx";
+import bash from "reprism/languages/bash";
 
-loadLanguages(jsx, bash)
+import "./style.css";
+
+loadLanguages(jsx, bash);
 
 injectGlobal`
   body {
@@ -62,31 +64,31 @@ injectGlobal`
   .react-syntax-highlighter-line-number {
     pointer-events: none;
   }
-`
+`;
 
 const AppStyles = styled.div`
   min-height: 100vh;
-`
+`;
 
 class App extends React.Component {
-  componentDidMount () {
+  componentDidMount() {
     onLoading(loading => {
       if (loading) {
-        nprogress.start()
+        nprogress.start();
       } else {
-        nprogress.done()
+        nprogress.done();
       }
-    })
+    });
   }
-  render () {
+  render() {
     return (
       <Router>
         <AppStyles>
           <Routes />
         </AppStyles>
       </Router>
-    )
+    );
   }
 }
 
-export default hot(module)(App)
+export default hot(module)(App);
