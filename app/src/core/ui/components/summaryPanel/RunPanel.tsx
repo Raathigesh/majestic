@@ -104,25 +104,6 @@ function RunPanel({
           <MoreButton rightIcon="more" />
         </Popover>
       </ButtonPanel>
-      {/* <RunTestContainer>
-        <Button
-          label={runLabel}
-          onClick={() => {
-            onRunTests();
-          }}
-          primary={true}
-          icon={icon}
-        />
-      </RunTestContainer>
-      <WatchContainer>
-        <Button
-          label={watchLabel}
-          icon={WatchIcon}
-          onClick={() => {
-            toggleWatch();
-          }}
-        />
-      </WatchContainer> */}
     </Container>
   );
 }

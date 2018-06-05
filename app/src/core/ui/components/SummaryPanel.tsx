@@ -66,7 +66,10 @@ function SummaryPanel({
           }}
           isExecuting={workspace.isExecuting}
         />
-        <ExecutionSummary executionSummary={tests.executionSummary} />
+        <ExecutionSummary
+          executionSummary={tests.executionSummary}
+          isRunning={workspace.isExecuting}
+        />
         <CoverageSummary coverageSummary={tests.coverageSummary} />
         <Bookmarks
           bookmarks={workspace.bookmarks}

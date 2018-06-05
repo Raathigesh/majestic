@@ -11,12 +11,16 @@ const Container = styled.div`
 
 interface ExecutionSummaryProps {
   executionSummary: ExecutionSummaryStore;
+  isRunning: boolean;
 }
 
-function ExecutionSummary({ executionSummary }: ExecutionSummaryProps) {
+function ExecutionSummary({
+  executionSummary,
+  isRunning
+}: ExecutionSummaryProps) {
   return (
     <Container>
-      <RunTime executionSummary={executionSummary} />
+      <RunTime executionSummary={executionSummary} isRunning={isRunning} />
       <SummaryItem
         header="Test suits"
         firstCount={executionSummary.successfulSuits}

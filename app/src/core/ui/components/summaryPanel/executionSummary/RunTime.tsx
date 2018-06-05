@@ -8,14 +8,16 @@ const Container = styled.div`
 `;
 
 interface RunTimeProps {
+  isRunning: boolean;
   executionSummary: ExecutionSummary;
 }
 
-function RunTime({ executionSummary }: RunTimeProps) {
+function RunTime({ executionSummary, isRunning }: RunTimeProps) {
+  const prefixText = isRunning ? 'Running for' : 'Ran for';
   return (
     <Container>
       {executionSummary.timeTaken > 0 &&
-        `Ran in ${executionSummary.timeTaken} seconds`}
+        `${prefixText} ${executionSummary.timeTaken} seconds`}
     </Container>
   );
 }
