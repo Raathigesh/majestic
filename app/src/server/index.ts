@@ -12,6 +12,7 @@ import { ItBlock } from '../core/engine/types/ItBlock';
 const chromeLauncher = require('chrome-launcher');
 const parseArgs = require('minimist');
 const ora = require('ora');
+const opn = require('opn');
 
 const args = parseArgs(process.argv);
 
@@ -38,8 +39,6 @@ server.listen(port, (err: any) => {
     console.log(`
      ${chalk.black.bgYellow.bold(` Majestic v${version} `)}
   ${chalk.white('Zero config UI for Jest')}
-
-visit ${chalk.green(`http://localhost:${port}`)}
     `);
 
     if (args.app) {
@@ -49,8 +48,11 @@ visit ${chalk.green(`http://localhost:${port}`)}
           chromeFlags: [`--app=http://localhost:${port}`]
         })
         .then((chrome: any) => {
-          console.log(`Chrome debugging port running on ${chrome.port}`);
+          console.log('Opening app');
         });
+    } else {
+      opn(`http://localhost:${port}`);
+      console.log(`visit ${chalk.green(`http://localhost:${port}`)}`);
     }
   });
 });

@@ -1,10 +1,19 @@
 **The two step guide**
 
-Getting started with majestic is a two step process.
+Majestic is distributed via npm.
 
-1 - Majestic is a npm module that should be installed globally.
+1 -Install the module globally.
 
-* **yarn global add majestic**
-* **npm install majestic -g**
+If you use `yarn`
 
-2 - Go to a directory which contains a project which uses jest and run **majestic** in the terminal. Majestic will start and opens the UI in your default browser.
+```shell
+ yarn global add majestic
+```
+
+Or if you use `npm`
+
+```shell
+npm install majestic -g
+```
+
+2 - Go to a directory which contains a project which uses jest and run `majestic` in the terminal and visit `http://localhost:3005`.
