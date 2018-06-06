@@ -1,6 +1,6 @@
 {
   "name": "majestic",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "dependencies": {
     "chalk": "^2.4.1",
     "chokidar": "^2.0.3",
@@ -91,7 +91,7 @@
     "xstate": "^3.1.1"
   },
   "bin": {
-    "majestic": "./server-build/server/index.js"
+    "majestic": "./bin/index.js"
   },
   "prettier": {
     "singleQuote": true
