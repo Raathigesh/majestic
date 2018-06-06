@@ -155,6 +155,11 @@ export default class Tree extends React.Component<any, any> {
     );
   };
 
+  recalculate = () => {
+    this.List.recomputeRowHeights();
+    this.List.forceUpdate();
+  };
+
   renderItem = (item: any) => {
     return (
       <ItemNode
@@ -212,7 +217,7 @@ export default class Tree extends React.Component<any, any> {
   render() {
     console.log(this.props.nodes.length);
     return (
-      <Scrollbars style={{ height: 'calc(100vh - 62px)' }}>
+      <Scrollbars style={{ height: 'calc(100vh - 70px)' }}>
         <ReactVirtualized.AutoSizer>
           {(params: any) => {
             return (

@@ -20,9 +20,10 @@ const RightButtons = styled.div``;
 
 interface FileTreeOptionsProps {
   tests: Tests;
+  onCollpse: () => void;
 }
 
-function FileTreeOptions({ tests }: FileTreeOptionsProps) {
+function FileTreeOptions({ tests, onCollpse }: FileTreeOptionsProps) {
   return (
     <Container>
       Tests
@@ -42,6 +43,7 @@ function FileTreeOptions({ tests }: FileTreeOptionsProps) {
             className="pt-small pt-minimal"
             onClick={() => {
               tests.collapseTests();
+              onCollpse();
             }}
           />
         </Tooltip>

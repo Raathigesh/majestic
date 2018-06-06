@@ -1,6 +1,7 @@
 import { platform } from 'os';
 import { existsSync } from 'fs';
 import { join } from 'path';
+const consola = require('consola');
 const readPkgUp = require('read-pkg-up');
 import configProviders from './config';
 
@@ -16,27 +17,39 @@ export class ConfigProvider {
   }
 
   public getConfig() {
-    if (this.packageJsonHasConfig()) {
-      const majesticCofig = this.packageJsonObj.majestic;
-      const config = configProviders.packageJsonConfig(
-        this.rootPath,
-        majesticCofig
-      );
-      return config;
-    } else if (this.isBootstrappedWithCreateReactApp(this.rootPath)) {
-      return configProviders.craConfigProvider(this.rootPath);
-    } else if (this.usesJestCli()) {
-      return configProviders.jestCliConfigProvider(this.rootPath);
-    }
+    try {
+      if (this.packageJsonHasConfig()) {
+        const majesticCofig = this.packageJsonObj.majestic;
+        const config = configProviders.packageJsonConfig(
+          this.rootPath,
+          majesticCofig
+        );
+        return config;
+      } else if (this.isBootstrappedWithCreateReactApp(this.rootPath)) {
+        return configProviders.craConfigProvider(this.rootPath);
+      } else if (this.usesJestCli()) {
+        return configProviders.jestCliConfigProvider(this.rootPath);
+      }
 
-    return configProviders.defaultConfigProvider(this.rootPath);
+      return configProviders.defaultConfigProvider(this.rootPath);
+    } catch (e) {
+      consola.error(
+        'This directory does not seems to use Jest. Please open an issue if you think this is a bug.'
+      );
+
+      throw e;
+    }
   }
 
   private packageJsonHasConfig() {
-    return Boolean(this.packageJsonObj.majestic);
+    return Boolean(this.packageJsonObj && this.packageJsonObj.majestic);
   }
 
   private usesJestCli() {
+    if (!this.packageJsonObj) {
+      return false;
+    }
+
     return Boolean(
       (this.packageJsonObj.dependencies &&
         this.packageJsonObj.dependencies['jest-cli']) ||

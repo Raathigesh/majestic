@@ -35,6 +35,14 @@ interface TestsPanelProps {
 
 @observer
 export default class TestsPanel extends React.Component<TestsPanelProps, {}> {
+  private tree: NewTree | null;
+
+  onTreeCollpse = () => {
+    if (this.tree) {
+      this.tree.recalculate();
+    }
+  };
+
   public render() {
     const { searcher, tests } = this.props;
     return (
@@ -55,9 +63,10 @@ export default class TestsPanel extends React.Component<TestsPanelProps, {}> {
           </div>
         </SearchContainer>
         <Bottom>
-          <FileTreeOptions tests={tests} />
+          <FileTreeOptions tests={tests} onCollpse={this.onTreeCollpse} />
           {!searcher.isSearching && (
             <NewTree
+              ref={tree => (this.tree = tree)}
               nodes={tests.nodes || []}
               onSearchItemClick={(node: Node) => {
                 tests.changeCurrentSelection(node.path);

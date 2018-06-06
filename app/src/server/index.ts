@@ -13,11 +13,13 @@ const chromeLauncher = require('chrome-launcher');
 const parseArgs = require('minimist');
 const ora = require('ora');
 
+const args = parseArgs(process.argv);
+
 const app = express();
 app.use(express.static(join(__dirname, '../../build')));
 const server = http.createServer(app);
 
-const projectPath = process.argv[2] || process.cwd();
+const projectPath = args.project || process.cwd();
 
 const configProvider = new ConfigProvider(projectPath);
 const engine = new Engine(projectPath, configProvider.getConfig());
@@ -40,7 +42,6 @@ server.listen(port, (err: any) => {
 visit ${chalk.green(`http://localhost:${port}`)}
     `);
 
-    const args = parseArgs(process.argv);
     if (args.app) {
       chromeLauncher
         .launch({
