@@ -39,15 +39,8 @@ export default function(rootDirectory: string = '') {
 
     app.use(express.static(join(__dirname, '../../build')));
 
-    app.get('/port', function(req: any, res: any) {
-      res.send({
-        port
-      });
-    });
     const server = http.createServer(app);
-
     const projectPath = rootDirectory || args.project || process.cwd();
-
     const configProvider = new ConfigProvider(projectPath);
     const engine = new Engine(projectPath, configProvider.getConfig(), {
       serverPort: port
@@ -63,10 +56,11 @@ export default function(rootDirectory: string = '') {
       }
 
       engine.getVersion().then((version: string) => {
-        console.log(`
-     ${chalk.black.bgYellow.bold(` Majestic v${version} `)}
-  ${chalk.white('Zero config UI for Jest')}
-    `);
+        console.log(
+          `${chalk.black.bgYellow.bold(`Majestic v${version}`)}\n${chalk.white(
+            'Zero config UI for Jest'
+          )}`
+        );
 
         if (args.app) {
           chromeLauncher
