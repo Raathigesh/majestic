@@ -111,6 +111,7 @@ export default function(rootDirectory: string = '') {
     });
 
     return {
+      port,
       terminate: () => {
         serverApp.close(() => {
           console.log('Doh :(');
