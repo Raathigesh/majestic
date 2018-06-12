@@ -10,8 +10,9 @@
       "name": "Launch Program",
       "runtimeArgs": ["-r", "./app/node_modules/ts-node/register"],
       "args": [
-        "${workspaceFolder}/app/src/bin/index.js",
-        "--project=D:\\sandbox\\react-boilerplate"
+        "${workspaceFolder}/app/src/server/init.ts",
+        "--project=D:\\sandbox\\react-boilerplate",
+        "--dev"
       ],
       "console": "integratedTerminal"
     }

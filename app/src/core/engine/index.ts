@@ -15,12 +15,21 @@ export default class Engine {
   watcher: Watcher;
   preference: Preference;
 
-  constructor(rootPath: string, config: Config) {
+  constructor(
+    rootPath: string,
+    config: Config,
+    environmentVariables: any = {}
+  ) {
     this.root = rootPath;
     this.testMatcher = getTestPatternsMatcher(rootPath, config);
     this.testFiles = new TestFiles(this);
     this.preference = new Preference();
-    this.testRunner = new Runner(this, config, this.preference);
+    this.testRunner = new Runner(
+      this,
+      config,
+      this.preference,
+      environmentVariables
+    );
     this.watcher = new Watcher(rootPath, config);
   }
 

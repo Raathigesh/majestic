@@ -7,17 +7,17 @@ interface Connection {
   send: (event: string, payload: any) => void;
 }
 
-export function getConnection() {
+export function getConnection(server: any) {
   if (connection) {
     return connection;
   }
-  connection = initializeConnection();
+  connection = initializeConnection(server);
   return connection;
 }
 
-function initializeConnection() {
+function initializeConnection(server: any) {
   return new Promise<Connection>((resolve, reject) => {
-    const wss = new WS.Server({ port: 7777 });
+    const wss = new WS.Server({ server });
     wss.on('connection', (ws: any) => {
       ws.on('message', (message: any) => {
         wss.clients.forEach((client: any) => {

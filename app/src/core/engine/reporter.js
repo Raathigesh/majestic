@@ -1,7 +1,7 @@
 const WebSocket = require('ws');
 
 let connectionPromise = new Promise(resolve => {
-  let connection = new WebSocket('ws://localhost:7777');
+  let connection = new WebSocket('ws://localhost:' + process.env.serverPort);
   connection.on('open', function open() {
     resolve(connection);
     console.log('connection is open from repoter');

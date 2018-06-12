@@ -19,11 +19,18 @@ export default class TestRunner {
   private onDebuggerExit: () => void;
   private inspectProcess: ChildProcess;
   private preference: Preference;
+  private environmentVariables: any = {};
 
-  constructor(engine: Engine, config: Config, preference: Preference) {
+  constructor(
+    engine: Engine,
+    config: Config,
+    preference: Preference,
+    environmentVariables: any = {}
+  ) {
     this.engine = engine;
     this.config = config;
     this.preference = preference;
+    this.environmentVariables = environmentVariables;
   }
 
   public start(
@@ -222,7 +229,10 @@ export default class TestRunner {
       }
     }
 
-    return env;
+    return {
+      ...env,
+      ...this.environmentVariables
+    };
   }
 
   private getDebuggerUrl() {

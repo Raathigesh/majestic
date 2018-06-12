@@ -9,6 +9,7 @@
     "consola": "^1.4.1",
     "directory-tree": "^2.1.0",
     "express": "^4.16.3",
+    "get-port": "^3.2.0",
     "jest-config": "^22.4.3",
     "jest-editor-support": "^22.4.3",
     "jest-regex-util": "^22.4.3",

@@ -25,36 +25,39 @@ interface VsCodePluginArg {
 export const vscodePluginStream$ = new Subject<VsCodePluginArg>();
 
 const connection = new Promise(resolve => {
-  const ws = new Sockette.default('ws://localhost:7777', {
-    timeout: 5e3,
-    maxAttempts: 10,
-    onmessage: (e: any) => {
-      const { event, payload, source } = JSON.parse(e.data);
-      if (event === 'onTestResult') {
-        for (let item of payload) {
-          testResultStream$.next({
-            test: item.test,
-            testResult: item.testResult,
-            aggregatedResult: item.aggregatedResult
+  const ws = new Sockette.default(
+    `ws://localhost:${(window as any).config.serverPort}`,
+    {
+      timeout: 5e3,
+      maxAttempts: 10,
+      onmessage: (e: any) => {
+        const { event, payload, source } = JSON.parse(e.data);
+        if (event === 'onTestResult') {
+          for (let item of payload) {
+            testResultStream$.next({
+              test: item.test,
+              testResult: item.testResult,
+              aggregatedResult: item.aggregatedResult
+            });
+          }
+        } else if (event === 'onRunComplete') {
+          runCompleteStream$.next({
+            results: payload.results
+          });
+        } else if (source === 'majestic-logger') {
+          loggerStream$.next(payload);
+        } else if (source === 'vscode-majestic' && event === 'workspace-path') {
+          vscodePluginStream$.next({
+            event,
+            payload
           });
         }
-      } else if (event === 'onRunComplete') {
-        runCompleteStream$.next({
-          results: payload.results
-        });
-      } else if (source === 'majestic-logger') {
-        loggerStream$.next(payload);
-      } else if (source === 'vscode-majestic' && event === 'workspace-path') {
-        vscodePluginStream$.next({
-          event,
-          payload
-        });
+      },
+      onopen: () => {
+        resolve(ws);
       }
-    },
-    onopen: () => {
-      resolve(ws);
     }
-  });
+  );
 });
 
 export function send(message: any) {
