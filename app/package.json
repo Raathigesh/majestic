@@ -35,7 +35,7 @@
     "debug": "nodemon",
     "jest": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
     "server": "ts-node ./src/server/index.ts",
-    "build-server": "tsc --project ./",
+    "build-server": "rimraf ./server-build && tsc --project ./",
     "run-prod": "node ./server-build/server/index.js",
     "clean": "rimraf ./build && rimraf ./server-build",
     "ship": "npm run clean && npm run build && npm run build-server"

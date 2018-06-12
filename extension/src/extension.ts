@@ -5,7 +5,65 @@ const Sockette = require("sockette");
 const WebSocket = require("ws");
 (global as any).WebSocket = WebSocket;
 
+let majesticHandler;
+
 export function activate(context: vscode.ExtensionContext) {
+  const majestic = require("D:\\projects\\majestic\\app\\server-build\\server\\index.js")
+    .default;
+
+  const majesticHandler = majestic(vscode.workspace.rootPath);
+
+  const panel = vscode.window.createWebviewPanel(
+    "majestic",
+    "Majestic",
+    vscode.ViewColumn.Two,
+    { enableScripts: true, retainContextWhenHidden: true }
+  );
+
+  vscode.window.onDidChangeActiveTextEditor(editor => {
+    panel.webview.postMessage({
+      command: "change",
+      path: editor.document.fileName
+    });
+  });
+
+  // And set its HTML content
+  panel.webview.html = getWebviewContent();
+}
+
+function getWebviewContent() {
+  return `
+  <style>
+    html {
+      height: 100%;
+      padding: 0;
+      overflow: hidden;
+      margin-left: -20px;
+      margin-right: 20px;
+    }
+  </style>
+  <!DOCTYPE html>
+<html lang="en" style="height:100%;width: 100%">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cat Coding</title>
+
+</head>
+<body style="height:100%; width: 100%">
+<script>
+
+window.addEventListener('message', event => {
+  console.log('DATA HERE');
+  document.getElementById('majesticFrame').contentWindow.postMessage(event.data, '*');
+});
+ </script>
+ <iframe id="majesticFrame" src="http://localhost:3000?vscode=true" height="100%" width="100%" frameborder="0"/>
+</body>
+</html>`;
+}
+
+function handleComs() {
   let connectionPromise = new Promise(resolve => {
     const ws = new Sockette("ws://localhost:7777", {
       onopen: e => {
@@ -48,15 +106,6 @@ export function activate(context: vscode.ExtensionContext) {
         }
       }
     });
-  });
-  connectionPromise.then((connection: any) => {
-    connection.send(
-      JSON.stringify({
-        source: "vscode-majestic",
-        event: "workspace-path",
-        payload: vscode.workspace.rootPath
-      })
-    );
   });
 }
 
@@ -109,4 +158,6 @@ function getTestPatternForPath(filePath: string) {
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() {
+  majesticHandler.terminate();
+}

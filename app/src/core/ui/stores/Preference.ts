@@ -1,4 +1,4 @@
-import { observable } from 'mobx';
+import { observable, computed } from 'mobx';
 import remoteInterface from './remote';
 
 export class Preference {
@@ -6,12 +6,14 @@ export class Preference {
   @observable public preferenceModalOpen: boolean;
   @observable public showTreeView: boolean;
   @observable public isMajesticLogEnabled: boolean;
+  @observable public isEmbeddedInVSCode: boolean;
 
   constructor() {
     this.fetchPreference();
     this.preferenceModalOpen = false;
     this.showTreeView = true;
     this.isMajesticLogEnabled = false;
+    this.isEmbeddedInVSCode = false;
   }
 
   public async fetchPreference() {
@@ -47,6 +49,24 @@ export class Preference {
   public toggleIsMajesticLogEnabled() {
     this.isMajesticLogEnabled = !this.isMajesticLogEnabled;
     this.saveConfig();
+  }
+
+  @computed
+  public get shouldShowTreeView() {
+    if (this.isEmbeddedInVSCode) {
+      return false;
+    }
+
+    return this.showTreeView;
+  }
+
+  @computed
+  public get shouldShowSummaryPanel() {
+    if (this.isEmbeddedInVSCode) {
+      return false;
+    }
+
+    return true;
   }
 }
 

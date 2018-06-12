@@ -5,18 +5,23 @@
   "version": "0.0.1",
   "publisher": "Raathigeshan",
   "engines": {
-    "vscode": "^1.19.0"
+    "vscode": "^1.23.0"
   },
   "preview": true,
   "categories": [
     "Debuggers"
   ],
   "activationEvents": [
-    "*"
+    "onCommand:extension.majestic"
   ],
   "main": "./out/extension",
   "contributes": {
-    "commands": []
+    "commands": [
+      {
+        "command": "extension.majestic",
+        "title": "Launch Majestic"
+      }
+    ]
   },
   "icon": "images/icon.png",
   "repository": {
@@ -34,7 +39,7 @@
     "@types/mocha": "^2.2.42",
     "@types/node": "^7.0.43",
     "typescript": "^2.6.1",
-    "vscode": "^1.1.6"
+    "vscode": "^1.1.18"
   },
   "dependencies": {
     "sockette": "^2.0.0",

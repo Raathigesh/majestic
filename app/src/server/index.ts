@@ -13,75 +13,87 @@ const chromeLauncher = require('chrome-launcher');
 const parseArgs = require('minimist');
 const ora = require('ora');
 const opn = require('opn');
-
 const args = parseArgs(process.argv);
 
-const app = express();
-app.use(express.static(join(__dirname, '../../build')));
-const server = http.createServer(app);
+export default function(rootDirectory: string) {
+  const app = express();
+  app.use(express.static(join(__dirname, '../../build')));
+  const server = http.createServer(app);
 
-const projectPath = args.project || process.cwd();
+  console.log(rootDirectory);
 
-const configProvider = new ConfigProvider(projectPath);
-const engine = new Engine(projectPath, configProvider.getConfig());
+  const projectPath = rootDirectory || args.project || process.cwd();
 
-const spinner = ora('Reading tests').start();
-engine.testFiles.read(engine.root);
-spinner.stop();
+  const configProvider = new ConfigProvider(projectPath);
+  const engine = new Engine(projectPath, configProvider.getConfig());
 
-const port = process.env.PORT || 3005;
-server.listen(port, (err: any) => {
-  if (err) {
-    console.log(err);
-  }
+  const spinner = ora('Reading tests').start();
+  engine.testFiles.read(engine.root);
+  spinner.stop();
 
-  engine.getVersion().then((version: string) => {
-    console.log(`
+  const port = process.env.PORT || 3005;
+  const serverApp = server.listen(port, (err: any) => {
+    if (err) {
+      console.log(err);
+    }
+
+    engine.getVersion().then((version: string) => {
+      console.log(`
      ${chalk.black.bgYellow.bold(` Majestic v${version} `)}
   ${chalk.white('Zero config UI for Jest')}
     `);
 
-    if (args.app) {
-      chromeLauncher
-        .launch({
-          startingUrl: `http://localhost:${port}`,
-          chromeFlags: [`--app=http://localhost:${port}`]
-        })
-        .then((chrome: any) => {
-          console.log('Opening app');
-        });
-    } else {
-      opn(`http://localhost:${port}`);
-      console.log(`visit ${chalk.green(`http://localhost:${port}`)}`);
-    }
-  });
-});
-
-bootstrap(server).then(() => {
-  register('ui', getRemoteMethods(engine), (remote: any) => {
-    engine.watcher.handlers(
-      (path: string) => {
-        remote.onFileAdd(path, engine.testFiles.read(engine.root));
-      },
-      (path: string) => {
-        remote.onFileDelete(path);
-      },
-      (path: string, itBlocks?: ItBlock[]) => {
-        if (itBlocks) {
-          remote.onFileChange(path, itBlocks);
-        }
+      if (args.app) {
+        chromeLauncher
+          .launch({
+            startingUrl: `http://localhost:${port}`,
+            chromeFlags: [`--app=http://localhost:${port}`]
+          })
+          .then((chrome: any) => {
+            console.log('Opening app');
+          });
+      } else {
+        opn(`http://localhost:${port}`);
+        console.log(`visit ${chalk.green(`http://localhost:${port}`)}`);
       }
-    );
-
-    engine.testRunner.registerOnDebuggerExit(() => {
-      remote.onDebuggerExit();
     });
   });
-});
 
-getConnection();
+  bootstrap(server).then(() => {
+    register('ui', getRemoteMethods(engine), (remote: any) => {
+      engine.watcher.handlers(
+        (path: string) => {
+          remote.onFileAdd(path, engine.testFiles.read(engine.root));
+        },
+        (path: string) => {
+          remote.onFileDelete(path);
+        },
+        (path: string, itBlocks?: ItBlock[]) => {
+          if (itBlocks) {
+            remote.onFileChange(path, itBlocks);
+          }
+        }
+      );
 
-process.on('exit', () => {
-  console.log('Killing the runner before exit');
-  engine.testRunner.kill();
-});
+      engine.testRunner.registerOnDebuggerExit(() => {
+        remote.onDebuggerExit();
+      });
+    });
+  });
+
+  getConnection();
+
+  process.on('exit', () => {
+    console.log('Killing the runner before exit');
+    engine.testRunner.kill();
+  });
+
+  return {
+    terminate: () => {
+      serverApp.close(() => {
+        console.log('Doh :(');
+      });
+      engine.testRunner.kill();
+    }
+  };
+}

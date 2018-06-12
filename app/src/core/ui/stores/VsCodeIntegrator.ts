@@ -3,13 +3,18 @@ import { getTestPatternForTestName } from '../../engine/util';
 import remoteInterface from './remote';
 import { observable, computed } from 'mobx';
 import { show } from './Toaster';
+import { Preference } from '.';
 
 export class VsCodeIntegrator {
   public jestExecuablePath: string;
   @observable public vsCodeRootPath: string = 'vscodepath';
   @observable public rootPath: string = 'rootPath';
 
-  constructor() {
+  constructor(preference: Preference) {
+    if (window.location.search === '?vscode=true') {
+      preference.isEmbeddedInVSCode = true;
+    }
+
     vscodePluginStream$.subscribe(message => {
       if (message.event === 'workspace-path') {
         this.vsCodeRootPath = message.payload;
@@ -58,5 +63,3 @@ export class VsCodeIntegrator {
     console.log(info);
   }
 }
-
-export default new VsCodeIntegrator();

@@ -20,6 +20,12 @@ export class Tests {
   @observable flatNodeMap: Map<string, Node> = new Map();
 
   constructor() {
+    window.addEventListener('message', ({ data }) => {
+      if (data.path) {
+        this.changeCurrentSelection(data.path);
+      }
+    });
+
     fileChangeStream$.subscribe(({ file, itBlocks }) => {
       const node = this.getByPath(file);
       if (node) {

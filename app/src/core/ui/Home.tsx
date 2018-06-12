@@ -53,10 +53,10 @@ class Home extends React.Component<HomeProps, {}> {
           <SplitPane
             paneStyle={{ position: 'inherit' }}
             split="vertical"
-            minSize={preference.showTreeView ? 320 : 0}
-            defaultSize={preference.showTreeView ? 320 : 0}
+            minSize={preference.shouldShowTreeView ? 320 : 0}
+            defaultSize={preference.shouldShowTreeView ? 320 : 0}
           >
-            {preference.showTreeView && (
+            {preference.shouldShowTreeView && (
               <Sidebar tests={tests} searcher={searcher} />
             )}
             <MiddlePanel
@@ -67,12 +67,14 @@ class Home extends React.Component<HomeProps, {}> {
             />
           </SplitPane>
         </MainWorkSpace>
-        <SummaryPanel
-          workspace={workspace}
-          tests={tests}
-          preference={preference}
-          updater={updater}
-        />
+        {preference.shouldShowSummaryPanel && (
+          <SummaryPanel
+            workspace={workspace}
+            tests={tests}
+            preference={preference}
+            updater={updater}
+          />
+        )}
         <DebugLink workspace={workspace} debug={debug} />
       </Container>
     );
