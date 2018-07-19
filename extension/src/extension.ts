@@ -3,32 +3,34 @@ import * as vscode from "vscode";
 import { join } from "path";
 const Sockette = require("sockette");
 const WebSocket = require("ws");
+const majestic = require("D:\\projects\\majestic\\app\\server-build\\server\\index.js")
+  .default;
 (global as any).WebSocket = WebSocket;
 
 let majesticHandler;
 
 export function activate(context: vscode.ExtensionContext) {
-  const majestic = require("D:\\projects\\majestic\\app\\server-build\\server\\index.js")
-    .default;
+  majestic(vscode.workspace.rootPath, false).then(handler => {
+    majesticHandler = handler;
 
-  const majesticHandler = majestic(vscode.workspace.rootPath);
+    handleComs();
+    const panel = vscode.window.createWebviewPanel(
+      "majestic",
+      "Majestic",
+      vscode.ViewColumn.Two,
+      { enableScripts: true, retainContextWhenHidden: true }
+    );
 
-  const panel = vscode.window.createWebviewPanel(
-    "majestic",
-    "Majestic",
-    vscode.ViewColumn.Two,
-    { enableScripts: true, retainContextWhenHidden: true }
-  );
-
-  vscode.window.onDidChangeActiveTextEditor(editor => {
-    panel.webview.postMessage({
-      command: "change",
-      path: editor.document.fileName
+    vscode.window.onDidChangeActiveTextEditor(editor => {
+      panel.webview.postMessage({
+        command: "change",
+        path: editor.document.fileName
+      });
     });
-  });
 
-  // And set its HTML content
-  panel.webview.html = getWebviewContent();
+    // And set its HTML content
+    panel.webview.html = getWebviewContent();
+  });
 }
 
 function getWebviewContent() {
@@ -54,7 +56,6 @@ function getWebviewContent() {
 <script>
 
 window.addEventListener('message', event => {
-  console.log('DATA HERE');
   document.getElementById('majesticFrame').contentWindow.postMessage(event.data, '*');
 });
  </script>
@@ -65,7 +66,7 @@ window.addEventListener('message', event => {
 
 function handleComs() {
   let connectionPromise = new Promise(resolve => {
-    const ws = new Sockette("ws://localhost:7777", {
+    const ws = new Sockette("ws://localhost:" + majesticHandler.port, {
       onopen: e => {
         ws.send(
           JSON.stringify({
@@ -103,6 +104,30 @@ function handleComs() {
               payload: vscode.workspace.rootPath
             })
           );
+        } else if (
+          message.source === "majestic" &&
+          message.event === "go-to-test"
+        ) {
+          const { path, line } = message.payload;
+          /*  vscode.workspace.openTextDocument(vscode.Uri.file(message.payload)).then(document => {
+            document.
+          }); */
+
+          vscode.window
+            .showTextDocument(vscode.Uri.file(path))
+            .then(textDoc => {
+              textDoc.selection = new vscode.Selection(
+                new vscode.Position(line, 0),
+                new vscode.Position(line, 0)
+              );
+            });
+
+          /* vscode.window.activeTextEditor.revealRange(
+            new vscode.Range(
+              new vscode.Position(line, 0),
+              new vscode.Position(line, 0)
+            )
+          ); */
         }
       }
     });

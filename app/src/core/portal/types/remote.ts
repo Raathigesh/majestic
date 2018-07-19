@@ -17,5 +17,5 @@ export interface RemoteResultPayload {
 
 export interface PortalSocket {
   emit: (event: string, payload: any) => void;
-  on: (event: string, callback: any) => void;
+  on: (callback: any) => void;
 }

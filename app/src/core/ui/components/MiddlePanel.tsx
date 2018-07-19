@@ -45,6 +45,7 @@ function MiddlePanel({
           onUpdateSnapshot={workspace.updateSnapshot}
           launchEditor={(it: It, testFileName: Node) => {
             debug.launchInEditor(testFileName, it);
+            vsCodeIntegrator.goToTest(testFileName.path, it.line);
           }}
           debugTest={(it: It, testFileName: Node) => {
             debug.startDebugging(testFileName, it);

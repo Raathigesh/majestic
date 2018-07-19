@@ -4,7 +4,6 @@ import {
   RemoteInvokePayload,
   RemoteMethods
 } from './types/remote';
-import * as invariant from 'invariant';
 const isPromise = require('p-is-promise');
 
 interface Remotable {
@@ -17,16 +16,9 @@ interface Remotable {
 export default class InvocationHandler {
   private remotables: Map<string, Remotable> = new Map();
   private socket: PortalSocket;
-  private emitter: { emit: (name: string, args: any) => void };
-  private listener: { on: (name: string, cb: (result: any) => void) => void };
 
-  constructor(socket: PortalSocket) {
+  public setSocket(socket: PortalSocket) {
     this.socket = socket;
-  }
-
-  public setSocket(emitter: any, listener: any) {
-    this.emitter = emitter;
-    this.listener = listener;
 
     this.remotables.forEach((remotable: Remotable, name: string) => {
       this.emitMethods({
@@ -35,16 +27,23 @@ export default class InvocationHandler {
       });
     });
 
-    this.listener.on('methods', (methods: RemoteMethods) => {
-      this.buildRemoteMethodsInvoker(methods);
-    });
+    this.socket.emit('requestMethods', {});
 
-    this.listener.on('result', (result: RemoteResultPayload) => {
-      this.callResolverWithResult(result);
-    });
-
-    this.listener.on('invoke', (payload: RemoteInvokePayload) => {
-      this.invokeLocalMethod(payload);
+    this.socket.on((message: any) => {
+      if (message.event === 'methods') {
+        this.buildRemoteMethodsInvoker(message);
+      } else if (message.event === 'result') {
+        this.callResolverWithResult(message);
+      } else if (message.event === 'invoke') {
+        this.invokeLocalMethod(message);
+      } else if (message.event === 'requestMethods') {
+        this.remotables.forEach((remotable: Remotable, name: string) => {
+          this.emitMethods({
+            extensionName: name,
+            methods: Object.keys(remotable.localMethods)
+          });
+        });
+      }
     });
   }
 
@@ -84,12 +83,11 @@ export default class InvocationHandler {
   }
 
   private emitMethods(methods: RemoteMethods) {
-    this.emitter.emit('methods', methods);
+    this.socket.emit('methods', methods);
   }
 
   private emitInvoke(extensionName: string, method: string, args: any) {
-    invariant(this.socket, 'Socket is not available to emit 😭');
-    this.emitter.emit('invoke', {
+    this.socket.emit('invoke', {
       extensionName,
       methodName: method,
       args
@@ -97,7 +95,7 @@ export default class InvocationHandler {
   }
 
   private emitResult(extensionName: string, methodName: string, result: any) {
-    this.emitter.emit('result', {
+    this.socket.emit('result', {
       extensionName,
       methodName,
       result

@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 import * as express from 'express';
 import * as http from 'http';
+const cors = require('cors');
 const fs = require('fs');
 import { join } from 'path';
 const chalk = require('chalk');
-import { bootstrap, register } from '../core/portal/server';
+import { register } from '../core/portal/server';
 import Engine from '../core/engine';
 import getRemoteMethods from './remoteMethods';
 import { getConnection } from './relay';
@@ -17,9 +18,15 @@ const ora = require('ora');
 const opn = require('opn');
 const getPort = require('get-port');
 const args = parseArgs(process.argv);
+const initialPort = 3005;
 
-export default function(rootDirectory: string = '') {
-  return getPort({ port: 3005 }).then((port: number) => {
+export default function(
+  rootDirectory: string = '',
+  autoLaunch: boolean = true
+) {
+  return getPort({ port: initialPort }).then((port: number) => {
+    (process.env as any).serverPort = port;
+
     const app = express();
 
     if (!args.dev) {
@@ -36,7 +43,8 @@ export default function(rootDirectory: string = '') {
         res.send(replacedStreing);
       });
     }
-
+    app.use(cors());
+    app.options('*', cors());
     app.use(express.static(join(__dirname, '../../build')));
 
     const server = http.createServer(app);
@@ -49,6 +57,8 @@ export default function(rootDirectory: string = '') {
     const spinner = ora('Reading tests').start();
     engine.testFiles.read(engine.root);
     spinner.stop();
+
+    getConnection(server);
 
     const serverApp = server.listen(port, (err: any) => {
       if (err) {
@@ -72,16 +82,13 @@ export default function(rootDirectory: string = '') {
               console.log('Opening app');
             });
         } else {
-          if (!args.dev) {
+          if (!args.dev && autoLaunch) {
             opn(`http://localhost:${port}`);
           }
 
           console.log(`visit ${chalk.green(`http://localhost:${port}`)}`);
         }
       });
-    });
-
-    bootstrap(server).then(() => {
       register('ui', getRemoteMethods(engine), (remote: any) => {
         engine.watcher.handlers(
           (path: string) => {
@@ -102,8 +109,6 @@ export default function(rootDirectory: string = '') {
         });
       });
     });
-
-    getConnection(server);
 
     process.on('exit', () => {
       console.log('Killing the runner before exit');

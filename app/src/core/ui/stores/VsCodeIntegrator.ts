@@ -43,6 +43,17 @@ export class VsCodeIntegrator {
     });
   }
 
+  goToTest(path: string, line: number) {
+    send({
+      source: 'majestic',
+      event: 'go-to-test',
+      payload: {
+        path,
+        line
+      }
+    });
+  }
+
   @computed
   public get isDebuggerReady() {
     return this.rootPath.toLowerCase() === this.vsCodeRootPath.toLowerCase();
