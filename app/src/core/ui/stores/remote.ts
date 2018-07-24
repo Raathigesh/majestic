@@ -30,7 +30,7 @@ interface RemoteMethods {
   filterTestInWatch(fileName: string, testName: string): any;
   updateSnapshot(fileName: string, testName: string): any;
   launchInEditor(fileName: string, lineNumber: number): any;
-  startDebugging(fileName: string, testName: string): any;
+  startDebugging(fileName: string): any;
   getConfig(): any;
   setConfig(
     nodePath: string,

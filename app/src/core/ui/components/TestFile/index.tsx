@@ -32,7 +32,7 @@ interface TestPanelProps {
   onRunFile: () => void;
   onUpdateSnapshot: (it: It, testFileName: Node) => void;
   launchEditor: (it: It, testFileName: Node) => void;
-  debugTest: (it: It, testFileName: Node) => void;
+  debugTest: (testFileName: Node) => void;
   isDebugging: boolean;
   vsCodeIntegrator: VsCodeIntegrator;
 }
@@ -56,6 +56,9 @@ function TestFile({
         workspace={workspace}
         onRunFile={onRunFile}
         bookmarks={bookmarks}
+        debugTest={() => {
+          debugTest(testFile);
+        }}
       />
       <Scrollbars style={{ flexGrow: '1' }}>
         <Tests>
@@ -72,9 +75,6 @@ function TestFile({
                 }}
                 launchInEditor={(it: It) => {
                   launchEditor(it, testFile);
-                }}
-                debugTest={() => {
-                  debugTest(itBlock, testFile);
                 }}
                 startVsCodeDebug={(testName: string) => {
                   vsCodeIntegrator.startDebug(testName, testFile.path);

@@ -43,10 +43,10 @@ export class Debugger {
     this.running = false;
   }
 
-  public async startDebugging(node: Node, test: It) {
+  public async startDebugging(node: Node) {
     this.running = true;
     const remote = await remoteInterface;
-    const debugResult: any = await remote.startDebugging(node.path, test.name);
+    const debugResult: any = await remote.startDebugging(node.path);
     this.setDebugUrl(debugResult.url);
     this.toggleDebugPanel(true);
   }

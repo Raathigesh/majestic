@@ -47,8 +47,8 @@ function MiddlePanel({
             debug.launchInEditor(testFileName, it);
             vsCodeIntegrator.goToTest(testFileName.path, it.line);
           }}
-          debugTest={(it: It, testFileName: Node) => {
-            debug.startDebugging(testFileName, it);
+          debugTest={(testFileName: Node) => {
+            debug.startDebugging(testFileName);
           }}
           isDebugging={debug.running}
           vsCodeIntegrator={vsCodeIntegrator}

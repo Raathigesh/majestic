@@ -126,19 +126,13 @@ export default class TestRunner {
     });
   }
 
-  public startInspect(testFile: string, testName: string) {
+  public startInspect(testFile: string) {
     return new Promise(resolve => {
       // kill the existing inspect process
       this.kill(this.inspectProcess);
-
       const inspectProcess = spawn(
         `node --inspect-brk ${join(this.engine.root, this.config.jestScript)} `,
-        [
-          ...(testName
-            ? ['--testNamePattern', testName.replace(/\s/g, '.')]
-            : []),
-          ...(testFile ? [getTestPatternForPath(testFile)] : [])
-        ],
+        [...(testFile ? [getTestPatternForPath(testFile)] : [])],
         {
           cwd: this.engine.root,
           shell: true,
@@ -146,6 +140,14 @@ export default class TestRunner {
           env: this.getEnvironment()
         }
       );
+
+      inspectProcess.stdout.on('data', data => {
+        console.log(`ps stderr: ${data}`);
+      });
+
+      inspectProcess.stderr.on('data', data => {
+        console.log(`ps stderr: ${data}`);
+      });
 
       inspectProcess.on('close', () => {
         if (this.onDebuggerExit) {

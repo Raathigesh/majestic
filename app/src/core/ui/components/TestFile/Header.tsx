@@ -4,7 +4,7 @@ import { Button } from '@blueprintjs/core';
 import Node from '../../stores/Node';
 import InfoBlock from './InfoBlock';
 import { observer } from 'mobx-react';
-const { Play, Bookmark } = require('react-feather');
+const { Activity, Play, Bookmark } = require('react-feather');
 import { Workspace } from '../../stores/Workspace';
 import SelfBuildingSquareSpinner from '../spinners/SelfBuildingSquare';
 import theme from '../../theme';
@@ -66,6 +66,7 @@ interface HeaderProps {
   workspace: Workspace;
   bookmarks: Map<string, null>;
   onRunFile: () => void;
+  debugTest: () => void;
 }
 
 const ButtonStyled = styled(Button)`
@@ -80,7 +81,13 @@ function isCurrentFileExecuting(workspace: Workspace, testFile: Node) {
   );
 }
 
-function Header({ testFile, onRunFile, workspace, bookmarks }: HeaderProps) {
+function Header({
+  testFile,
+  onRunFile,
+  workspace,
+  bookmarks,
+  debugTest
+}: HeaderProps) {
   const icon = isCurrentFileExecuting(workspace, testFile) ? (
     <SelfBuildingSquareSpinner color={theme.text} />
   ) : (
@@ -126,6 +133,16 @@ function Header({ testFile, onRunFile, workspace, bookmarks }: HeaderProps) {
         </InfoBar>
       </Content>
       <RightContent>
+        <ButtonStyled
+          icon={<Activity size={16} />}
+          className="pt-minimal"
+          onClick={() => {
+            debugTest();
+          }}
+          disabled={workspace.isExecuting && !workspace.watch}
+        >
+          Debug
+        </ButtonStyled>
         <ButtonStyled
           icon={icon}
           className="pt-minimal"

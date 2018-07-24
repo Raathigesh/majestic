@@ -1,6 +1,10 @@
 ## Majestic 1.0
 
-You are looking at a complete rewrite of majestic. Still very early. Come back in couple of weeks.
+https://twitter.com/Raathigesh/status/1004335180499177472
+
+- `yarn global add majestic@alpha`
+- Open your terminal and navigate to your project directory
+- Just run `majestic`
 
 ## Inspiration
 
