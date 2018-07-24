@@ -15,7 +15,7 @@
   </a>
 </p>
 
-## [The plan for Majestic v1](https://github.com/Raathigesh/majestic/issues/50)
+> ### Majestic is being rewritten. Give the alpha build a try https://github.com/Raathigesh/majestic/tree/next
 
 ## What is Majestic?
 
