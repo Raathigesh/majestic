@@ -1,5 +1,6 @@
 const { normalize } = require('jest-config');
 import { Config } from '../types/Config';
+import { resolveJestCliPath } from './util';
 
 export default function getConfig(rootPath: string): Config {
   return {
@@ -13,7 +14,7 @@ export default function getConfig(rootPath: string): Config {
       },
       {}
     ).options,
-    jestScript: '/node_modules/react-scripts/scripts/test.js',
+    jestScript: resolveJestCliPath('react-scripts', 'scripts/test.js'),
     args: ['--env=jsdom'],
     env: {
       CI: 'true'

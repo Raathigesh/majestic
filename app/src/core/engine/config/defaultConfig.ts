@@ -1,11 +1,12 @@
 const { readConfig } = require('jest-config');
 import { Config } from '../types/Config';
+import { resolveJestCliPath } from './util';
 
 export default function getConfig(rootPath: string): Config {
   return {
     jest: {
       ...readConfig({}, rootPath).projectConfig
     },
-    jestScript: '/node_modules/jest/bin/jest.js'
+    jestScript: resolveJestCliPath('jest', 'bin/jest.js')
   };
 }

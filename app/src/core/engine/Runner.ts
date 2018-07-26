@@ -51,7 +51,7 @@ export default class TestRunner {
       ...(this.preference.getMajesticLogEnabled() ? [loggerPath] : []),
       ...(this.config.jest.setupFiles || [])
     ];
-    const jestScript = join(this.engine.root, this.config.jestScript);
+    const jestScript = this.config.jestScript;
 
     logger.success(`Starting jest with:
                       📈 Coverage collection: ${!disableCoverageCollection}`);
@@ -99,8 +99,13 @@ export default class TestRunner {
         loggerPath,
         ...(this.config.jest.setupFiles || [])
       ];
+
+      const NodeExecutable = this.preference.getNodePath()
+        ? this.preference.getNodePath()
+        : 'node';
+
       const updateProcess = spawn(
-        `node -r ${patchJsFile} ${join(
+        `${NodeExecutable} -r ${patchJsFile} ${join(
           this.engine.root,
           this.config.jestScript
         )} `,
