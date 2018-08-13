@@ -1,6 +1,6 @@
 {
   "name": "majestic",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "dependencies": {
     "chalk": "^2.4.1",
     "chokidar": "^2.0.3",
@@ -24,6 +24,7 @@
     "p-is-promise": "^1.1.0",
     "react-dev-utils": "^5.0.1",
     "read-pkg-up": "^3.0.0",
+    "resolve-pkg": "^1.0.0",
     "socket.io": "^2.0.4",
     "socket.io-client": "^2.0.4",
     "sockette": "^2.0.0",

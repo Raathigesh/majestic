@@ -14,7 +14,11 @@ export default function getConfig(rootPath: string): Config {
       },
       {}
     ).options,
-    jestScript: resolveJestCliPath('react-scripts', 'scripts/test.js'),
+    jestScript: resolveJestCliPath(
+      rootPath,
+      'react-scripts',
+      'scripts/test.js'
+    ),
     args: ['--env=jsdom'],
     env: {
       CI: 'true'

@@ -7,6 +7,6 @@ export default function getConfig(rootPath: string): Config {
     jest: {
       ...readConfig({}, rootPath).projectConfig
     },
-    jestScript: resolveJestCliPath('jest', 'bin/jest.js')
+    jestScript: resolveJestCliPath(rootPath, 'jest', 'bin/jest.js')
   };
 }

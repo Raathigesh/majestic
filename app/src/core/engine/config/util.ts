@@ -1,8 +1,14 @@
 const { join } = require('path');
-export function resolveJestCliPath(moduleName: string, suffix: string) {
-  const path = require
-    .resolve(`${moduleName}/package.json`)
-    .replace('package.json', '');
+const resolvePkg = require('resolve-pkg');
+
+export function resolveJestCliPath(
+  rootDir: string,
+  moduleName: string,
+  suffix: string
+) {
+  const path = resolvePkg(`${moduleName}`, {
+    cwd: rootDir
+  });
 
   return join(path, suffix);
 }

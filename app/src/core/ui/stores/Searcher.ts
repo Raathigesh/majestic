@@ -20,7 +20,11 @@ export class Searcher {
     }
 
     files.forEach((node: any, path: any) => {
-      if (fuzzysearch(this.query, path) && node.type === 'file') {
+      if (
+        (fuzzysearch(this.query, path) ||
+          path.toLowerCase() === this.query.toLowerCase()) &&
+        node.type === 'file'
+      ) {
         this.results.push(node);
       }
     });
