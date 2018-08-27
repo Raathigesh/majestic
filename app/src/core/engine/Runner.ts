@@ -105,10 +105,7 @@ export default class TestRunner {
         : 'node';
 
       const updateProcess = spawn(
-        `${NodeExecutable} -r ${patchJsFile} ${join(
-          this.engine.root,
-          this.config.jestScript
-        )} `,
+        `${NodeExecutable} -r ${patchJsFile} ${this.config.jestScript} `,
         [
           ...['--setupFiles', ...setupFilesArg],
           '--updateSnapshot',
@@ -124,7 +121,9 @@ export default class TestRunner {
           env: this.getEnvironment()
         }
       );
-
+      updateProcess.stderr.on('data', (data: string) => {
+        consola.info(data.toString().trim());
+      });
       updateProcess.on('close', () => {
         resolve(JSON.stringify({}));
       });
