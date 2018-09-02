@@ -1,6 +1,6 @@
 {
   "name": "majestic",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "dependencies": {
     "chalk": "^2.4.1",
     "chokidar": "^2.0.3",

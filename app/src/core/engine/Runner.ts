@@ -135,7 +135,7 @@ export default class TestRunner {
       // kill the existing inspect process
       this.kill(this.inspectProcess);
       const inspectProcess = spawn(
-        `node --inspect-brk ${join(this.engine.root, this.config.jestScript)} `,
+        `node --inspect-brk ${this.config.jestScript}`,
         [...(testFile ? [getTestPatternForPath(testFile)] : [])],
         {
           cwd: this.engine.root,
