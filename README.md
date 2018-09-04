@@ -1,6 +1,8 @@
 <img src="./logo/Splash.png" />
 
-> This is Majestic 1.0 rewrite which is still in alpha. Majestic classic is [over here.](https://github.com/Raathigesh/majestic/tree/master)
+> This is Majestic 1.0, a rewrite from scratch which is still in alpha. Majestic classic is [over here.](https://github.com/Raathigesh/majestic/tree/master)
+
+<br />
 
 ### ⚡ Features
 
@@ -12,11 +14,15 @@
 - 🐞 Dedicated test failure view
 - 📜 Log with `majestic.log()`
 
+<br />
+
 ### 🚀 Getting started
 
-1. `npm install majestic@alpha -g` or `yarn global add majestic@alpha`
-2. Open the terminal and navigate to your project directory
-3. Run `majestic`
+- `npm install majestic@alpha -g` or `yarn global add majestic@alpha`
+- Open the terminal and navigate to your project directory
+- Run `majestic`
+
+<br />
 
 ### 💻 Contribute
 
@@ -26,6 +32,8 @@
 - `yarn start` will start the dev server for UI
 - `yarn server` will start the node server
 - `yarn debug` will start the node server in watch mode
+
+<br />
 
 ### 🌠 Contributors
 
@@ -39,6 +47,8 @@
 
 This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification.
 Contributions of any kind are welcome!
+
+<br />
 
 ### 🔵 License
 
