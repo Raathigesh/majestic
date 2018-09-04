@@ -1,22 +1,24 @@
 <img src="./logo/Splash.png" />
 
-## Majestic 1.0
+> This is Majestic 1.0 rewrite which is still in alpha. Majestic classic is [over here.](https://github.com/Raathigesh/majestic/tree/master)
 
-https://twitter.com/Raathigesh/status/1004335180499177472
+## ⚡ Features
 
-- `yarn global add majestic@alpha`
-- Open your terminal and navigate to your project directory
-- Just run `majestic`
+- 🖱 Run tests with a click
+- 📸 Selective snapshot update
+- 💣 Launch debugger with a click
+- 🔍 Search tests
+- 🔖 Bookmark tests
+- 🐞 Dedicated test failure view
+- 📜 Log with `majestic.log()`
 
-## Inspiration
+## 🚀 Getting started
 
-This tool is inspired by https://wallabyjs.com/. Check it out.
+1. `npm install majestic@alpha -g` or `yarn global add majestic@alpha`
+2. Open the terminal and navigate to your project directory
+3. Run `majestic`
 
-## Thanks
-
-Thank you [@orta](https://github.com/orta) for building [VSCode Jest](https://github.com/jest-community/vscode-jest) and doing the heavy lifting.
-
-## Contributors
+## 🌠 Contributors
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 
@@ -29,6 +31,6 @@ Thank you [@orta](https://github.com/orta) for building [VSCode Jest](https://gi
 This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification.
 Contributions of any kind are welcome!
 
-## License
+## 🔵 License
 
-MIT © [Raathigeshan](https://twitter.com/Raathigesh)
+MIT
