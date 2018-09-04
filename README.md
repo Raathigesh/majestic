@@ -1,3 +1,5 @@
+<img src="./logo/Splash.png" />
+
 ## Majestic 1.0
 
 https://twitter.com/Raathigesh/status/1004335180499177472
