@@ -34,6 +34,8 @@ If you have google chrome installed, running majestic with `--app` argument (`ma
 
 If you really prefer an electron app, you can use [nativefier](https://github.com/jiahaog/nativefier) and use http://localhost:3005/ as the url argument. Then run majestic in the project as usual and open the electron app built by nativefier instead of the browser UI.
 
+<br />
+
 ### 💻 Contribute
 
 - Clone the repo
