@@ -4,7 +4,7 @@ import Runner from './Runner';
 import { Config } from './types/Config';
 import Watcher from './Watcher';
 import Preference from './Preference';
-const launchEditor = require('react-dev-utils/launchEditor');
+const launchEditor = require('launch-editor');
 const readPkgUp = require('read-pkg-up');
 
 export default class Engine {
@@ -34,7 +34,7 @@ export default class Engine {
   }
 
   launchEditor(path: string, lineNo: number) {
-    launchEditor(path, lineNo);
+    launchEditor(`${path}:${lineNo}`);
   }
 
   getVersion() {

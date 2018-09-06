@@ -82,19 +82,14 @@ interface ItBlockProps {
   onRunTest: (it: It) => void;
   onUpdateSnapshot: () => void;
   launchInEditor: (test: It) => void;
-  startVsCodeDebug: (testName: string) => void;
   isDebugging: boolean;
-  isVsCodeReady: boolean;
 }
 
 function ItBlock({
   itBlock,
   onRunTest,
   onUpdateSnapshot,
-  launchInEditor,
-  isDebugging,
-  isVsCodeReady,
-  startVsCodeDebug
+  launchInEditor
 }: ItBlockProps) {
   return (
     <Container>

@@ -8,7 +8,6 @@ import Header from './Header';
 import It from '../../stores/It';
 import { Workspace } from '../../stores/Workspace';
 import { lighten } from 'polished';
-import { VsCodeIntegrator } from '../../stores/VsCodeIntegrator';
 
 const Container = styled.div`
   display: flex;
@@ -34,7 +33,6 @@ interface TestPanelProps {
   launchEditor: (it: It, testFileName: Node) => void;
   debugTest: (testFileName: Node) => void;
   isDebugging: boolean;
-  vsCodeIntegrator: VsCodeIntegrator;
 }
 
 function TestFile({
@@ -46,7 +44,6 @@ function TestFile({
   launchEditor,
   debugTest,
   isDebugging,
-  vsCodeIntegrator,
   bookmarks
 }: TestPanelProps) {
   return (
@@ -69,15 +66,11 @@ function TestFile({
                 itBlock={itBlock}
                 onRunTest={onRunTest}
                 isDebugging={isDebugging}
-                isVsCodeReady={vsCodeIntegrator.isDebuggerReady}
                 onUpdateSnapshot={() => {
                   onUpdateSnapshot(itBlock, testFile);
                 }}
                 launchInEditor={(it: It) => {
                   launchEditor(it, testFile);
-                }}
-                startVsCodeDebug={(testName: string) => {
-                  vsCodeIntegrator.startDebug(testName, testFile.path);
                 }}
               />
             ))}

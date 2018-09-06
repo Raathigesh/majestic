@@ -10,15 +10,12 @@ export class Preference {
   public showTreeView: boolean;
   @observable
   public isMajesticLogEnabled: boolean;
-  @observable
-  public isEmbeddedInVSCode: boolean;
 
   constructor() {
     this.fetchPreference();
     this.preferenceModalOpen = false;
     this.showTreeView = true;
     this.isMajesticLogEnabled = false;
-    this.isEmbeddedInVSCode = false;
   }
 
   public async fetchPreference() {
@@ -64,10 +61,6 @@ export class Preference {
 
   @computed
   public get shouldShowSummaryPanel() {
-    if (this.isEmbeddedInVSCode) {
-      return false;
-    }
-
     return true;
   }
 }

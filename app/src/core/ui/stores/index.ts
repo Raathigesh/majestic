@@ -5,7 +5,6 @@ import searcher from './Searcher';
 import preference from './Preference';
 import updater from './Updater';
 import shortcut from './Shortcut';
-import { VsCodeIntegrator } from './VsCodeIntegrator';
 
 export { Workspace } from './Workspace';
 export { Debugger } from './Debugger';
@@ -22,8 +21,7 @@ const stores = {
   searcher,
   preference,
   updater,
-  shortcut,
-  vsCodeIntegrator: new VsCodeIntegrator(preference)
+  shortcut
 };
 
 export default stores;

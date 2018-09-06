@@ -18,7 +18,6 @@ const App = () => (
         searcher={stores.searcher}
         preference={stores.preference}
         updater={stores.updater}
-        vsCodeIntegrator={stores.vsCodeIntegrator}
       />
     </Provider>
   </ThemeProvider>
