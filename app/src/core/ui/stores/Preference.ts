@@ -2,11 +2,16 @@ import { observable, computed } from 'mobx';
 import remoteInterface from './remote';
 
 export class Preference {
-  @observable public nodePath: string;
-  @observable public preferenceModalOpen: boolean;
-  @observable public showTreeView: boolean;
-  @observable public isMajesticLogEnabled: boolean;
-  @observable public isEmbeddedInVSCode: boolean;
+  @observable
+  public nodePath: string;
+  @observable
+  public preferenceModalOpen: boolean;
+  @observable
+  public showTreeView: boolean;
+  @observable
+  public isMajesticLogEnabled: boolean;
+  @observable
+  public isEmbeddedInVSCode: boolean;
 
   constructor() {
     this.fetchPreference();
@@ -21,7 +26,8 @@ export class Preference {
     const config = await remote.getConfig();
     this.nodePath = config.nodePath;
     this.isMajesticLogEnabled = config.isMajesticLogEnabled;
-    this.showTreeView = config.showTreeView;
+    this.showTreeView =
+      config.showTreeView === undefined ? true : config.showTreeView;
   }
 
   public setNodePath(path: string) {
@@ -53,10 +59,6 @@ export class Preference {
 
   @computed
   public get shouldShowTreeView() {
-    if (this.isEmbeddedInVSCode) {
-      return false;
-    }
-
     return this.showTreeView;
   }
 
