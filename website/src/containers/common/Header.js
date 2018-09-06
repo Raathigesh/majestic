@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-static";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -35,16 +36,26 @@ const Menu = styled.div`
   }
 `;
 
+const LogoText = styled.div`
+  color: #3e4245;
+`;
+
 export default () => {
   return (
     <Container>
-      <Logo>
-        <img src={require("../../assets/logo.png")} />
-        Majestic
-      </Logo>
+      <Link to="/">
+        <Logo>
+          <img src={require("../../assets/logo.png")} />
+          <LogoText>Majestic</LogoText>
+        </Logo>
+      </Link>
       <Menus>
-        <Menu>Docs</Menu>
-        <Menu>Github</Menu>
+        <Link to="/docs/two-step-guide">
+          <Menu>Docs</Menu>
+        </Link>
+        <a href="https://github.com/raathigesh/majestic" target="_blank">
+          <Menu>Github</Menu>
+        </a>
       </Menus>
     </Container>
   );

@@ -25,13 +25,13 @@ export default () => (
         />
         <Feature
           header="Debugging made simple"
-          desc="Debug your tests with node --inspect or with VS Code.
+          desc="Debug your tests with node --inspect by clicking a button.
 A closer look into your tests is just a click away."
           logo={require("../assets/feature3.png")}
         />
         <Feature
           header="Enhanced logging"
-          desc="Debug your tests with node --inspect or with VS Code.  A closer look into your tests is just a click away."
+          desc="Log to majestic's console with majestic.log({value: 'Hey there!'})"
           logo={require("../assets/feature4.png")}
         />
       </Shell>

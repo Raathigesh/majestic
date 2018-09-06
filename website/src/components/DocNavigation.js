@@ -30,9 +30,6 @@ export default function DocNavigation() {
       <Link to="/docs/run-as-an-app">
         <Item>Running as an app</Item>
       </Link>
-      <Link to="/docs/debugging-in-vs-code">
-        <Item>Debugging in VS Code</Item>
-      </Link>
       <Link to="/docs/configuring-majestic">
         <Item>Additional Configuration</Item>
       </Link>

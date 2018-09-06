@@ -6,7 +6,7 @@ const Container = styled.div`
   flex-direction: row;
   font-family: "Montserrat", sans-serif;
   font-weight: 400;
-  font-size: 55px;
+  font-size: 45px;
   align-self: center;
   align-items: center;
 `;
@@ -69,7 +69,8 @@ export default () => {
           <Instructions>
             <Step>1</Step>
             <div>
-              Install majestic globally<Syntax>yarn global add majestic</Syntax>
+              Install majestic globally
+              <Syntax>yarn global add majestic</Syntax>
             </div>
           </Instructions>
           <Instructions>
