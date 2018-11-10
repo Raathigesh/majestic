@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import Empty from './Empty';
 import { Workspace, Debugger, Tests, Node } from '../stores';
 import It from '../stores/It';
-import TestFile from './testFile';
+import TestFile from './TestFile';
 import Tab from './tab';
 import styled from 'styled-components';
 

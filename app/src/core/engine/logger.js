@@ -9,12 +9,18 @@ let connectionPromise = new Promise(resolve => {
 });
 
 global.majestic = {
-  log(args) {
+  log() {
+    const argsObject = {};
+
+    for (let i = 0, len = arguments.length; i < len; i++) {
+      argsObject[`arg${i + 1}`] = arguments[i];
+    }
+
     connectionPromise.then(connection => {
       connection.send(
         JSON.stringify({
           source: 'majestic-logger',
-          payload: args
+          payload: argsObject
         })
       );
     });
