@@ -1,6 +1,4 @@
 import { Resolver, Mutation, Arg } from "type-graphql";
-import { dirname } from "path";
-import { createFunctionalComponent } from "../services/scaffolder";
 
 @Resolver()
 export default class Scaffolder {
@@ -10,11 +8,6 @@ export default class Scaffolder {
     @Arg("type") type: string,
     @Arg("name") name: string
   ) {
-    if (type === "functional") {
-      await createFunctionalComponent(dirname(path), name);
-      return "";
-    }
-
     return "";
   }
 }
