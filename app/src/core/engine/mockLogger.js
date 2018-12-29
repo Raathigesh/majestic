@@ -1,3 +1,0 @@
-global.majestic = {
-  log(args) {}
-};

@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "rootDir": "./server",
+    "outDir": "./dist/server",
+    "module": "commonjs",
+    "target": "es2016",
+    "lib": ["es6", "dom", "es2017.object", "esnext.asynciterable"],
+    "sourceMap": true,
+    "allowJs": true,
+    "jsx": "react",
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": false,
+    "noImplicitThis": true,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "noUnusedLocals": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true
+  },
+  "include": ["server"]
+}

@@ -1,0 +1,15 @@
+mutation UpdateCSSVariable(
+  $declarationName: String!
+  $filePath: String!
+  $propertyName: String!
+  $propertyValue: String!
+) {
+  updateCSSVariable(
+    path: $filePath
+    property: $propertyName
+    value: $propertyValue
+    name: $declarationName
+  ) {
+    path
+  }
+}

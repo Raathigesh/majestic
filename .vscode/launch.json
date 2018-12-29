@@ -8,13 +8,12 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "runtimeArgs": ["-r", "./app/node_modules/ts-node/register"],
-      "args": [
-        "${workspaceFolder}/app/src/server/init.ts",
-        "--project=D:\\sandbox\\react-boilerplate",
-        "--dev"
-      ],
-      "console": "integratedTerminal"
+      "runtimeArgs": ["-r", "./node_modules/ts-node/register"],
+      "args": ["${workspaceFolder}/server/index.ts"],
+      "console": "integratedTerminal",
+      "env": {
+        "TS_NODE_PROJECT": "./tsconfig.server.json"
+      }
     }
   ]
 }
