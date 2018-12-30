@@ -3,6 +3,8 @@ import { Workspace } from "./workspace";
 import Project from "../../services/project";
 import { root } from "../../services/cli";
 import JestManager from "../../services/jest-manager";
+import { TestFile } from "./test-file";
+import { inspect } from "../../services/ast/inspector";
 
 @Resolver(Workspace)
 export default class WorkspaceResolver {
@@ -30,5 +32,12 @@ export default class WorkspaceResolver {
     }));
 
     return workspace;
+  }
+
+  @Query(returns => TestFile)
+  file(@Arg("path") path: string) {
+    const file = new TestFile();
+    inspect(path);
+    return file;
   }
 }

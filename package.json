@@ -14,10 +14,10 @@
   "dependencies": {
     "@babel/generator": "^7.0.0",
     "@babel/helper-plugin-utils": "^7.0.0",
-    "@babel/parser": "^7.1.0",
+    "@babel/parser": "^7.2.3",
     "@babel/plugin-transform-react-jsx-source": "^7.0.0",
     "@babel/standalone": "^7.0.0",
-    "@babel/traverse": "^7.1.0",
+    "@babel/traverse": "^7.2.3",
     "@blueprintjs/core": "^3.6.1",
     "@emotion/core": "0.x.x",
     "@emotion/styled": "^0.10.6",

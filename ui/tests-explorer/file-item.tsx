@@ -25,7 +25,7 @@ interface Props {
 }
 
 export default function FileItem({ item }: Props) {
-  const Icon = item.children ? Folder : File;
+  const Icon = item.type === "directory" ? Folder : File;
   let Chevron: any = EmptyChevron;
   if (item.children && item.children.length) {
     Chevron = item.isExpanded && item.isExpanded ? ChevronDown : ChevronRight;
@@ -38,7 +38,8 @@ export default function FileItem({ item }: Props) {
         <Icon size={13} />
         <Label>{item.name}</Label>
       </Content>
-      {item.children && item.children.map(child => <FileItem item={child} />)}
+      {item.children &&
+        item.children.map(child => <FileItem key={child.path} item={child} />)}
     </Container>
   );
 }

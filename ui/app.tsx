@@ -13,15 +13,13 @@ export default class App extends React.Component {
   render() {
     return (
       <ContainerDiv>
-        <SplitPane split="vertical" defaultSize={400}>
-          <SplitPane split="vertical" defaultSize={350} primary="second">
-            <div>
-              <Suspense fallback={<div>Loading...</div>}>
-                <TestExplorer />
-              </Suspense>
-            </div>
-            <div />
-          </SplitPane>
+        <SplitPane split="vertical" defaultSize={550} primary="second">
+          <div>
+            <Suspense fallback={<div>Loading...</div>}>
+              <TestExplorer />
+            </Suspense>
+          </div>
+          <div />
         </SplitPane>
       </ContainerDiv>
     );
