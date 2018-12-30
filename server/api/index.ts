@@ -1,10 +1,11 @@
 import { buildSchema } from "type-graphql";
 import { pubsub } from "../event-emitter";
-import Scaffolder from "./scaffolder";
+import Workspace from "./Workspace/resolver";
+import Runner from "./runner/resolver";
 
 export async function getSchema() {
   return await buildSchema({
-    resolvers: [Scaffolder],
+    resolvers: [Workspace, Runner],
     pubSub: pubsub as any
   });
 }

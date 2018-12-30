@@ -75,7 +75,8 @@ module.exports = env => ({
     new HtmlWebpackPlugin({
       title: "Reignite",
       template: require("html-webpack-template"),
-      appMountId: "root"
+      appMountId: "root",
+      inject: false
     }),
     new webpack.HotModuleReplacementPlugin()
   ]

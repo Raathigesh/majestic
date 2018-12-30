@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import styled from "styled-components";
 import SplitPane from "react-split-pane";
 import TestExplorer from "./tests-explorer";
@@ -16,7 +16,9 @@ export default class App extends React.Component {
         <SplitPane split="vertical" defaultSize={400}>
           <SplitPane split="vertical" defaultSize={350} primary="second">
             <div>
-              <TestExplorer />
+              <Suspense fallback={<div>Loading...</div>}>
+                <TestExplorer />
+              </Suspense>
             </div>
             <div />
           </SplitPane>

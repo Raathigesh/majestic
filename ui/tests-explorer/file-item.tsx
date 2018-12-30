@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { File, Folder, ChevronRight, ChevronDown } from "react-feather";
 import {} from "styled-system";
+import { TreeNode } from "./transformer";
 
 const Container = styled.div`
   display: flex;
@@ -19,22 +20,15 @@ const EmptyChevron = styled.div`
   width: 5px;
 `;
 
-interface Item {
-  name: string;
-  path: string;
-  isExpanded?: boolean;
-  children?: Item[];
-}
-
 interface Props {
-  item: Item;
+  item: TreeNode;
 }
 
 export default function FileItem({ item }: Props) {
   const Icon = item.children ? Folder : File;
   let Chevron: any = EmptyChevron;
-  if (item.children) {
-    Chevron = item.isExpanded ? ChevronDown : ChevronRight;
+  if (item.children && item.children.length) {
+    Chevron = item.isExpanded && item.isExpanded ? ChevronDown : ChevronRight;
   }
 
   return (

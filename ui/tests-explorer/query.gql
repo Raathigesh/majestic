@@ -1,0 +1,12 @@
+{
+  workspace {
+    projectRoot
+    name
+    files {
+      path
+      name
+      type
+      parent
+    }
+  }
+}
