@@ -1,5 +1,7 @@
 import { ObjectType, Field } from "type-graphql";
 
+export type TestItemType = "describe" | "it" | "test";
+
 @ObjectType()
 export class TestItem {
   @Field()
@@ -9,7 +11,7 @@ export class TestItem {
   name: string;
 
   @Field()
-  type: "describe" | "it" | "test";
+  type: TestItemType;
 
   @Field({ nullable: true })
   parent?: string;

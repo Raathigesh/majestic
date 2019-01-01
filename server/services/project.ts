@@ -1,7 +1,6 @@
 import * as directoryTree from "directory-tree";
 import * as micromatch from "micromatch";
 import { JestConfig } from "./jest-manager/types";
-import { Item } from "../api/Workspace/tree";
 import { DirectoryItem, TreeMap } from "./types";
 
 export default class Project {

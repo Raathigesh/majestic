@@ -2,6 +2,7 @@ import { Resolver, Mutation, Arg, Query } from "type-graphql";
 import { Runner } from "./type";
 import JestManager from "../../services/jest-manager";
 import Workspace from "../../services/project";
+import { root } from "../../services/cli";
 
 @Resolver(Runner)
 export default class RunnerResolver {
@@ -9,7 +10,7 @@ export default class RunnerResolver {
   private workspace: Workspace;
 
   constructor() {
-    this.workspace = new Workspace("");
+    this.workspace = new Workspace(root);
     this.jestManager = new JestManager(this.workspace);
   }
 
@@ -20,5 +21,10 @@ export default class RunnerResolver {
     runner.status = "";
     this.jestManager.getConfig();
     return runner;
+  }
+
+  @Mutation(returns => String)
+  runFile(@Arg("path") path: string) {
+    return this.jestManager.runSingleFile(path);
   }
 }
