@@ -1,4 +1,4 @@
-import { Item } from "../../server/api/Workspace/tree";
+import { Item } from "../../server/api/workspace/tree";
 
 export interface TreeNode extends Item {
   name: string;

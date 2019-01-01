@@ -4,7 +4,7 @@ import { useQuery } from "react-apollo-hooks";
 import {} from "styled-system";
 import FileItem from "./file-item";
 import WORKSPACE from "./query.gql";
-import { Workspace } from "../../server/api/Workspace/workspace";
+import { Workspace } from "../../server/api/workspace/workspace";
 import { transform } from "./transformer";
 
 const Container = styled.div``;
