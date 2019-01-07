@@ -4884,6 +4884,11 @@ inquirer@3.3.0:
     strip-ansi "^4.0.0"
     through "^2.3.6"
 
+inter-ui@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/inter-ui/-/inter-ui-3.1.0.tgz#93d67beaffb56bd54fffa7a0aa8e8e41af109091"
+  integrity sha512-vQYv3r4amFfhZ6BHSjtdgBmaDbV6n0+7LizYdvToUXlhiX5ny62rG3r7ptckugsTXh9KZLFRDZf8Q038l6nonA==
+
 internal-ip@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/internal-ip/-/internal-ip-3.0.1.tgz#df5c99876e1d2eb2ea2d74f520e3f669a00ece27"

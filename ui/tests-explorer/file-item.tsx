@@ -12,6 +12,8 @@ const Container = styled.div`
 const Content = styled.div`
   display: flex;
   align-items: center;
+  padding: 1.5px;
+  cursor: pointer;
 `;
 const Label = styled.div`
   margin-left: 5px;

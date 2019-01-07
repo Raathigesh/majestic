@@ -35,6 +35,7 @@
     "graphql-yoga": "^1.16.1",
     "html-webpack-plugin": "^3.2.0",
     "immer": "^1.6.0",
+    "inter-ui": "^3.1.0",
     "nodemon": "^1.18.3",
     "outdent": "^0.7.0",
     "prettier": "^1.14.2",
