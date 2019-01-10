@@ -1,0 +1,7 @@
+subscription Results($path: String!) {
+  changeToResult(path: $path) {
+    path
+    numFailingTests
+    numPassingTests
+  }
+}

@@ -1,0 +1,3 @@
+mutation RunFile($path: String!) {
+  runFile(path: $path)
+}

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { ApolloProvider } from "react-apollo-hooks";
+import { ApolloProvider as ApolloHooksProvider } from "react-apollo-hooks";
+import { ApolloProvider } from "react-apollo";
 import client from "./apollo-client";
 import App from "./app";
 import { createGlobalStyle } from "styled-components";
@@ -13,9 +14,11 @@ export default class Container extends Component {
     return (
       <React.Fragment>
         <GlobalStyle />
-        <ApolloProvider client={client}>
-          <App />
-        </ApolloProvider>
+        <ApolloHooksProvider client={client}>
+          <ApolloProvider client={client}>
+            <App />
+          </ApolloProvider>
+        </ApolloHooksProvider>
       </React.Fragment>
     );
   }

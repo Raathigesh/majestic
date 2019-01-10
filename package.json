@@ -21,6 +21,7 @@
     "@blueprintjs/core": "^3.6.1",
     "@emotion/core": "0.x.x",
     "@emotion/styled": "^0.10.6",
+    "@smooth-ui/core-sc": "^7.1.0",
     "@types/chokidar": "^1.7.5",
     "@types/styled-components": "^4.1.4",
     "apollo-client": "^2.3.8",
