@@ -73,6 +73,7 @@ export default class WorkspaceResolver {
       result.numPassingTests = testResult.numPassingTests;
       result.numFailingTests = testResult.numFailingTests;
       result.numPendingTests = testResult.numPendingTests;
+      result.testResults = testResult.testResults;
     }
     return result;
   }

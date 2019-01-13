@@ -37,12 +37,14 @@ export default class JestManager {
   }
 
   async executeJest(args: string[]) {
-    return await execa(`node ${this.getJestScriptPath()}`, args, {
+    const path = this.getJestScriptPath();
+    const result = await execa(`node ${this.getJestScriptPath()}`, args, {
       cwd: this.project.projectRoot,
       shell: true,
       stdio: "pipe",
       env: {}
     });
+    return result;
   }
 
   getRepoterPath() {

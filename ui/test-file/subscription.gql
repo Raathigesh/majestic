@@ -3,5 +3,13 @@ subscription Results($path: String!) {
     path
     numFailingTests
     numPassingTests
+    testResults {
+      title
+      numPassingAsserts
+      status
+      failureMessages
+      ancestorTitles
+      duration
+    }
   }
 }
