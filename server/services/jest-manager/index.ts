@@ -37,7 +37,6 @@ export default class JestManager {
   }
 
   async executeJest(args: string[]) {
-    const path = this.getJestScriptPath();
     const result = await execa(`node ${this.getJestScriptPath()}`, args, {
       cwd: this.project.projectRoot,
       shell: true,

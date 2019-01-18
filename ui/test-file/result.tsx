@@ -5,14 +5,13 @@ import { TestFileResult } from "../../server/api/workspace/test-result/file-resu
 
 export type Result = { changeToResult: TestFileResult } | null;
 
-export default function Result() {
+export default function Result(selectedFilePath: string) {
   const [result, setData] = useState<Result>(null);
   const Elements = (
     <Subscription
       subscription={FILERESULT}
       variables={{
-        path:
-          "D:\\projects\\jest-runner\\create-react-app-integratio\\src\\App.test.js"
+        path: selectedFilePath
       }}
     >
       {({ data }) => {

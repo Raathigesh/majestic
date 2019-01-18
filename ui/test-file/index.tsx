@@ -11,24 +11,31 @@ import useResult from "./result";
 
 const Container = styled.div``;
 
-export default function TestFile() {
+interface Props {
+  selectedFilePath: string;
+}
+
+export default function TestFile({ selectedFilePath }: Props) {
   const {
     data: { file }
   } = useQuery(FILEITEMS, {
     variables: {
-      path:
-        "D:\\projects\\jest-runner\\create-react-app-integratio\\src\\App.test.js"
+      path: selectedFilePath
     }
   });
+
+  if (!file) {
+    return null;
+  }
+
   const root = file.items[0];
   const tree = transform(root, file.items as any);
   const toggleLike = useMutation(RUNFILE, {
     variables: {
-      path:
-        "D:\\projects\\jest-runner\\create-react-app-integratio\\src\\App.test.js"
+      path: selectedFilePath
     }
   });
-  const { result, Elements } = useResult();
+  const { result, Elements } = useResult(selectedFilePath);
   return (
     <Container>
       {Elements}

@@ -1,0 +1,5 @@
+mutation SetSelectedFile($path: String!) {
+  setSelectedFile(path: $path) {
+    selectedFile
+  }
+}

@@ -9,6 +9,10 @@ export function transform(
   items: TestItem[],
   tree?: TestFileItem
 ) {
+  if (!item) {
+    return {};
+  }
+
   const nextChildren = getChildren(item.id, items);
   if (!tree) {
     tree = {

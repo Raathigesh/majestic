@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Suspense } from "react";
 import { ApolloProvider as ApolloHooksProvider } from "react-apollo-hooks";
 import { ApolloProvider } from "react-apollo";
 import client from "./apollo-client";
@@ -16,7 +16,9 @@ export default class Container extends Component {
         <GlobalStyle />
         <ApolloHooksProvider client={client}>
           <ApolloProvider client={client}>
-            <App />
+            <Suspense fallback={<div>Loading...</div>}>
+              <App />
+            </Suspense>
           </ApolloProvider>
         </ApolloHooksProvider>
       </React.Fragment>

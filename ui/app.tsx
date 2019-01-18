@@ -1,8 +1,11 @@
 import React, { Suspense } from "react";
 import styled from "styled-components";
 import SplitPane from "react-split-pane";
+import { useQuery } from "react-apollo-hooks";
 import TestExplorer from "./tests-explorer";
 import TestFile from "./test-file";
+
+import APP from "./app.gql";
 
 const ContainerDiv = styled.div`
   display: flex;
@@ -14,20 +17,29 @@ const Main = styled.div`
   display: flex;
 `;
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <ContainerDiv>
-        <SplitPane split="vertical" defaultSize={550} primary="second">
-          <Main>
-            <Suspense fallback={<div>Loading...</div>}>
-              <TestExplorer />
-              <TestFile />
-            </Suspense>
-          </Main>
-          <div />
-        </SplitPane>
-      </ContainerDiv>
-    );
-  }
+interface AppResult {
+  app: { selectedFile: string };
+}
+
+export default function App() {
+  const {
+    data: {
+      app: { selectedFile }
+    },
+    refetch
+  } = useQuery<AppResult>(APP);
+  return (
+    <ContainerDiv>
+      <SplitPane split="vertical" defaultSize={550} primary="second">
+        <Main>
+          <TestExplorer
+            selectedFile={selectedFile}
+            onSelectedFileChange={refetch}
+          />
+          <TestFile selectedFilePath={selectedFile} />
+        </Main>
+        <div />
+      </SplitPane>
+    </ContainerDiv>
+  );
 }
