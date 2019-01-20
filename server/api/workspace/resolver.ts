@@ -15,6 +15,11 @@ import { inspect } from "../../services/ast/inspector";
 import { TestFileResult } from "./test-result/file-result";
 import { Events, ResultEvent } from "../../services/result-handler-api";
 import Results from "../../services/results";
+import { findFieldsThatChangedTypeOnInputObjectTypes } from "graphql/utilities/findBreakingChanges";
+import FileWatcher, {
+  WatcherEvents,
+  FileChangeEvent
+} from "../../services/file-watcher";
 
 @Resolver(Workspace)
 export default class WorkspaceResolver {
@@ -50,6 +55,15 @@ export default class WorkspaceResolver {
   file(@Arg("path") path: string) {
     const file = new TestFile();
     file.items = inspect(path);
+    return file;
+  }
+
+  @Subscription(returns => TestFile, {
+    topics: [WatcherEvents.FILE_CHANGE]
+  })
+  fileChange(@Root() event: FileChangeEvent, @Arg("path") path: string) {
+    const file = new TestFile();
+    file.items = inspect(event.payload.path);
     return file;
   }
 
