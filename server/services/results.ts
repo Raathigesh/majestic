@@ -26,7 +26,7 @@ export default class Results {
   }
 
   public getResult(path: string) {
-    return this.results[path];
+    return this.results[path] || null;
   }
 
   private setDefaultStatus(path: string) {

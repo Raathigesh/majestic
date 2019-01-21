@@ -58,6 +58,11 @@ export default class WorkspaceResolver {
     return file;
   }
 
+  @Query(returns => TestFileResult, { nullable: true })
+  result(@Arg("path") path: string) {
+    return this.results.getResult(path);
+  }
+
   @Subscription(returns => TestFile, {
     topics: [WatcherEvents.FILE_CHANGE]
   })
@@ -88,6 +93,8 @@ export default class WorkspaceResolver {
       result.numFailingTests = testResult.numFailingTests;
       result.numPendingTests = testResult.numPendingTests;
       result.testResults = testResult.testResults;
+
+      this.results.setTestReport(path, result);
     }
     return result;
   }

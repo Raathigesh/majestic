@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Subscription } from "react-apollo";
-import { TestFileResult } from "../../server/api/workspace/test-result/file-result";
 import { DocumentNode } from "graphql";
 import { useApolloClient } from "react-apollo-hooks";
 
-export default function useSubscription(query: DocumentNode, variables: any) {
+export default function useSubscription(
+  query: DocumentNode,
+  subscriptionQuery: DocumentNode,
+  variables: any,
+  queryResultMapper: (result: any) => any,
+  subResultMapper: (result: any) => any
+) {
   const client = useApolloClient();
   const [result, setResult] = useState<any>({
     data: {},
@@ -12,13 +16,30 @@ export default function useSubscription(query: DocumentNode, variables: any) {
     error: null
   });
 
+  useEffect(() => {
+    if (client) {
+      client
+        .query({
+          query,
+          variables
+        })
+        .then(({ data, errors, loading }) => {
+          setResult({
+            data: queryResultMapper(data),
+            error: errors,
+            loading
+          });
+        });
+    }
+  }, []);
+
   useEffect(
     () => {
       let subscription: any;
       if (client) {
         subscription = client
           .subscribe({
-            query,
+            query: subscriptionQuery,
             variables
           })
           .subscribe({
@@ -27,7 +48,7 @@ export default function useSubscription(query: DocumentNode, variables: any) {
             },
             next: (nextResult: any) => {
               const newResult = {
-                data: nextResult.data,
+                data: subResultMapper(nextResult.data),
                 error: undefined,
                 loading: false
               };

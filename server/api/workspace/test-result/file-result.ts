@@ -3,7 +3,7 @@ import { TestItemResult } from "./test-item-result";
 
 @ObjectType()
 export class TestFileResult {
-  @Field()
+  @Field({ nullable: true })
   path: string;
 
   @Field({ nullable: true })
