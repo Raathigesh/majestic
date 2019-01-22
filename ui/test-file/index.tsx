@@ -28,7 +28,7 @@ export default function TestFile({ selectedFilePath }: Props) {
     result => result.file,
     result => result.fileChange
   );
-
+  console.log(fileItemResult);
   const toggleLike = useMutation(RUNFILE, {
     variables: {
       path: selectedFilePath
@@ -44,6 +44,7 @@ export default function TestFile({ selectedFilePath }: Props) {
     result => result.result,
     result => result.changeToResult
   );
+  console.log("outer result", result);
   const root =
     fileItemResult && fileItemResult.items && fileItemResult.items[0];
   const tree =

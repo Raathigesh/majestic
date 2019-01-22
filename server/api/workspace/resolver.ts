@@ -60,7 +60,8 @@ export default class WorkspaceResolver {
 
   @Query(returns => TestFileResult, { nullable: true })
   result(@Arg("path") path: string) {
-    return this.results.getResult(path);
+    const result = this.results.getResult(path);
+    return result.report;
   }
 
   @Subscription(returns => TestFile, {

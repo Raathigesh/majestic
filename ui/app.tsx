@@ -36,7 +36,7 @@ export default function App() {
             selectedFile={selectedFile}
             onSelectedFileChange={refetch}
           />
-          <TestFile selectedFilePath={selectedFile} />
+          {selectedFile && <TestFile selectedFilePath={selectedFile} />}
         </Main>
         <div />
       </SplitPane>

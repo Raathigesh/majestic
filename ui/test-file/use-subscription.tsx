@@ -15,23 +15,28 @@ export default function useSubscription(
     loading: false,
     error: null
   });
-
-  useEffect(() => {
-    if (client) {
-      client
-        .query({
-          query,
-          variables
-        })
-        .then(({ data, errors, loading }) => {
-          setResult({
-            data: queryResultMapper(data),
-            error: errors,
-            loading
+  console.log("variables", variables);
+  useEffect(
+    () => {
+      if (client) {
+        client
+          .query({
+            query,
+            variables,
+            fetchPolicy: "network-only"
+          })
+          .then(({ data, errors, loading }) => {
+            console.log(data);
+            setResult({
+              data: queryResultMapper(data),
+              error: errors,
+              loading
+            });
           });
-        });
-    }
-  }, []);
+      }
+    },
+    [variables.path]
+  );
 
   useEffect(
     () => {
