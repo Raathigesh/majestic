@@ -1,0 +1,6 @@
+query {
+  summary {
+    numPassedTests
+    numFailedTests
+  }
+}

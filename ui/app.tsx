@@ -1,11 +1,15 @@
 import React, { Suspense } from "react";
 import styled from "styled-components";
+import { Button } from "@smooth-ui/core-sc";
 import SplitPane from "react-split-pane";
-import { useQuery } from "react-apollo-hooks";
+import { useQuery, useMutation } from "react-apollo-hooks";
 import TestExplorer from "./tests-explorer";
 import TestFile from "./test-file";
-
 import APP from "./app.gql";
+import useSubscription from "./test-file/use-subscription";
+import SUMMARY_QUERY from "./summary-query.gql";
+import SUMMARY_SUBS from "./summary-subscription.gql";
+import RUN from "./run.gql";
 
 const ContainerDiv = styled.div`
   display: flex;
@@ -28,8 +32,28 @@ export default function App() {
     },
     refetch
   } = useQuery<AppResult>(APP);
+
+  const { data: summary } = useSubscription(
+    SUMMARY_QUERY,
+    SUMMARY_SUBS,
+    {},
+    result => result.summary,
+    result => result.changeToSummary
+  );
+
+  const run = useMutation(RUN);
+
+  console.log(summary);
   return (
     <ContainerDiv>
+      <Button
+        size="sm"
+        onClick={() => {
+          run();
+        }}
+      >
+        Run
+      </Button>
       <SplitPane split="vertical" defaultSize={550} primary="second">
         <Main>
           <TestExplorer

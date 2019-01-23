@@ -27,6 +27,14 @@ export default class JestManager {
     return config;
   }
 
+  async run() {
+    const { stdout, stderr } = await this.executeJest([
+      "--reporters",
+      this.getRepoterPath()
+    ]);
+    return stderr;
+  }
+
   async runSingleFile(path: string) {
     const { stdout, stderr } = await this.executeJest([
       this.getPatternForPath(path),

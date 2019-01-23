@@ -1,0 +1,6 @@
+subscription {
+  changeToSummary {
+    numPassedTests
+    numFailedTests
+  }
+}

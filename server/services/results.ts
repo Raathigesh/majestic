@@ -8,8 +8,17 @@ export default class Results {
     };
   };
 
+  private summary: {
+    numFailedTests: number;
+    numPassedTests: number;
+  };
+
   constructor() {
     this.results = {};
+    this.summary = {
+      numFailedTests: 0,
+      numPassedTests: 0
+    };
   }
 
   public setTestStart(path: string) {
@@ -27,6 +36,17 @@ export default class Results {
 
   public getResult(path: string) {
     return this.results[path] || null;
+  }
+
+  public setSummary(passedTests: number, failedTests: number) {
+    this.summary = {
+      numFailedTests: failedTests,
+      numPassedTests: passedTests
+    };
+  }
+
+  public getSummary() {
+    return this.summary;
   }
 
   private setDefaultStatus(path: string) {

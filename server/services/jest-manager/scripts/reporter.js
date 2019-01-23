@@ -23,23 +23,9 @@ class MyCustomReporter {
 
   onTestResult(test, testResult, aggregatedResult) {
     send("test-result", {
-      testResult
-    });
-    /*  this.testResultQueue.unshift({
-      test,
       testResult,
       aggregatedResult
     });
-    connectionPromise.then(connection => {
-      connection.send(
-        JSON.stringify({
-          source: "jest-test-reporter",
-          event: "onTestResult",
-          payload: this.testResultQueue
-        })
-      );
-      this.testResultQueue = [];
-    }); */
   }
 
   onRunStart(results) {

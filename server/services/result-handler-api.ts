@@ -6,12 +6,23 @@ export const Events = {
   TEST_START: "TEST_START",
   TEST_RESULT: "TEST_RESULT",
   RUN_START: "RUN_START",
-  RUN_COMPLETE: "RUN_COMPLETE"
+  RUN_COMPLETE: "RUN_COMPLETE",
+  RUN_SUMMARY: "RUN_SUMMARY"
 };
 
 export interface ResultEvent {
   id: string;
   payload: any;
+}
+
+export interface SummaryEvent {
+  id: string;
+  payload: {
+    summary: {
+      numPassedTests: number;
+      numFailedTests: number;
+    };
+  };
 }
 
 export default function handlerApi(expressApp: Application) {
@@ -33,6 +44,13 @@ export default function handlerApi(expressApp: Application) {
       payload: {
         path: body.testResult.testFilePath,
         result: body
+      }
+    });
+
+    pubsub.publish(Events.RUN_SUMMARY, {
+      id: Events.RUN_SUMMARY,
+      payload: {
+        summary: body.aggregatedResult
       }
     });
     res.send("ok");

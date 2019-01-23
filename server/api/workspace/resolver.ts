@@ -1,11 +1,4 @@
-import {
-  Resolver,
-  Mutation,
-  Arg,
-  Query,
-  Subscription,
-  Root
-} from "type-graphql";
+import { Resolver, Arg, Query, Subscription, Root } from "type-graphql";
 import { Workspace } from "./workspace";
 import Project from "../../services/project";
 import { root } from "../../services/cli";
@@ -13,13 +6,14 @@ import JestManager from "../../services/jest-manager";
 import { TestFile } from "./test-file";
 import { inspect } from "../../services/ast/inspector";
 import { TestFileResult } from "./test-result/file-result";
-import { Events, ResultEvent } from "../../services/result-handler-api";
+import {
+  Events,
+  ResultEvent,
+  SummaryEvent
+} from "../../services/result-handler-api";
 import Results from "../../services/results";
-import { findFieldsThatChangedTypeOnInputObjectTypes } from "graphql/utilities/findBreakingChanges";
-import FileWatcher, {
-  WatcherEvents,
-  FileChangeEvent
-} from "../../services/file-watcher";
+import { WatcherEvents, FileChangeEvent } from "../../services/file-watcher";
+import { Summary } from "./summary";
 
 @Resolver(Workspace)
 export default class WorkspaceResolver {
@@ -97,6 +91,29 @@ export default class WorkspaceResolver {
 
       this.results.setTestReport(path, result);
     }
+    return result;
+  }
+
+  @Subscription(returns => Summary, {
+    topics: [Events.RUN_SUMMARY]
+  })
+  async changeToSummary(@Root() event: SummaryEvent): Promise<Summary> {
+    const { numFailedTests, numPassedTests } = event.payload.summary;
+
+    const summary = new Summary();
+    summary.numFailedTests = numFailedTests;
+    summary.numPassedTests = numPassedTests;
+
+    this.results.setSummary(numPassedTests, numFailedTests);
+    return summary;
+  }
+
+  @Query(returns => Summary, { nullable: true })
+  summary() {
+    const { numFailedTests, numPassedTests } = this.results.getSummary();
+    const result = new Summary();
+    result.numFailedTests = numFailedTests;
+    result.numPassedTests = numPassedTests;
     return result;
   }
 }
