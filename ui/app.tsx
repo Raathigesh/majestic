@@ -14,11 +14,6 @@ import RUN from "./run.gql";
 const ContainerDiv = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 10px;
-`;
-
-const Main = styled.div`
-  display: flex;
 `;
 
 interface AppResult {
@@ -46,23 +41,20 @@ export default function App() {
   console.log(summary);
   return (
     <ContainerDiv>
-      <Button
+      {/*  <Button
         size="sm"
         onClick={() => {
           run();
         }}
       >
         Run
-      </Button>
-      <SplitPane split="vertical" defaultSize={550} primary="second">
-        <Main>
-          <TestExplorer
-            selectedFile={selectedFile}
-            onSelectedFileChange={refetch}
-          />
-          {selectedFile && <TestFile selectedFilePath={selectedFile} />}
-        </Main>
-        <div />
+      </Button> */}
+      <SplitPane defaultSize={200} split="vertical">
+        <TestExplorer
+          selectedFile={selectedFile}
+          onSelectedFileChange={refetch}
+        />
+        {selectedFile && <TestFile selectedFilePath={selectedFile} />}
       </SplitPane>
     </ContainerDiv>
   );

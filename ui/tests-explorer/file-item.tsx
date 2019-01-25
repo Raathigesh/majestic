@@ -1,14 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 import { File, Folder, ChevronRight, ChevronDown } from "react-feather";
-import {} from "styled-system";
+import { color } from "styled-system";
 import { TreeNode } from "./transformer";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 10px;
+  ${color};
 `;
+
 const Content = styled.div<{ selected: boolean }>`
   display: flex;
   align-items: center;
@@ -16,9 +18,11 @@ const Content = styled.div<{ selected: boolean }>`
   cursor: pointer;
   color: ${props => (props.selected ? "wheat" : null)};
 `;
+
 const Label = styled.div`
   margin-left: 5px;
 `;
+
 const EmptyChevron = styled.div`
   width: 5px;
 `;

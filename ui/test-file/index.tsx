@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import {} from "styled-system";
+import { space, color } from "styled-system";
 import { Button } from "@smooth-ui/core-sc";
 import { useQuery, useMutation } from "react-apollo-hooks";
 import FILEITEMS_SUB from "./file-items-subscription.gql";
@@ -12,7 +12,12 @@ import Test from "./test-item";
 import { transform } from "./tranformer";
 import useSubscription from "./use-subscription";
 
-const Container = styled.div``;
+const Container = styled.div`
+  ${space};
+  ${color};
+  flex-grow: 1;
+  height: 100vh;
+`;
 
 interface Props {
   selectedFilePath: string;
@@ -54,7 +59,7 @@ export default function TestFile({ selectedFilePath }: Props) {
     {};
 
   return (
-    <Container>
+    <Container p={2} bg="slightDark" color="text">
       <Button
         size="sm"
         onClick={() => {

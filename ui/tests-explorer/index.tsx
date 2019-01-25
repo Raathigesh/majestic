@@ -1,14 +1,19 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useQuery, useMutation } from "react-apollo-hooks";
-import {} from "styled-system";
+import { space, color } from "styled-system";
 import FileItem from "./file-item";
 import WORKSPACE from "./query.gql";
 import SET_SELECTED_FILE from "./set-selected-file.gql";
 import { Workspace } from "../../server/api/workspace/workspace";
 import { transform } from "./transformer";
+import Summary from "./summary";
 
-const Container = styled.div``;
+const Container = styled.div`
+  ${space};
+  ${color};
+  height: 100vh;
+`;
 
 interface WorkspaceResult {
   workspace: Workspace;
@@ -32,7 +37,6 @@ export default function TestExplorer({
   const tree = transform(root, items, undefined);
 
   const setSelectedFile = useMutation(SET_SELECTED_FILE);
-
   const handleFileChange = (path: string) => {
     setSelectedFile({
       variables: {
@@ -43,7 +47,8 @@ export default function TestExplorer({
   };
 
   return (
-    <Container>
+    <Container p={2} bg="dark" color="text">
+      <Summary />
       <FileItem
         item={tree}
         selectedFile={selectedFile}
