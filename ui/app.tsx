@@ -38,7 +38,6 @@ export default function App() {
 
   const run = useMutation(RUN);
 
-  console.log(summary);
   return (
     <ContainerDiv>
       {/*  <Button
