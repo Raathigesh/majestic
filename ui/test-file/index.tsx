@@ -34,7 +34,7 @@ export default function TestFile({ selectedFilePath }: Props) {
     result => result.fileChange
   );
 
-  const toggleLike = useMutation(RUNFILE, {
+  const runFile = useMutation(RUNFILE, {
     variables: {
       path: selectedFilePath
     }
@@ -63,10 +63,23 @@ export default function TestFile({ selectedFilePath }: Props) {
       <Button
         size="sm"
         onClick={() => {
-          toggleLike();
+          runFile();
         }}
       >
         Run
+      </Button>
+      <Button
+        size="sm"
+        onClick={() => {
+          runFile({
+            variables: {
+              path: selectedFilePath,
+              watch: true
+            }
+          });
+        }}
+      >
+        Run and watch
       </Button>
       {fileItemResult && <Test item={tree} result={result} />}
     </Container>

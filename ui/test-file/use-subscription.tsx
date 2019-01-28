@@ -43,6 +43,10 @@ export default function useSubscription(
   useEffect(
     () => {
       if (client) {
+        if (subscription) {
+          subscription.unsubscribe();
+        }
+
         subscription = client
           .subscribe({
             query: subscriptionQuery,
@@ -66,7 +70,7 @@ export default function useSubscription(
           });
       }
     },
-    [variables, subscriptionQuery]
+    [variables.path]
   );
 
   useEffect(() => {

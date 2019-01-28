@@ -35,9 +35,10 @@ export default class JestManager {
     return stderr;
   }
 
-  async runSingleFile(path: string) {
+  async runSingleFile(path: string, watch: boolean) {
     const { stdout, stderr } = await this.executeJest([
       this.getPatternForPath(path),
+      ...(watch ? ["--watch"] : []),
       "--reporters",
       this.getRepoterPath()
     ]);

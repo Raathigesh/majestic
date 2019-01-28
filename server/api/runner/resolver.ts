@@ -24,8 +24,8 @@ export default class RunnerResolver {
   }
 
   @Mutation(returns => String)
-  runFile(@Arg("path") path: string) {
-    return this.jestManager.runSingleFile(path);
+  runFile(@Arg("path") path: string, @Arg("watch") watch: boolean) {
+    return this.jestManager.runSingleFile(path, watch);
   }
 
   @Mutation(returns => String)
