@@ -9,7 +9,6 @@ import APP from "./app.gql";
 import useSubscription from "./test-file/use-subscription";
 import SUMMARY_QUERY from "./summary-query.gql";
 import SUMMARY_SUBS from "./summary-subscription.gql";
-import RUN from "./run.gql";
 
 const ContainerDiv = styled.div`
   display: flex;
@@ -36,8 +35,6 @@ export default function App() {
     result => result.changeToSummary
   );
 
-  const run = useMutation(RUN);
-
   return (
     <ContainerDiv>
       {/*  <Button
@@ -52,6 +49,7 @@ export default function App() {
         <TestExplorer
           selectedFile={selectedFile}
           onSelectedFileChange={refetch}
+          summary={summary}
         />
         {selectedFile && <TestFile selectedFilePath={selectedFile} />}
       </SplitPane>

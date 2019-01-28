@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { space } from "styled-system";
 import { Button } from "@smooth-ui/core-sc";
 import { Play } from "react-feather";
+import { Summary } from "../../../server/api/workspace/summary";
 
 const Container = styled.div`
   ${space};
@@ -26,29 +27,30 @@ const Label = styled.div`
 
 const Value = styled.div``;
 
-export default function Summary() {
+interface Props {
+  summary: Summary;
+}
+
+export default function SummaryPanel({ summary }: Props) {
   return (
     <Container p={2}>
-      <Button size="sm" onClick={() => {}}>
-        <Play size={14} />
-      </Button>
       <Row>
         <Cell>
-          <Value>123</Value>
+          <Value>0</Value>
           <Label>Passing suits</Label>
         </Cell>
         <Cell>
-          <Value>123</Value>
+          <Value>0</Value>
           <Label>Failing suits</Label>
         </Cell>
       </Row>
       <Row>
         <Cell>
-          <Value>123</Value>
+          <Value>{summary.numPassedTests}</Value>
           <Label>Passing tests</Label>
         </Cell>
         <Cell>
-          <Value>123</Value>
+          <Value>{summary.numFailedTests}</Value>
           <Label>Failing tests</Label>
         </Cell>
       </Row>
