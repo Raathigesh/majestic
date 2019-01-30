@@ -18,7 +18,8 @@
     "noUnusedLocals": false,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "newLine": "LF"
   },
   "include": ["server"]
 }

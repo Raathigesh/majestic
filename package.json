@@ -1,12 +1,12 @@
 {
-  "name": "debug-kit",
+  "name": "majestic",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
     "ui": "webpack-dev-server --env.development --config ./scripts/webpack.ui.config.js",
     "server": "ts-node ./server/index.ts",
-    "build-ui": "cross-env BABEL_ENV='production' NODE_OPTIONS=--max_old_space_size=8192 rimraf dist && webpack --env.production --config ./scripts/webpack.ui.config.js",
+    "build-ui": "cross-env BABEL_ENV='production' rimraf dist && webpack --env.production --config ./scripts/webpack.ui.config.js",
     "build-server": "tsc --project ./tsconfig.server.json",
     "prod": "npm run build-ui && npm run build-server",
     "debug": "nodemon"
@@ -105,5 +105,8 @@
   },
   "resolutions": {
     "graphql": "^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0"
+  },
+  "bin": {
+    "majestic": "./dist/server/index.js"
   }
 }
