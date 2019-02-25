@@ -62,7 +62,7 @@ export default function TestExplorer({
   };
 
   return (
-    <Container p={2} bg="dark" color="text">
+    <Container p={3} bg="dark" color="text">
       <Button
         size="sm"
         onClick={() => {

@@ -4,7 +4,7 @@ export default {
   ...theme,
   primary: "#4778FF",
   colors: {
-    dark: "#272A39",
+    dark: "#272A41",
     slightDark: "#2B2E3D",
     text: "#F5F5F5",
     button: "#FDC055"

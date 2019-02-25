@@ -55,7 +55,7 @@ export default function TestFile({ selectedFilePath }: Props) {
   );
 
   return (
-    <Container p={2} bg="slightDark" color="text">
+    <Container p={2} bg="dark" color="text">
       <Button
         size="sm"
         onClick={() => {
