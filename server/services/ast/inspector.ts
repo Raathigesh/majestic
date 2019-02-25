@@ -11,31 +11,43 @@ export function inspect(path: string) {
 
   traverse(ast, {
     CallExpression(path: any) {
-      if (path.node.callee.name === "describe") {
-        const describe = {
-          id: nanoid(),
-          type: "describe" as TestItemType,
-          name: path.node.arguments[0].value
-        };
-        result.push(describe);
-        path.traverse(
-          {
-            CallExpression(itPath: any) {
-              if (itPath.node.callee.name === "it") {
-                result.push({
-                  type: "it",
-                  name: itPath.node.arguments[0].value,
-                  id: nanoid(),
-                  parent: describe.id
-                });
-              }
-            }
-          },
-          { describe }
-        );
+      if (path.scope.block.type === "Program") {
+        findItems(path, result);
       }
     }
   });
 
   return result;
+}
+
+function findItems(path: any, result: TestItem[]) {
+  findDescribes(path, result);
+  findTests(path, result);
+}
+
+function findDescribes(path: any, result: TestItem[]) {
+  if (path.node.callee.name === "describe") {
+    const describe = {
+      id: nanoid(),
+      type: "describe" as TestItemType,
+      name: path.node.arguments[0].value
+    };
+    result.push(describe);
+    path.traverse({
+      CallExpression(itPath: any) {
+        findTests(itPath, result, describe.id);
+      }
+    });
+  }
+}
+
+function findTests(path: any, result: TestItem[], parentId?: any) {
+  if (path.node.callee.name === "it" || path.node.callee.name === "test") {
+    result.push({
+      type: "it",
+      name: path.node.arguments[0].value,
+      id: nanoid(),
+      parent: parentId
+    });
+  }
 }

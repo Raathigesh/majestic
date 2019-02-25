@@ -1,4 +1,11 @@
-import { Resolver, Arg, Query, Subscription, Root } from "type-graphql";
+import {
+  Resolver,
+  Arg,
+  Query,
+  Subscription,
+  Root,
+  Mutation
+} from "type-graphql";
 import { Workspace } from "./workspace";
 import Project from "../../services/project";
 import { root } from "../../services/cli";
@@ -43,6 +50,14 @@ export default class WorkspaceResolver {
     }));
 
     return workspace;
+  }
+
+  @Mutation(returns => String)
+  toggleFile(
+    @Arg("path") path: string,
+    @Arg("isExpanded") isExpanded: boolean
+  ) {
+    return this.project.toggleItem(path, isExpanded);
   }
 
   @Query(returns => TestFile)

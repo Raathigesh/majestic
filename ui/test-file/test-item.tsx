@@ -1,6 +1,5 @@
 import React, { Fragment } from "react";
 import styled from "styled-components";
-import {} from "styled-system";
 import { TestFileItem } from "./tranformer";
 import { TestFileResult } from "../../server/api/workspace/test-result/file-result";
 import TestIndicator from "./test-indicator";
@@ -38,8 +37,14 @@ export default function Test({
     <Container>
       <Content>
         <TestIndicator status={testResult && testResult.status} />
-        {name}
-        {testResult && testResult.status}
+        <div>
+          {name}
+          {testResult && testResult.status}
+          {testResult &&
+            testResult.failureMessages && (
+              <pre>{testResult.failureMessages.join(",")}</pre>
+            )}
+        </div>
       </Content>
       {children &&
         children.map(child => (

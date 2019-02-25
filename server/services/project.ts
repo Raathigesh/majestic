@@ -5,10 +5,19 @@ import { DirectoryItem, TreeMap } from "./types";
 
 export default class Project {
   public projectRoot: string;
+  public expandedItems: { [path: string]: true } = {};
   private testFileMatcher: (path: string) => boolean;
 
   constructor(root: string) {
     this.projectRoot = root;
+  }
+
+  public toggleItem(path: string, isExpaned: boolean) {
+    if (isExpaned) {
+      this.expandedItems[path] = true;
+    } else {
+      delete this.expandedItems[path];
+    }
   }
 
   public readTestFiles = (jestConfig: JestConfig) => {

@@ -37,14 +37,6 @@ export default function App() {
 
   return (
     <ContainerDiv>
-      {/*  <Button
-        size="sm"
-        onClick={() => {
-          run();
-        }}
-      >
-        Run
-      </Button> */}
       <SplitPane defaultSize={200} split="vertical">
         <TestExplorer
           selectedFile={selectedFile}

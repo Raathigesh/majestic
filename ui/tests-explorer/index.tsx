@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useQuery, useMutation } from "react-apollo-hooks";
 import { space, color } from "styled-system";
@@ -10,8 +10,8 @@ import { transform } from "./transformer";
 import Summary from "./summary";
 import { Summary as SummaryType } from "../../server/api/workspace/summary";
 import RUN from "./run.gql";
-import { Button } from "@smooth-ui/core-sc";
 import { Play } from "react-feather";
+import Button from "../components/button";
 
 const Container = styled.div`
   ${space};
@@ -43,8 +43,16 @@ export default function TestExplorer({
   const tree = transform(root, items, undefined);
   const run = useMutation(RUN);
 
+  const [expandedItems, setExpandedItems] = useState({});
+  const handleFileToggle = (path: string, isExpanded: boolean) => {
+    setExpandedItems({
+      ...expandedItems,
+      [path]: isExpanded
+    });
+  };
+
   const setSelectedFile = useMutation(SET_SELECTED_FILE);
-  const handleFileChange = (path: string) => {
+  const handleFileSelection = (path: string) => {
     setSelectedFile({
       variables: {
         path
@@ -61,13 +69,16 @@ export default function TestExplorer({
           run();
         }}
       >
-        <Play size={14} />
+        <Play size={14} /> Run tests
       </Button>
       <Summary summary={summary} />
       <FileItem
         item={tree}
         selectedFile={selectedFile}
-        setSelectedFile={handleFileChange}
+        setSelectedFile={handleFileSelection}
+        expandedItems={expandedItems}
+        isExpanded={expandedItems[tree.path]}
+        onToggle={handleFileToggle}
       />
     </Container>
   );

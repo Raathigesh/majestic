@@ -30,22 +30,32 @@ const EmptyChevron = styled.div`
 interface Props {
   item: TreeNode;
   selectedFile: string;
+  expandedItems: { [path: string]: boolean };
   setSelectedFile: (path: string) => void;
+  isExpanded: boolean;
+  onToggle: (path: string, isExpanded: boolean) => void;
 }
 
 export default function FileItem({
   item,
   selectedFile,
-  setSelectedFile
+  expandedItems,
+  setSelectedFile,
+  onToggle,
+  isExpanded
 }: Props) {
   const Icon = item.type === "directory" ? Folder : File;
   let Chevron: any = EmptyChevron;
   if (item.children && item.children.length) {
-    Chevron = item.isExpanded && item.isExpanded ? ChevronDown : ChevronRight;
+    Chevron = isExpanded === false ? ChevronRight : ChevronDown;
   }
 
   const handleClick = () => {
     setSelectedFile(item.path);
+
+    if (item.children) {
+      onToggle(item.path, isExpanded);
+    }
   };
 
   return (
@@ -56,12 +66,16 @@ export default function FileItem({
         <Label>{item.name}</Label>
       </Content>
       {item.children &&
+        isExpanded !== false &&
         item.children.map(child => (
           <FileItem
             key={child.path}
             item={child}
             selectedFile={selectedFile}
             setSelectedFile={setSelectedFile}
+            isExpanded={expandedItems[child.path]}
+            expandedItems={expandedItems}
+            onToggle={onToggle}
           />
         ))}
     </Container>

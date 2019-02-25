@@ -50,13 +50,9 @@ export default function TestFile({ selectedFilePath }: Props) {
     result => result.changeToResult
   );
 
-  const root =
-    fileItemResult && fileItemResult.items && fileItemResult.items[0];
-  const tree =
-    (fileItemResult &&
-      fileItemResult.items &&
-      transform(root, fileItemResult.items as any)) ||
-    {};
+  const roots = (fileItemResult.items || []).filter(
+    item => item.parent === null
+  );
 
   return (
     <Container p={2} bg="slightDark" color="text">
@@ -81,7 +77,11 @@ export default function TestFile({ selectedFilePath }: Props) {
       >
         Run and watch
       </Button>
-      {fileItemResult && <Test item={tree} result={result} />}
+      {fileItemResult &&
+        roots.map(item => {
+          const tree = transform(item, fileItemResult.items as any);
+          return <Test item={tree} result={result} />;
+        })}
     </Container>
   );
 }

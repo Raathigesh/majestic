@@ -6,9 +6,11 @@ import client from "./apollo-client";
 import App from "./app";
 import theme from "./theme";
 import { createGlobalStyle } from "styled-components";
+import splitPanelCSS from "./split-panel-style";
 
 const GlobalStyle = createGlobalStyle`
  body { font-family: 'Inter UI var alt', sans-serif; font-size: 13px; margin: 0px;}
+ ${splitPanelCSS}
 `;
 
 export default class Container extends Component {
