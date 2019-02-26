@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { TestFileItem } from "./tranformer";
 import { TestFileResult } from "../../server/api/workspace/test-result/file-result";
 import TestIndicator from "./test-indicator";
+import { color, space } from "styled-system";
 
 function getResults(item: TestFileItem, testResult: TestFileResult) {
   if (!testResult || !testResult.testResults) {
@@ -12,8 +13,10 @@ function getResults(item: TestFileItem, testResult: TestFileResult) {
 }
 
 const Container = styled.div`
-  margin-left: 15px;
-  padding: 4px;
+  ${color};
+  ${space};
+  padding-left: 15px;
+  padding-bottom: 5px;
 `;
 
 const Content = styled.div`
@@ -34,7 +37,7 @@ export default function Test({
 }: Props) {
   const testResult = getResults(item, result);
   return (
-    <Container>
+    <Container bg="slightDark">
       <Content>
         <TestIndicator status={testResult && testResult.status} />
         <div>

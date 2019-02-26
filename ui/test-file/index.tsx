@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { space, color } from "styled-system";
-import { Button } from "@smooth-ui/core-sc";
 import { useQuery, useMutation } from "react-apollo-hooks";
 import FILEITEMS_SUB from "./file-items-subscription.gql";
 import FILEITEMS from "./query.gql";
@@ -11,12 +10,15 @@ import RESULT from "./result.gql";
 import Test from "./test-item";
 import { transform } from "./tranformer";
 import useSubscription from "./use-subscription";
+import Button from "../components/button";
+import FileSummary from "./summary";
 
 const Container = styled.div`
   ${space};
   ${color};
   flex-grow: 1;
   height: 100vh;
+  padding-left: 20px;
 `;
 
 interface Props {
@@ -55,18 +57,13 @@ export default function TestFile({ selectedFilePath }: Props) {
   );
 
   return (
-    <Container p={2} bg="dark" color="text">
-      <Button
-        size="sm"
-        onClick={() => {
+    <Container p={4} bg="dark" color="text">
+      <FileSummary
+        path={selectedFilePath}
+        onRun={() => {
           runFile();
         }}
-      >
-        Run
-      </Button>
-      <Button
-        size="sm"
-        onClick={() => {
+        onWatch={() => {
           runFile({
             variables: {
               path: selectedFilePath,
@@ -74,9 +71,8 @@ export default function TestFile({ selectedFilePath }: Props) {
             }
           });
         }}
-      >
-        Run and watch
-      </Button>
+      />
+
       {fileItemResult &&
         roots.map(item => {
           const tree = transform(item, fileItemResult.items as any);

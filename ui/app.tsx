@@ -37,7 +37,7 @@ export default function App() {
 
   return (
     <ContainerDiv>
-      <SplitPane defaultSize={200} split="vertical">
+      <SplitPane defaultSize={300} split="vertical">
         <TestExplorer
           selectedFile={selectedFile}
           onSelectedFileChange={refetch}

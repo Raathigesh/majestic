@@ -4,8 +4,8 @@ export default {
   ...theme,
   primary: "#4778FF",
   colors: {
-    dark: "#272A41",
-    slightDark: "#2B2E3D",
+    dark: "#202231",
+    slightDark: "#313341",
     text: "#F5F5F5",
     button: "#FDC055"
   },
