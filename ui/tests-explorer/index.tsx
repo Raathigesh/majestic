@@ -10,13 +10,17 @@ import { transform } from "./transformer";
 import Summary from "./summary";
 import { Summary as SummaryType } from "../../server/api/workspace/summary";
 import RUN from "./run.gql";
-import { Play } from "react-feather";
+import { Play, Eye } from "react-feather";
 import Button from "../components/button";
 
 const Container = styled.div`
   ${space};
   ${color};
   height: 100vh;
+`;
+
+const ActionsPanel = styled.div`
+  display: flex;
 `;
 
 interface WorkspaceResult {
@@ -62,15 +66,25 @@ export default function TestExplorer({
   };
 
   return (
-    <Container p={3} bg="dark" color="text">
-      <Button
-        size="sm"
-        onClick={() => {
-          run();
-        }}
-      >
-        <Play size={14} /> Run tests
-      </Button>
+    <Container p={4} bg="dark" color="text">
+      <ActionsPanel>
+        <Button
+          size="sm"
+          onClick={() => {
+            run();
+          }}
+        >
+          <Play size={14} /> Run tests
+        </Button>
+        <Button
+          size="sm"
+          onClick={() => {
+            run();
+          }}
+        >
+          <Eye size={14} /> Run tests
+        </Button>
+      </ActionsPanel>
       <Summary summary={summary} />
       <FileItem
         item={tree}

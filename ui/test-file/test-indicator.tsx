@@ -1,18 +1,26 @@
 import React from "react";
-import { X, Check, Octagon } from "react-feather";
+import {
+  X,
+  Check,
+  Octagon,
+  Code,
+  XCircle,
+  CheckCircle,
+  Circle
+} from "react-feather";
 
 interface Props {
   status: "passed" | "failed";
 }
 
 export default function TestIndicator({ status }: Props) {
-  let Icon = Octagon;
+  let Icon = Circle;
 
   if (status === "passed") {
-    Icon = Check;
+    Icon = CheckCircle;
   } else if (status === "failed") {
-    Icon = X;
+    Icon = XCircle;
   }
 
-  return <Icon size={12} />;
+  return <Icon size={14} />;
 }

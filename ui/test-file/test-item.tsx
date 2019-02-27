@@ -19,10 +19,26 @@ const Container = styled.div`
   padding-bottom: 5px;
 `;
 
-const Content = styled.div`
-  padding: 5px;
+const Label = styled.div`
   display: flex;
   align-items: center;
+  font-weight: 600;
+  font-size: 13px;
+
+  span {
+    margin-left: 5px;
+  }
+`;
+
+const Content = styled.div`
+  padding: 5px;
+  min-height: 25px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const FailtureMessage = styled.div`
+  padding-left: 20px;
 `;
 
 interface Props {
@@ -39,15 +55,16 @@ export default function Test({
   return (
     <Container bg="slightDark">
       <Content>
-        <TestIndicator status={testResult && testResult.status} />
-        <div>
-          {name}
-          {testResult && testResult.status}
-          {testResult &&
-            testResult.failureMessages && (
+        <Label>
+          <TestIndicator status={testResult && testResult.status} />
+          <span>{name}</span>
+        </Label>
+        {testResult &&
+          testResult.failureMessages && (
+            <FailtureMessage>
               <pre>{testResult.failureMessages.join(",")}</pre>
-            )}
-        </div>
+            </FailtureMessage>
+          )}
       </Content>
       {children &&
         children.map(child => (

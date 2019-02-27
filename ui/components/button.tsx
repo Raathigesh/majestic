@@ -10,14 +10,16 @@ const StyledButton = styled.button`
   text-align: center;
   transition: all 0.5s;
   background-color: transparent;
-  border: 1.5px solid #0080da;
+  border: 1px solid #ff4954;
   border-radius: 3px;
+  height: 25px;
   cursor: pointer;
+  margin-right: 5px;
   ${space};
   ${color};
   ${fontSize};
   &:hover {
-    background-color: #0080da;
+    background-color: #ff4954;
   }
 `;
 
