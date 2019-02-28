@@ -1,8 +1,7 @@
-import React, { Suspense } from "react";
+import React from "react";
 import styled from "styled-components";
-import { Button } from "@smooth-ui/core-sc";
 import SplitPane from "react-split-pane";
-import { useQuery, useMutation } from "react-apollo-hooks";
+import { useQuery } from "react-apollo-hooks";
 import TestExplorer from "./tests-explorer";
 import TestFile from "./test-file";
 import APP from "./app.gql";
