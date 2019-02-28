@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { space, color } from "styled-system";
-import { useQuery, useMutation } from "react-apollo-hooks";
+import { useMutation } from "react-apollo-hooks";
 import FILEITEMS_SUB from "./file-items-subscription.gql";
 import FILEITEMS from "./query.gql";
 import RUNFILE from "./run-file.gql";
@@ -10,7 +10,6 @@ import RESULT from "./result.gql";
 import Test from "./test-item";
 import { transform } from "./tranformer";
 import useSubscription from "./use-subscription";
-import Button from "../components/button";
 import FileSummary from "./summary";
 
 const Container = styled.div`
@@ -76,7 +75,7 @@ export default function TestFile({ selectedFilePath }: Props) {
       {fileItemResult &&
         roots.map(item => {
           const tree = transform(item, fileItemResult.items as any);
-          return <Test item={tree} result={result} />;
+          return <Test key={item.id} item={tree} result={result} />;
         })}
     </Container>
   );

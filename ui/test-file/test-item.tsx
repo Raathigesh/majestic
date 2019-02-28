@@ -9,6 +9,7 @@ function getResults(item: TestFileItem, testResult: TestFileResult) {
   if (!testResult || !testResult.testResults) {
     return null;
   }
+
   return testResult.testResults.find(result => result.title === item.name);
 }
 

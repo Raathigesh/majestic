@@ -28,7 +28,6 @@ export default function useSubscription(
             fetchPolicy: "network-only"
           })
           .then(({ data, errors, loading }) => {
-            console.log("USE SUBS - QUERY", data);
             setResult({
               data: queryResultMapper(data),
               error: errors,
@@ -55,11 +54,10 @@ export default function useSubscription(
           })
           .subscribe({
             error: (error: any) => {
-              console.log("USE - SUSB - ERROR", error);
               setResult({ loading: false, data: result.data, error });
             },
             next: (nextResult: any) => {
-              console.log("USE - SUSB - DATA", nextResult);
+              console.log("Subs for", variables.path);
               const newResult = {
                 data: subResultMapper(nextResult.data),
                 error: undefined,
@@ -73,11 +71,14 @@ export default function useSubscription(
     [variables.path]
   );
 
-  useEffect(() => {
-    return () => {
-      subscription && subscription.unsubscribe();
-    };
-  }, []);
+  useEffect(
+    () => {
+      return () => {
+        subscription && subscription.unsubscribe();
+      };
+    },
+    [variables.path]
+  );
 
   return result;
 }

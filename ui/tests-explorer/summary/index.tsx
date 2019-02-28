@@ -36,7 +36,7 @@ interface Props {
 
 export default function SummaryPanel({ summary }: Props) {
   return (
-    <Container p={2}>
+    <Container mt={3} mb={3}>
       <Row>
         <Cell>
           <Value>0</Value>
