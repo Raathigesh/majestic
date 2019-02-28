@@ -73,7 +73,7 @@ module.exports = env => ({
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "Reignite",
+      title: "Majestic",
       template: require("html-webpack-template"),
       appMountId: "root",
       inject: false

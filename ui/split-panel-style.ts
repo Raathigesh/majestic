@@ -1,7 +1,7 @@
 const splitPanelCSS = `
 .Resizer {
-    background: #000;
-    opacity: .2;
+    background: #2B2B31;
+    opacity: .8;
     z-index: 1;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;

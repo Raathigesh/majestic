@@ -16,11 +16,12 @@ const Content = styled.div<{ selected: boolean }>`
   align-items: center;
   padding: 1.5px;
   cursor: pointer;
-  color: ${props => (props.selected ? "wheat" : null)};
+  color: ${props => (props.selected ? "#FF4954" : null)};
 `;
 
 const Label = styled.div`
   margin-left: 5px;
+  font-size: 14px;
 `;
 
 const EmptyChevron = styled.div`

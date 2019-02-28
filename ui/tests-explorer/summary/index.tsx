@@ -22,10 +22,13 @@ const Cell = styled.div`
 `;
 
 const Label = styled.div`
-  font-size: 11px;
+  font-size: 13px;
+  color: #dcdbdb;
 `;
 
-const Value = styled.div``;
+const Value = styled.div`
+  font-size: 20px;
+`;
 
 interface Props {
   summary: Summary;

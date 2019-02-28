@@ -53,7 +53,7 @@ export default function Test({
 }: Props) {
   const testResult = getResults(item, result);
   return (
-    <Container bg="slightDark">
+    <Container bg="dark">
       <Content>
         <Label>
           <TestIndicator status={testResult && testResult.status} />

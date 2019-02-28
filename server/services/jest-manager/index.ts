@@ -1,6 +1,7 @@
 import { spawnSync } from "child_process";
 import { join } from "path";
 import * as execa from "execa";
+import * as resolvePkg from "resolve-pkg";
 import Project from "../project";
 import { ShowConfig } from "./cli-args";
 import { JestConfig } from "./types";
@@ -13,11 +14,11 @@ export default class JestManager {
   }
 
   getJestScriptPath() {
-    //TODO: Improve jest.js resolution
-    return join(
-      this.project.projectRoot,
-      "\\node_modules\\jest-cli\\bin\\jest.js"
-    );
+    const path = resolvePkg("jest", {
+      cwd: this.project.projectRoot
+    });
+
+    return join(path, "bin/jest.js");
   }
 
   getConfig() {
