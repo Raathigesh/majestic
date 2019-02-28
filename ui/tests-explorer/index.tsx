@@ -47,11 +47,11 @@ export default function TestExplorer({
   const tree = transform(root, items, undefined);
   const run = useMutation(RUN);
 
-  const [expandedItems, setExpandedItems] = useState({});
-  const handleFileToggle = (path: string, isExpanded: boolean) => {
-    setExpandedItems({
-      ...expandedItems,
-      [path]: isExpanded
+  const [collapsedItems, setCollapsedItems] = useState({});
+  const handleFileToggle = (path: string, isCollapsed: boolean) => {
+    setCollapsedItems({
+      ...collapsedItems,
+      [path]: isCollapsed
     });
   };
 
@@ -90,8 +90,8 @@ export default function TestExplorer({
         item={tree}
         selectedFile={selectedFile}
         setSelectedFile={handleFileSelection}
-        expandedItems={expandedItems}
-        isExpanded={expandedItems[tree.path]}
+        collapsedItems={collapsedItems}
+        isCollapsed={collapsedItems[tree.path]}
         onToggle={handleFileToggle}
       />
     </Container>

@@ -31,31 +31,31 @@ const EmptyChevron = styled.div`
 interface Props {
   item: TreeNode;
   selectedFile: string;
-  expandedItems: { [path: string]: boolean };
+  collapsedItems: { [path: string]: boolean };
   setSelectedFile: (path: string) => void;
-  isExpanded: boolean;
-  onToggle: (path: string, isExpanded: boolean) => void;
+  isCollapsed: boolean;
+  onToggle: (path: string, isCollapsed: boolean) => void;
 }
 
 export default function FileItem({
   item,
   selectedFile,
-  expandedItems,
+  collapsedItems,
   setSelectedFile,
   onToggle,
-  isExpanded
+  isCollapsed
 }: Props) {
   const Icon = item.type === "directory" ? Folder : File;
   let Chevron: any = EmptyChevron;
   if (item.children && item.children.length) {
-    Chevron = isExpanded === false ? ChevronRight : ChevronDown;
+    Chevron = isCollapsed ? ChevronRight : ChevronDown;
   }
 
   const handleClick = () => {
     setSelectedFile(item.path);
 
     if (item.children) {
-      onToggle(item.path, isExpanded);
+      onToggle(item.path, !isCollapsed);
     }
   };
 
@@ -67,15 +67,15 @@ export default function FileItem({
         <Label>{item.name}</Label>
       </Content>
       {item.children &&
-        isExpanded !== false &&
+        !isCollapsed &&
         item.children.map(child => (
           <FileItem
             key={child.path}
             item={child}
             selectedFile={selectedFile}
             setSelectedFile={setSelectedFile}
-            isExpanded={expandedItems[child.path]}
-            expandedItems={expandedItems}
+            isCollapsed={collapsedItems[child.path]}
+            collapsedItems={collapsedItems}
             onToggle={onToggle}
           />
         ))}
