@@ -6,6 +6,17 @@ import Project from "../project";
 import { ShowConfig } from "./cli-args";
 import { JestConfig } from "./types";
 
+export const RunnerEvents = {
+  RUNNER_STOPPED: "RunnerStopped"
+};
+
+export interface RunnerStoppedEvent {
+  id: string;
+  payload: {
+    path: string;
+  };
+}
+
 export default class JestManager {
   project: Project;
 

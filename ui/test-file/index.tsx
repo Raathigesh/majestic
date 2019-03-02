@@ -11,6 +11,8 @@ import Test from "./test-item";
 import { transform } from "./tranformer";
 import useSubscription from "./use-subscription";
 import FileSummary from "./summary";
+import RUNNER_STATUS_QUERY from "./runner-status-query.gql";
+import RUNNER_STATUS_SUBS from "./runner-status-subs.gql";
 
 const Container = styled.div`
   ${space};
@@ -51,6 +53,14 @@ export default function TestFile({ selectedFilePath }: Props) {
     result => result.changeToResult
   );
 
+  const { data } = useSubscription(
+    RUNNER_STATUS_QUERY,
+    RUNNER_STATUS_SUBS,
+    {},
+    result => result.runnerStatus,
+    result => result.runnerStatusChange
+  );
+
   const roots = (fileItemResult.items || []).filter(
     item => item.parent === null
   );
@@ -58,6 +68,7 @@ export default function TestFile({ selectedFilePath }: Props) {
   return (
     <Container p={4} bg="dark" color="text">
       <FileSummary
+        isRunning={data.activeFile === selectedFilePath}
         path={selectedFilePath}
         onRun={() => {
           runFile();
