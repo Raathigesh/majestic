@@ -63,7 +63,7 @@ export default function SummaryPanel({ summary }: Props) {
           <Label>Passing tests</Label>
         </Cell>
         <Cell>
-          <Value>{summary.numFailedTests}</Value>
+          <Value>{summary.numFailedTests | 0}</Value>
           <Label>Failing tests</Label>
         </Cell>
       </Row>

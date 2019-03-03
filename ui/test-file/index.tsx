@@ -68,7 +68,7 @@ export default function TestFile({ selectedFilePath }: Props) {
   return (
     <Container p={4} bg="dark" color="text">
       <FileSummary
-        isRunning={data.activeFile === selectedFilePath}
+        isRunning={data.activeFile === selectedFilePath && data.running}
         path={selectedFilePath}
         onRun={() => {
           runFile();

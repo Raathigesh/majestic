@@ -26,13 +26,16 @@ export default function App() {
     refetch
   } = useQuery<AppResult>(APP);
 
-  const { data: summary } = useSubscription(
+  const { data: summary = {} } = useSubscription(
     SUMMARY_QUERY,
     SUMMARY_SUBS,
     {},
     result => result.summary,
-    result => result.changeToSummary
+    result => result.changeToSummary,
+    "Summary Sub"
   );
+
+  console.log("summary", summary);
 
   return (
     <ContainerDiv>

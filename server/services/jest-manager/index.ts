@@ -5,15 +5,17 @@ import * as resolvePkg from "resolve-pkg";
 import Project from "../project";
 import { ShowConfig } from "./cli-args";
 import { JestConfig } from "./types";
+import { pubsub } from "../../event-emitter";
 
 export const RunnerEvents = {
+  RUNNER_STARTED: "RunnerStarted",
   RUNNER_STOPPED: "RunnerStopped"
 };
 
-export interface RunnerStoppedEvent {
+export interface RunnerEvent {
   id: string;
   payload: {
-    path: string;
+    isRunning: boolean;
   };
 }
 
@@ -54,17 +56,24 @@ export default class JestManager {
       "--reporters",
       this.getRepoterPath()
     ]);
+
     return stderr;
   }
 
   async executeJest(args: string[]) {
-    const result = await execa(`node ${this.getJestScriptPath()}`, args, {
-      cwd: this.project.projectRoot,
-      shell: true,
-      stdio: "pipe",
-      env: {}
-    });
-    return result;
+    try {
+      this.reportStart();
+      const result = await execa(`node ${this.getJestScriptPath()}`, args, {
+        cwd: this.project.projectRoot,
+        shell: true,
+        stdio: "pipe",
+        env: {}
+      });
+      return result;
+    } catch (e) {
+    } finally {
+      this.reportStop();
+    }
   }
 
   getRepoterPath() {
@@ -85,6 +94,24 @@ export default class JestManager {
       shell: true,
       stdio: "pipe",
       env: {}
+    });
+  }
+
+  reportStart() {
+    pubsub.publish(RunnerEvents.RUNNER_STARTED, {
+      id: RunnerEvents.RUNNER_STARTED,
+      payload: {
+        isRunning: true
+      }
+    });
+  }
+
+  reportStop() {
+    pubsub.publish(RunnerEvents.RUNNER_STOPPED, {
+      id: RunnerEvents.RUNNER_STOPPED,
+      payload: {
+        isRunning: false
+      }
     });
   }
 }

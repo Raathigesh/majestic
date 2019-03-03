@@ -9,7 +9,7 @@ import {
 import { Runner } from "./type";
 import JestManager, {
   RunnerEvents,
-  RunnerStoppedEvent
+  RunnerEvent
 } from "../../services/jest-manager";
 import Workspace from "../../services/project";
 import { root } from "../../services/cli";
@@ -45,15 +45,14 @@ export default class RunnerResolver {
   }
 
   @Subscription(returns => RunnerStatus, {
-    topics: [RunnerEvents.RUNNER_STOPPED]
+    topics: [RunnerEvents.RUNNER_STARTED, RunnerEvents.RUNNER_STOPPED]
   })
-  runnerStatusChange(
-    @Root() event: RunnerStoppedEvent,
-    @Arg("path") path: string
-  ) {
+  runnerStatusChange(@Root() event: RunnerEvent) {
+    this.isRunning = event.payload.isRunning;
+
     const status = new RunnerStatus();
     status.activeFile = this.activeFile;
-    status.running = false;
+    status.running = event.payload.isRunning;
     return status;
   }
 

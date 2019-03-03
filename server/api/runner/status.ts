@@ -2,9 +2,9 @@ import { ObjectType, Field, ID } from "type-graphql";
 
 @ObjectType()
 export class RunnerStatus {
-  @Field()
+  @Field({ nullable: true })
   running: boolean;
 
-  @Field()
+  @Field({ nullable: true })
   activeFile: string;
 }

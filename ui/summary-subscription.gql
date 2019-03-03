@@ -1,6 +1,6 @@
 subscription {
-  runnerStatusChange {
-    running
-    activeFile
+  changeToSummary {
+    numPassedTests
+    numFailedTests
   }
 }
