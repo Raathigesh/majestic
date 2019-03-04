@@ -24,6 +24,12 @@ const ActionsPanel = styled.div`
   display: flex;
 `;
 
+const FileTreeContainer = styled.div`
+  overflow: auto;
+  height: calc(100vh - 173px);
+  margin-left: -20px;
+`;
+
 interface WorkspaceResult {
   workspace: Workspace;
 }
@@ -87,14 +93,16 @@ export default function TestExplorer({
         </Button>
       </ActionsPanel>
       <Summary summary={summary} />
-      <FileItem
-        item={tree}
-        selectedFile={selectedFile}
-        setSelectedFile={handleFileSelection}
-        collapsedItems={collapsedItems}
-        isCollapsed={collapsedItems[tree.path]}
-        onToggle={handleFileToggle}
-      />
+      <FileTreeContainer>
+        <FileItem
+          item={tree}
+          selectedFile={selectedFile}
+          setSelectedFile={handleFileSelection}
+          collapsedItems={collapsedItems}
+          isCollapsed={collapsedItems[tree.path]}
+          onToggle={handleFileToggle}
+        />
+      </FileTreeContainer>
     </Container>
   );
 }

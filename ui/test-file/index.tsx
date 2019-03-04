@@ -22,6 +22,11 @@ const Container = styled.div`
   padding-left: 20px;
 `;
 
+const TestItemsContainer = styled.div`
+  overflow: auto;
+  height: calc(100vh - 118px);
+`;
+
 interface Props {
   selectedFilePath: string;
 }
@@ -83,11 +88,14 @@ export default function TestFile({ selectedFilePath }: Props) {
         }}
       />
 
-      {fileItemResult &&
-        roots.map(item => {
-          const tree = transform(item, fileItemResult.items as any);
-          return <Test key={item.id} item={tree} result={result} />;
-        })}
+      {fileItemResult && (
+        <TestItemsContainer>
+          {roots.map(item => {
+            const tree = transform(item, fileItemResult.items as any);
+            return <Test key={item.id} item={tree} result={result} />;
+          })}
+        </TestItemsContainer>
+      )}
     </Container>
   );
 }

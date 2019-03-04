@@ -7,7 +7,7 @@ import { TreeNode } from "./transformer";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 10px;
+  margin-left: 20px;
   ${color};
 `;
 
