@@ -14,6 +14,7 @@ import JestManager, {
 import Workspace from "../../services/project";
 import { root } from "../../services/cli";
 import { RunnerStatus } from "./status";
+import { pubsub } from "../../event-emitter";
 
 @Resolver(Runner)
 export default class RunnerResolver {
@@ -21,6 +22,7 @@ export default class RunnerResolver {
   private workspace: Workspace;
   private isRunning: boolean;
   private activeFile: string;
+  private isWatching: boolean = false;
 
   constructor() {
     this.workspace = new Workspace(root);
@@ -41,35 +43,58 @@ export default class RunnerResolver {
     const status = new RunnerStatus();
     status.activeFile = this.activeFile;
     status.running = this.isRunning;
+    status.watching = this.isWatching;
     return status;
   }
 
   @Subscription(returns => RunnerStatus, {
-    topics: [RunnerEvents.RUNNER_STARTED, RunnerEvents.RUNNER_STOPPED]
+    topics: [
+      RunnerEvents.RUNNER_STARTED,
+      RunnerEvents.RUNNER_STOPPED,
+      RunnerEvents.RUNNER_WATCH_MODE_CHANGE
+    ]
   })
   runnerStatusChange(@Root() event: RunnerEvent) {
-    this.isRunning = event.payload.isRunning;
+    this.isRunning =
+      event.payload.isRunning !== undefined
+        ? event.payload.isRunning
+        : this.isRunning;
 
     const status = new RunnerStatus();
     status.activeFile = this.activeFile;
-    status.running = event.payload.isRunning;
+    status.running = this.isRunning;
+    status.watching = this.isWatching;
     return status;
   }
 
-  @Mutation(returns => String)
+  @Mutation(returns => String, { nullable: true })
   runFile(
     @Arg("path") path: string,
     @Arg("watch", { nullable: true }) watch: boolean
   ) {
     this.activeFile = path;
-    this.isRunning = true;
-    return this.jestManager.runSingleFile(path, watch);
+
+    if (this.isWatching && this.isRunning) {
+      return this.jestManager.switchToAnotherFile(path);
+    }
+
+    return this.jestManager.runSingleFile(path, this.isWatching);
   }
 
-  @Mutation(returns => String)
+  @Mutation(returns => String, { nullable: true })
   run() {
     this.activeFile = "";
     this.isRunning = true;
-    return this.jestManager.run();
+    return this.jestManager.run(this.isWatching);
+  }
+
+  @Mutation(returns => RunnerStatus, { nullable: true })
+  toggleWatch(@Arg("watch") watch: boolean) {
+    this.isWatching = watch;
+
+    pubsub.publish(RunnerEvents.RUNNER_WATCH_MODE_CHANGE, {
+      id: RunnerEvents.RUNNER_WATCH_MODE_CHANGE,
+      payload: {}
+    });
   }
 }

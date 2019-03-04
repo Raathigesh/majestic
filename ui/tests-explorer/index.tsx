@@ -5,6 +5,7 @@ import { space, color } from "styled-system";
 import FileItem from "./file-item";
 import WORKSPACE from "./query.gql";
 import SET_SELECTED_FILE from "./set-selected-file.gql";
+import SET_WATCH_MODE from "./set-watch-mode.gql";
 import { Workspace } from "../../server/api/workspace/workspace";
 import { transform } from "./transformer";
 import Summary from "./summary";
@@ -12,7 +13,7 @@ import { Summary as SummaryType } from "../../server/api/workspace/summary";
 import RUN from "./run.gql";
 import { Play, Eye } from "react-feather";
 import Button from "../components/button";
-import useSubscription from "../test-file/use-subscription";
+import { RunnerStatus } from "../../server/api/runner/status";
 
 const Container = styled.div`
   ${space};
@@ -37,13 +38,15 @@ interface WorkspaceResult {
 interface Props {
   selectedFile: string;
   summary: SummaryType;
+  runnerStatus?: RunnerStatus;
   onSelectedFileChange: () => void;
 }
 
 export default function TestExplorer({
   selectedFile,
   onSelectedFileChange,
-  summary
+  summary,
+  runnerStatus
 }: Props) {
   const {
     data: { workspace }
@@ -72,6 +75,15 @@ export default function TestExplorer({
     onSelectedFileChange();
   };
 
+  const setWatchMode = useMutation(SET_WATCH_MODE);
+  const handleSetWatchModel = (watch: boolean) => {
+    setWatchMode({
+      variables: {
+        watch
+      }
+    });
+  };
+
   return (
     <Container p={4} bg="dark" color="text">
       <ActionsPanel>
@@ -86,10 +98,13 @@ export default function TestExplorer({
         <Button
           size="sm"
           onClick={() => {
-            run();
+            if (runnerStatus) {
+              handleSetWatchModel(!runnerStatus.watching);
+            }
           }}
         >
-          <Eye size={14} /> Run tests
+          <Eye size={14} />{" "}
+          {runnerStatus && runnerStatus.watching ? "Stop Watching" : "Watch"}
         </Button>
       </ActionsPanel>
       <Summary summary={summary} />

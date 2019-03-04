@@ -8,6 +8,8 @@ import APP from "./app.gql";
 import useSubscription from "./test-file/use-subscription";
 import SUMMARY_QUERY from "./summary-query.gql";
 import SUMMARY_SUBS from "./summary-subscription.gql";
+import RUNNER_STATUS_QUERY from "./runner-status-query.gql";
+import RUNNER_STATUS_SUBS from "./runner-status-subs.gql";
 
 const ContainerDiv = styled.div`
   display: flex;
@@ -35,8 +37,15 @@ export default function App() {
     "Summary Sub"
   );
 
-  console.log("summary", summary);
-
+  const { data: runnerStatus } = useSubscription(
+    RUNNER_STATUS_QUERY,
+    RUNNER_STATUS_SUBS,
+    {},
+    result => result.runnerStatus,
+    result => result.runnerStatusChange,
+    "Runner subs"
+  );
+  console.log("runnerStatus", runnerStatus);
   return (
     <ContainerDiv>
       <SplitPane defaultSize={300} split="vertical">
@@ -44,8 +53,14 @@ export default function App() {
           selectedFile={selectedFile}
           onSelectedFileChange={refetch}
           summary={summary}
+          runnerStatus={runnerStatus}
         />
-        {selectedFile && <TestFile selectedFilePath={selectedFile} />}
+        {selectedFile && (
+          <TestFile
+            selectedFilePath={selectedFile}
+            runnerStatus={runnerStatus}
+          />
+        )}
       </SplitPane>
     </ContainerDiv>
   );

@@ -28,6 +28,7 @@ export default function useSubscription(
           fetchPolicy: "network-only"
         })
         .then(({ data, errors, loading }) => {
+          console.log(name, data);
           setResult({
             data: queryResultMapper(data),
             error: errors,

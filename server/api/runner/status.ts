@@ -7,4 +7,7 @@ export class RunnerStatus {
 
   @Field({ nullable: true })
   activeFile: string;
+
+  @Field({ nullable: true })
+  watching: boolean;
 }

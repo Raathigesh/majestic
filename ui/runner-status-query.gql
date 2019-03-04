@@ -2,5 +2,6 @@
   runnerStatus {
     running
     activeFile
+    watching
   }
 }

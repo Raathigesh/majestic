@@ -4,6 +4,7 @@ import { space, fontSize, color } from "styled-system";
 import { useSpring, animated } from "react-spring";
 import { Shield, Folder, Code, Eye, Play } from "react-feather";
 import Button from "../../components/button";
+import { RunnerStatus } from "../../../server/api/runner/status";
 
 const Container = styled.div`
   position: relative;
@@ -77,17 +78,19 @@ const ActionPanel = styled.div`
 
 interface Props {
   path: string;
-  isRunning: boolean;
+  runnerStatus: RunnerStatus;
   onRun: () => void;
   onWatch: () => void;
 }
 
 export default function FileSummary({
   path,
-  isRunning,
+  runnerStatus,
   onRun,
   onWatch
 }: Props) {
+  const isRunning = runnerStatus.activeFile === path && runnerStatus.running;
+
   return (
     <Container p={3} bg="slightDark">
       {isRunning && <ContainerBG />}
@@ -110,15 +113,7 @@ export default function FileSummary({
             onRun();
           }}
         >
-          <Play size={14} /> Run
-        </Button>
-        <Button
-          onClick={() => {
-            onWatch();
-          }}
-        >
-          <Eye size={14} />
-          Run and watch
+          <Play size={14} /> {isRunning ? "Stop" : "Run"}
         </Button>
       </ActionPanel>
     </Container>
