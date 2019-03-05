@@ -10,6 +10,7 @@ import SUMMARY_QUERY from "./summary-query.gql";
 import SUMMARY_SUBS from "./summary-subscription.gql";
 import RUNNER_STATUS_QUERY from "./runner-status-query.gql";
 import RUNNER_STATUS_SUBS from "./runner-status-subs.gql";
+import { Search } from "./search";
 
 const ContainerDiv = styled.div`
   display: flex;
@@ -62,6 +63,7 @@ export default function App() {
           />
         )}
       </SplitPane>
+      <Search />
     </ContainerDiv>
   );
 }

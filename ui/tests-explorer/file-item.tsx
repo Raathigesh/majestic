@@ -14,9 +14,16 @@ const Container = styled.div`
 const Content = styled.div<{ selected: boolean }>`
   display: flex;
   align-items: center;
-  padding: 1.5px;
+  padding: 2.5px;
   cursor: pointer;
-  color: ${props => (props.selected ? "#FF4954" : null)};
+  color: ${props => (props.selected ? "#FFFFFF" : null)};
+  background-color: ${props => (props.selected ? "#444444" : null)};
+  border-radius: 3px;
+  margin-bottom: 2px;
+
+  &:hover {
+    background-color: #444444;
+  }
 `;
 
 const Label = styled.div`
@@ -52,7 +59,9 @@ export default function FileItem({
   }
 
   const handleClick = () => {
-    setSelectedFile(item.path);
+    if (item.type === "file") {
+      setSelectedFile(item.path);
+    }
 
     if (item.children) {
       onToggle(item.path, !isCollapsed);

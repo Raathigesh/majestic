@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components";
 import { useQuery, useMutation } from "react-apollo-hooks";
 import { space, color } from "styled-system";
@@ -14,6 +14,7 @@ import RUN from "./run.gql";
 import { Play, Eye } from "react-feather";
 import Button from "../components/button";
 import { RunnerStatus } from "../../server/api/runner/status";
+import { Search } from "../search";
 
 const Container = styled.div`
   ${space};
@@ -23,6 +24,7 @@ const Container = styled.div`
 
 const ActionsPanel = styled.div`
   display: flex;
+  justify-content: space-between;
 `;
 
 const FileTreeContainer = styled.div`
