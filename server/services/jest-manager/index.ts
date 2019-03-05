@@ -60,6 +60,15 @@ export default class JestManager {
     ]);
   }
 
+  updateSnapshotToFile(path: string) {
+    this.executeJest([
+      this.getPatternForPath(path),
+      "-u",
+      "--reporters",
+      this.getRepoterPath()
+    ]);
+  }
+
   switchToAnotherFile(path: string) {
     this.executeInSequence([
       {
@@ -67,7 +76,7 @@ export default class JestManager {
         delay: 0
       },
       {
-        fn: () => this.process.stdin.write(this.getTestPatternForPath(path)),
+        fn: () => this.process.stdin.write(this.getPatternForPath(path)),
         delay: 100
       },
       {
@@ -157,15 +166,5 @@ export default class JestManager {
         resolve();
       }, delay);
     });
-  }
-
-  getTestPatternForPath(filePath: string) {
-    let replacePattern = /\//g;
-
-    if (process.platform === "win32") {
-      replacePattern = /\\/g;
-    }
-
-    return `^${filePath.replace(replacePattern, ".")}$`;
   }
 }

@@ -1,12 +1,12 @@
 import React from "react";
-import { XCircle, CheckCircle, Circle } from "react-feather";
+import { XCircle, CheckCircle, Circle, Code } from "react-feather";
 
 interface Props {
   status: "passed" | "failed";
 }
 
 export default function TestIndicator({ status }: Props) {
-  let Icon = Circle;
+  let Icon = Code;
   let color = "#AC61FF";
 
   if (status === "passed") {

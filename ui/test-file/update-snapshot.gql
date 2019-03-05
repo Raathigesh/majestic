@@ -1,0 +1,3 @@
+mutation UpdateSnapshot($path: String!) {
+  updateSnapshot(path: $path)
+}

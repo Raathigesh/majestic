@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { space, fontSize, color } from "styled-system";
 import { useSpring, animated } from "react-spring";
-import { Shield, Folder, Code, Eye, Play } from "react-feather";
+import { Shield, Folder, Code, Eye, Play, Camera } from "react-feather";
 import Button from "../../components/button";
 import { RunnerStatus } from "../../../server/api/runner/status";
 
@@ -81,13 +81,17 @@ interface Props {
   runnerStatus: RunnerStatus;
   onRun: () => void;
   onWatch: () => void;
+  onSnapshotUpdate: () => void;
+  haveSnapshotFailures: boolean;
 }
 
 export default function FileSummary({
   path,
   runnerStatus,
   onRun,
-  onWatch
+  onWatch,
+  onSnapshotUpdate,
+  haveSnapshotFailures
 }: Props) {
   const isRunning = runnerStatus.activeFile === path && runnerStatus.running;
 
@@ -115,6 +119,15 @@ export default function FileSummary({
         >
           <Play size={14} /> {isRunning ? "Stop" : "Run"}
         </Button>
+        {haveSnapshotFailures && (
+          <Button
+            onClick={() => {
+              onSnapshotUpdate();
+            }}
+          >
+            <Camera size={14} /> Update Snapshot
+          </Button>
+        )}
       </ActionPanel>
     </Container>
   );

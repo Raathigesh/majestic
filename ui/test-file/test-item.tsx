@@ -16,7 +16,7 @@ function getResults(item: TestFileItem, testResult: TestFileResult) {
 const Container = styled.div`
   ${color};
   ${space};
-  padding-left: 15px;
+  padding-left: 25px;
   padding-bottom: 5px;
 `;
 
@@ -54,7 +54,7 @@ export default function Test({
 }: Props) {
   const testResult = getResults(item, result);
   return (
-    <Container bg="dark">
+    <Container >
       <Content>
         <Label>
           <TestIndicator status={testResult && testResult.status} />

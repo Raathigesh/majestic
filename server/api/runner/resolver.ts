@@ -88,6 +88,11 @@ export default class RunnerResolver {
     return this.jestManager.run(this.isWatching);
   }
 
+  @Mutation(returns => String, { nullable: true })
+  updateSnapshot(@Arg("path") path: string) {
+    return this.jestManager.updateSnapshotToFile(path);
+  }
+
   @Mutation(returns => RunnerStatus, { nullable: true })
   toggleWatch(@Arg("watch") watch: boolean) {
     this.isWatching = watch;

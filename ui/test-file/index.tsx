@@ -5,6 +5,7 @@ import { useMutation } from "react-apollo-hooks";
 import FILEITEMS_SUB from "./file-items-subscription.gql";
 import FILEITEMS from "./query.gql";
 import RUNFILE from "./run-file.gql";
+import UPDATE_SNAPSHOT from "./update-snapshot.gql";
 import FILERESULTSUB from "./subscription.gql";
 import RESULT from "./result.gql";
 import Test from "./test-item";
@@ -12,6 +13,7 @@ import { transform } from "./tranformer";
 import useSubscription from "./use-subscription";
 import FileSummary from "./summary";
 import { RunnerStatus } from "../../server/api/runner/status";
+import { TestFileResult } from "../../server/api/workspace/test-result/file-result";
 
 const Container = styled.div`
   ${space};
@@ -22,6 +24,7 @@ const Container = styled.div`
 `;
 
 const TestItemsContainer = styled.div`
+  margin-left: -25px;
   overflow: auto;
   height: calc(100vh - 118px);
 `;
@@ -48,7 +51,13 @@ export default function TestFile({ selectedFilePath, runnerStatus }: Props) {
     }
   });
 
-  const { data: result } = useSubscription(
+  const updateSnapshot = useMutation(UPDATE_SNAPSHOT, {
+    variables: {
+      path: selectedFilePath
+    }
+  });
+
+  const { data: result }: { data: TestFileResult } = useSubscription(
     RESULT,
     FILERESULTSUB,
     {
@@ -57,6 +66,12 @@ export default function TestFile({ selectedFilePath, runnerStatus }: Props) {
     result => result.result,
     result => result.changeToResult
   );
+
+  const haveSnapshotFailures = (result.testResults || []).some(testResult => {
+    return (testResult.failureMessages || []).some(failureMessage =>
+      failureMessage.includes("snapshot")
+    );
+  });
 
   const roots = (fileItemResult.items || []).filter(
     item => item.parent === null
@@ -67,8 +82,12 @@ export default function TestFile({ selectedFilePath, runnerStatus }: Props) {
       <FileSummary
         path={selectedFilePath}
         runnerStatus={runnerStatus}
+        haveSnapshotFailures={haveSnapshotFailures}
         onRun={() => {
           runFile();
+        }}
+        onSnapshotUpdate={() => {
+          updateSnapshot();
         }}
         onWatch={() => {
           runFile({
