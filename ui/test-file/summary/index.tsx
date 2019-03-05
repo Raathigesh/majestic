@@ -2,7 +2,16 @@ import React from "react";
 import styled from "styled-components";
 import { space, fontSize, color } from "styled-system";
 import { useSpring, animated } from "react-spring";
-import { Shield, Folder, Code, Eye, Play, Camera } from "react-feather";
+import {
+  Shield,
+  Folder,
+  Code,
+  Eye,
+  Play,
+  Camera,
+  CheckCircle,
+  XCircle
+} from "react-feather";
 import Button from "../../components/button";
 import { RunnerStatus } from "../../../server/api/runner/status";
 
@@ -78,18 +87,24 @@ const ActionPanel = styled.div`
 
 interface Props {
   path: string;
+  suiteCount: number;
+  testCount: number;
+  passingTests: number;
+  failingTests: number;
   runnerStatus: RunnerStatus;
   onRun: () => void;
-  onWatch: () => void;
   onSnapshotUpdate: () => void;
   haveSnapshotFailures: boolean;
 }
 
 export default function FileSummary({
   path,
+  suiteCount,
+  testCount,
+  passingTests,
+  failingTests,
   runnerStatus,
   onRun,
-  onWatch,
   onSnapshotUpdate,
   haveSnapshotFailures
 }: Props) {
@@ -104,10 +119,18 @@ export default function FileSummary({
         </FilePath>
         <InfoContainer>
           <Info>
-            <Folder size={14} /> <InfoLabel>10 Suites</InfoLabel>
+            <Folder size={14} /> <InfoLabel>{suiteCount} Suites</InfoLabel>
           </Info>
           <Info>
-            <Code size={14} /> <InfoLabel>10 Tests</InfoLabel>
+            <Code size={14} /> <InfoLabel>{testCount} Tests</InfoLabel>
+          </Info>
+          <Info>
+            <CheckCircle size={14} />{" "}
+            <InfoLabel>{passingTests} Passing tests</InfoLabel>
+          </Info>
+          <Info>
+            <XCircle size={14} />{" "}
+            <InfoLabel>{failingTests} Failing tests</InfoLabel>
           </Info>
         </InfoContainer>
       </RightContainer>

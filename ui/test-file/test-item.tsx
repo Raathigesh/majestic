@@ -42,6 +42,12 @@ const FailtureMessage = styled.div`
   padding-left: 20px;
 `;
 
+const Duration = styled.span`
+  font-weight: 400;
+  font-size: 12px;
+  color: #fcd101;
+`;
+
 interface Props {
   item: TestFileItem;
   result: TestFileResult | null;
@@ -53,12 +59,16 @@ export default function Test({
   result
 }: Props) {
   const testResult = getResults(item, result);
+  const isDurationAvailable = testResult && testResult.duration !== undefined;
   return (
-    <Container >
+    <Container>
       <Content>
         <Label>
           <TestIndicator status={testResult && testResult.status} />
           <span>{name}</span>
+          {isDurationAvailable && (
+            <Duration>{testResult && testResult.duration} ms</Duration>
+          )}
         </Label>
         {testResult &&
           testResult.failureMessages && (

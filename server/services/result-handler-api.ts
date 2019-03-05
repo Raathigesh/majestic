@@ -21,6 +21,8 @@ export interface SummaryEvent {
     summary: {
       numPassedTests: number;
       numFailedTests: number;
+      numPassedTestSuites: number;
+      numFailedTestSuites: number;
     };
   };
 }

@@ -2,5 +2,7 @@ query {
   summary {
     numPassedTests
     numFailedTests
+    numPassedTestSuites
+    numFailedTestSuites
   }
 }

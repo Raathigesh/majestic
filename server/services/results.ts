@@ -11,13 +11,17 @@ export default class Results {
   private summary: {
     numFailedTests: number;
     numPassedTests: number;
+    numPassedTestSuites: number;
+    numFailedTestSuites: number;
   };
 
   constructor() {
     this.results = {};
     this.summary = {
       numFailedTests: 0,
-      numPassedTests: 0
+      numPassedTests: 0,
+      numPassedTestSuites: 0,
+      numFailedTestSuites: 0
     };
   }
 
@@ -38,10 +42,17 @@ export default class Results {
     return this.results[path] || null;
   }
 
-  public setSummary(passedTests: number, failedTests: number) {
+  public setSummary(
+    passedTests: number,
+    failedTests: number,
+    numPassedTestSuites: number,
+    numFailedTestSuites: number
+  ) {
     this.summary = {
       numFailedTests: failedTests,
-      numPassedTests: passedTests
+      numPassedTests: passedTests,
+      numPassedTestSuites,
+      numFailedTestSuites
     };
   }
 

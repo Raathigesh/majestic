@@ -14,6 +14,7 @@ import useSubscription from "./use-subscription";
 import FileSummary from "./summary";
 import { RunnerStatus } from "../../server/api/runner/status";
 import { TestFileResult } from "../../server/api/workspace/test-result/file-result";
+import { TestFile as TestFileModel } from "../../server/api/workspace/test-file";
 
 const Container = styled.div`
   ${space};
@@ -35,7 +36,7 @@ interface Props {
 }
 
 export default function TestFile({ selectedFilePath, runnerStatus }: Props) {
-  const { data: fileItemResult } = useSubscription(
+  const { data: fileItemResult }: { data: TestFileModel } = useSubscription(
     FILEITEMS,
     FILEITEMS_SUB,
     {
@@ -44,6 +45,14 @@ export default function TestFile({ selectedFilePath, runnerStatus }: Props) {
     result => result.file,
     result => result.fileChange
   );
+
+  const suiteCount = ((fileItemResult && fileItemResult.items) || []).filter(
+    fileItem => fileItem.type === "describe"
+  ).length;
+
+  const testCount = ((fileItemResult && fileItemResult.items) || []).filter(
+    fileItem => fileItem.type === "it" || fileItem.type === "test"
+  ).length;
 
   const runFile = useMutation(RUNFILE, {
     variables: {
@@ -67,11 +76,13 @@ export default function TestFile({ selectedFilePath, runnerStatus }: Props) {
     result => result.changeToResult
   );
 
-  const haveSnapshotFailures = (result.testResults || []).some(testResult => {
-    return (testResult.failureMessages || []).some(failureMessage =>
-      failureMessage.includes("snapshot")
-    );
-  });
+  const haveSnapshotFailures = ((result && result.testResults) || []).some(
+    testResult => {
+      return (testResult.failureMessages || []).some(failureMessage =>
+        failureMessage.includes("snapshot")
+      );
+    }
+  );
 
   const roots = (fileItemResult.items || []).filter(
     item => item.parent === null
@@ -80,6 +91,10 @@ export default function TestFile({ selectedFilePath, runnerStatus }: Props) {
   return (
     <Container p={4} bg="dark" color="text">
       <FileSummary
+        suiteCount={suiteCount}
+        testCount={testCount}
+        passingTests={result.numPassingTests}
+        failingTests={result.numFailingTests}
         path={selectedFilePath}
         runnerStatus={runnerStatus}
         haveSnapshotFailures={haveSnapshotFailures}
@@ -88,14 +103,6 @@ export default function TestFile({ selectedFilePath, runnerStatus }: Props) {
         }}
         onSnapshotUpdate={() => {
           updateSnapshot();
-        }}
-        onWatch={() => {
-          runFile({
-            variables: {
-              path: selectedFilePath,
-              watch: true
-            }
-          });
         }}
       />
 

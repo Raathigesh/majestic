@@ -7,4 +7,10 @@ export class Summary {
 
   @Field({ nullable: true })
   numFailedTests: number = 0;
+
+  @Field({ nullable: true })
+  numPassedTestSuites: number = 0;
+
+  @Field({ nullable: true })
+  numFailedTestSuites: number = 0;
 }

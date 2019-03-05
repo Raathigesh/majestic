@@ -45,11 +45,11 @@ export default function SummaryPanel({ summary }: Props) {
     <Container mt={3} mb={3}>
       <Row>
         <Cell>
-          <Value>0</Value>
+          <Value>{summary.numPassedTestSuites | 0}</Value>
           <Label>Passing suits</Label>
         </Cell>
         <Cell>
-          <Value>0</Value>
+          <Value>{summary.numFailedTestSuites | 0}</Value>
           <Label>Failing suits</Label>
         </Cell>
       </Row>

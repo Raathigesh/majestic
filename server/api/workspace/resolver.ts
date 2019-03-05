@@ -21,6 +21,7 @@ import {
 import Results from "../../services/results";
 import { WatcherEvents, FileChangeEvent } from "../../services/file-watcher";
 import { Summary } from "./summary";
+import { pubsub } from "../../event-emitter";
 
 @Resolver(Workspace)
 export default class WorkspaceResolver {
@@ -32,6 +33,20 @@ export default class WorkspaceResolver {
     this.project = new Project(root);
     this.jestManager = new JestManager(this.project);
     this.results = new Results();
+
+    pubsub.subscribe(Events.TEST_RESULT, event => {
+      const payload = event.payload;
+      const result = new TestFileResult();
+      result.path = payload.path;
+
+      const testResult = payload.result.testResult;
+      result.failureMessage = testResult.failureMessage;
+      result.numPassingTests = testResult.numPassingTests;
+      result.numFailingTests = testResult.numFailingTests;
+      result.numPendingTests = testResult.numPendingTests;
+      result.testResults = testResult.testResults;
+      this.results.setTestReport(payload.path, result);
+    });
   }
 
   @Query(returns => Workspace)
@@ -103,8 +118,6 @@ export default class WorkspaceResolver {
       result.numFailingTests = testResult.numFailingTests;
       result.numPendingTests = testResult.numPendingTests;
       result.testResults = testResult.testResults;
-
-      this.results.setTestReport(path, result);
     }
     return result;
   }
@@ -113,22 +126,40 @@ export default class WorkspaceResolver {
     topics: [Events.RUN_SUMMARY]
   })
   async changeToSummary(@Root() event: SummaryEvent): Promise<Summary> {
-    const { numFailedTests, numPassedTests } = event.payload.summary;
+    const {
+      numFailedTests,
+      numPassedTests,
+      numPassedTestSuites,
+      numFailedTestSuites
+    } = event.payload.summary;
 
     const summary = new Summary();
     summary.numFailedTests = numFailedTests;
     summary.numPassedTests = numPassedTests;
+    summary.numPassedTestSuites = numPassedTestSuites;
+    summary.numFailedTestSuites = numFailedTestSuites;
 
-    this.results.setSummary(numPassedTests, numFailedTests);
+    this.results.setSummary(
+      numPassedTests,
+      numFailedTests,
+      numPassedTestSuites,
+      numFailedTestSuites
+    );
     return summary;
   }
 
   @Query(returns => Summary, { nullable: true })
   summary() {
-    const { numFailedTests, numPassedTests } = this.results.getSummary();
+    const {
+      numFailedTests,
+      numPassedTests,
+      numPassedTestSuites,
+      numFailedTestSuites
+    } = this.results.getSummary();
     const result = new Summary();
     result.numFailedTests = numFailedTests;
     result.numPassedTests = numPassedTests;
+    result.numFailedTestSuites = numFailedTestSuites;
     return result;
   }
 }
