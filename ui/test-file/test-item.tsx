@@ -58,7 +58,7 @@ export default function Test({
   item,
   result
 }: Props) {
-  const testResult = getResults(item, result);
+  const testResult = getResults(item, result as any);
   const isDurationAvailable = testResult && testResult.duration !== undefined;
   return (
     <Container>
@@ -70,12 +70,11 @@ export default function Test({
             <Duration>{testResult && testResult.duration} ms</Duration>
           )}
         </Label>
-        {testResult &&
-          testResult.failureMessages && (
-            <FailtureMessage>
-              <pre>{testResult.failureMessages.join(",")}</pre>
-            </FailtureMessage>
-          )}
+        {testResult && testResult.failureMessages && (
+          <FailtureMessage>
+            <pre>{testResult.failureMessages.join(",")}</pre>
+          </FailtureMessage>
+        )}
       </Content>
       {children &&
         children.map(child => (

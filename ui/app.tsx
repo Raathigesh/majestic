@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import SplitPane from "react-split-pane";
-import { useQuery } from "react-apollo-hooks";
+import { useQuery, useMutation } from "react-apollo-hooks";
 import TestExplorer from "./tests-explorer";
 import TestFile from "./test-file";
 import APP from "./app.gql";
+import WORKSPACE from "./query.gql";
 import useSubscription from "./test-file/use-subscription";
 import SUMMARY_QUERY from "./summary-query.gql";
 import SUMMARY_SUBS from "./summary-subscription.gql";
 import RUNNER_STATUS_QUERY from "./runner-status-query.gql";
 import RUNNER_STATUS_SUBS from "./runner-status-subs.gql";
 import { Search } from "./search";
+import SET_SELECTED_FILE from "./set-selected-file.gql";
+import { Workspace } from "../server/api/workspace/workspace";
 
 const ContainerDiv = styled.div`
   display: flex;
@@ -21,6 +24,10 @@ interface AppResult {
   app: { selectedFile: string };
 }
 
+interface WorkspaceResult {
+  workspace: Workspace;
+}
+
 export default function App() {
   const {
     data: {
@@ -28,6 +35,11 @@ export default function App() {
     },
     refetch
   } = useQuery<AppResult>(APP);
+
+  const {
+    data: { workspace },
+    refetch: refetchFiles
+  } = useQuery<WorkspaceResult>(WORKSPACE);
 
   const { data: summary = {} } = useSubscription(
     SUMMARY_QUERY,
@@ -46,24 +58,52 @@ export default function App() {
     result => result.runnerStatusChange,
     "Runner subs"
   );
-  console.log("runnerStatus", runnerStatus);
+
+  const setSelectedFile = useMutation(SET_SELECTED_FILE);
+  const handleFileSelection = (path: string) => {
+    setSelectedFile({
+      variables: {
+        path
+      }
+    });
+    refetch();
+  };
+
+  const [isSearchOpen, setSearchOpen] = useState(false);
+
   return (
     <ContainerDiv>
       <SplitPane defaultSize={300} split="vertical">
         <TestExplorer
+          workspace={workspace}
           selectedFile={selectedFile}
-          onSelectedFileChange={refetch}
+          onSelectedFileChange={handleFileSelection}
           summary={summary}
           runnerStatus={runnerStatus}
+          onSearchOpen={() => {
+            setSearchOpen(true);
+          }}
+          onRefreshFiles={() => {
+            refetchFiles();
+          }}
         />
         {selectedFile && (
           <TestFile
+            projectRoot={workspace.projectRoot}
             selectedFilePath={selectedFile}
             runnerStatus={runnerStatus}
           />
         )}
       </SplitPane>
-      <Search />
+      <Search
+        show={isSearchOpen}
+        files={workspace.files}
+        onClose={() => setSearchOpen(false)}
+        onItemClick={path => {
+          handleFileSelection(path);
+          setSearchOpen(false);
+        }}
+      />
     </ContainerDiv>
   );
 }

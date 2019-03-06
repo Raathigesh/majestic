@@ -12,7 +12,8 @@
       "args": ["${workspaceFolder}/server/index.ts"],
       "console": "integratedTerminal",
       "env": {
-        "TS_NODE_PROJECT": "./tsconfig.server.json"
+        "TS_NODE_PROJECT": "./tsconfig.server.json",
+        "ROOT": "D:\\projects\\jest-runner\\create-react-app-integratio\\"
       }
     }
   ]

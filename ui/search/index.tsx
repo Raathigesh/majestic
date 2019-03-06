@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { Item } from "../../server/api/workspace/tree";
+import { color } from "styled-system";
 
 const Drop = styled.div`
   position: absolute;
@@ -14,23 +16,84 @@ const Drop = styled.div`
 
 const Container = styled.div`
   width: 700px;
-  height: 500px;
+  max-height: 500px;
   position: absolute;
-  background-color: wheat;
   z-index: 1;
   margin-left: auto;
   margin-right: auto;
-  opacity: ;
   left: 0;
   right: 0;
   top: 150px;
+  padding: 20px;
+  border-radius: 2px;
+  ${color};
 `;
 
-export function Search() {
+const ItemContainer = styled.div`
+  display: flex;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  cursor: pointer;
+  color: #fefefe;
+
+  &:hover {
+    background-color: #404148;
+  }
+`;
+
+const ResultContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+`;
+
+const SearchBox = styled.input`
+  padding: 5px;
+  height: 15px;
+  border: 0px;
+  width: 99%;
+`;
+
+interface Props {
+  show: boolean;
+  files: Item[];
+  onItemClick: (path: string) => void;
+  onClose: () => void;
+}
+
+export function Search({ files, show, onItemClick, onClose }: Props) {
+  const [query, setQuery] = useState("");
+
+  if (!show) return null;
+
   return (
     <React.Fragment>
-      <Drop />
-      <Container>Hello</Container>
+      <Drop onClick={onClose} />
+      <Container bg="dark">
+        <SearchBox
+          value={query}
+          placeholder="Start searching..."
+          onChange={(event: any) => {
+            setQuery(event.target.value);
+          }}
+        />
+        <ResultContainer>
+          {files
+            .filter(file => file.type === "file")
+            .filter(file =>
+              file.path.toLowerCase().includes(query.toLowerCase())
+            )
+            .map(file => (
+              <ItemContainer
+                onClick={() => {
+                  onItemClick(file.path);
+                }}
+              >
+                {file.path}
+              </ItemContainer>
+            ))}
+        </ResultContainer>
+      </Container>
     </React.Fragment>
   );
 }

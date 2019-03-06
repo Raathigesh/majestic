@@ -1,6 +1,5 @@
 import { spawnSync, spawn, ChildProcess } from "child_process";
 import { join } from "path";
-import * as execa from "execa";
 import * as resolvePkg from "resolve-pkg";
 import Project from "../project";
 import { ShowConfig } from "./cli-args";

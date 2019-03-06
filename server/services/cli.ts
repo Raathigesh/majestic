@@ -1,1 +1,1 @@
-export const root = "D:\\projects\\jest-runner\\create-react-app-integratio\\";
+export const root = process.env.ROOT || process.cwd();

@@ -1,20 +1,18 @@
 import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components";
-import { useQuery, useMutation } from "react-apollo-hooks";
+import { useMutation } from "react-apollo-hooks";
 import { space, color } from "styled-system";
 import FileItem from "./file-item";
-import WORKSPACE from "./query.gql";
-import SET_SELECTED_FILE from "./set-selected-file.gql";
+
 import SET_WATCH_MODE from "./set-watch-mode.gql";
 import { Workspace } from "../../server/api/workspace/workspace";
 import { transform } from "./transformer";
 import Summary from "./summary";
 import { Summary as SummaryType } from "../../server/api/workspace/summary";
 import RUN from "./run.gql";
-import { Play, Eye } from "react-feather";
+import { Play, Eye, Search, RefreshCw } from "react-feather";
 import Button from "../components/button";
 import { RunnerStatus } from "../../server/api/runner/status";
-import { Search } from "../search";
 
 const Container = styled.div`
   ${space};
@@ -27,33 +25,42 @@ const ActionsPanel = styled.div`
   justify-content: space-between;
 `;
 
+const RightActionPanel = styled.div`
+  display: flex;
+`;
+
 const FileTreeContainer = styled.div`
   overflow: auto;
   height: calc(100vh - 173px);
   margin-left: -20px;
 `;
 
-interface WorkspaceResult {
-  workspace: Workspace;
-}
+const FileHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+`;
 
 interface Props {
   selectedFile: string;
+  workspace: Workspace;
   summary: SummaryType;
   runnerStatus?: RunnerStatus;
-  onSelectedFileChange: () => void;
+  onSelectedFileChange: (path: string) => void;
+  onSearchOpen: () => void;
+  onRefreshFiles: () => void;
 }
 
 export default function TestExplorer({
   selectedFile,
+  workspace,
   onSelectedFileChange,
   summary,
-  runnerStatus
+  runnerStatus,
+  onSearchOpen,
+  onRefreshFiles
 }: Props) {
-  const {
-    data: { workspace }
-  } = useQuery<WorkspaceResult>(WORKSPACE);
-
   const items = workspace.files;
   const root = items[0];
   const tree = transform(root, items, undefined);
@@ -67,14 +74,8 @@ export default function TestExplorer({
     });
   };
 
-  const setSelectedFile = useMutation(SET_SELECTED_FILE);
   const handleFileSelection = (path: string) => {
-    setSelectedFile({
-      variables: {
-        path
-      }
-    });
-    onSelectedFileChange();
+    onSelectedFileChange(path);
   };
 
   const setWatchMode = useMutation(SET_WATCH_MODE);
@@ -97,19 +98,41 @@ export default function TestExplorer({
         >
           <Play size={14} /> Run tests
         </Button>
-        <Button
-          size="sm"
-          onClick={() => {
-            if (runnerStatus) {
-              handleSetWatchModel(!runnerStatus.watching);
-            }
-          }}
-        >
-          <Eye size={14} />{" "}
-          {runnerStatus && runnerStatus.watching ? "Stop Watching" : "Watch"}
-        </Button>
+        <RightActionPanel>
+          <Button
+            size="sm"
+            onClick={() => {
+              if (runnerStatus) {
+                handleSetWatchModel(!runnerStatus.watching);
+              }
+            }}
+          >
+            <Eye size={14} />{" "}
+            {runnerStatus && runnerStatus.watching ? "Stop Watching" : "Watch"}
+          </Button>
+          <Button
+            size="sm"
+            onClick={() => {
+              onSearchOpen();
+            }}
+          >
+            <Search size={14} />
+          </Button>
+        </RightActionPanel>
       </ActionsPanel>
       <Summary summary={summary} />
+      <FileHeader>
+        <div>Tests</div>
+        <Button
+          size="sm"
+          minimal
+          onClick={() => {
+            onRefreshFiles();
+          }}
+        >
+          <RefreshCw size={10} />
+        </Button>
+      </FileHeader>
       <FileTreeContainer>
         <FileItem
           item={tree}

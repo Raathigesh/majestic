@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { space } from "styled-system";
 import { useSpring, animated } from "react-spring";
-import { Button } from "@smooth-ui/core-sc";
 import { Play } from "react-feather";
 import { Summary } from "../../../server/api/workspace/summary";
 
@@ -39,8 +38,8 @@ export default function SummaryPanel({ summary }: Props) {
   const props = useSpring({
     number: summary.numPassedTests | 0,
     from: { number: 0 }
-  });
-  console.log(props.number);
+  } as any);
+
   return (
     <Container mt={3} mb={3}>
       <Row>
@@ -57,7 +56,9 @@ export default function SummaryPanel({ summary }: Props) {
         <Cell>
           <Value>
             <animated.span>
-              {props.number.interpolate(value => value.toFixed())}
+              {(props as any).number.interpolate((value: any) =>
+                value.toFixed()
+              )}
             </animated.span>
           </Value>
           <Label>Passing tests</Label>

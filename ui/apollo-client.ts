@@ -13,7 +13,7 @@ const wsLink = new WebSocketLink({
 const httpLink = new HttpLink({ uri: "http://localhost:4000" });
 
 const link = split(
-  ({ query }) => {
+  ({ query }: any) => {
     const { kind, operation } = getMainDefinition(query);
     return kind === "OperationDefinition" && operation === "subscription";
   },

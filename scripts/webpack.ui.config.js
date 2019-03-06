@@ -50,24 +50,6 @@ module.exports = env => ({
         test: /\.(graphql|gql)$/,
         exclude: /node_modules/,
         loader: "graphql-tag/loader"
-      },
-      {
-        test: /\.less$/,
-        use: [
-          {
-            loader: "style-loader"
-          },
-          {
-            loader: "css-loader" // translates CSS into CommonJS
-          },
-          {
-            loader: "less-loader",
-            // compiles Less to CSS
-            options: {
-              javascriptEnabled: true
-            }
-          }
-        ]
       }
     ]
   },

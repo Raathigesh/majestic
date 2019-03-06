@@ -10,7 +10,7 @@ const StyledButton = styled.button`
   text-align: center;
   transition: all 0.5s;
   background-color: transparent;
-  border: 1px solid #ff4954;
+  border: ${props => (props.minimal ? null : "1px solid #ff4954")};
   border-radius: 3px;
   height: 25px;
   cursor: pointer;

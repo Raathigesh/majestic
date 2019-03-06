@@ -33,9 +33,14 @@ const TestItemsContainer = styled.div`
 interface Props {
   selectedFilePath: string;
   runnerStatus: RunnerStatus;
+  projectRoot: string;
 }
 
-export default function TestFile({ selectedFilePath, runnerStatus }: Props) {
+export default function TestFile({
+  selectedFilePath,
+  runnerStatus,
+  projectRoot
+}: Props) {
   const { data: fileItemResult }: { data: TestFileModel } = useSubscription(
     FILEITEMS,
     FILEITEMS_SUB,
@@ -91,10 +96,11 @@ export default function TestFile({ selectedFilePath, runnerStatus }: Props) {
   return (
     <Container p={4} bg="dark" color="text">
       <FileSummary
+        projectRoot={projectRoot}
         suiteCount={suiteCount}
         testCount={testCount}
-        passingTests={result.numPassingTests}
-        failingTests={result.numFailingTests}
+        passingTests={result && result.numPassingTests}
+        failingTests={result && result.numFailingTests}
         path={selectedFilePath}
         runnerStatus={runnerStatus}
         haveSnapshotFailures={haveSnapshotFailures}
@@ -109,7 +115,7 @@ export default function TestFile({ selectedFilePath, runnerStatus }: Props) {
       {fileItemResult && (
         <TestItemsContainer>
           {roots.map(item => {
-            const tree = transform(item, fileItemResult.items as any);
+            const tree = transform(item, fileItemResult.items as any) as any;
             return <Test key={item.id} item={tree} result={result} />;
           })}
         </TestItemsContainer>

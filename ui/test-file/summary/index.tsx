@@ -87,6 +87,7 @@ const ActionPanel = styled.div`
 
 interface Props {
   path: string;
+  projectRoot: string;
   suiteCount: number;
   testCount: number;
   passingTests: number;
@@ -99,6 +100,7 @@ interface Props {
 
 export default function FileSummary({
   path,
+  projectRoot,
   suiteCount,
   testCount,
   passingTests,
@@ -115,7 +117,7 @@ export default function FileSummary({
       {isRunning && <ContainerBG />}
       <RightContainer>
         <FilePath fontSize={15} mb={2}>
-          {path}
+          {path.replace(projectRoot, "")}
         </FilePath>
         <InfoContainer>
           <Info>
