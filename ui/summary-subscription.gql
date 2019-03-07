@@ -4,5 +4,6 @@ subscription {
     numFailedTests
     numPassedTestSuites
     numFailedTestSuites
+    failedTests
   }
 }

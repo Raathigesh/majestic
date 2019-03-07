@@ -8,6 +8,8 @@ export default class Results {
     };
   };
 
+  private failedTests: { [path: string]: true } = {};
+
   private summary: {
     numFailedTests: number;
     numPassedTests: number;
@@ -36,6 +38,12 @@ export default class Results {
     const resultforPath = this.results[path];
     resultforPath.status = "IDLE";
     resultforPath.report = report;
+
+    if (report.numFailingTests > 0) {
+      this.failedTests[path] = true;
+    } else {
+      delete this.failedTests[path];
+    }
   }
 
   public getResult(path: string) {
@@ -58,6 +66,10 @@ export default class Results {
 
   public getSummary() {
     return this.summary;
+  }
+
+  public getFailedTests() {
+    return Object.keys(this.failedTests);
   }
 
   private setDefaultStatus(path: string) {

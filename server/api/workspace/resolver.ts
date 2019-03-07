@@ -133,18 +133,19 @@ export default class WorkspaceResolver {
       numFailedTestSuites
     } = event.payload.summary;
 
-    const summary = new Summary();
-    summary.numFailedTests = numFailedTests;
-    summary.numPassedTests = numPassedTests;
-    summary.numPassedTestSuites = numPassedTestSuites;
-    summary.numFailedTestSuites = numFailedTestSuites;
-
     this.results.setSummary(
       numPassedTests,
       numFailedTests,
       numPassedTestSuites,
       numFailedTestSuites
     );
+
+    const summary = new Summary();
+    summary.numFailedTests = numFailedTests;
+    summary.numPassedTests = numPassedTests;
+    summary.numPassedTestSuites = numPassedTestSuites;
+    summary.numFailedTestSuites = numFailedTestSuites;
+    summary.failedTests = this.results.getFailedTests();
     return summary;
   }
 
@@ -159,7 +160,9 @@ export default class WorkspaceResolver {
     const result = new Summary();
     result.numFailedTests = numFailedTests;
     result.numPassedTests = numPassedTests;
+    result.numPassedTestSuites = numPassedTestSuites;
     result.numFailedTestSuites = numFailedTestSuites;
+    result.failedTests = this.results.getFailedTests();
     return result;
   }
 }

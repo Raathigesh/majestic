@@ -16,7 +16,7 @@ const Content = styled.div<{ selected: boolean }>`
   align-items: center;
   padding: 2.5px;
   cursor: pointer;
-  color: ${props => (props.selected ? "#FFFFFF" : null)};
+  color: ${props => (props.failed ? "red" : null)};
   background-color: ${props => (props.selected ? "#444444" : null)};
   border-radius: 3px;
   margin-bottom: 2px;
@@ -41,12 +41,14 @@ interface Props {
   collapsedItems: { [path: string]: boolean };
   setSelectedFile: (path: string) => void;
   isCollapsed: boolean;
+  failedTests: string[];
   onToggle: (path: string, isCollapsed: boolean) => void;
 }
 
 export default function FileItem({
   item,
   selectedFile,
+  failedTests,
   collapsedItems,
   setSelectedFile,
   onToggle,
@@ -70,7 +72,11 @@ export default function FileItem({
 
   return (
     <Container>
-      <Content selected={selectedFile === item.path} onClick={handleClick}>
+      <Content
+        failed={failedTests.indexOf(item.path) > -1}
+        selected={selectedFile === item.path}
+        onClick={handleClick}
+      >
         <Chevron size={11} />
         <Icon size={13} />
         <Label>{item.name}</Label>
@@ -81,6 +87,7 @@ export default function FileItem({
           <FileItem
             key={child.path}
             item={child}
+            failedTests={failedTests}
             selectedFile={selectedFile}
             setSelectedFile={setSelectedFile}
             isCollapsed={collapsedItems[child.path]}

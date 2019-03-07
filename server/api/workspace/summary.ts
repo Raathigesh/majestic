@@ -13,4 +13,7 @@ export class Summary {
 
   @Field({ nullable: true })
   numFailedTestSuites: number = 0;
+
+  @Field(returns => [String])
+  failedTests: string[] = [];
 }

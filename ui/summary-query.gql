@@ -4,5 +4,6 @@ query {
     numFailedTests
     numPassedTestSuites
     numFailedTestSuites
+    failedTests
   }
 }

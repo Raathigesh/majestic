@@ -145,6 +145,7 @@ export default function TestExplorer({
         <FileItem
           item={tree}
           selectedFile={selectedFile}
+          failedTests={(summary && summary.failedTests) || []}
           setSelectedFile={handleFileSelection}
           collapsedItems={collapsedItems}
           isCollapsed={collapsedItems[tree.path]}
