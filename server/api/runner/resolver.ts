@@ -51,7 +51,8 @@ export default class RunnerResolver {
     topics: [
       RunnerEvents.RUNNER_STARTED,
       RunnerEvents.RUNNER_STOPPED,
-      RunnerEvents.RUNNER_WATCH_MODE_CHANGE
+      RunnerEvents.RUNNER_WATCH_MODE_CHANGE,
+      RunnerEvents.RUNNER_ACTIVE_FILE_CHANGE
     ]
   })
   runnerStatusChange(@Root() event: RunnerEvent) {
@@ -68,13 +69,15 @@ export default class RunnerResolver {
   }
 
   @Mutation(returns => String, { nullable: true })
-  runFile(
-    @Arg("path") path: string,
-    @Arg("watch", { nullable: true }) watch: boolean
-  ) {
+  runFile(@Arg("path") path: string) {
     this.activeFile = path;
 
     if (this.isWatching && this.isRunning) {
+      pubsub.publish(RunnerEvents.RUNNER_ACTIVE_FILE_CHANGE, {
+        id: RunnerEvents.RUNNER_ACTIVE_FILE_CHANGE,
+        payload: {}
+      });
+
       return this.jestManager.switchToAnotherFile(path);
     }
 
@@ -83,6 +86,7 @@ export default class RunnerResolver {
 
   @Mutation(returns => String, { nullable: true })
   run() {
+    this.activeFile = "";
     this.isRunning = true;
     return this.jestManager.run(this.isWatching);
   }

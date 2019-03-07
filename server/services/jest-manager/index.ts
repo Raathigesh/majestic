@@ -9,7 +9,8 @@ import { pubsub } from "../../event-emitter";
 export const RunnerEvents = {
   RUNNER_STARTED: "RunnerStarted",
   RUNNER_STOPPED: "RunnerStopped",
-  RUNNER_WATCH_MODE_CHANGE: "WatchModeChanged"
+  RUNNER_WATCH_MODE_CHANGE: "WatchModeChanged",
+  RUNNER_ACTIVE_FILE_CHANGE: "RunnerActiveFileChange"
 };
 
 export interface RunnerEvent {

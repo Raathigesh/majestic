@@ -73,8 +73,6 @@ export default class Project {
    * @param config
    */
   private getTestFileMatcher(config: JestConfig) {
-    // TODO: figure out how to deal with multiple values in the config array
-
     const configObj: any = config.configs[0];
 
     const matchers = configObj.testMatch.map(each =>
@@ -83,7 +81,10 @@ export default class Project {
     return (path: string) => {
       let didRegexMatch = false;
       const testRegex = configObj.testRegex;
-      if (typeof testRegex === "string" || testRegex instanceof String) {
+      if (
+        (typeof testRegex === "string" || testRegex instanceof String) &&
+        testRegex.trim() !== ""
+      ) {
         const regex = new RegExp(configObj.testRegex);
         didRegexMatch = regex.test(path);
       }
