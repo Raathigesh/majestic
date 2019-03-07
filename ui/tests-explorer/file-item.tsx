@@ -16,7 +16,7 @@ const Content = styled.div<{ selected: boolean }>`
   align-items: center;
   padding: 2.5px;
   cursor: pointer;
-  color: ${props => (props.failed ? "red" : null)};
+  color: ${props => (props.failed ? "#ff4954" : null)};
   background-color: ${props => (props.selected ? "#444444" : null)};
   border-radius: 3px;
   margin-bottom: 2px;
@@ -38,6 +38,7 @@ const EmptyChevron = styled.div`
 interface Props {
   item: TreeNode;
   selectedFile: string;
+  showFailedTests: boolean;
   collapsedItems: { [path: string]: boolean };
   setSelectedFile: (path: string) => void;
   isCollapsed: boolean;
@@ -48,6 +49,7 @@ interface Props {
 export default function FileItem({
   item,
   selectedFile,
+  showFailedTests,
   failedTests,
   collapsedItems,
   setSelectedFile,
@@ -59,6 +61,8 @@ export default function FileItem({
   if (item.children && item.children.length) {
     Chevron = isCollapsed ? ChevronRight : ChevronDown;
   }
+
+  const isFailed = failedTests.indexOf(item.path) > -1;
 
   const handleClick = () => {
     if (item.type === "file") {
@@ -73,7 +77,7 @@ export default function FileItem({
   return (
     <Container>
       <Content
-        failed={failedTests.indexOf(item.path) > -1}
+        failed={isFailed}
         selected={selectedFile === item.path}
         onClick={handleClick}
       >
@@ -83,18 +87,28 @@ export default function FileItem({
       </Content>
       {item.children &&
         !isCollapsed &&
-        item.children.map(child => (
-          <FileItem
-            key={child.path}
-            item={child}
-            failedTests={failedTests}
-            selectedFile={selectedFile}
-            setSelectedFile={setSelectedFile}
-            isCollapsed={collapsedItems[child.path]}
-            collapsedItems={collapsedItems}
-            onToggle={onToggle}
-          />
-        ))}
+        item.children
+          .filter(
+            child =>
+              (failedTests.indexOf(child.path) > -1 &&
+                child.type === "file" &&
+                showFailedTests) ||
+              child.type === "directory" ||
+              showFailedTests === false
+          )
+          .map(child => (
+            <FileItem
+              key={child.path}
+              item={child}
+              showFailedTests={showFailedTests}
+              failedTests={failedTests}
+              selectedFile={selectedFile}
+              setSelectedFile={setSelectedFile}
+              isCollapsed={collapsedItems[child.path]}
+              collapsedItems={collapsedItems}
+              onToggle={onToggle}
+            />
+          ))}
     </Container>
   );
 }

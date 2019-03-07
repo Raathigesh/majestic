@@ -10,7 +10,7 @@ import { transform } from "./transformer";
 import Summary from "./summary";
 import { Summary as SummaryType } from "../../server/api/workspace/summary";
 import RUN from "./run.gql";
-import { Play, Eye, Search, RefreshCw } from "react-feather";
+import { Play, Eye, Search, RefreshCw, ZapOff } from "react-feather";
 import Button from "../components/button";
 import { RunnerStatus } from "../../server/api/runner/status";
 
@@ -89,6 +89,8 @@ export default function TestExplorer({
     });
   };
 
+  const [showFailedTests, setShowFailedTests] = useState(false);
+
   const isRunning = runnerStatus && runnerStatus.running;
 
   return (
@@ -140,6 +142,17 @@ export default function TestExplorer({
         >
           <RefreshCw size={10} />
         </Button>
+        {summary.failedTests && summary.failedTests.length > 0 && (
+          <Button
+            size="sm"
+            minimal
+            onClick={() => {
+              setShowFailedTests(!showFailedTests);
+            }}
+          >
+            <ZapOff size={10} /> Show only failed tests
+          </Button>
+        )}
       </FileHeader>
       <FileTreeContainer>
         <FileItem
@@ -150,6 +163,7 @@ export default function TestExplorer({
           collapsedItems={collapsedItems}
           isCollapsed={collapsedItems[tree.path]}
           onToggle={handleFileToggle}
+          showFailedTests={showFailedTests}
         />
       </FileTreeContainer>
     </Container>
