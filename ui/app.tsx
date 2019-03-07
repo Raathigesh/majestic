@@ -11,6 +11,7 @@ import SUMMARY_QUERY from "./summary-query.gql";
 import SUMMARY_SUBS from "./summary-subscription.gql";
 import RUNNER_STATUS_QUERY from "./runner-status-query.gql";
 import RUNNER_STATUS_SUBS from "./runner-status-subs.gql";
+import STOP_RUNNER from "./stop-runner.gql";
 import { Search } from "./search";
 import SET_SELECTED_FILE from "./set-selected-file.gql";
 import { Workspace } from "../server/api/workspace/workspace";
@@ -69,6 +70,8 @@ export default function App() {
     refetch();
   };
 
+  const stopRunner = useMutation(STOP_RUNNER);
+
   const [isSearchOpen, setSearchOpen] = useState(false);
 
   return (
@@ -86,6 +89,9 @@ export default function App() {
           onRefreshFiles={() => {
             refetchFiles();
           }}
+          onStop={() => {
+            stopRunner();
+          }}
         />
         {selectedFile && (
           <TestFile
@@ -96,6 +102,7 @@ export default function App() {
         )}
       </SplitPane>
       <Search
+        projectRoot={workspace.projectRoot}
         show={isSearchOpen}
         files={workspace.files}
         onClose={() => setSearchOpen(false)}

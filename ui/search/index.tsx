@@ -26,15 +26,21 @@ const Container = styled.div`
   top: 150px;
   padding: 20px;
   border-radius: 2px;
+  display: flex;
+  flex-direction: column;
   ${color};
 `;
 
 const ItemContainer = styled.div`
   display: flex;
   padding-top: 10px;
-  padding-bottom: 10px;
+  padding-bottom: 25px;
+  padding-left: 5px;
   cursor: pointer;
   color: #fefefe;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   &:hover {
     background-color: #404148;
@@ -52,16 +58,24 @@ const SearchBox = styled.input`
   height: 15px;
   border: 0px;
   width: 99%;
+  margin-bottom: 15px;
 `;
 
 interface Props {
+  projectRoot: string;
   show: boolean;
   files: Item[];
   onItemClick: (path: string) => void;
   onClose: () => void;
 }
 
-export function Search({ files, show, onItemClick, onClose }: Props) {
+export function Search({
+  projectRoot,
+  files,
+  show,
+  onItemClick,
+  onClose
+}: Props) {
   const [query, setQuery] = useState("");
 
   if (!show) return null;
@@ -89,7 +103,7 @@ export function Search({ files, show, onItemClick, onClose }: Props) {
                   onItemClick(file.path);
                 }}
               >
-                {file.path}
+                {file.path.toLowerCase().replace(projectRoot.toLowerCase(), "")}
               </ItemContainer>
             ))}
         </ResultContainer>

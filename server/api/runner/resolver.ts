@@ -83,9 +83,13 @@ export default class RunnerResolver {
 
   @Mutation(returns => String, { nullable: true })
   run() {
-    this.activeFile = "";
     this.isRunning = true;
     return this.jestManager.run(this.isWatching);
+  }
+
+  @Mutation(returns => String, { nullable: true })
+  stop() {
+    return this.jestManager.stop();
   }
 
   @Mutation(returns => String, { nullable: true })

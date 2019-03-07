@@ -50,6 +50,7 @@ interface Props {
   onSelectedFileChange: (path: string) => void;
   onSearchOpen: () => void;
   onRefreshFiles: () => void;
+  onStop: () => void;
 }
 
 export default function TestExplorer({
@@ -59,7 +60,8 @@ export default function TestExplorer({
   summary,
   runnerStatus,
   onSearchOpen,
-  onRefreshFiles
+  onRefreshFiles,
+  onStop
 }: Props) {
   const items = workspace.files;
   const root = items[0];
@@ -87,16 +89,22 @@ export default function TestExplorer({
     });
   };
 
+  const isRunning = runnerStatus && runnerStatus.running;
+
   return (
     <Container p={4} bg="dark" color="text">
       <ActionsPanel>
         <Button
           size="sm"
           onClick={() => {
-            run();
+            if (isRunning) {
+              stop();
+            } else {
+              run();
+            }
           }}
         >
-          <Play size={14} /> Run tests
+          <Play size={14} /> {isRunning ? "Stop" : "Run tests"}
         </Button>
         <RightActionPanel>
           <Button

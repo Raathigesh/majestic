@@ -55,6 +55,7 @@ export default class JestManager {
       this.getPatternForPath(path),
       ...(watch ? ["--watch"] : []),
       "--reporters",
+      "default",
       this.getRepoterPath()
     ]);
   }
@@ -102,6 +103,14 @@ export default class JestManager {
     this.process.on("close", () => {
       this.reportStop();
     });
+
+    this.process.stdout.on("data", (data: string) => {
+      console.log(data.toString().trim());
+    });
+
+    this.process.stderr.on("data", (data: string) => {
+      console.log(data.toString().trim());
+    });
   }
 
   getRepoterPath() {
@@ -136,6 +145,13 @@ export default class JestManager {
         isRunning: true
       }
     });
+  }
+
+  stop() {
+    if (this.process) {
+      this.process.kill();
+      this.reportStop();
+    }
   }
 
   reportStop() {

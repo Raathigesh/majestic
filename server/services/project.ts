@@ -74,11 +74,22 @@ export default class Project {
    */
   private getTestFileMatcher(config: JestConfig) {
     // TODO: figure out how to deal with multiple values in the config array
-    const matchers = config.configs[0].testMatch.map(each =>
+
+    const configObj: any = config.configs[0];
+
+    const matchers = configObj.testMatch.map(each =>
       micromatch.matcher(each, { dot: true })
     );
     return (path: string) => {
-      return matchers.some(each => each(path));
+      let didRegexMatch = false;
+      const testRegex = configObj.testRegex;
+      if (typeof testRegex === "string" || testRegex instanceof String) {
+        const regex = new RegExp(configObj.testRegex);
+        didRegexMatch = regex.test(path);
+      }
+
+      const didMatch = matchers.some(each => each(path));
+      return didMatch || didRegexMatch;
     };
   }
 }
