@@ -98,6 +98,9 @@ export default function App() {
             projectRoot={workspace.projectRoot}
             selectedFilePath={selectedFile}
             runnerStatus={runnerStatus}
+            onStop={() => {
+              stopRunner();
+            }}
           />
         )}
       </SplitPane>

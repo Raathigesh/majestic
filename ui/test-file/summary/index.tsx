@@ -8,6 +8,7 @@ import {
   Code,
   Eye,
   Play,
+  StopCircle,
   Camera,
   CheckCircle,
   XCircle
@@ -94,6 +95,7 @@ interface Props {
   failingTests: number;
   runnerStatus: RunnerStatus;
   onRun: () => void;
+  onStop: () => void;
   onSnapshotUpdate: () => void;
   haveSnapshotFailures: boolean;
 }
@@ -107,10 +109,13 @@ export default function FileSummary({
   failingTests,
   runnerStatus,
   onRun,
+  onStop,
   onSnapshotUpdate,
   haveSnapshotFailures
 }: Props) {
   const isRunning = runnerStatus.activeFile === path && runnerStatus.running;
+
+  const Icon = isRunning ? StopCircle : Play;
 
   return (
     <Container p={3} bg="slightDark">
@@ -139,10 +144,14 @@ export default function FileSummary({
       <ActionPanel>
         <Button
           onClick={() => {
-            onRun();
+            if (isRunning) {
+              onStop();
+            } else {
+              onRun();
+            }
           }}
         >
-          <Play size={14} /> {isRunning ? "Stop" : "Run"}
+          <Icon size={14} /> {isRunning ? "Stop" : "Run"}
         </Button>
         {haveSnapshotFailures && (
           <Button

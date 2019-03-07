@@ -34,12 +34,14 @@ interface Props {
   selectedFilePath: string;
   runnerStatus: RunnerStatus;
   projectRoot: string;
+  onStop: () => void;
 }
 
 export default function TestFile({
   selectedFilePath,
   runnerStatus,
-  projectRoot
+  projectRoot,
+  onStop
 }: Props) {
   const { data: fileItemResult }: { data: TestFileModel } = useSubscription(
     FILEITEMS,
@@ -107,6 +109,7 @@ export default function TestFile({
         onRun={() => {
           runFile();
         }}
+        onStop={onStop}
         onSnapshotUpdate={() => {
           updateSnapshot();
         }}

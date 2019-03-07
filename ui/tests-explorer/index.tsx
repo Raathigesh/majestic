@@ -98,7 +98,7 @@ export default function TestExplorer({
           size="sm"
           onClick={() => {
             if (isRunning) {
-              stop();
+              onStop();
             } else {
               run();
             }
