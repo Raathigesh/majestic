@@ -5,6 +5,7 @@ import Project from "../project";
 import { ShowConfig } from "./cli-args";
 import { JestConfig } from "./types";
 import { pubsub } from "../../event-emitter";
+import { MajesticConfig } from "../types";
 
 export const RunnerEvents = {
   RUNNER_STARTED: "RunnerStarted",
@@ -23,24 +24,11 @@ export interface RunnerEvent {
 export default class JestManager {
   project: Project;
   process: ChildProcess;
+  config: MajesticConfig;
 
-  constructor(project: Project) {
+  constructor(project: Project, config: MajesticConfig) {
     this.project = project;
-  }
-
-  getJestScriptPath() {
-    const path = resolvePkg("jest", {
-      cwd: this.project.projectRoot
-    });
-
-    return join(path, "bin/jest.js");
-  }
-
-  getConfig() {
-    const process = this.executeJestSync([ShowConfig]);
-    const configStr = process.stdout.toString().trim();
-    const config = JSON.parse(configStr) as JestConfig;
-    return config;
+    this.config = config;
   }
 
   run(watch: boolean) {
@@ -87,21 +75,23 @@ export default class JestManager {
     ]);
   }
 
-  executeJest(args: string[]) {
+  executeJest(args: string[] = []) {
     this.reportStart();
 
     this.process = spawn(
-      `node -r ${this.getPatchFilePath()} ${this.getJestScriptPath()}`,
-      args,
+      `node -r ${this.getPatchFilePath()} ${this.config.jestScriptPath}`,
+      [...args, ...(this.config.args || [])],
       {
         cwd: this.project.projectRoot,
         shell: true,
         stdio: "pipe",
-        env: {}
+        env: {
+          ...(this.config.env || {})
+        }
       }
     );
 
-    this.process.on("close", () => {
+    this.process.on("exit", () => {
       this.reportStop();
     });
 
@@ -128,15 +118,6 @@ export default class JestManager {
       replacePattern = /\\/g;
     }
     return `^${path.replace(replacePattern, ".")}$`;
-  }
-
-  executeJestSync(args: string[]) {
-    return spawnSync(`node ${this.getJestScriptPath()}`, args, {
-      cwd: this.project.projectRoot,
-      shell: true,
-      stdio: "pipe",
-      env: {}
-    });
   }
 
   reportStart() {

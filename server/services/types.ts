@@ -13,3 +13,11 @@ export interface TreeMap {
     type: "directory" | "file";
   };
 }
+
+export interface MajesticConfig {
+  testRegex?: string | string[];
+  testMatch?: string[];
+  jestScriptPath?: string;
+  args?: string[];
+  env?: { [key: string]: string };
+}

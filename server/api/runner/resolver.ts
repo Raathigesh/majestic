@@ -15,6 +15,7 @@ import Workspace from "../../services/project";
 import { root } from "../../services/cli";
 import { RunnerStatus } from "./status";
 import { pubsub } from "../../event-emitter";
+import ConfigResolver from "../../services/config-resolver";
 
 @Resolver(Runner)
 export default class RunnerResolver {
@@ -26,16 +27,9 @@ export default class RunnerResolver {
 
   constructor() {
     this.workspace = new Workspace(root);
-    this.jestManager = new JestManager(this.workspace);
-  }
-
-  @Query(returns => Runner)
-  getConfig() {
-    const runner = new Runner();
-    runner.config = "";
-    runner.status = "";
-    this.jestManager.getConfig();
-    return runner;
+    const configResolver = new ConfigResolver();
+    const majesticConfig = configResolver.getConfig(root);
+    this.jestManager = new JestManager(this.workspace, majesticConfig);
   }
 
   @Query(returns => RunnerStatus)

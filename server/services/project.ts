@@ -1,7 +1,7 @@
 import * as directoryTree from "directory-tree";
 import * as micromatch from "micromatch";
-import { JestConfig } from "./jest-manager/types";
-import { DirectoryItem, TreeMap } from "./types";
+import { DirectoryItem, TreeMap, MajesticConfig } from "./types";
+import { getTestPatternsMatcher } from "./test-file-matcher";
 
 export default class Project {
   public projectRoot: string;
@@ -20,8 +20,8 @@ export default class Project {
     }
   }
 
-  public readTestFiles = (jestConfig: JestConfig) => {
-    this.testFileMatcher = this.getTestFileMatcher(jestConfig);
+  public readTestFiles = (jestConfig: MajesticConfig) => {
+    this.testFileMatcher = getTestPatternsMatcher(this.projectRoot, jestConfig);
     const files = directoryTree(this.projectRoot, {
       exclude: /node_modules|\.git/
     });
@@ -72,20 +72,18 @@ export default class Project {
    * Returns a function which checks if a function is a test file
    * @param config
    */
-  private getTestFileMatcher(config: JestConfig) {
-    const configObj: any = config.configs[0];
-
-    const matchers = configObj.testMatch.map(each =>
+  private getTestFileMatcher(config: MajesticConfig) {
+    const matchers = (config.testMatch || []).map(each =>
       micromatch.matcher(each, { dot: true })
     );
     return (path: string) => {
       let didRegexMatch = false;
-      const testRegex = configObj.testRegex;
+      const testRegex = config.testRegex;
       if (
         (typeof testRegex === "string" || testRegex instanceof String) &&
         testRegex.trim() !== ""
       ) {
-        const regex = new RegExp(configObj.testRegex);
+        const regex = new RegExp(config.testRegex as string);
         didRegexMatch = regex.test(path);
       }
 

@@ -22,16 +22,22 @@ import Results from "../../services/results";
 import { WatcherEvents, FileChangeEvent } from "../../services/file-watcher";
 import { Summary } from "./summary";
 import { pubsub } from "../../event-emitter";
+import ConfigResolver from "../../services/config-resolver";
+import { MajesticConfig } from "../../services/types";
 
 @Resolver(Workspace)
 export default class WorkspaceResolver {
   private project: Project;
   private jestManager: JestManager;
   private results: Results;
+  private majesticConfig: MajesticConfig;
 
   constructor() {
     this.project = new Project(root);
-    this.jestManager = new JestManager(this.project);
+
+    const configResolver = new ConfigResolver();
+    this.majesticConfig = configResolver.getConfig(this.project.projectRoot);
+    this.jestManager = new JestManager(this.project, this.majesticConfig);
     this.results = new Results();
 
     pubsub.subscribe(Events.TEST_RESULT, event => {
@@ -55,8 +61,7 @@ export default class WorkspaceResolver {
     workspace.projectRoot = this.project.projectRoot;
     workspace.name = "Jest project";
 
-    const jestConfig = this.jestManager.getConfig();
-    const fileMap = this.project.readTestFiles(jestConfig);
+    const fileMap = this.project.readTestFiles(this.majesticConfig);
     workspace.files = Object.entries(fileMap).map(([key, value]) => ({
       name: value.name,
       path: value.path,

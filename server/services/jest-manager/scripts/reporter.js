@@ -18,7 +18,7 @@ class MyCustomReporter {
   }
 
   onTestStart(test) {
-    send("test-start", test);
+    // send("test-start", test);
   }
 
   onTestResult(test, testResult, aggregatedResult) {
