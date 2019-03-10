@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { File, Folder, ChevronRight, ChevronDown } from "react-feather";
 import { color } from "styled-system";
 import { TreeNode } from "./transformer";
+import ExecutionIndicator from "./execution-indicator";
 
 const Container = styled.div`
   display: flex;
@@ -43,6 +44,7 @@ interface Props {
   setSelectedFile: (path: string) => void;
   isCollapsed: boolean;
   failedTests: string[];
+  executingTests: string[];
   onToggle: (path: string, isCollapsed: boolean) => void;
 }
 
@@ -51,6 +53,7 @@ export default function FileItem({
   selectedFile,
   showFailedTests,
   failedTests,
+  executingTests,
   collapsedItems,
   setSelectedFile,
   onToggle,
@@ -63,6 +66,7 @@ export default function FileItem({
   }
 
   const isFailed = failedTests.indexOf(item.path) > -1;
+  const isExecuting = executingTests.indexOf(item.path) > -1;
 
   const handleClick = () => {
     if (item.type === "file") {
@@ -82,7 +86,8 @@ export default function FileItem({
         onClick={handleClick}
       >
         <Chevron size={11} />
-        <Icon size={13} />
+        {!isExecuting && <Icon size={13} />}
+        {isExecuting && <ExecutionIndicator />}
         <Label>{item.name}</Label>
       </Content>
       {item.children &&
@@ -100,6 +105,7 @@ export default function FileItem({
             <FileItem
               key={child.path}
               item={child}
+              executingTests={executingTests}
               showFailedTests={showFailedTests}
               failedTests={failedTests}
               selectedFile={selectedFile}

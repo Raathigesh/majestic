@@ -19,7 +19,6 @@ import { TestFile as TestFileModel } from "../../server/api/workspace/test-file"
 const Container = styled.div`
   ${space};
   ${color};
-  flex-grow: 1;
   height: 100vh;
   padding-left: 20px;
 `;

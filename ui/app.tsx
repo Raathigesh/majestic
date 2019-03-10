@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import SplitPane from "react-split-pane";
 import { useQuery, useMutation } from "react-apollo-hooks";
-import TestExplorer from "./tests-explorer";
+import Sidebar from "./sidebar";
 import TestFile from "./test-file";
 import APP from "./app.gql";
 import WORKSPACE from "./query.gql";
@@ -19,6 +19,7 @@ import { Workspace } from "../server/api/workspace/workspace";
 const ContainerDiv = styled.div`
   display: flex;
   flex-direction: row;
+  width: 100%;
 `;
 
 interface AppResult {
@@ -76,8 +77,13 @@ export default function App() {
 
   return (
     <ContainerDiv>
-      <SplitPane defaultSize={300} split="vertical">
-        <TestExplorer
+      <SplitPane
+        defaultSize={"calc(100% - 300px)"}
+        split="vertical"
+        primary="second"
+        pane1Style={{ minWidth: "300px" }}
+      >
+        <Sidebar
           workspace={workspace}
           selectedFile={selectedFile}
           onSelectedFileChange={handleFileSelection}

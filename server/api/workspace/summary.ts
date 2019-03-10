@@ -16,4 +16,7 @@ export class Summary {
 
   @Field(returns => [String])
   failedTests: string[] = [];
+
+  @Field(returns => [String])
+  executingTests: string[] = [];
 }

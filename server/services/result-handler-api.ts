@@ -33,8 +33,7 @@ export default function handlerApi(expressApp: Application) {
     pubsub.publish(Events.TEST_START, {
       id: Events.TEST_START,
       payload: {
-        path: body.path,
-        test: body
+        path: body.path
       }
     });
     res.send("ok");

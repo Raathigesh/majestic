@@ -53,6 +53,26 @@ export default class WorkspaceResolver {
       result.testResults = testResult.testResults;
       this.results.setTestReport(payload.path, result);
     });
+
+    pubsub.subscribe(Events.TEST_START, event => {
+      this.results.setTestStart(event.payload.path);
+    });
+
+    pubsub.subscribe(Events.RUN_SUMMARY, event => {
+      const {
+        numFailedTests,
+        numPassedTests,
+        numPassedTestSuites,
+        numFailedTestSuites
+      } = event.payload.summary;
+
+      this.results.setSummary(
+        numPassedTests,
+        numFailedTests,
+        numPassedTestSuites,
+        numFailedTestSuites
+      );
+    });
   }
 
   @Query(returns => Workspace)
@@ -90,7 +110,7 @@ export default class WorkspaceResolver {
   @Query(returns => TestFileResult, { nullable: true })
   result(@Arg("path") path: string) {
     const result = this.results.getResult(path);
-    return result ? result.report : null;
+    return result ? result : null;
   }
 
   @Subscription(returns => TestFile, {
@@ -128,7 +148,7 @@ export default class WorkspaceResolver {
   }
 
   @Subscription(returns => Summary, {
-    topics: [Events.RUN_SUMMARY]
+    topics: [Events.RUN_SUMMARY, Events.TEST_START, Events.TEST_RESULT]
   })
   async changeToSummary(@Root() event: SummaryEvent): Promise<Summary> {
     const {
@@ -136,14 +156,7 @@ export default class WorkspaceResolver {
       numPassedTests,
       numPassedTestSuites,
       numFailedTestSuites
-    } = event.payload.summary;
-
-    this.results.setSummary(
-      numPassedTests,
-      numFailedTests,
-      numPassedTestSuites,
-      numFailedTestSuites
-    );
+    } = this.results.getSummary();
 
     const summary = new Summary();
     summary.numFailedTests = numFailedTests;
@@ -151,6 +164,7 @@ export default class WorkspaceResolver {
     summary.numPassedTestSuites = numPassedTestSuites;
     summary.numFailedTestSuites = numFailedTestSuites;
     summary.failedTests = this.results.getFailedTests();
+    summary.executingTests = this.results.getExecutingTests();
     return summary;
   }
 
@@ -168,6 +182,7 @@ export default class WorkspaceResolver {
     result.numPassedTestSuites = numPassedTestSuites;
     result.numFailedTestSuites = numFailedTestSuites;
     result.failedTests = this.results.getFailedTests();
+    result.executingTests = this.results.getExecutingTests();
     return result;
   }
 }

@@ -40,6 +40,9 @@ const Content = styled.div`
 
 const FailtureMessage = styled.div`
   padding-left: 20px;
+  pre {
+    overflow: auto;
+  }
 `;
 
 const Duration = styled.span`

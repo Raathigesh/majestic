@@ -3,12 +3,16 @@ export type TestFileStatus = "IDLE" | "EXECUTING";
 export default class Results {
   private results: {
     [path: string]: {
-      status: TestFileStatus;
       report?: any;
     };
-  };
+  } = {};
 
-  private failedTests: { [path: string]: true } = {};
+  private testStatus: {
+    [path: string]: {
+      isExecuting: boolean;
+      containsFailure: boolean;
+    };
+  } = {};
 
   private summary: {
     numFailedTests: number;
@@ -28,21 +32,23 @@ export default class Results {
   }
 
   public setTestStart(path: string) {
-    this.setDefaultStatus(path);
-    const resultforPath = this.results[path];
-    resultforPath.status = "EXECUTING";
+    if (!this.testStatus[path]) {
+      this.testStatus[path] = {
+        isExecuting: false,
+        containsFailure: false
+      };
+    }
+    this.testStatus[path].isExecuting = true;
   }
 
   public setTestReport(path: string, report: any) {
-    this.setDefaultStatus(path);
-    const resultforPath = this.results[path];
-    resultforPath.status = "IDLE";
-    resultforPath.report = report;
+    this.results[path] = report;
+    this.testStatus[path].isExecuting = false;
 
     if (report.numFailingTests > 0) {
-      this.failedTests[path] = true;
+      this.testStatus[path].containsFailure = true;
     } else {
-      delete this.failedTests[path];
+      this.testStatus[path].containsFailure = false;
     }
   }
 
@@ -69,14 +75,18 @@ export default class Results {
   }
 
   public getFailedTests() {
-    return Object.keys(this.failedTests);
+    return Object.entries(this.testStatus)
+      .filter(([path, status]) => {
+        return status.containsFailure;
+      })
+      .map(([path]) => path);
   }
 
-  private setDefaultStatus(path: string) {
-    if (!this.results[path]) {
-      this.results[path] = {
-        status: "IDLE"
-      };
-    }
+  public getExecutingTests() {
+    return Object.entries(this.testStatus)
+      .filter(([path, status]) => {
+        return status.isExecuting === true;
+      })
+      .map(([path]) => path);
   }
 }

@@ -18,7 +18,9 @@ class MyCustomReporter {
   }
 
   onTestStart(test) {
-    // send("test-start", test);
+    send("test-start", {
+      path: test.path
+    });
   }
 
   onTestResult(test, testResult, aggregatedResult) {

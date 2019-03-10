@@ -158,6 +158,7 @@ export default function TestExplorer({
         <FileItem
           item={tree}
           selectedFile={selectedFile}
+          executingTests={(summary && summary.executingTests) || []}
           failedTests={(summary && summary.failedTests) || []}
           setSelectedFile={handleFileSelection}
           collapsedItems={collapsedItems}
