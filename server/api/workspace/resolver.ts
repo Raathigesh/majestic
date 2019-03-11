@@ -40,31 +40,28 @@ export default class WorkspaceResolver {
     this.jestManager = new JestManager(this.project, this.majesticConfig);
     this.results = new Results();
 
-    pubsub.subscribe(Events.TEST_RESULT, event => {
-      const payload = event.payload;
+    pubsub.subscribe(Events.TEST_RESULT, ({ payload }: any) => {
       const result = new TestFileResult();
       result.path = payload.path;
-
-      const testResult = payload.result.testResult;
-      result.failureMessage = testResult.failureMessage;
-      result.numPassingTests = testResult.numPassingTests;
-      result.numFailingTests = testResult.numFailingTests;
-      result.numPendingTests = testResult.numPendingTests;
-      result.testResults = testResult.testResults;
+      result.failureMessage = payload.failureMessage;
+      result.numPassingTests = payload.numPassingTests;
+      result.numFailingTests = payload.numFailingTests;
+      result.numPendingTests = payload.numPendingTests;
+      result.testResults = payload.testResults;
       this.results.setTestReport(payload.path, result);
     });
 
-    pubsub.subscribe(Events.TEST_START, event => {
-      this.results.setTestStart(event.payload.path);
+    pubsub.subscribe(Events.TEST_START, ({ payload }: any) => {
+      this.results.setTestStart(payload.path);
     });
 
-    pubsub.subscribe(Events.RUN_SUMMARY, event => {
+    pubsub.subscribe(Events.RUN_SUMMARY, ({ payload }: any) => {
       const {
         numFailedTests,
         numPassedTests,
         numPassedTestSuites,
         numFailedTestSuites
-      } = event.payload.summary;
+      } = payload.summary;
 
       this.results.setSummary(
         numPassedTests,
@@ -134,15 +131,13 @@ export default class WorkspaceResolver {
   ): Promise<TestFileResult> {
     const payload = event.payload;
     const result = new TestFileResult();
-    result.path = path;
     if (event.id === Events.TEST_RESULT) {
-      const testResult = payload.result.testResult;
-      result.path = payload.path;
-      result.failureMessage = testResult.failureMessage;
-      result.numPassingTests = testResult.numPassingTests;
-      result.numFailingTests = testResult.numFailingTests;
-      result.numPendingTests = testResult.numPendingTests;
-      result.testResults = testResult.testResults;
+      result.path = path;
+      result.failureMessage = payload.failureMessage;
+      result.numPassingTests = payload.numPassingTests;
+      result.numFailingTests = payload.numFailingTests;
+      result.numPendingTests = payload.numPendingTests;
+      result.testResults = payload.testResults;
     }
     return result;
   }

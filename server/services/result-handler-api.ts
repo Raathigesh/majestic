@@ -42,10 +42,7 @@ export default function handlerApi(expressApp: Application) {
   expressApp.post("/test-result", ({ body }, res) => {
     pubsub.publish(Events.TEST_RESULT, {
       id: Events.TEST_RESULT,
-      payload: {
-        path: body.testResult.testFilePath,
-        result: body
-      }
+      payload: body
     });
 
     pubsub.publish(Events.RUN_SUMMARY, {

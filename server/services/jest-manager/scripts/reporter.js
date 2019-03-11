@@ -12,9 +12,6 @@ class MyCustomReporter {
   constructor(globalConfig, options) {
     this._globalConfig = globalConfig;
     this._options = options;
-    this.testStartQueue = [];
-    this.testResultQueue = [];
-    this.onRunStartQueue = [];
   }
 
   onTestStart(test) {
@@ -25,39 +22,31 @@ class MyCustomReporter {
 
   onTestResult(test, testResult, aggregatedResult) {
     send("test-result", {
-      testResult,
-      aggregatedResult
+      path: testResult.testFilePath,
+      failureMessage: testResult.failureMessage,
+      numFailingTests: testResult.numFailingTests,
+      numPassingTests: testResult.numPassingTests,
+      numPendingTests: testResult.numPendingTests,
+      testResults: (testResult.testResults || []).map(result => ({
+        title: result.title,
+        numPassingAsserts: result.numPassingAsserts,
+        status: result.status,
+        failureMessages: result.failureMessages,
+        ancestorTitles: result.ancestorTitles,
+        duration: result.duration
+      })),
+      aggregatedResult: {
+        numFailedTests: aggregatedResult.numFailedTests,
+        numPassedTests: aggregatedResult.numPassedTests,
+        numPassedTestSuites: aggregatedResult.numPassedTestSuites,
+        numFailedTestSuites: aggregatedResult.numFailedTestSuites
+      }
     });
   }
 
-  onRunStart(results) {
-    /*  connectionPromise.then(connection => {
-      connection.send(
-        JSON.stringify({
-          source: "jest-test-reporter",
-          event: "onRunStart",
-          payload: {
-            results
-          }
-        })
-      );
-    }); */
-  }
+  onRunStart(results) {}
 
-  onRunComplete(contexts, results) {
-    /*  connectionPromise.then(connection => {
-      connection.send(
-        JSON.stringify({
-          source: "jest-test-reporter",
-          event: "onRunComplete",
-          payload: {
-            results,
-            contexts
-          }
-        })
-      );
-    }); */
-  }
+  onRunComplete(contexts, results) {}
 }
 
 module.exports = MyCustomReporter;

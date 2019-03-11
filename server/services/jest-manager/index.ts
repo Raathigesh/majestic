@@ -95,13 +95,15 @@ export default class JestManager {
       this.reportStop();
     });
 
-    this.process.stdout.on("data", (data: string) => {
-      console.log(data.toString().trim());
-    });
+    this.process.stdout &&
+      this.process.stdout.on("data", (data: string) => {
+        console.log(data.toString().trim());
+      });
 
-    this.process.stderr.on("data", (data: string) => {
-      console.log(data.toString().trim());
-    });
+    this.process.stderr &&
+      this.process.stderr.on("data", (data: string) => {
+        console.log(data.toString().trim());
+      });
   }
 
   getRepoterPath() {
