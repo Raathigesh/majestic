@@ -13,6 +13,7 @@ import RUN from "./run.gql";
 import { Play, Eye, Search, RefreshCw, ZapOff } from "react-feather";
 import Button from "../components/button";
 import { RunnerStatus } from "../../server/api/runner/status";
+import Tree from "./tree";
 
 const Container = styled.div`
   ${space};
@@ -27,12 +28,6 @@ const ActionsPanel = styled.div`
 
 const RightActionPanel = styled.div`
   display: flex;
-`;
-
-const FileTreeContainer = styled.div`
-  overflow: auto;
-  height: calc(100vh - 173px);
-  margin-left: -20px;
 `;
 
 const FileHeader = styled.div`
@@ -63,9 +58,9 @@ export default function TestExplorer({
   onRefreshFiles,
   onStop
 }: Props) {
-  const items = workspace.files;
-  const root = items[0];
-  const tree = transform(root, items, undefined);
+  const failedItems = (summary && summary.failedTests) || [];
+  const executingItems = (summary && summary.executingTests) || [];
+
   const run = useMutation(RUN);
 
   const [collapsedItems, setCollapsedItems] = useState({});
@@ -75,6 +70,19 @@ export default function TestExplorer({
       [path]: isCollapsed
     });
   };
+
+  const [showFailedTests, setShowFailedTests] = useState(false);
+
+  const items = workspace.files;
+  const root = items[0];
+  const files = transform(
+    root,
+    executingItems,
+    failedItems,
+    collapsedItems,
+    showFailedTests,
+    items
+  );
 
   const handleFileSelection = (path: string) => {
     onSelectedFileChange(path);
@@ -88,8 +96,6 @@ export default function TestExplorer({
       }
     });
   };
-
-  const [showFailedTests, setShowFailedTests] = useState(false);
 
   const isRunning = runnerStatus && runnerStatus.running;
 
@@ -154,19 +160,12 @@ export default function TestExplorer({
           </Button>
         )}
       </FileHeader>
-      <FileTreeContainer>
-        <FileItem
-          item={tree}
-          selectedFile={selectedFile}
-          executingTests={(summary && summary.executingTests) || []}
-          failedTests={(summary && summary.failedTests) || []}
-          setSelectedFile={handleFileSelection}
-          collapsedItems={collapsedItems}
-          isCollapsed={collapsedItems[tree.path]}
-          onToggle={handleFileToggle}
-          showFailedTests={showFailedTests}
-        />
-      </FileTreeContainer>
+      <Tree
+        results={files}
+        selectedFile={selectedFile}
+        onFileSelection={handleFileSelection}
+        onToggle={handleFileToggle}
+      />
     </Container>
   );
 }

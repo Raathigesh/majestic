@@ -2,12 +2,14 @@ import { TestItem } from "../../server/api/workspace/test-item";
 
 export interface TestFileItem extends TestItem {
   children?: TestFileItem[];
+  index: number;
 }
 
 export function transform(
   item: TestFileItem,
   items: TestItem[],
-  tree?: TestFileItem
+  tree?: TestFileItem,
+  index: number = 0
 ) {
   if (!item) {
     return {};
@@ -20,13 +22,14 @@ export function transform(
       type: item.type,
       name: item.name,
       parent: item.parent,
-      children: nextChildren
+      children: nextChildren,
+      index: index + 1
     };
   }
   item.children = nextChildren;
   item.children &&
     item.children.forEach(item => {
-      transform(item, items, tree);
+      transform(item, items, tree, index + 1);
     });
   return tree;
 }

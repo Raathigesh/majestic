@@ -3,26 +3,78 @@ import { Item } from "../../server/api/workspace/tree";
 export interface TreeNode extends Item {
   name: string;
   path: string;
-  children?: TreeNode[];
-  isExpanded?: boolean;
+  isCollapsed: boolean;
+  haveFailure: boolean;
+  isExecuting: boolean;
+  hierarchy: number;
 }
 
-export function transform(item: TreeNode, items: Item[], tree?: TreeNode) {
-  const nextChildren = getChildren(item.path, items);
-  if (!tree) {
-    tree = {
+export function transform(
+  item: TreeNode,
+  executingTests: string[],
+  failedFiles: string[],
+  collpsedFiles: { [path: string]: boolean },
+  showOnlyFailure: boolean,
+  items: Item[],
+  results: TreeNode[] = [],
+  hierarchy = 0
+) {
+  const isCollapsed = collpsedFiles[item.path];
+  const haveFailure = failedFiles.indexOf(item.path) > -1;
+
+  if (item.type === "directory") {
+    results.push({
       type: item.type,
       name: item.name,
       path: item.path,
-      children: nextChildren
-    };
-  }
-  item.children = nextChildren;
-  item.children &&
-    item.children.forEach(item => {
-      transform(item, items, tree);
+      hierarchy: hierarchy,
+      isCollapsed: collpsedFiles[item.path],
+      haveFailure,
+      isExecuting: executingTests.indexOf(item.path) > -1
     });
-  return tree;
+  } else {
+    if (showOnlyFailure && haveFailure) {
+      results.push({
+        type: item.type,
+        name: item.name,
+        path: item.path,
+        hierarchy: hierarchy,
+        isCollapsed: collpsedFiles[item.path],
+        haveFailure,
+        isExecuting: executingTests.indexOf(item.path) > -1
+      });
+    }
+
+    if (showOnlyFailure === false) {
+      results.push({
+        type: item.type,
+        name: item.name,
+        path: item.path,
+        hierarchy: hierarchy,
+        isCollapsed: collpsedFiles[item.path],
+        haveFailure,
+        isExecuting: executingTests.indexOf(item.path) > -1
+      });
+    }
+  }
+
+  if (!isCollapsed) {
+    const nextChildren = getChildren(item.path, items);
+    nextChildren.forEach(item => {
+      transform(
+        item as any,
+        executingTests,
+        failedFiles,
+        collpsedFiles,
+        showOnlyFailure,
+        items,
+        results,
+        hierarchy + 1
+      );
+    });
+  }
+
+  return results;
 }
 
 function getChildren(path: string, files: Item[]) {

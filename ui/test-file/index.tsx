@@ -117,7 +117,7 @@ export default function TestFile({
       {fileItemResult && (
         <TestItemsContainer>
           {roots.map(item => {
-            const tree = transform(item, fileItemResult.items as any) as any;
+            const tree = transform(item, fileItemResult.items as any, 0) as any;
             return <Test key={item.id} item={tree} result={result} />;
           })}
         </TestItemsContainer>
