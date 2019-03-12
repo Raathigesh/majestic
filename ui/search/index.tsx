@@ -14,7 +14,7 @@ const Drop = styled.div`
   z-index: 1;
 `;
 
-const Container = styled.div`
+const Container = styled.div<any>`
   width: 700px;
   max-height: 500px;
   position: absolute;

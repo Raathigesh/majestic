@@ -8,8 +8,8 @@ export interface TestFileItem extends TestItem {
 export function transform(
   item: TestFileItem,
   items: TestItem[],
-  tree?: TestFileItem,
-  index: number = 0
+  index: number = 0,
+  tree?: TestFileItem
 ) {
   if (!item) {
     return {};
@@ -24,12 +24,12 @@ export function transform(
       parent: item.parent,
       children: nextChildren,
       index: index + 1
-    };
+    } as any;
   }
-  item.children = nextChildren;
+  item.children = nextChildren as any;
   item.children &&
     item.children.forEach(item => {
-      transform(item, items, tree, index + 1);
+      transform(item, items, index + 1, tree);
     });
   return tree;
 }

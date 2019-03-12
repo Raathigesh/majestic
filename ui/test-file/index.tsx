@@ -16,7 +16,7 @@ import { RunnerStatus } from "../../server/api/runner/status";
 import { TestFileResult } from "../../server/api/workspace/test-result/file-result";
 import { TestFile as TestFileModel } from "../../server/api/workspace/test-file";
 
-const Container = styled.div`
+const Container = styled.div<any>`
   ${space};
   ${color};
   height: 100vh;
@@ -117,7 +117,11 @@ export default function TestFile({
       {fileItemResult && (
         <TestItemsContainer>
           {roots.map(item => {
-            const tree = transform(item, fileItemResult.items as any, 0) as any;
+            const tree = transform(
+              item as any,
+              fileItemResult.items as any,
+              0
+            ) as any;
             return <Test key={item.id} item={tree} result={result} />;
           })}
         </TestItemsContainer>

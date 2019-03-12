@@ -15,7 +15,7 @@ import Button from "../components/button";
 import { RunnerStatus } from "../../server/api/runner/status";
 import Tree from "./tree";
 
-const Container = styled.div`
+const Container = styled.div<any>`
   ${space};
   ${color};
   height: 100vh;
@@ -76,7 +76,7 @@ export default function TestExplorer({
   const items = workspace.files;
   const root = items[0];
   const files = transform(
-    root,
+    root as any,
     executingItems,
     failedItems,
     collapsedItems,

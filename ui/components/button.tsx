@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { space, color, fontSize } from "styled-system";
 
-const StyledButton = styled.button`
+const StyledButton = styled.button<any>`
   display: flex;
   align-items: center;
   border: none;

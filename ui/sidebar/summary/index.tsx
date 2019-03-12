@@ -5,7 +5,7 @@ import { useSpring, animated } from "react-spring";
 import { Play } from "react-feather";
 import { Summary } from "../../../server/api/workspace/summary";
 
-const Container = styled.div`
+const Container = styled.div<any>`
   ${space};
 `;
 

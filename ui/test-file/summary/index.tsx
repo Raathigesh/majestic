@@ -16,7 +16,7 @@ import {
 import Button from "../../components/button";
 import { RunnerStatus } from "../../../server/api/runner/status";
 
-const Container = styled.div`
+const Container = styled.div<any>`
   position: relative;
   ${space};
   ${color};
@@ -74,7 +74,7 @@ const InfoLabel = styled.div`
   margin-left: 5px;
 `;
 
-const FilePath = styled.div`
+const FilePath = styled.div<any>`
   ${fontSize};
   ${space};
   font-weight: 600;

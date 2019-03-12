@@ -61,15 +61,19 @@ export default class JestManager {
   switchToAnotherFile(path: string) {
     this.executeInSequence([
       {
-        fn: () => this.process.stdin.write("p"),
+        fn: () => this.process.stdin && this.process.stdin.write("p"),
         delay: 0
       },
       {
-        fn: () => this.process.stdin.write(this.getPatternForPath(path)),
+        fn: () =>
+          this.process.stdin &&
+          this.process.stdin.write(this.getPatternForPath(path)),
         delay: 100
       },
       {
-        fn: () => this.process.stdin.write(new Buffer("0d", "hex").toString()),
+        fn: () =>
+          this.process.stdin &&
+          this.process.stdin.write(new Buffer("0d", "hex").toString()),
         delay: 200
       }
     ]);

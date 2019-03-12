@@ -12,7 +12,7 @@ const Container = styled.div`
   ${color};
 `;
 
-const Content = styled.div<{ selected: boolean }>`
+const Content = styled.div<any>`
   display: flex;
   align-items: center;
   padding: 2.5px;
