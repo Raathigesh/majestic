@@ -32,11 +32,12 @@ export default function Tree({
             <List
               height={height - 10}
               itemCount={results.length}
-              itemSize={35}
+              itemSize={25}
               width={width}
             >
               {({ index, style }: any) => (
                 <FileItem
+                  style={style}
                   key={results[index].path}
                   item={results[index]}
                   selectedFile={selectedFile}

@@ -39,6 +39,7 @@ const EmptyChevron = styled.div`
 
 interface Props {
   item: TreeNode;
+  style: any;
   selectedFile: string;
   setSelectedFile: (path: string) => void;
   onToggle: (path: string, isCollapsed: boolean) => void;
@@ -48,7 +49,8 @@ export default function FileItem({
   item,
   selectedFile,
   setSelectedFile,
-  onToggle
+  onToggle,
+  style
 }: Props) {
   const Icon = item.type === "directory" ? Folder : File;
   let Chevron: any = EmptyChevron;
@@ -67,7 +69,7 @@ export default function FileItem({
   };
 
   return (
-    <Container>
+    <Container style={style}>
       <Content
         hierarchy={item.hierarchy}
         failed={item.haveFailure}
