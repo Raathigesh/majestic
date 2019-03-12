@@ -6,14 +6,14 @@ module.exports = env => ({
   entry: "./ui/index.tsx",
   mode: env.production ? "production" : "development",
   output: {
-    path: path.resolve(__dirname, "../dist"),
+    path: path.resolve(__dirname, "../dist/ui"),
     filename: "ui.bundle.js"
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx"]
   },
   devServer: {
-    contentBase: path.resolve(__dirname, "../dist"),
+    contentBase: path.resolve(__dirname, "../dist/ui"),
     hot: true,
     port: 9000
   },
@@ -60,6 +60,9 @@ module.exports = env => ({
       appMountId: "root",
       inject: false
     }),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.DefinePlugin({
+      PRODUCTION: env.production === "production"
+    })
   ]
 });
