@@ -27,7 +27,6 @@ class TestFileMatcher {
   _rootPattern: RegExp;
   _testIgnorePattern?: RegExp;
   _testPathCases: {
-    roots: (path: string) => boolean;
     testMatch: (path: string) => boolean;
     testRegex: (path: string) => boolean;
     testPathIgnorePatterns: (path: string) => boolean;
@@ -46,7 +45,6 @@ class TestFileMatcher {
       : undefined;
 
     this._testPathCases = {
-      roots: path => this._rootPattern.test(path),
       testMatch: globsToMatcher(config.testMatch),
       testPathIgnorePatterns: path =>
         !this._testIgnorePattern || !this._testIgnorePattern.test(path),
