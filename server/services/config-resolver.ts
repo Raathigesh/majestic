@@ -42,6 +42,11 @@ export default class ConfigResolver {
     const path = resolvePkg("jest", {
       cwd: projectRoot
     });
+
+    if (!path) {
+      throw new Error("Unable to find Jest");
+    }
+
     return join(path, "bin/jest.js");
   }
 
