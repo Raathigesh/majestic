@@ -10,3 +10,4 @@ declare module "resolve-pkg";
 declare module "react-virtualized-auto-sizer";
 declare module "react-window";
 declare module "minimist";
+declare module "react-tippy";

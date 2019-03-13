@@ -19,6 +19,7 @@
     "chrome-launcher": "^0.10.5",
     "directory-tree": "^2.2.0",
     "get-port": "^4.2.0",
+    "graphql-yoga": "^1.16.1",
     "jest-regex-util": "^24.3.0",
     "micromatch": "2.3.11",
     "minimist": "^1.2.0",
@@ -27,8 +28,7 @@
     "read-pkg-up": "^4.0.0",
     "reflect-metadata": "^0.1.12",
     "resolve-pkg": "^1.0.0",
-    "type-graphql": "^0.14.0",
-    "graphql-yoga": "^1.16.1"
+    "type-graphql": "^0.14.0"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
@@ -88,8 +88,8 @@
     "styled-system": "^3.1.11",
     "svg-inline-loader": "^0.8.0",
     "svg-react-loader": "^0.4.5",
-    "ts-loader": "^5.3.3",
     "ts-node": "^7.0.1",
+    "typeface-open-sans": "^0.0.54",
     "typescript": "^3.0.1",
     "uglifyjs-webpack-plugin": "^2.0.0",
     "url-loader": "^1.1.1",

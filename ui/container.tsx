@@ -7,9 +7,10 @@ import App from "./app";
 import theme from "./theme";
 import { createGlobalStyle } from "styled-components";
 import splitPanelCSS from "./split-panel-style";
+import "typeface-open-sans";
 
 const GlobalStyle = createGlobalStyle`
- body { font-family: 'Inter UI var alt', sans-serif; font-size: 13px; margin: 0px;}
+ body { font-family: 'Open sans'; font-size: 13px; margin: 0px;}
  ${splitPanelCSS}
 `;
 

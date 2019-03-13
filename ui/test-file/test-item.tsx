@@ -73,7 +73,7 @@ export default function Test({
             <Duration>{testResult && testResult.duration} ms</Duration>
           )}
         </Label>
-        {testResult && testResult.failureMessages && (
+        {testResult && testResult.failureMessages.length > 0 && (
           <FailtureMessage>
             <pre>{testResult.failureMessages.join(",")}</pre>
           </FailtureMessage>

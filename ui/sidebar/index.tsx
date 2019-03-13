@@ -2,8 +2,7 @@ import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components";
 import { useMutation } from "react-apollo-hooks";
 import { space, color } from "styled-system";
-import FileItem from "./file-item";
-
+import { Tooltip } from "react-tippy";
 import SET_WATCH_MODE from "./set-watch-mode.gql";
 import { Workspace } from "../../server/api/workspace/workspace";
 import { transform } from "./transformer";
@@ -161,25 +160,29 @@ export default function TestExplorer({
       <FileHeader mt={4}>
         <FilesHeader>Tests</FilesHeader>
         <RightFilesAction>
-          <Button
-            size="sm"
-            minimal
-            onClick={() => {
-              onRefreshFiles();
-            }}
-          >
-            <RefreshCw size={10} />
-          </Button>
-          {summary.failedTests && summary.failedTests.length > 0 && (
+          <Tooltip title="Refresh files" position="bottom">
             <Button
               size="sm"
               minimal
               onClick={() => {
-                setShowFailedTests(!showFailedTests);
+                onRefreshFiles();
               }}
             >
-              <ZapOff size={10} />
+              <RefreshCw size={10} />
             </Button>
+          </Tooltip>
+          {summary.failedTests && summary.failedTests.length > 0 && (
+            <Tooltip title="Show only failed tests" position="bottom">
+              <Button
+                size="sm"
+                minimal
+                onClick={() => {
+                  setShowFailedTests(!showFailedTests);
+                }}
+              >
+                <ZapOff size={10} />
+              </Button>
+            </Tooltip>
           )}
         </RightFilesAction>
       </FileHeader>

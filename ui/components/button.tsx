@@ -9,17 +9,16 @@ const StyledButton = styled.button<any>`
   color: #ffffff;
   text-align: center;
   transition: all 0.5s;
-  background-color: transparent;
-  border: ${props => (props.minimal ? null : "1px solid #ff4954")};
+  border: ${props => (props.minimal ? null : "1px solid #0F7AD8")};
   border-radius: 3px;
-
+  background-color: #0f7ad8;
   cursor: pointer;
   margin-right: 5px;
   ${space};
   ${color};
   ${fontSize};
   &:hover {
-    background-color: #ff4954;
+    background-color: #0f7ad8;
   }
 
   &:focus {
