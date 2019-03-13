@@ -143,6 +143,7 @@ export default function FileSummary({
       </RightContainer>
       <ActionPanel>
         <Button
+          icon={<Icon size={14} />}
           onClick={() => {
             if (isRunning) {
               onStop();
@@ -151,7 +152,7 @@ export default function FileSummary({
             }
           }}
         >
-          <Icon size={14} /> {isRunning ? "Stop" : "Run"}
+          {isRunning ? "Stop" : "Run"}
         </Button>
         {haveSnapshotFailures && (
           <Button

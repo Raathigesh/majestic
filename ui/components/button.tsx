@@ -9,16 +9,16 @@ const StyledButton = styled.button<any>`
   color: #ffffff;
   text-align: center;
   transition: all 0.5s;
-  border: ${props => (props.minimal ? null : "1px solid #0F7AD8")};
+  border: ${props => (props.minimal ? "1px solid #0F7AD8" : null)};
   border-radius: 3px;
-  background-color: #0f7ad8;
+  background-color: ${props => (props.minimal ? "transparent" : "#0F7AD8")};
   cursor: pointer;
   margin-right: 5px;
-  ${space};
+  padding: 6px;
   ${color};
   ${fontSize};
   &:hover {
-    background-color: #0f7ad8;
+    background-color: #1992fc;
   }
 
   &:focus {
@@ -26,15 +26,15 @@ const StyledButton = styled.button<any>`
   }
 `;
 
-const IconWrapper = styled.span`
-  margin-right: 5px;
-  margin-top: 2px;
+const Spacer = styled.div`
+  width: 5px;
 `;
 
 export default function Button(props: any) {
   return (
-    <StyledButton p={2} fontSize={12} {...props}>
-      {props.icon && <IconWrapper>{props.icon}</IconWrapper>}
+    <StyledButton fontSize={12} {...props}>
+      {props.icon}
+      {props.icon && props.children && <Spacer />}
       {props.children}
     </StyledButton>
   );

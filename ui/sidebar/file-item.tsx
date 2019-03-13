@@ -17,10 +17,11 @@ const Content = styled.div<any>`
   align-items: center;
   padding: 2.5px;
   cursor: pointer;
-  color: ${props => (props.failed ? "#ff4954" : null)};
+  color: ${props => (props.failed ? "#FF4F56" : null)};
   background-color: ${props => (props.selected ? "#444444" : null)};
   border-radius: 3px;
   margin-bottom: 2px;
+  font-weight: 600;
   margin-left: ${props => `${props.hierarchy * 15}px`}
 
   &:hover {

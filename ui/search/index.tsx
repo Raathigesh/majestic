@@ -25,7 +25,7 @@ const Container = styled.div<any>`
   right: 0;
   top: 150px;
   padding: 20px;
-  border-radius: 2px;
+  border-radius: 4px;
   display: flex;
   flex-direction: column;
   ${color};
@@ -33,14 +33,13 @@ const Container = styled.div<any>`
 
 const ItemContainer = styled.div`
   display: flex;
-  padding-top: 10px;
-  padding-bottom: 25px;
-  padding-left: 5px;
+  padding: 5px;
   cursor: pointer;
   color: #fefefe;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  border-radius: 1px;
 
   &:hover {
     background-color: #404148;
@@ -55,10 +54,16 @@ const ResultContainer = styled.div`
 
 const SearchBox = styled.input`
   padding: 5px;
-  height: 15px;
-  border: 0px;
+  border: none;
   width: 99%;
   margin-bottom: 15px;
+  padding: 5px;
+  font-size: 13px;
+  border-radius: 2px;
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 interface Props {

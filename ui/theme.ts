@@ -1,5 +1,4 @@
 export default {
-  primary: "#4778FF",
   colors: {
     veryDark: "#19181a",
     dark: "#242326",
