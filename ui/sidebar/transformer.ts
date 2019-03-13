@@ -21,45 +21,42 @@ export function transform(
 ) {
   const isCollapsed = collpsedFiles[item.path];
   const haveFailure = failedFiles.indexOf(item.path) > -1;
+  const nextChildren = getChildren(item.path, items);
+
+  const includeInfailure = shouldBeIncludedInFailureTree(
+    nextChildren,
+    failedFiles
+  );
+
+  const treeItem = {
+    type: item.type,
+    name: item.name,
+    path: item.path,
+    hierarchy: hierarchy,
+    isCollapsed: collpsedFiles[item.path],
+    haveFailure,
+    isExecuting: executingTests.indexOf(item.path) > -1
+  };
 
   if (item.type === "directory") {
-    results.push({
-      type: item.type,
-      name: item.name,
-      path: item.path,
-      hierarchy: hierarchy,
-      isCollapsed: collpsedFiles[item.path],
-      haveFailure,
-      isExecuting: executingTests.indexOf(item.path) > -1
-    });
+    if (showOnlyFailure) {
+      if (includeInfailure) {
+        results.push(treeItem);
+      }
+    } else {
+      results.push(treeItem);
+    }
   } else {
     if (showOnlyFailure && haveFailure) {
-      results.push({
-        type: item.type,
-        name: item.name,
-        path: item.path,
-        hierarchy: hierarchy,
-        isCollapsed: collpsedFiles[item.path],
-        haveFailure,
-        isExecuting: executingTests.indexOf(item.path) > -1
-      });
+      results.push(treeItem);
     }
 
     if (showOnlyFailure === false) {
-      results.push({
-        type: item.type,
-        name: item.name,
-        path: item.path,
-        hierarchy: hierarchy,
-        isCollapsed: collpsedFiles[item.path],
-        haveFailure,
-        isExecuting: executingTests.indexOf(item.path) > -1
-      });
+      results.push(treeItem);
     }
   }
 
   if (!isCollapsed) {
-    const nextChildren = getChildren(item.path, items);
     nextChildren.forEach(item => {
       transform(
         item as any,
@@ -79,4 +76,11 @@ export function transform(
 
 function getChildren(path: string, files: Item[]) {
   return files.filter(file => file.parent === path);
+}
+
+function shouldBeIncludedInFailureTree(files: Item[], failedTests: string[]) {
+  return (
+    files.some(file => failedTests.includes(file.path)) ||
+    files.some(file => file.type === "directory")
+  );
 }

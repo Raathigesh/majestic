@@ -10,7 +10,14 @@ import { transform } from "./transformer";
 import Summary from "./summary";
 import { Summary as SummaryType } from "../../server/api/workspace/summary";
 import RUN from "./run.gql";
-import { Play, Eye, Search, RefreshCw, ZapOff } from "react-feather";
+import {
+  Play,
+  Eye,
+  Search,
+  RefreshCw,
+  ZapOff,
+  StopCircle
+} from "react-feather";
 import Button from "../components/button";
 import { RunnerStatus } from "../../server/api/runner/status";
 import Tree from "./tree";
@@ -100,9 +107,10 @@ export default function TestExplorer({
   const isRunning = runnerStatus && runnerStatus.running;
 
   return (
-    <Container p={4} bg="dark" color="text">
+    <Container p={4} bg="veryDark" color="text">
       <ActionsPanel>
         <Button
+          icon={isRunning ? <StopCircle size={15} /> : <Play size={15} />}
           size="sm"
           onClick={() => {
             if (isRunning) {
@@ -112,7 +120,7 @@ export default function TestExplorer({
             }
           }}
         >
-          <Play size={14} /> {isRunning ? "Stop" : "Run tests"}
+          {isRunning ? "Stop" : "Run tests"}
         </Button>
         <RightActionPanel>
           <Button

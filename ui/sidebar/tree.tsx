@@ -32,7 +32,7 @@ export default function Tree({
             <List
               height={height - 10}
               itemCount={results.length}
-              itemSize={25}
+              itemSize={20}
               width={width}
             >
               {({ index, style }: any) => (

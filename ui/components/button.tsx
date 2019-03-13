@@ -12,7 +12,7 @@ const StyledButton = styled.button<any>`
   background-color: transparent;
   border: ${props => (props.minimal ? null : "1px solid #ff4954")};
   border-radius: 3px;
-  height: 25px;
+
   cursor: pointer;
   margin-right: 5px;
   ${space};
@@ -27,6 +27,16 @@ const StyledButton = styled.button<any>`
   }
 `;
 
+const IconWrapper = styled.span`
+  margin-right: 5px;
+  margin-top: 2px;
+`;
+
 export default function Button(props: any) {
-  return <StyledButton p={1} fontSize={12} {...props} />;
+  return (
+    <StyledButton p={2} fontSize={12} {...props}>
+      {props.icon && <IconWrapper>{props.icon}</IconWrapper>}
+      {props.children}
+    </StyledButton>
+  );
 }
