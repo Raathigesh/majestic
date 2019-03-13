@@ -30,7 +30,7 @@ const Content = styled.div<any>`
 
 const Label = styled.div`
   margin-left: 5px;
-  font-size: 14px;
+  font-size: 12px;
 `;
 
 const EmptyChevron = styled.div`
@@ -77,7 +77,7 @@ export default function FileItem({
         onClick={handleClick}
       >
         <Chevron size={11} />
-        {!item.isExecuting && <Icon size={13} />}
+        {!item.isExecuting && <Icon size={11} />}
         {item.isExecuting && <ExecutionIndicator />}
         <Label>{item.name}</Label>
       </Content>

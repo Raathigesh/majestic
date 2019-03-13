@@ -118,7 +118,7 @@ export default function FileSummary({
   const Icon = isRunning ? StopCircle : Play;
 
   return (
-    <Container p={3} bg="slightDark">
+    <Container p={4} bg="slightDark">
       {isRunning && <ContainerBG />}
       <RightContainer>
         <FilePath fontSize={15} mb={2}>

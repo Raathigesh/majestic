@@ -21,6 +21,7 @@ import {
 import Button from "../components/button";
 import { RunnerStatus } from "../../server/api/runner/status";
 import Tree from "./tree";
+import Logo from "./logo";
 
 const Container = styled.div<any>`
   ${space};
@@ -28,7 +29,8 @@ const Container = styled.div<any>`
   height: 100vh;
 `;
 
-const ActionsPanel = styled.div`
+const ActionsPanel = styled.div<any>`
+  ${space}
   display: flex;
   justify-content: space-between;
 `;
@@ -37,11 +39,21 @@ const RightActionPanel = styled.div`
   display: flex;
 `;
 
-const FileHeader = styled.div`
+const FileHeader = styled.div<any>`
+  ${space}
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 13px;
+`;
+
+const FilesHeader = styled.div`
+  font-weight: 400;
+  font-size: 11px;
+`;
+
+const RightFilesAction = styled.div`
+  display: flex;
 `;
 
 interface Props {
@@ -108,7 +120,8 @@ export default function TestExplorer({
 
   return (
     <Container p={4} bg="veryDark" color="text">
-      <ActionsPanel>
+      <Logo />
+      <ActionsPanel mb={4}>
         <Button
           icon={isRunning ? <StopCircle size={15} /> : <Play size={15} />}
           size="sm"
@@ -124,6 +137,7 @@ export default function TestExplorer({
         </Button>
         <RightActionPanel>
           <Button
+            icon={<Eye size={14} />}
             size="sm"
             onClick={() => {
               if (runnerStatus) {
@@ -131,7 +145,6 @@ export default function TestExplorer({
               }
             }}
           >
-            <Eye size={14} />{" "}
             {runnerStatus && runnerStatus.watching ? "Stop Watching" : "Watch"}
           </Button>
           <Button
@@ -145,28 +158,30 @@ export default function TestExplorer({
         </RightActionPanel>
       </ActionsPanel>
       <Summary summary={summary} />
-      <FileHeader>
-        <div>Tests</div>
-        <Button
-          size="sm"
-          minimal
-          onClick={() => {
-            onRefreshFiles();
-          }}
-        >
-          <RefreshCw size={10} />
-        </Button>
-        {summary.failedTests && summary.failedTests.length > 0 && (
+      <FileHeader mt={4}>
+        <FilesHeader>Tests</FilesHeader>
+        <RightFilesAction>
           <Button
             size="sm"
             minimal
             onClick={() => {
-              setShowFailedTests(!showFailedTests);
+              onRefreshFiles();
             }}
           >
-            <ZapOff size={10} /> Show only failed tests
+            <RefreshCw size={10} />
           </Button>
-        )}
+          {summary.failedTests && summary.failedTests.length > 0 && (
+            <Button
+              size="sm"
+              minimal
+              onClick={() => {
+                setShowFailedTests(!showFailedTests);
+              }}
+            >
+              <ZapOff size={10} />
+            </Button>
+          )}
+        </RightFilesAction>
       </FileHeader>
       <Tree
         results={files}
