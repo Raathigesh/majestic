@@ -40,6 +40,7 @@ const ItemContainer = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   border-radius: 1px;
+  min-height: 20px;
 
   &:hover {
     background-color: #404148;
