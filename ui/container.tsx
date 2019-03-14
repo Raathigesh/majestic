@@ -8,6 +8,7 @@ import theme from "./theme";
 import { createGlobalStyle } from "styled-components";
 import splitPanelCSS from "./split-panel-style";
 import "typeface-open-sans";
+import Loading from "./loading";
 
 const GlobalStyle = createGlobalStyle`
  body { font-family: 'Open sans'; font-size: 13px; margin: 0px;}
@@ -22,7 +23,7 @@ export default class Container extends Component {
         <ThemeProvider theme={theme}>
           <ApolloHooksProvider client={client}>
             <ApolloProvider client={client}>
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<Loading />}>
                 <App />
               </Suspense>
             </ApolloProvider>

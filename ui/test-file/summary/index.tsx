@@ -119,7 +119,7 @@ export default function FileSummary({
     <Container p={4} bg="slightDark">
       {isRunning && <ContainerBG />}
       <RightContainer>
-        <FilePath fontSize={15} mb={2}>
+        <FilePath fontSize={15} mb={3}>
           {path.replace(projectRoot, "")}
         </FilePath>
         <InfoContainer>
