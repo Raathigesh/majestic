@@ -50,7 +50,9 @@ You can configure Majestic by adding `majestic` key to `package.json`.
         // if majestic fails to find the Jest package, you can provide it here
         jestScriptPath: "../node_modules/jest/bin/jest.js",
         // if you want to pass additional arguments to jest, do it here
-        args: []
+        args: [],
+        // environment variables to pass to the process
+        env: {}
     }
 }
 ```

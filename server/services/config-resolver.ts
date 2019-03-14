@@ -11,6 +11,8 @@ export default class ConfigResolver {
   public getConfig(projectRoot: string): MajesticConfig {
     let jestScriptPath = null;
     let config: MajesticConfig = {};
+    const configFromPkgJson =
+      this.getMajesticConfigFromPackageJson(projectRoot) || {};
 
     if (this.isBootstrappedWithCreateReactApp(projectRoot)) {
       jestScriptPath = this.getJestScriptForCreateReactApp(projectRoot);
@@ -21,11 +23,9 @@ export default class ConfigResolver {
         }
       };
     } else {
-      jestScriptPath = this.getJestScriptPath(projectRoot);
+      jestScriptPath =
+        configFromPkgJson.jestScriptPath || this.getJestScriptPath(projectRoot);
     }
-
-    const configFromPkgJson =
-      this.getMajesticConfigFromPackageJson(projectRoot) || {};
 
     const configFromJest = this.getConfigFromJest(jestScriptPath, projectRoot);
     const firstConfig = configFromJest.configs[0];
