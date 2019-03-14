@@ -58,7 +58,7 @@ const RightFilesAction = styled.div`
 interface Props {
   selectedFile: string;
   workspace: Workspace;
-  summary: SummaryType;
+  summary: SummaryType | undefined;
   runnerStatus?: RunnerStatus;
   onSelectedFileChange: (path: string) => void;
   onSearchOpen: () => void;

@@ -31,14 +31,14 @@ const TestItemsContainer = styled.div`
 
 interface Props {
   selectedFilePath: string;
-  runnerStatus: RunnerStatus;
+  isRunning: boolean;
   projectRoot: string;
   onStop: () => void;
 }
 
 export default function TestFile({
   selectedFilePath,
-  runnerStatus,
+  isRunning,
   projectRoot,
   onStop
 }: Props) {
@@ -103,7 +103,7 @@ export default function TestFile({
         passingTests={result && result.numPassingTests}
         failingTests={result && result.numFailingTests}
         path={selectedFilePath}
-        runnerStatus={runnerStatus}
+        isRunning={isRunning}
         haveSnapshotFailures={haveSnapshotFailures}
         onRun={() => {
           runFile();

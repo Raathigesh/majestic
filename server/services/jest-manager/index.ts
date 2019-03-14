@@ -1,9 +1,6 @@
-import { spawnSync, spawn, ChildProcess } from "child_process";
+import { spawn, ChildProcess } from "child_process";
 import { join } from "path";
-import * as resolvePkg from "resolve-pkg";
 import Project from "../project";
-import { ShowConfig } from "./cli-args";
-import { JestConfig } from "./types";
 import { pubsub } from "../../event-emitter";
 import { MajesticConfig } from "../types";
 
@@ -32,21 +29,23 @@ export default class JestManager {
   }
 
   run(watch: boolean) {
-    this.executeJest([
-      "--reporters",
-      this.getRepoterPath(),
-      ...(watch ? ["--watch"] : [])
-    ]);
+    this.executeJest(
+      ["--reporters", this.getRepoterPath(), ...(watch ? ["--watch"] : [])],
+      true
+    );
   }
 
   runSingleFile(path: string, watch: boolean) {
-    this.executeJest([
-      this.getPatternForPath(path),
-      ...(watch ? ["--watch"] : []),
-      "--reporters",
-      "default",
-      this.getRepoterPath()
-    ]);
+    this.executeJest(
+      [
+        this.getPatternForPath(path),
+        ...(watch ? ["--watch"] : []),
+        "--reporters",
+        "default",
+        this.getRepoterPath()
+      ],
+      !watch // while watching, can not inherit stdio because we want to write back and interact with the process
+    );
   }
 
   updateSnapshotToFile(path: string) {
@@ -79,7 +78,7 @@ export default class JestManager {
     ]);
   }
 
-  executeJest(args: string[] = []) {
+  executeJest(args: string[] = [], inherit = false) {
     this.reportStart();
 
     this.process = spawn(
@@ -88,7 +87,7 @@ export default class JestManager {
       {
         cwd: this.project.projectRoot,
         shell: true,
-        stdio: "pipe",
+        stdio: inherit ? "inherit" : "pipe",
         env: {
           ...(this.config.env || {})
         }

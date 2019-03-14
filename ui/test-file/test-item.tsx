@@ -4,6 +4,9 @@ import { TestFileItem } from "./tranformer";
 import { TestFileResult } from "../../server/api/workspace/test-result/file-result";
 import TestIndicator from "./test-indicator";
 import { color, space } from "styled-system";
+import * as Convert from "ansi-to-html";
+
+const convert = new Convert();
 
 function getResults(item: TestFileItem, testResult: TestFileResult) {
   if (!testResult || !testResult.testResults) {
@@ -75,7 +78,11 @@ export default function Test({
         </Label>
         {testResult && testResult.failureMessages.length > 0 && (
           <FailtureMessage>
-            <pre>{testResult.failureMessages.join(",")}</pre>
+            <pre
+              dangerouslySetInnerHTML={{
+                __html: convert.toHtml(testResult.failureMessages.join(","))
+              }}
+            />
           </FailtureMessage>
         )}
       </Content>

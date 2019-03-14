@@ -15,11 +15,20 @@ import STOP_RUNNER from "./stop-runner.gql";
 import { Search } from "./search";
 import SET_SELECTED_FILE from "./set-selected-file.gql";
 import { Workspace } from "../server/api/workspace/workspace";
+import { color } from "styled-system";
+import { RunnerStatus } from "../server/api/runner/status";
+import { Summary } from "../server/api/workspace/summary";
 
 const ContainerDiv = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
+`;
+
+const PlaceHolder = styled.div<any>`
+  display: flex;
+  height: 100%;
+  ${color}
 `;
 
 interface AppResult {
@@ -43,7 +52,7 @@ export default function App() {
     refetch: refetchFiles
   } = useQuery<WorkspaceResult>(WORKSPACE);
 
-  const { data: summary = {} } = useSubscription(
+  const { data: summary }: { data: Summary } = useSubscription(
     SUMMARY_QUERY,
     SUMMARY_SUBS,
     {},
@@ -52,7 +61,7 @@ export default function App() {
     "Summary Sub"
   );
 
-  const { data: runnerStatus } = useSubscription(
+  const { data: runnerStatus }: { data: RunnerStatus } = useSubscription(
     RUNNER_STATUS_QUERY,
     RUNNER_STATUS_SUBS,
     {},
@@ -99,15 +108,21 @@ export default function App() {
             stopRunner();
           }}
         />
-        {selectedFile && (
+        {selectedFile ? (
           <TestFile
             projectRoot={workspace.projectRoot}
             selectedFilePath={selectedFile}
-            runnerStatus={runnerStatus}
+            isRunning={
+              (runnerStatus.running &&
+                runnerStatus.activeFile === selectedFile) ||
+              ((summary && summary.executingTests) || []).includes(selectedFile)
+            }
             onStop={() => {
               stopRunner();
             }}
           />
+        ) : (
+          <PlaceHolder bg="dark" />
         )}
       </SplitPane>
       <Search

@@ -93,7 +93,7 @@ interface Props {
   testCount: number;
   passingTests: number;
   failingTests: number;
-  runnerStatus: RunnerStatus;
+  isRunning: boolean;
   onRun: () => void;
   onStop: () => void;
   onSnapshotUpdate: () => void;
@@ -107,14 +107,12 @@ export default function FileSummary({
   testCount,
   passingTests,
   failingTests,
-  runnerStatus,
+  isRunning,
   onRun,
   onStop,
   onSnapshotUpdate,
   haveSnapshotFailures
 }: Props) {
-  const isRunning = runnerStatus.activeFile === path && runnerStatus.running;
-
   const Icon = isRunning ? StopCircle : Play;
 
   return (

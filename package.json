@@ -54,6 +54,7 @@
     "@types/styled-system": "^3.1.0",
     "@types/webpack": "^4.4.12",
     "@types/webpack-dev-middleware": "^2.0.2",
+    "ansi-to-html": "^0.6.10",
     "apollo-client": "^2.3.8",
     "apollo-client-preset": "^1.0.8",
     "apollo-link": "^1.2.3",
