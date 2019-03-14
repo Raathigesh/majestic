@@ -3,3 +3,4 @@ declare module "micromatch";
 declare module "@babel/traverse";
 declare module "nanoid";
 declare module "read-pkg-up";
+declare module "opn";

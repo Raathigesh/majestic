@@ -6,6 +6,7 @@ import { resolve } from "path";
 import getPort from "get-port";
 import * as parseArgs from "minimist";
 import * as chromeLauncher from "chrome-launcher";
+import * as opn from "opn";
 
 getSchema().then((schema: any) => {
   const server = new GraphQLServer({ schema });
@@ -30,18 +31,21 @@ getSchema().then((schema: any) => {
         playground: "/debug"
       },
       () => {
-        console.log(`Server is running on localhost:${port}`);
+        const url = `http://localhost:${port}`;
+        console.log(`🍡  Majestic is running: ${url} `);
 
         const args = parseArgs(process.argv);
         if (args.app) {
           chromeLauncher
             .launch({
-              startingUrl: `http://localhost:${port}`,
-              chromeFlags: [`--app=http://localhost:${port}`]
+              startingUrl: url,
+              chromeFlags: [`--app=${url}`]
             })
             .then((chrome: any) => {
               console.log("Opening app");
             });
+        } else {
+          opn(url);
         }
       }
     );
