@@ -121,46 +121,54 @@ export default function TestExplorer({
     <Container p={4} bg="veryDark" color="text">
       <Logo />
       <ActionsPanel mb={4}>
-        <Button
-          icon={isRunning ? <StopCircle size={15} /> : <Play size={15} />}
-          size="sm"
-          onClick={() => {
-            if (isRunning) {
-              onStop();
-            } else {
-              run();
-            }
-          }}
-        >
-          {isRunning ? "Stop" : "Run tests"}
-        </Button>
-        <RightActionPanel>
+        <Tooltip title="Run all tests" position="bottom" size="small">
           <Button
-            icon={<Eye size={14} />}
-            minimal
+            icon={isRunning ? <StopCircle size={15} /> : <Play size={15} />}
+            size="sm"
             onClick={() => {
-              if (runnerStatus) {
-                handleSetWatchModel(!runnerStatus.watching);
+              if (isRunning) {
+                onStop();
+              } else {
+                run();
               }
             }}
           >
-            {runnerStatus && runnerStatus.watching ? "Stop Watching" : "Watch"}
+            {isRunning ? "Stop" : "Run tests"}
           </Button>
-          <Button
-            minimal
-            onClick={() => {
-              onSearchOpen();
-            }}
-          >
-            <Search size={14} />
-          </Button>
+        </Tooltip>
+        <RightActionPanel>
+          <Tooltip title="Toggle watch mode" position="bottom" size="small">
+            <Button
+              icon={<Eye size={14} />}
+              minimal
+              onClick={() => {
+                if (runnerStatus) {
+                  handleSetWatchModel(!runnerStatus.watching);
+                }
+              }}
+            >
+              {runnerStatus && runnerStatus.watching
+                ? "Stop Watching"
+                : "Watch"}
+            </Button>
+          </Tooltip>
+          <Tooltip title="Search test files" position="bottom" size="small">
+            <Button
+              minimal
+              onClick={() => {
+                onSearchOpen();
+              }}
+            >
+              <Search size={14} />
+            </Button>
+          </Tooltip>
         </RightActionPanel>
       </ActionsPanel>
       <Summary summary={summary} />
       <FileHeader mt={4} mb={3}>
         <FilesHeader>Tests</FilesHeader>
         <RightFilesAction>
-          <Tooltip title="Refresh files" position="bottom">
+          <Tooltip title="Refresh files" position="bottom" size="small">
             <Button
               size="sm"
               minimal
@@ -172,7 +180,11 @@ export default function TestExplorer({
             </Button>
           </Tooltip>
           {summary && summary.failedTests && summary.failedTests.length > 0 && (
-            <Tooltip title="Show only failed tests" position="bottom">
+            <Tooltip
+              title="Show only failed tests"
+              position="bottom"
+              size="small"
+            >
               <Button
                 size="sm"
                 minimal

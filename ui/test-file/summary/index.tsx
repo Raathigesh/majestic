@@ -14,7 +14,7 @@ import {
   XCircle
 } from "react-feather";
 import Button from "../../components/button";
-import { RunnerStatus } from "../../../server/api/runner/status";
+import { Tooltip } from "react-tippy";
 
 const Container = styled.div<any>`
   position: relative;
@@ -140,27 +140,37 @@ export default function FileSummary({
         </InfoContainer>
       </RightContainer>
       <ActionPanel>
-        <Button
-          icon={<Icon size={14} />}
-          minimal
-          onClick={() => {
-            if (isRunning) {
-              onStop();
-            } else {
-              onRun();
-            }
-          }}
-        >
-          {isRunning ? "Stop" : "Run"}
-        </Button>
-        {haveSnapshotFailures && (
+        <Tooltip title="Run file" position="bottom" size="small">
           <Button
+            icon={<Icon size={14} />}
+            minimal
             onClick={() => {
-              onSnapshotUpdate();
+              if (isRunning) {
+                onStop();
+              } else {
+                onRun();
+              }
             }}
           >
-            <Camera size={14} /> Update Snapshot
+            {isRunning ? "Stop" : "Run"}
           </Button>
+        </Tooltip>
+        {haveSnapshotFailures && (
+          <Tooltip
+            title="Update all snapshots of the file"
+            position="bottom"
+            size="small"
+          >
+            <Button
+              minimal
+              icon={<Camera size={14} />}
+              onClick={() => {
+                onSnapshotUpdate();
+              }}
+            >
+              Update Snapshot
+            </Button>
+          </Tooltip>
         )}
       </ActionPanel>
     </Container>

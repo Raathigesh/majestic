@@ -17,7 +17,7 @@ const Content = styled.div<any>`
   align-items: center;
   padding: 2.5px;
   cursor: pointer;
-  color: ${props => (props.failed ? "#ff7e83" : null)};
+  color: ${props => (props.failed ? "#FE5339" : null)};
   background-color: ${props => (props.selected ? "#444444" : null)};
   border-radius: 3px;
   margin-bottom: 2px;
