@@ -1,6 +1,6 @@
 export default {
   colors: {
-    veryDark: "#19181a",
+    veryDark: "#262529",
     dark: "#242326",
     slightDark: "#404148",
     text: "#F5F5F5",

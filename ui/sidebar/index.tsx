@@ -157,7 +157,7 @@ export default function TestExplorer({
         </RightActionPanel>
       </ActionsPanel>
       <Summary summary={summary} />
-      <FileHeader mt={4}>
+      <FileHeader mt={4} mb={3}>
         <FilesHeader>Tests</FilesHeader>
         <RightFilesAction>
           <Tooltip title="Refresh files" position="bottom">

@@ -6,7 +6,12 @@ import TestIndicator from "./test-indicator";
 import { color, space } from "styled-system";
 import * as Convert from "ansi-to-html";
 
-const convert = new Convert();
+const convert = new Convert({
+  colors: {
+    1: "#FF4F56",
+    2: "#19E28D"
+  }
+});
 
 function getResults(item: TestFileItem, testResult: TestFileResult) {
   if (!testResult || !testResult.testResults) {
