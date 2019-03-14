@@ -32,7 +32,7 @@ majestic # execute majestic
 
 ### Optional configuration
 
-You can configure majestic by adding `majestic` key to `package.json`.
+You can configure Majestic by adding `majestic` key to `package.json`.
 
 ```javascript
 // package.json
