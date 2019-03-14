@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { space } from "styled-system";
 import { useSpring, animated } from "react-spring";
-import { Play } from "react-feather";
+import { Play, Check, Frown, CheckCircle } from "react-feather";
 import { Summary } from "../../../server/api/workspace/summary";
 
 const Container = styled.div<any>`
@@ -26,17 +26,18 @@ const Label = styled.div`
   color: #dcdbdb;
 `;
 
-const Value = styled.div`
+const Value = styled.div<any>`
   font-size: 20px;
+  color: ${props => (props.failed ? "#FF4F56" : "#19E28D")};
 `;
 
 interface Props {
-  summary: Summary;
+  summary: Summary | undefined;
 }
 
 export default function SummaryPanel({ summary }: Props) {
   const props = useSpring({
-    number: summary.numPassedTests | 0,
+    number: summary && summary.numPassedTests | 0,
     from: { number: 0 }
   } as any);
 
@@ -44,12 +45,16 @@ export default function SummaryPanel({ summary }: Props) {
     <Container mt={3} mb={3}>
       <Row>
         <Cell>
-          <Value>{summary.numPassedTestSuites | 0}</Value>
-          <Label>Passing suits</Label>
+          <Value>{summary && summary.numPassedTestSuites | 0}</Value>
+          <Label>
+            <CheckCircle size={11} /> Passing suits
+          </Label>
         </Cell>
         <Cell>
-          <Value>{summary.numFailedTestSuites | 0}</Value>
-          <Label>Failing suits</Label>
+          <Value failed>{summary && summary.numFailedTestSuites | 0}</Value>
+          <Label>
+            <Frown size={11} /> Failing suits
+          </Label>
         </Cell>
       </Row>
       <Row>
@@ -61,11 +66,15 @@ export default function SummaryPanel({ summary }: Props) {
               )}
             </animated.span>
           </Value>
-          <Label>Passing tests</Label>
+          <Label>
+            <CheckCircle size={11} /> Passing tests
+          </Label>
         </Cell>
         <Cell>
-          <Value>{summary.numFailedTests | 0}</Value>
-          <Label>Failing tests</Label>
+          <Value failed>{summary && summary.numFailedTests | 0}</Value>
+          <Label>
+            <Frown size={11} /> Failing tests
+          </Label>
         </Cell>
       </Row>
     </Container>

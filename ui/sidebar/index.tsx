@@ -137,7 +137,7 @@ export default function TestExplorer({
         <RightActionPanel>
           <Button
             icon={<Eye size={14} />}
-            size="sm"
+            minimal
             onClick={() => {
               if (runnerStatus) {
                 handleSetWatchModel(!runnerStatus.watching);
@@ -147,7 +147,7 @@ export default function TestExplorer({
             {runnerStatus && runnerStatus.watching ? "Stop Watching" : "Watch"}
           </Button>
           <Button
-            size="sm"
+            minimal
             onClick={() => {
               onSearchOpen();
             }}
@@ -171,7 +171,7 @@ export default function TestExplorer({
               <RefreshCw size={10} />
             </Button>
           </Tooltip>
-          {summary.failedTests && summary.failedTests.length > 0 && (
+          {summary && summary.failedTests && summary.failedTests.length > 0 && (
             <Tooltip title="Show only failed tests" position="bottom">
               <Button
                 size="sm"

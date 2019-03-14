@@ -142,6 +142,7 @@ export default function FileSummary({
       <ActionPanel>
         <Button
           icon={<Icon size={14} />}
+          minimal
           onClick={() => {
             if (isRunning) {
               onStop();

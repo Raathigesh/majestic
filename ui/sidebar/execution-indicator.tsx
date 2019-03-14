@@ -7,7 +7,7 @@ export default function ExecutionIndicator() {
       id="Layer_1"
       x="0px"
       y="0px"
-      width="20px"
+      width="18px"
       height="15px"
       viewBox="0 0 24 30"
     >
@@ -21,7 +21,7 @@ export default function ExecutionIndicator() {
           repeatCount="indefinite"
         />
       </rect>
-      <rect x="7" y="0" width="4" height="15" fill="#fcd101">
+      <rect x="7" y="0" width="4" height="15" fill="#DFBD39">
         <animate
           attributeName="opacity"
           attributeType="XML"

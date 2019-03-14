@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { File, Folder, ChevronRight, ChevronDown } from "react-feather";
+import { File, Folder, ChevronRight, ChevronDown, Frown } from "react-feather";
 import { color } from "styled-system";
 import { TreeNode } from "./transformer";
 import ExecutionIndicator from "./execution-indicator";
@@ -17,7 +17,7 @@ const Content = styled.div<any>`
   align-items: center;
   padding: 2.5px;
   cursor: pointer;
-  color: ${props => (props.failed ? "#FF4F56" : null)};
+  color: ${props => (props.failed ? "#ff7e83" : null)};
   background-color: ${props => (props.selected ? "#444444" : null)};
   border-radius: 3px;
   margin-bottom: 2px;
@@ -38,6 +38,10 @@ const EmptyChevron = styled.div`
   width: 5px;
 `;
 
+const ExecutionWrapper = styled.div`
+  margin-top: 11px;
+`;
+
 interface Props {
   item: TreeNode;
   style: any;
@@ -53,7 +57,8 @@ export default function FileItem({
   onToggle,
   style
 }: Props) {
-  const Icon = item.type === "directory" ? Folder : File;
+  const Icon =
+    item.type === "directory" ? Folder : item.haveFailure ? Frown : File;
   let Chevron: any = EmptyChevron;
   if (item.type === "directory") {
     Chevron = item.isCollapsed ? ChevronRight : ChevronDown;
@@ -79,7 +84,11 @@ export default function FileItem({
       >
         <Chevron size={11} />
         {!item.isExecuting && <Icon size={11} />}
-        {item.isExecuting && <ExecutionIndicator />}
+        {item.isExecuting && (
+          <ExecutionWrapper>
+            <ExecutionIndicator />
+          </ExecutionWrapper>
+        )}
         <Label>{item.name}</Label>
       </Content>
     </Container>
