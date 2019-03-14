@@ -58,7 +58,8 @@ module.exports = env => ({
       title: "Majestic",
       template: require("html-webpack-template"),
       appMountId: "root",
-      inject: false
+      inject: false,
+      favicon: "./ui/assets/favicon.ico"
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
