@@ -1,6 +1,6 @@
-Majestic is a GUI for [Jest](https://jestjs.io/).
+Majestic is a GUI for [Jest](https://jestjs.io/)
 
-- ✅ Run all tests or a single file
+- ✅ Run all the tests or a single file
 - ⏱ Toggle watch mode
 - 📸 Update snapshots
 - ❌ Examine test failures as they happen
@@ -28,6 +28,22 @@ or install Majestic globally via Npm and run majestic
 npm install majestic -g # install majestic globally
 cd ./my-jest-project # go into a project with Jest
 majestic # execute majestic
+```
+
+### Optional configuration
+
+You can configure majestic by adding `majestic` key to `package.json`.
+
+```javascript
+// package.json
+{
+    "majestic": {
+        // if majestic fails to find the Jest package, you can provide it here
+        jestScriptPath: "../node_modules/jest/bin/jest.js",
+        // if you want to pass additional arguments to jest, do it here
+        args: []
+    }
+}
 ```
 
 ### Contribute
