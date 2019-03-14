@@ -1,9 +1,12 @@
+<img src="./screen.png" />
+
 Majestic is a GUI for [Jest](https://jestjs.io/)
 
 - ✅ Run all the tests or a single file
 - ⏱ Toggle watch mode
 - 📸 Update snapshots
 - ❌ Examine test failures as they happen
+- 🔍 Search tests
 
 ### Get started
 
