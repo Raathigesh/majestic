@@ -1,5 +1,7 @@
 <img src="./screen.png" />
 
+> Still WIP. Not published to npm yet.
+
 Majestic is a GUI for [Jest](https://jestjs.io/)
 
 - ✅ Run all the tests or a single file
