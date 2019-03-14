@@ -44,7 +44,9 @@ export default class ConfigResolver {
     });
 
     if (!path) {
-      throw new Error("Unable to find Jest");
+      throw new Error(
+        "Unable to find Jest script. But you can provide the path to Jest script via package.json. Have a look at the documentation: https://github.com/Raathigesh/majestic"
+      );
     }
 
     return join(path, "bin/jest.js");
