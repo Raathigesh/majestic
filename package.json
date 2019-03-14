@@ -1,6 +1,6 @@
 {
   "name": "majestic",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
@@ -10,7 +10,8 @@
     "build-ui": "cross-env BABEL_ENV='production' rimraf dist && webpack --env.production --config ./scripts/webpack.ui.config.js",
     "build-server-ncc": "ncc build ./server/index.ts -o dist/server",
     "prod": "npm run build-ui && npm run build-server",
-    "debug": "nodemon"
+    "debug": "nodemon",
+    "ship": "np --yolo"
   },
   "dependencies": {
     "@babel/parser": "^7.2.3",
@@ -73,6 +74,7 @@
     "html-webpack-plugin": "^3.2.0",
     "html-webpack-template": "^6.2.0",
     "nodemon": "^1.18.3",
+    "np": "^4.0.2",
     "react": "^16.8.3",
     "react-apollo": "^2.1.11",
     "react-apollo-hooks": "^0.2.1",

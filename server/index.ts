@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { GraphQLServer } from "graphql-yoga";
 import "reflect-metadata";
 import { getSchema } from "./api";
