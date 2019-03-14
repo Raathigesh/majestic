@@ -11,7 +11,7 @@
     "build-server-ncc": "ncc build ./server/index.ts -o dist/server",
     "prod": "npm run build-ui && npm run build-server",
     "debug": "nodemon",
-    "ship": "np --yolo --contents=dist"
+    "ship": "np --yolo"
   },
   "dependencies": {
     "@babel/parser": "^7.2.3",
@@ -108,7 +108,7 @@
     "majestic": "./dist/server/index.js"
   },
   "files": [
-    "/dist",
+    "/dist/**",
     "/yarn.lock"
   ]
 }
