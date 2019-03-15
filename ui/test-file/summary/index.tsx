@@ -3,15 +3,13 @@ import styled from "styled-components";
 import { space, fontSize, color } from "styled-system";
 import { useSpring, animated } from "react-spring";
 import {
-  Shield,
   Folder,
   Code,
-  Eye,
   Play,
   StopCircle,
   Camera,
   CheckCircle,
-  XCircle
+  Frown
 } from "react-feather";
 import Button from "../../components/button";
 import { Tooltip } from "react-tippy";
@@ -68,6 +66,8 @@ const Info = styled.div`
   display: flex;
   align-items: center;
   margin-right: 15px;
+  font-weight: 600;
+  ${color}
 `;
 
 const InfoLabel = styled.div`
@@ -123,18 +123,18 @@ export default function FileSummary({
           {path.replace(projectRoot, "")}
         </FilePath>
         <InfoContainer>
-          <Info>
+          <Info color="primary">
             <Folder size={14} /> <InfoLabel>{suiteCount} Suites</InfoLabel>
           </Info>
-          <Info>
+          <Info color="primary">
             <Code size={14} /> <InfoLabel>{testCount} Tests</InfoLabel>
           </Info>
-          <Info>
+          <Info color="success">
             <CheckCircle size={14} />{" "}
             <InfoLabel>{passingTests} Passing tests</InfoLabel>
           </Info>
-          <Info>
-            <XCircle size={14} />{" "}
+          <Info color="danger">
+            <Frown size={14} />{" "}
             <InfoLabel>{failingTests} Failing tests</InfoLabel>
           </Info>
         </InfoContainer>

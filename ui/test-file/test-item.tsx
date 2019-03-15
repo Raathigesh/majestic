@@ -59,6 +59,15 @@ const Duration = styled.span`
   color: #fcd101;
 `;
 
+function escapeHtml(unsafe: string) {
+  return unsafe
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 interface Props {
   item: TestFileItem;
   result: TestFileResult | null;
@@ -85,7 +94,9 @@ export default function Test({
           <FailtureMessage>
             <pre
               dangerouslySetInnerHTML={{
-                __html: convert.toHtml(testResult.failureMessages.join(","))
+                __html: convert.toHtml(
+                  escapeHtml(testResult.failureMessages.join(","))
+                )
               }}
             />
           </FailtureMessage>

@@ -24,7 +24,6 @@ const Container = styled.div<any>`
 `;
 
 const TestItemsContainer = styled.div`
-  margin-left: -25px;
   overflow: auto;
   height: calc(100vh - 118px);
 `;
@@ -95,7 +94,7 @@ export default function TestFile({
   );
 
   return (
-    <Container p={4} bg="dark" color="text">
+    <Container p={5} bg="dark" color="text">
       <FileSummary
         projectRoot={projectRoot}
         suiteCount={suiteCount}
