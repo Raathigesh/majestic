@@ -46,9 +46,7 @@ const Content = styled.div`
   background-color: #262529;
   border-radius: 4px;
   margin-bottom: 10px;
-  border: 1px solid #404148;
-
-  border-top: ${props => (props.failed ? " 1px solid  #f74b50" : "")};
+  border: 1px solid #333437;
 `;
 
 const FailtureMessage = styled.div`
