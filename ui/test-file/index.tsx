@@ -26,6 +26,7 @@ const Container = styled.div<any>`
 const TestItemsContainer = styled.div`
   overflow: auto;
   height: calc(100vh - 118px);
+  margin-left: -25px;
 `;
 
 interface Props {
@@ -71,7 +72,10 @@ export default function TestFile({
     }
   });
 
-  const { data: result }: { data: TestFileResult } = useSubscription(
+  const {
+    data: result,
+    loading
+  }: { data: TestFileResult; loading: boolean } = useSubscription(
     RESULT,
     FILERESULTSUB,
     {
@@ -103,6 +107,7 @@ export default function TestFile({
         failingTests={result && result.numFailingTests}
         path={selectedFilePath}
         isRunning={isRunning}
+        isLoadingResult={loading}
         haveSnapshotFailures={haveSnapshotFailures}
         onRun={() => {
           runFile();

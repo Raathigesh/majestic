@@ -47,13 +47,13 @@ export default function SummaryPanel({ summary }: Props) {
         <Cell>
           <Value>{summary && summary.numPassedTestSuites | 0}</Value>
           <Label>
-            <CheckCircle size={11} /> Passing suits
+            <CheckCircle size={11} /> Passing suites
           </Label>
         </Cell>
         <Cell>
           <Value failed>{summary && summary.numFailedTestSuites | 0}</Value>
           <Label>
-            <Frown size={11} /> Failing suits
+            <Frown size={11} /> Failing suites
           </Label>
         </Cell>
       </Row>

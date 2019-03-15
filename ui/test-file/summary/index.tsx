@@ -86,6 +86,12 @@ const ActionPanel = styled.div`
   z-index: 1;
 `;
 
+const LoadingResult = styled.div`
+  color: #d9eef2;
+  margin-right: 10px;
+  font-size: 12px;
+`;
+
 interface Props {
   path: string;
   projectRoot: string;
@@ -94,6 +100,7 @@ interface Props {
   passingTests: number;
   failingTests: number;
   isRunning: boolean;
+  isLoadingResult: boolean;
   onRun: () => void;
   onStop: () => void;
   onSnapshotUpdate: () => void;
@@ -108,6 +115,7 @@ export default function FileSummary({
   passingTests,
   failingTests,
   isRunning,
+  isLoadingResult,
   onRun,
   onStop,
   onSnapshotUpdate,
@@ -117,7 +125,7 @@ export default function FileSummary({
 
   return (
     <Container p={4} bg="slightDark">
-      {isRunning && <ContainerBG />}
+      {(isRunning || isLoadingResult) && <ContainerBG />}
       <RightContainer>
         <FilePath fontSize={15} mb={3}>
           {path.replace(projectRoot, "")}
@@ -140,6 +148,7 @@ export default function FileSummary({
         </InfoContainer>
       </RightContainer>
       <ActionPanel>
+        {isLoadingResult && <LoadingResult>Loading test results</LoadingResult>}
         <Tooltip title="Run file" position="bottom" size="small">
           <Button
             icon={<Icon size={14} />}
