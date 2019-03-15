@@ -12,7 +12,6 @@ import Test from "./test-item";
 import { transform } from "./tranformer";
 import useSubscription from "./use-subscription";
 import FileSummary from "./summary";
-import { RunnerStatus } from "../../server/api/runner/status";
 import { TestFileResult } from "../../server/api/workspace/test-result/file-result";
 import { TestFile as TestFileModel } from "../../server/api/workspace/test-file";
 

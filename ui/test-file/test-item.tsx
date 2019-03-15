@@ -25,7 +25,6 @@ const Container = styled.div`
   ${color};
   ${space};
   padding-left: 25px;
-  padding-bottom: 5px;
 `;
 
 const Label = styled.div`
@@ -41,9 +40,13 @@ const Label = styled.div`
 
 const Content = styled.div`
   padding: 5px;
-  min-height: 25px;
   display: flex;
   flex-direction: column;
+
+  background-color: #262529;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  border: 1px solid #404148;
 `;
 
 const FailtureMessage = styled.div`
