@@ -86,7 +86,7 @@ export default function Test({
   const haveFailure = testResult && testResult.failureMessages.length > 0;
   return (
     <Container>
-      <Content failed={haveFailure}>
+      <Content>
         <Label>
           <TestIndicator status={testResult && testResult.status} />
           <span>{name}</span>

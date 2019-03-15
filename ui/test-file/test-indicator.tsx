@@ -1,5 +1,5 @@
 import React from "react";
-import { XCircle, CheckCircle, Circle, Code, Package } from "react-feather";
+import { X, CheckCircle, Circle, Code, Package, XCircle } from "react-feather";
 
 interface Props {
   status: string | null | undefined;
