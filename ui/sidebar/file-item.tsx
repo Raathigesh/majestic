@@ -1,6 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import { File, Folder, ChevronRight, ChevronDown, Frown } from "react-feather";
+import {
+  File,
+  Folder,
+  ChevronRight,
+  ChevronDown,
+  Frown,
+  ZapOff
+} from "react-feather";
 import { color } from "styled-system";
 import { TreeNode } from "./transformer";
 import ExecutionIndicator from "./execution-indicator";
@@ -58,7 +65,7 @@ export default function FileItem({
   style
 }: Props) {
   const Icon =
-    item.type === "directory" ? Folder : item.haveFailure ? Frown : File;
+    item.type === "directory" ? Folder : item.haveFailure ? ZapOff : File;
   let Chevron: any = EmptyChevron;
   if (item.type === "directory") {
     Chevron = item.isCollapsed ? ChevronRight : ChevronDown;

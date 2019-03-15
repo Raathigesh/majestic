@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { space } from "styled-system";
 import { useSpring, animated } from "react-spring";
-import { Play, Check, Frown, CheckCircle } from "react-feather";
+import { Play, Check, Frown, CheckCircle, ZapOff } from "react-feather";
 import { Summary } from "../../../server/api/workspace/summary";
 
 const Container = styled.div<any>`
@@ -53,7 +53,7 @@ export default function SummaryPanel({ summary }: Props) {
         <Cell>
           <Value failed>{summary && summary.numFailedTestSuites | 0}</Value>
           <Label>
-            <Frown size={11} /> Failing suites
+            <ZapOff size={11} /> Failing suites
           </Label>
         </Cell>
       </Row>
@@ -73,7 +73,7 @@ export default function SummaryPanel({ summary }: Props) {
         <Cell>
           <Value failed>{summary && summary.numFailedTests | 0}</Value>
           <Label>
-            <Frown size={11} /> Failing tests
+            <ZapOff size={11} /> Failing tests
           </Label>
         </Cell>
       </Row>

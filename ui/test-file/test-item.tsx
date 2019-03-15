@@ -47,6 +47,8 @@ const Content = styled.div`
   border-radius: 4px;
   margin-bottom: 10px;
   border: 1px solid #404148;
+
+  border-top: ${props => (props.failed ? " 1px solid  #f74b50" : "")};
 `;
 
 const FailtureMessage = styled.div`
@@ -83,9 +85,10 @@ export default function Test({
 }: Props) {
   const testResult = getResults(item, result as any);
   const isDurationAvailable = testResult && testResult.duration !== undefined;
+  const haveFailure = testResult && testResult.failureMessages.length > 0;
   return (
     <Container>
-      <Content>
+      <Content failed={haveFailure}>
         <Label>
           <TestIndicator status={testResult && testResult.status} />
           <span>{name}</span>
@@ -93,7 +96,7 @@ export default function Test({
             <Duration>{testResult && testResult.duration} ms</Duration>
           )}
         </Label>
-        {testResult && testResult.failureMessages.length > 0 && (
+        {testResult && haveFailure && (
           <FailtureMessage>
             <pre
               dangerouslySetInnerHTML={{

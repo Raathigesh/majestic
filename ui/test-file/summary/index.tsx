@@ -9,7 +9,8 @@ import {
   StopCircle,
   Camera,
   CheckCircle,
-  Frown
+  Frown,
+  ZapOff
 } from "react-feather";
 import Button from "../../components/button";
 import { Tooltip } from "react-tippy";
@@ -142,7 +143,7 @@ export default function FileSummary({
             <InfoLabel>{passingTests} Passing tests</InfoLabel>
           </Info>
           <Info color="danger">
-            <Frown size={14} />{" "}
+            <ZapOff size={14} />{" "}
             <InfoLabel>{failingTests} Failing tests</InfoLabel>
           </Info>
         </InfoContainer>
