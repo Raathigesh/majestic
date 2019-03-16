@@ -63,7 +63,7 @@ module.exports = env => ({
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
-      PRODUCTION: env.production === "production"
+      PRODUCTION: env.production === true
     })
   ]
 });
