@@ -89,7 +89,8 @@ export default class JestManager {
         shell: true,
         stdio: inherit ? "inherit" : "pipe",
         env: {
-          ...(this.config.env || {})
+          ...(this.config.env || {}),
+          MAJESTIC_PORT: process.env.MAJESTIC_PORT
         }
       }
     );

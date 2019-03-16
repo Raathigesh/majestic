@@ -37,6 +37,7 @@ getSchema().then((schema: any) => {
         playground: "/debug"
       },
       () => {
+        process.env.MAJESTIC_PORT = port.toString();
         const url = `http://localhost:${port}`;
         console.log(`🍡  Majestic is running: ${url} `);
 

@@ -1,7 +1,7 @@
 const fetch = require("node-fetch");
 
 function send(type, body) {
-  fetch("http://localhost:4000/" + type, {
+  fetch("http://localhost:" + process.env.MAJESTIC_PORT + "/" + type, {
     method: "post",
     body: JSON.stringify(body),
     headers: { "Content-Type": "application/json" }

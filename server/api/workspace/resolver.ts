@@ -28,7 +28,6 @@ import { MajesticConfig } from "../../services/types";
 @Resolver(Workspace)
 export default class WorkspaceResolver {
   private project: Project;
-  private jestManager: JestManager;
   private results: Results;
   private majesticConfig: MajesticConfig;
 
@@ -37,7 +36,6 @@ export default class WorkspaceResolver {
 
     const configResolver = new ConfigResolver();
     this.majesticConfig = configResolver.getConfig(this.project.projectRoot);
-    this.jestManager = new JestManager(this.project, this.majesticConfig);
     this.results = new Results();
 
     pubsub.subscribe(Events.TEST_RESULT, ({ payload }: any) => {
