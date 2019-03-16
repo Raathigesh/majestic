@@ -1,6 +1,8 @@
+export interface JestConfigObj {
+  testMatch: string[];
+  testRegex?: string[] | string;
+}
 export interface JestConfig {
-  configs: {
-    testMatch: string[];
-    testRegex?: string[] | string;
-  }[];
+  configs?: JestConfigObj[];
+  config?: JestConfigObj;
 }

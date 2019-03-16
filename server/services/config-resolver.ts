@@ -6,6 +6,7 @@ import { join } from "path";
 import { existsSync } from "fs";
 import { spawnSync } from "child_process";
 import { JestConfig } from "./jest-manager/types";
+import { UnableToResolveConfig, CouldNotResolveJestPath } from "./errors";
 
 export default class ConfigResolver {
   public getConfig(projectRoot: string): MajesticConfig {
@@ -28,7 +29,14 @@ export default class ConfigResolver {
     }
 
     const configFromJest = this.getConfigFromJest(jestScriptPath, projectRoot);
-    const firstConfig = configFromJest.configs[0];
+    const firstConfig =
+      configFromJest.config ||
+      (configFromJest.configs && configFromJest.configs[0]);
+
+    if (!firstConfig) {
+      throw new UnableToResolveConfig("");
+    }
+
     return {
       ...config,
       jestScriptPath,
@@ -44,7 +52,7 @@ export default class ConfigResolver {
     });
 
     if (!path) {
-      throw new Error(
+      throw new CouldNotResolveJestPath(
         "Unable to find Jest script. But you can provide the path to Jest script via package.json. Have a look at the documentation: https://github.com/Raathigesh/majestic"
       );
     }
