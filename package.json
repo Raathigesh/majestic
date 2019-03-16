@@ -14,7 +14,8 @@
     "ship": "npm run prod && np --yolo"
   },
   "dependencies": {
-    "read-pkg-up": "^4.0.0"
+    "read-pkg-up": "^4.0.0",
+    "node-fetch": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
@@ -70,7 +71,6 @@
     "micromatch": "2.3.11",
     "minimist": "^1.2.0",
     "nanoid": "^2.0.0",
-    "node-fetch": "^2.3.0",
     "nodemon": "^1.18.3",
     "np": "^4.0.2",
     "opn": "^5.4.0",

@@ -43,7 +43,11 @@ module.exports = env => ({
     }),
     new CopyPlugin([
       { from: "./server/services/jest-manager/scripts", to: "./scripts" }
-    ])
+    ]),
+    new webpack.BannerPlugin({
+      banner: "#!/usr/bin/env node",
+      raw: true
+    })
   ],
   externals: ["read-pkg-up"],
   node: {
