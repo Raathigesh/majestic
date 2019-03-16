@@ -87,14 +87,6 @@ export default class WorkspaceResolver {
     return workspace;
   }
 
-  @Mutation(returns => String)
-  toggleFile(
-    @Arg("path") path: string,
-    @Arg("isExpanded") isExpanded: boolean
-  ) {
-    return this.project.toggleItem(path, isExpanded);
-  }
-
   @Query(returns => TestFile)
   file(@Arg("path") path: string) {
     const file = new TestFile();
