@@ -1,4 +1,13 @@
+<div  align="center">
 <img src="./screen.png" />
+<br />
+<br />
+<img src="https://img.shields.io/travis/Raathigesh/majestic.svg?style=flat-square" />
+<img src="https://img.shields.io/github/license/Raathigesh/majestic.svg?style=flat-square" />
+<img src="https://img.shields.io/npm/v/majestic.svg?style=flat-square" />
+</div>
+
+<br />
 
 > Still WIP. Not published to npm yet.
 
@@ -59,14 +68,7 @@ You can configure Majestic by adding `majestic` key to `package.json`.
 
 ### Contribute
 
-Preparing dev environment
-
-- `yarn install` to install dev dependencies
-
-Running and building the library
-
-- `yarn ui` will start the webpack dev server
-- `yarn server` will start the node server or just hit `F5` in VS Code
+Have a look at the [contribution guide](./CONTRIBUTING.MD).
 
 ### License
 
