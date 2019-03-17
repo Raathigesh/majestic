@@ -29,4 +29,9 @@ function run() {
       stdio: "inherit"
     }
   );
+
+  console.log(
+    "started app ",
+    fs.existsSync(path.join(__dirname, "./projects/basic"))
+  );
 }
