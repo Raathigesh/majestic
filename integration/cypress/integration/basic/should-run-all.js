@@ -7,6 +7,10 @@ context("basic", () => {
     });
   });
 
+  after(() => {
+    cy.exec("yarn kill-all");
+  });
+
   it("should display files", () => {
     cy.wait(2000);
     cy.getByText("test-all-good.spec.js").click();
