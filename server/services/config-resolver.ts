@@ -100,7 +100,7 @@ export default class ConfigResolver {
       jestScript: existsSync(jestScriptPath)
     }));
 
-    const process = spawnSync(`node ${jestScriptPath}`, ["--showConfig"], {
+    const process = spawnSync("node", [jestScriptPath, "--showConfig"], {
       cwd: projectRoot,
       shell: true,
       stdio: "pipe",
