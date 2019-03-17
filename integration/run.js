@@ -14,18 +14,15 @@ function run() {
 
   console.log("printed version");
 
-  const process = child_process.spawn(
+  const appProcess = child_process.spawn(
     "node",
-    [path.join(__dirname, "../dist/server/index.js"), "--port=9000"],
+    [path.join(__dirname, "../dist/server/index2.js"), "--port=9000"],
     {
       cwd: path.join(__dirname, "./projects/basic"),
       env: {
         ROOT: path.join(__dirname, "./projects/basic")
-      }
+      },
+      stdio: "inherit"
     }
   );
-
-  process.stderr.on("data", event => {
-    console.log(event.toString());
-  });
 }
