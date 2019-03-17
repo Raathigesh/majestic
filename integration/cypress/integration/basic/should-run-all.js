@@ -8,7 +8,7 @@ context("basic", () => {
   });
 
   after(() => {
-    cy.exec("yarn kill-all");
+    cy.exec("yarn kill-app");
   });
 
   it("should display files", () => {
