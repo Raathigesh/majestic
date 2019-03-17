@@ -79,16 +79,27 @@ export default class JestManager {
   }
 
   executeJest(args: string[] = [], inherit = false) {
+    if (!this.config.jestScriptPath) {
+      throw new Error("Jest script path is empty");
+    }
+
     this.reportStart();
 
     this.process = spawn(
-      `node -r ${this.getPatchFilePath()} ${this.config.jestScriptPath}`,
-      [...args, ...(this.config.args || [])],
+      "node",
+      [
+        "-r",
+        this.getPatchFilePath(),
+        this.config.jestScriptPath,
+        ...args,
+        ...(this.config.args || [])
+      ],
       {
         cwd: this.project.projectRoot,
         shell: true,
         stdio: inherit ? "inherit" : "pipe",
         env: {
+          ...(process.env || {}),
           ...(this.config.env || {}),
           MAJESTIC_PORT: process.env.MAJESTIC_PORT
         }
