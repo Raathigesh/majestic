@@ -8,6 +8,9 @@ import getPort from "get-port";
 import * as parseArgs from "minimist";
 import * as chromeLauncher from "chrome-launcher";
 import * as opn from "opn";
+import Project from "./services/project";
+import { root } from "./services/cli";
+import ConfigResolver from "./services/config-resolver";
 
 const args = parseArgs(process.argv);
 const defaultPort = args.port || 4000;
@@ -47,6 +50,13 @@ getSchema().then((schema: any) => {
         process.env.MAJESTIC_PORT = port.toString();
         const url = `http://localhost:${port}`;
         console.log(`🍡  Majestic is running: ${url} `);
+
+        const project = new Project(root);
+        const configResolver = new ConfigResolver();
+        const majesticConfig = configResolver.getConfig(project.projectRoot);
+        const fileMap = project.readTestFiles(majesticConfig);
+
+        console.log("Files: ", JSON.stringify(fileMap));
 
         if (args.app) {
           chromeLauncher
