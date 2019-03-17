@@ -6,7 +6,7 @@
   "scripts": {
     "prepare-packages": "yarn && cd ./projects/basic && yarn",
     "open-tests": "cypress open",
-    "run-tests": "wait-on http://localhost:9000 && cypress run",
+    "run-tests": "wait-on http://localhost:9000 && cypress run --record --key a7d33ff7-5893-4158-9ec2-f71b32138c8b",
     "prepare-app": "node ./kill.js && cd ./projects/basic && node ../../../dist/server/index.js --port=9000",
     "run-integration": "concurrently \"yarn prepare-app\"  \"yarn run-tests\"",
     "run-in-ci": "yarn prepare-packages && yarn run-integration"
