@@ -100,17 +100,19 @@ export default class ConfigResolver {
       jestScript: existsSync(jestScriptPath)
     }));
 
-    const process = spawnSync("node", [jestScriptPath, "--showConfig"], {
+    const configProcess = spawnSync("node", [jestScriptPath, "--showConfig"], {
       cwd: projectRoot,
       shell: true,
       stdio: "pipe",
-      env: {}
+      env: {
+        ...process.env
+      }
     });
-    const configStr = process.stdout.toString().trim();
+    const configStr = configProcess.stdout.toString().trim();
     debugLog("Obtained config string via --showConfig: ", configStr);
     debugLog(
       "Standard error of Jest config process: ",
-      process.stderr.toString().trim()
+      configProcess.stderr.toString().trim()
     );
 
     const config = JSON.parse(configStr) as JestConfig;
