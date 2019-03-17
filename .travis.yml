@@ -5,4 +5,5 @@ install:
   - yarn
 script:
   - yarn prod
+  - ls
   - yarn integration
