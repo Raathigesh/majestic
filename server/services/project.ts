@@ -15,6 +15,10 @@ export default class Project {
     const files = directoryTree(this.projectRoot, {
       exclude: /node_modules|\.git/
     });
+
+    console.log("Majestic config", jestConfig);
+    console.log("Files in projects", JSON.stringify(files));
+
     return this.filterTestFiles(files, {});
   };
 
