@@ -20,7 +20,7 @@ To run the integration test
 
 - Do a production build by running `yarn prod`
 - `cd ./integration`
-- Run `yarn prepare` to install required packages
+- Run `yarn prepare-packages` to install required packages
 - Run `Yarn run-integration` to run the integration tests
 
 ### Building Production Bundle
