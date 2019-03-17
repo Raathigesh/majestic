@@ -7,6 +7,7 @@ import { existsSync } from "fs";
 import { spawnSync } from "child_process";
 import { JestConfig } from "./jest-manager/types";
 import { UnableToResolveConfig, CouldNotResolveJestPath } from "./errors";
+import { debugLog } from "../logger";
 
 export default class ConfigResolver {
   public getConfig(projectRoot: string): MajesticConfig {
@@ -14,6 +15,8 @@ export default class ConfigResolver {
     let config: MajesticConfig = {};
     const configFromPkgJson =
       this.getMajesticConfigFromPackageJson(projectRoot) || {};
+
+    debugLog("Config from Package.json: ", configFromPkgJson);
 
     if (this.isBootstrappedWithCreateReactApp(projectRoot)) {
       jestScriptPath = this.getJestScriptForCreateReactApp(projectRoot);
@@ -51,6 +54,8 @@ export default class ConfigResolver {
       cwd: projectRoot
     });
 
+    debugLog("Path of resolved Jest package: ", path);
+
     if (!path) {
       throw new CouldNotResolveJestPath(
         "Unable to find Jest script. But you can provide the path to Jest script via package.json. Have a look at the documentation: https://github.com/Raathigesh/majestic"
@@ -85,6 +90,12 @@ export default class ConfigResolver {
     jestScriptPath: string,
     projectRoot: string
   ): JestConfig {
+    debugLog(
+      "Trying to get confirm via --showConfig: ",
+      jestScriptPath,
+      projectRoot
+    );
+
     const process = spawnSync(`node ${jestScriptPath}`, ["--showConfig"], {
       cwd: projectRoot,
       shell: true,
@@ -92,6 +103,8 @@ export default class ConfigResolver {
       env: {}
     });
     const configStr = process.stdout.toString().trim();
+    debugLog("Obtained config string via --showConfig: ", configStr);
+
     const config = JSON.parse(configStr) as JestConfig;
     return config;
   }

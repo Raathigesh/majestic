@@ -14,6 +14,7 @@ import ConfigResolver from "./services/config-resolver";
 
 const args = parseArgs(process.argv);
 const defaultPort = args.port || 4000;
+process.env.DEBUG_LOG = args.log || false;
 
 if (args.root) {
   process.env.ROOT = args.root;
