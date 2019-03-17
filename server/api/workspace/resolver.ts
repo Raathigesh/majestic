@@ -83,7 +83,7 @@ export default class WorkspaceResolver {
       parent: value.parent,
       type: value.type
     }));
-
+    console.log("Query Workspace : ", JSON.stringify(workspace));
     return workspace;
   }
 
