@@ -9,6 +9,13 @@ import * as parseArgs from "minimist";
 import * as chromeLauncher from "chrome-launcher";
 import * as opn from "opn";
 
+const args = parseArgs(process.argv);
+const defaultPort = args.port || 4000;
+
+if (args.root) {
+  process.env.ROOT = args.root;
+}
+
 getSchema().then((schema: any) => {
   const server = new GraphQLServer({ schema });
 
@@ -30,7 +37,7 @@ getSchema().then((schema: any) => {
 
   handlerApi(server.express);
 
-  getPort({ port: 4000 }).then(port => {
+  getPort({ port: defaultPort }).then(port => {
     server.start(
       {
         port,
@@ -41,7 +48,6 @@ getSchema().then((schema: any) => {
         const url = `http://localhost:${port}`;
         console.log(`🍡  Majestic is running: ${url} `);
 
-        const args = parseArgs(process.argv);
         if (args.app) {
           chromeLauncher
             .launch({
