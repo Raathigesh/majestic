@@ -5,12 +5,11 @@
   "license": "MIT",
   "scripts": {
     "ui": "webpack-dev-server --env.development --config ./scripts/webpack.ui.config.js",
-    "server": "ts-node ./server/index.ts",
+    "server": "ts-node  --project ./tsconfig.server.json ./server/index.ts",
     "build-server": "cross-env BABEL_ENV='production' webpack --env.production --config ./scripts/webpack.server.config.js",
     "build-ui": "cross-env BABEL_ENV='production' rimraf dist && webpack --env.production --config ./scripts/webpack.ui.config.js",
-    "build-server-ncc": "ncc build ./server/index.ts -o dist/server",
     "prod": "npm run build-ui && npm run build-server",
-    "debug": "nodemon",
+    "watch-server": "nodemon",
     "ship": "npm run prod && np --yolo",
     "integration": "cd ./integration && yarn run-in-ci"
   },
