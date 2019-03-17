@@ -10,7 +10,7 @@
     "kill-app": "node ./kill.js",
     "prepare-app": "node ./kill.js && cd ./projects/basic && node ../../../dist/server/index.js --port=9000 --debug",
     "run-integration": "concurrently --success=last \"yarn prepare-app\"  \"yarn run-tests\"",
-    "run-in-ci": "yarn prepare && yarn run-integration"
+    "run-in-ci": "yarn prepare-app && yarn run-integration"
   },
   "dependencies": {
     "concurrently": "^4.1.0",
