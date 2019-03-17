@@ -2,7 +2,9 @@
 
 context("basic", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:9000");
+    cy.visit("http://localhost:9000", {
+      timeout: 9000
+    });
   });
 
   it("should display files", () => {
