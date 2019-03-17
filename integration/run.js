@@ -16,7 +16,7 @@ function run() {
 
   const appProcess = child_process.spawn(
     "node",
-    [path.join(__dirname, "../dist/server/index2.js"), "--port=9000"],
+    ["../dist/server/index.js", "--port=9000"],
     {
       cwd: path.join(__dirname, "./projects/basic"),
       env: {
