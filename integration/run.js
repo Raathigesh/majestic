@@ -20,13 +20,13 @@ function run() {
 
   const appProcess = child_process.spawn(
     "node",
-    ["../dist/server/index.js", "--port=9000"],
+    [path.resolve(__dirname, "../dist/server/index.js"), "--port=9000"],
     {
       cwd: path.join(__dirname, "./projects/basic"),
       env: {
         ROOT: path.join(__dirname, "./projects/basic")
-      },
-      stdio: "inherit"
+      }
+      // /stdio: "inherit"
     }
   );
 
