@@ -1,5 +1,6 @@
 const path = require("path");
 const child_process = require("child_process");
+const fs = require("fs");
 
 run();
 
@@ -8,7 +9,10 @@ function run() {
     "Trying to run :" + path.join(__dirname, "../dist/server/index.js")
   );
 
-  console.log("print  version");
+  console.log(
+    "print  version ",
+    fs.existsSync(path.join(__dirname, "../dist/server/index.js"))
+  );
 
   child_process.spawn("node", ["--version"]);
 
