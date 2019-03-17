@@ -27,8 +27,11 @@ export default class ConfigResolver {
         }
       };
     } else {
+      const jestScriptPathFromPackage = configFromPkgJson.jestScriptPath
+        ? join(projectRoot, configFromPkgJson.jestScriptPath)
+        : null;
       jestScriptPath =
-        configFromPkgJson.jestScriptPath || this.getJestScriptPath(projectRoot);
+        jestScriptPathFromPackage || this.getJestScriptPath(projectRoot);
     }
 
     const configFromJest = this.getConfigFromJest(jestScriptPath, projectRoot);
@@ -53,15 +56,10 @@ export default class ConfigResolver {
     const path = resolvePkg("jest", {
       cwd: projectRoot
     });
-
     debugLog("Path of resolved Jest package: ", path);
-
     if (!path) {
-      throw new CouldNotResolveJestPath(
-        "Unable to find Jest script. But you can provide the path to Jest script via package.json. Have a look at the documentation: https://github.com/Raathigesh/majestic"
-      );
+      throw new CouldNotResolveJestPath("");
     }
-
     return join(path, "bin/jest.js");
   }
 

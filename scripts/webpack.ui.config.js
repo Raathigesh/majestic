@@ -39,14 +39,6 @@ module.exports = env => ({
         }
       },
       {
-        test: /\.svg$/,
-        use: [
-          {
-            loader: "svg-react-loader"
-          }
-        ]
-      },
-      {
         test: /\.(graphql|gql)$/,
         exclude: /node_modules/,
         loader: "graphql-tag/loader"
