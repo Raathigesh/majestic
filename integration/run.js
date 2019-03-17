@@ -14,7 +14,7 @@ function run() {
 
   console.log("printed version");
 
-  child_process.spawn(
+  const process = child_process.spawn(
     "node",
     [path.join(__dirname, "../dist/server/index.js"), "--port=9000"],
     {
@@ -24,4 +24,8 @@ function run() {
       }
     }
   );
+
+  process.stderr.on("data", event => {
+    console.log(event.toString());
+  });
 }
