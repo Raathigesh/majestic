@@ -4,6 +4,9 @@ const child_process = require("child_process");
 run();
 
 function run() {
+  console.log(
+    "Trying to run :" + path.join(__dirname, "../dist/server/index.js")
+  );
   child_process.spawn(
     "node",
     [path.join(__dirname, "../dist/server/index.js"), "--port=9000"],
