@@ -16,9 +16,6 @@ export default class Project {
       exclude: /node_modules|\.git/
     });
 
-    console.log("Majestic config", jestConfig);
-    console.log("Files in projects", JSON.stringify(files));
-
     return this.filterTestFiles(files, {});
   };
 

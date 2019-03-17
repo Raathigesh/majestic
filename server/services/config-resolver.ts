@@ -7,7 +7,7 @@ import { existsSync } from "fs";
 import { spawnSync } from "child_process";
 import { JestConfig } from "./jest-manager/types";
 import { UnableToResolveConfig, CouldNotResolveJestPath } from "./errors";
-import { debugLog } from "../logger";
+import { debugLog, executeAndLog } from "../logger";
 
 export default class ConfigResolver {
   public getConfig(projectRoot: string): MajesticConfig {
@@ -91,10 +91,14 @@ export default class ConfigResolver {
     projectRoot: string
   ): JestConfig {
     debugLog(
-      "Trying to get confirm via --showConfig: ",
+      "Trying to get config via --showConfig: ",
       jestScriptPath,
       projectRoot
     );
+    executeAndLog("Check if jest script and root exists: ", () => ({
+      root: existsSync(projectRoot),
+      jestScript: existsSync(jestScriptPath)
+    }));
 
     const process = spawnSync(`node ${jestScriptPath}`, ["--showConfig"], {
       cwd: projectRoot,
@@ -104,6 +108,10 @@ export default class ConfigResolver {
     });
     const configStr = process.stdout.toString().trim();
     debugLog("Obtained config string via --showConfig: ", configStr);
+    debugLog(
+      "Standard error of Jest config process: ",
+      process.stderr.toString().trim()
+    );
 
     const config = JSON.parse(configStr) as JestConfig;
     return config;
