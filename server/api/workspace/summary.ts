@@ -15,6 +15,9 @@ export class Summary {
   numFailedTestSuites: number = 0;
 
   @Field(returns => [String])
+  passingTests: string[] = [];
+
+  @Field(returns => [String])
   failedTests: string[] = [];
 
   @Field(returns => [String])

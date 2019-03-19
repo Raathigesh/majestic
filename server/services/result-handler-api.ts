@@ -45,12 +45,15 @@ export default function handlerApi(expressApp: Application) {
       payload: body
     });
 
-    pubsub.publish(Events.RUN_SUMMARY, {
-      id: Events.RUN_SUMMARY,
-      payload: {
-        summary: body.aggregatedResult
-      }
-    });
+    if (body.aggregatedResult) {
+      pubsub.publish(Events.RUN_SUMMARY, {
+        id: Events.RUN_SUMMARY,
+        payload: {
+          summary: body.aggregatedResult
+        }
+      });
+    }
+
     res.send("ok");
   });
 

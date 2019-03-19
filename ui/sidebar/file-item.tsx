@@ -24,7 +24,8 @@ const Content = styled.div<any>`
   align-items: center;
   padding: 2.5px;
   cursor: pointer;
-  color: ${props => (props.failed ? "#FE5339" : null)};
+  color: ${props =>
+    props.failed ? "#FE5339" : props.passing ? "#19E28D" : null};
   background-color: ${props => (props.selected ? "#444444" : null)};
   border-radius: 3px;
   margin-bottom: 2px;
@@ -85,6 +86,7 @@ export default function FileItem({
     <Container style={style}>
       <Content
         hierarchy={item.hierarchy}
+        passing={item.passing}
         failed={item.haveFailure}
         selected={selectedFile === item.path}
         onClick={handleClick}

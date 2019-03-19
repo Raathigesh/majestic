@@ -78,6 +78,7 @@ export default function TestExplorer({
 }: Props) {
   const failedItems = (summary && summary.failedTests) || [];
   const executingItems = (summary && summary.executingTests) || [];
+  const passingTests = (summary && summary.passingTests) || [];
 
   const run = useMutation(RUN);
 
@@ -97,6 +98,7 @@ export default function TestExplorer({
     root as any,
     executingItems,
     failedItems,
+    passingTests,
     collapsedItems,
     showFailedTests,
     items

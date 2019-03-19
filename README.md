@@ -19,6 +19,8 @@ Majestic is a GUI for [Jest](https://jestjs.io/)
 - ❌ Examine test failures as they happen
 - 🔍 Search tests
 
+> Majestic supports Jest 22 and above
+
 ### Get started
 
 Run majestic via `npx` in a project directory
@@ -65,6 +67,12 @@ You can configure Majestic by adding `majestic` key to `package.json`.
     }
 }
 ```
+
+### Arguments
+
+`--port` - Will use this port if available, else Majestic will pick another free port.
+
+`--debug` - Will output extra debug info to console. Helps with debugging.
 
 ### Contribute
 

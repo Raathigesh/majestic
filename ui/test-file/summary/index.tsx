@@ -13,7 +13,9 @@ import {
   ZapOff
 } from "react-feather";
 import Button from "../../components/button";
+import OPEN_IN_EDITOR from "./open-in-editor.gql";
 import { Tooltip } from "react-tippy";
+import { useMutation } from "react-apollo-hooks";
 
 const Container = styled.div<any>`
   position: relative;
@@ -79,6 +81,7 @@ const FilePath = styled.div<any>`
   ${fontSize};
   ${space};
   font-weight: 600;
+  margin-right: 5px;
 `;
 
 const ActionPanel = styled.div`
@@ -124,6 +127,12 @@ export default function FileSummary({
 }: Props) {
   const Icon = isRunning ? StopCircle : Play;
 
+  const openInEditor = useMutation(OPEN_IN_EDITOR, {
+    variables: {
+      path
+    }
+  });
+
   return (
     <Container p={4} bg="slightDark">
       {(isRunning || isLoadingResult) && <ContainerBG />}
@@ -131,6 +140,7 @@ export default function FileSummary({
         <FilePath fontSize={15} mb={3}>
           {path.replace(projectRoot, "")}
         </FilePath>
+
         <InfoContainer>
           <Info color="primary">
             <Folder size={14} /> <InfoLabel>{suiteCount} Suites</InfoLabel>
@@ -164,6 +174,15 @@ export default function FileSummary({
           >
             {isRunning ? "Stop" : "Run"}
           </Button>
+        </Tooltip>
+        <Tooltip title="Open in editor" size="small" position="bottom">
+          <Button
+            icon={<Code size={14} />}
+            minimal
+            onClick={() => {
+              openInEditor();
+            }}
+          />
         </Tooltip>
         {haveSnapshotFailures && (
           <Tooltip

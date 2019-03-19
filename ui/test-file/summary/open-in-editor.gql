@@ -1,0 +1,3 @@
+mutation OpenInEditor($path: String!) {
+  openInEditor(path: $path)
+}

@@ -1,4 +1,5 @@
 import { Resolver, Mutation, Arg, Query } from "type-graphql";
+import * as openInEditor from "open-in-editor";
 import { App } from "./app";
 import FileWatcher, { WatcherEvents } from "../../services/file-watcher";
 import { pubsub } from "../../event-emitter";
@@ -7,10 +8,17 @@ import { pubsub } from "../../event-emitter";
 export default class AppResolver {
   private appInstance: App;
   private fileWatcher: FileWatcher;
+  private editor: any;
 
   constructor() {
     this.fileWatcher = new FileWatcher();
     this.appInstance = new App();
+    this.editor = openInEditor.configure(
+      {
+        editor: "code"
+      },
+      function() {}
+    );
   }
 
   @Query(returns => App)
@@ -31,5 +39,10 @@ export default class AppResolver {
     });
 
     return this.appInstance;
+  }
+
+  @Mutation(returns => String)
+  openInEditor(@Arg("path") path: string) {
+    this.editor.open(path);
   }
 }

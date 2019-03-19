@@ -35,12 +35,15 @@ class MyCustomReporter {
         ancestorTitles: result.ancestorTitles,
         duration: result.duration
       })),
-      aggregatedResult: {
-        numFailedTests: aggregatedResult.numFailedTests,
-        numPassedTests: aggregatedResult.numPassedTests,
-        numPassedTestSuites: aggregatedResult.numPassedTestSuites,
-        numFailedTestSuites: aggregatedResult.numFailedTestSuites
-      }
+      aggregatedResult:
+        process.env.REPORT_SUMMARY === "report"
+          ? {
+              numFailedTests: aggregatedResult.numFailedTests,
+              numPassedTests: aggregatedResult.numPassedTests,
+              numPassedTestSuites: aggregatedResult.numPassedTestSuites,
+              numFailedTestSuites: aggregatedResult.numFailedTestSuites
+            }
+          : null
     });
   }
 

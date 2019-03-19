@@ -31,6 +31,7 @@ export default class JestManager {
   run(watch: boolean) {
     this.executeJest(
       ["--reporters", this.getRepoterPath(), ...(watch ? ["--watch"] : [])],
+      true,
       true
     );
   }
@@ -44,17 +45,22 @@ export default class JestManager {
         "default",
         this.getRepoterPath()
       ],
-      !watch // while watching, can not inherit stdio because we want to write back and interact with the process
+      !watch, // while watching, can not inherit stdio because we want to write back and interact with the process
+      false
     );
   }
 
   updateSnapshotToFile(path: string) {
-    this.executeJest([
-      this.getPatternForPath(path),
-      "-u",
-      "--reporters",
-      this.getRepoterPath()
-    ]);
+    this.executeJest(
+      [
+        this.getPatternForPath(path),
+        "-u",
+        "--reporters",
+        this.getRepoterPath()
+      ],
+      false,
+      false
+    );
   }
 
   switchToAnotherFile(path: string) {
@@ -78,7 +84,11 @@ export default class JestManager {
     ]);
   }
 
-  executeJest(args: string[] = [], inherit = false) {
+  executeJest(
+    args: string[] = [],
+    inherit: boolean,
+    shouldReportSummary: boolean
+  ) {
     if (!this.config.jestScriptPath) {
       throw new Error("Jest script path is empty");
     }
@@ -101,7 +111,8 @@ export default class JestManager {
         env: {
           ...(process.env || {}),
           ...(this.config.env || {}),
-          MAJESTIC_PORT: process.env.MAJESTIC_PORT
+          MAJESTIC_PORT: process.env.MAJESTIC_PORT,
+          REPORT_SUMMARY: shouldReportSummary ? "report" : ""
         }
       }
     );

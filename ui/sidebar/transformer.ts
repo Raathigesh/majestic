@@ -5,6 +5,7 @@ export interface TreeNode extends Item {
   path: string;
   isCollapsed: boolean;
   haveFailure: boolean;
+  passing: boolean;
   isExecuting: boolean;
   hierarchy: number;
 }
@@ -13,6 +14,7 @@ export function transform(
   item: TreeNode,
   executingTests: string[],
   failedFiles: string[],
+  passingTests: string[],
   collpsedFiles: { [path: string]: boolean },
   showOnlyFailure: boolean,
   items: Item[],
@@ -34,6 +36,7 @@ export function transform(
     path: item.path,
     hierarchy: hierarchy,
     isCollapsed: collpsedFiles[item.path],
+    passing: passingTests.indexOf(item.path) > -1,
     haveFailure,
     isExecuting: executingTests.indexOf(item.path) > -1
   };
@@ -62,6 +65,7 @@ export function transform(
         item as any,
         executingTests,
         failedFiles,
+        passingTests,
         collpsedFiles,
         showOnlyFailure,
         items,

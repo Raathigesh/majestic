@@ -70,6 +70,19 @@ export default class Results {
     };
   }
 
+  public markExecutingAsStopped() {
+    this.testStatus = Object.entries(this.testStatus).reduce(
+      (acc, [key, value]) => ({
+        [key]: {
+          ...value,
+          isExecuting: false
+        },
+        ...acc
+      }),
+      {}
+    );
+  }
+
   public getSummary() {
     return this.summary;
   }
@@ -78,6 +91,14 @@ export default class Results {
     return Object.entries(this.testStatus)
       .filter(([path, status]) => {
         return status.containsFailure;
+      })
+      .map(([path]) => path);
+  }
+
+  public getPassedTests() {
+    return Object.entries(this.testStatus)
+      .filter(([path, status]) => {
+        return !status.containsFailure;
       })
       .map(([path]) => path);
   }

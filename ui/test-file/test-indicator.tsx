@@ -1,12 +1,21 @@
 import React from "react";
-import { X, CheckCircle, Circle, Code, Package, XCircle } from "react-feather";
+import {
+  X,
+  CheckCircle,
+  Circle,
+  Code,
+  Package,
+  XCircle,
+  Zap
+} from "react-feather";
 
 interface Props {
   status: string | null | undefined;
+  describe: boolean;
 }
 
-export default function TestIndicator({ status }: Props) {
-  let Icon = Package;
+export default function TestIndicator({ status, describe }: Props) {
+  let Icon = describe ? Package : Zap;
   let color = "#AC61FF";
 
   if (status === "passed") {

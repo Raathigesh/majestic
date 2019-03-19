@@ -64,6 +64,7 @@
     "nanoid": "^2.0.0",
     "nodemon": "^1.18.3",
     "np": "^4.0.2",
+    "open-in-editor": "^2.2.0",
     "opn": "^5.4.0",
     "react": "^16.8.3",
     "react-apollo": "^2.1.11",

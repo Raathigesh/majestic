@@ -5,11 +5,11 @@ import { space, color, fontSize } from "styled-system";
 const StyledButton = styled.button<any>`
   display: flex;
   align-items: center;
-  border: none;
   color: ${props => (props.minimal ? "#ffffff" : "#242326")};
   text-align: center;
   transition: all 0.5s;
-  border: ${props => (props.minimal ? "1px solid #FFD062" : null)};
+  border: ${props =>
+    props.minimal && !props.compact ? "1px solid #FFD062" : "none"};
   border-radius: 3px;
   background-color: ${props => (props.minimal ? "transparent" : "#FFD062")};
   cursor: pointer;
@@ -18,7 +18,7 @@ const StyledButton = styled.button<any>`
   ${color};
   ${fontSize};
   &:hover {
-    background-color: #ffd062;
+    background-color: ${props => (props.bg ? props.bg : "#ffd062")};
   }
 
   &:focus {

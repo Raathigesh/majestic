@@ -88,7 +88,10 @@ export default function Test({
     <Container>
       <Content>
         <Label>
-          <TestIndicator status={testResult && testResult.status} />
+          <TestIndicator
+            status={testResult && testResult.status}
+            describe={item.type === "describe"}
+          />
           <span>{name}</span>
           {isDurationAvailable && (
             <Duration>{testResult && testResult.duration} ms</Duration>

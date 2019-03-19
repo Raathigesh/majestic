@@ -6,5 +6,6 @@ subscription {
     numFailedTestSuites
     failedTests
     executingTests
+    passingTests
   }
 }

@@ -6,5 +6,6 @@ query {
     numFailedTestSuites
     failedTests
     executingTests
+    passingTests
   }
 }

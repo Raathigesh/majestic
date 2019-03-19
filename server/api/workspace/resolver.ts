@@ -9,7 +9,7 @@ import {
 import { Workspace } from "./workspace";
 import Project from "../../services/project";
 import { root } from "../../services/cli";
-import JestManager from "../../services/jest-manager";
+import { RunnerEvents } from "../../services/jest-manager";
 import { TestFile } from "./test-file";
 import { inspect } from "../../services/ast/inspector";
 import { TestFileResult } from "./test-result/file-result";
@@ -68,6 +68,10 @@ export default class WorkspaceResolver {
         numFailedTestSuites
       );
     });
+
+    pubsub.subscribe(RunnerEvents.RUNNER_STOPPED, () => {
+      this.results.markExecutingAsStopped();
+    });
   }
 
   @Query(returns => Workspace)
@@ -110,7 +114,11 @@ export default class WorkspaceResolver {
   }
 
   @Subscription(returns => TestFileResult, {
-    topics: [Events.TEST_START, Events.TEST_RESULT],
+    topics: [
+      Events.TEST_START,
+      Events.TEST_RESULT,
+      RunnerEvents.RUNNER_STOPPED
+    ],
     filter: ({ payload: { payload }, args }) => {
       return payload.path === args.path;
     }
@@ -150,6 +158,7 @@ export default class WorkspaceResolver {
     summary.numFailedTestSuites = numFailedTestSuites;
     summary.failedTests = this.results.getFailedTests();
     summary.executingTests = this.results.getExecutingTests();
+    summary.passingTests = this.results.getPassedTests();
     return summary;
   }
 
@@ -168,6 +177,7 @@ export default class WorkspaceResolver {
     result.numFailedTestSuites = numFailedTestSuites;
     result.failedTests = this.results.getFailedTests();
     result.executingTests = this.results.getExecutingTests();
+    result.passingTests = this.results.getPassedTests();
     return result;
   }
 }
