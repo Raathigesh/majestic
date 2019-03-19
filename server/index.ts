@@ -14,7 +14,7 @@ import {
 
 const args = parseArgs(process.argv);
 const defaultPort = args.port || 4000;
-process.env.DEBUG_LOG = args.debug;
+process.env.DEBUG_LOG = args.debug ? "log" : "";
 
 if (args.root) {
   process.env.ROOT = args.root;
