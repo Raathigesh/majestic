@@ -9,8 +9,8 @@
     "run-tests": "wait-on http://localhost:9000 && cypress run --record --key a7d33ff7-5893-4158-9ec2-f71b32138c8b",
     "kill-app": "node ./kill.js",
     "prepare-basic-app": "node ./kill.js && cd ./projects/basic && node ../../../dist/server/index.js --port=9000 --debug",
-    "ingegration-app": "concurrently --success=last \"prepare-basic-app\"  \"yarn run-tests\"",
-    "run-integration": "yarn ingegration-app",
+    "integration-app": "concurrently --success=last \"yarn prepare-basic-app\"  \"yarn run-tests\"",
+    "run-integration": "yarn integration-app",
     "run-in-ci": "yarn prepare-packages && yarn run-integration"
   },
   "dependencies": {
