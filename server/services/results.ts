@@ -98,7 +98,7 @@ export default class Results {
   public getPassedTests() {
     return Object.entries(this.testStatus)
       .filter(([path, status]) => {
-        return !status.containsFailure;
+        return !status.containsFailure && !status.isExecuting;
       })
       .map(([path]) => path);
   }
