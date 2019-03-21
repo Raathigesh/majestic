@@ -16,7 +16,6 @@ export function transform(
   failedFiles: string[],
   passingTests: string[],
   collpsedFiles: { [path: string]: boolean },
-  showOnlyFailure: boolean,
   items: Item[],
   results: TreeNode[] = [],
   hierarchy = 0
@@ -25,15 +24,11 @@ export function transform(
   const haveFailure = failedFiles.indexOf(item.path) > -1;
   const nextChildren = getChildren(item.path, items);
 
-  const includeInfailure = shouldBeIncludedInFailureTree(
-    nextChildren,
-    failedFiles
-  );
-
   const treeItem = {
     type: item.type,
     name: item.name,
     path: item.path,
+    parent: item.parent,
     hierarchy: hierarchy,
     isCollapsed: collpsedFiles[item.path],
     passing: passingTests.indexOf(item.path) > -1,
@@ -41,23 +36,7 @@ export function transform(
     isExecuting: executingTests.indexOf(item.path) > -1
   };
 
-  if (item.type === "directory") {
-    if (showOnlyFailure) {
-      if (includeInfailure) {
-        results.push(treeItem);
-      }
-    } else {
-      results.push(treeItem);
-    }
-  } else {
-    if (showOnlyFailure && haveFailure) {
-      results.push(treeItem);
-    }
-
-    if (showOnlyFailure === false) {
-      results.push(treeItem);
-    }
-  }
+  results.push(treeItem);
 
   if (!isCollapsed) {
     nextChildren.forEach(item => {
@@ -67,7 +46,6 @@ export function transform(
         failedFiles,
         passingTests,
         collpsedFiles,
-        showOnlyFailure,
         items,
         results,
         hierarchy + 1
@@ -78,13 +56,30 @@ export function transform(
   return results;
 }
 
-function getChildren(path: string, files: Item[]) {
-  return files.filter(file => file.parent === path);
+export const filterFailure = (results: TreeNode[]) => {
+  const finalResults = [];
+  for (let i = results.length - 1; i >= 0; i--) {
+    const item = results[i];
+    if (item.type === "file" && item.haveFailure === true) {
+      finalResults.push(item);
+    } else if (item.type === "directory") {
+      const hasFailedChilren = haveFailedChildren(item.path, finalResults);
+      if (hasFailedChilren) {
+        finalResults.push(item);
+      }
+    }
+  }
+  return finalResults.reverse();
+};
+
+function haveFailedChildren(path: string, results: TreeNode[]) {
+  return (
+    results.filter(
+      result => result.parent === path && result.haveFailure === true
+    ).length > 0
+  );
 }
 
-function shouldBeIncludedInFailureTree(files: Item[], failedTests: string[]) {
-  return (
-    files.some(file => failedTests.includes(file.path)) ||
-    files.some(file => file.type === "directory")
-  );
+function getChildren(path: string, files: Item[]) {
+  return files.filter(file => file.parent === path);
 }

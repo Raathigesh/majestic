@@ -5,7 +5,7 @@ import { space, color } from "styled-system";
 import { Tooltip } from "react-tippy";
 import SET_WATCH_MODE from "./set-watch-mode.gql";
 import { Workspace } from "../../server/api/workspace/workspace";
-import { transform } from "./transformer";
+import { transform, filterFailure } from "./transformer";
 import Summary from "./summary";
 import { Summary as SummaryType } from "../../server/api/workspace/summary";
 import RUN from "./run.gql";
@@ -94,15 +94,18 @@ export default function TestExplorer({
 
   const items = workspace.files;
   const root = items[0];
-  const files = transform(
+  let files = transform(
     root as any,
     executingItems,
     failedItems,
     passingTests,
     collapsedItems,
-    showFailedTests,
     items
   );
+
+  if (showFailedTests) {
+    files = filterFailure(files);
+  }
 
   const handleFileSelection = (path: string) => {
     onSelectedFileChange(path);

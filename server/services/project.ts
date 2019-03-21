@@ -1,6 +1,6 @@
 import { TreeMap } from "./types";
 import { spawnSync } from "child_process";
-import { sep, join } from "path";
+import { sep, join, extname } from "path";
 
 export default class Project {
   public projectRoot: string;
@@ -34,7 +34,11 @@ export default class Project {
       let parrentPath = "";
       tokens.forEach((token, i) => {
         currentPath = `${currentPath}${sep}${token}`;
-        const type = token.split(".").length > 1 ? "file" : "directory";
+        const type = [".jsx", ".tsx", ".ts", ".js"].includes(
+          extname(currentPath)
+        )
+          ? "file"
+          : "directory";
         if (!map[currentPath]) {
           map[currentPath] = {
             name: token,
