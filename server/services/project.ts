@@ -26,7 +26,14 @@ export default class Project {
     const filesStr = configProcess.stdout.toString().trim();
     const files: string[] = JSON.parse(filesStr);
     const relativeFiles = files.map(file => file.replace(this.projectRoot, ""));
-    const map: TreeMap = {};
+    const map: TreeMap = {
+      "/": {
+        name: this.projectRoot.split(sep).pop() || "",
+        type: "directory",
+        path: this.projectRoot,
+        parent: undefined
+      }
+    };
 
     relativeFiles.forEach(path => {
       const tokens = path.split(sep).filter(token => token.trim() !== "");
