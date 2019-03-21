@@ -100,6 +100,7 @@ export default function TestExplorer({
     failedItems,
     passingTests,
     collapsedItems,
+    showFailedTests,
     items
   );
 

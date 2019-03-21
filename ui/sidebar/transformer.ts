@@ -16,11 +16,12 @@ export function transform(
   failedFiles: string[],
   passingTests: string[],
   collpsedFiles: { [path: string]: boolean },
+  showFailedTests: boolean,
   items: Item[],
   results: TreeNode[] = [],
   hierarchy = 0
 ) {
-  const isCollapsed = collpsedFiles[item.path];
+  const isCollapsed = collpsedFiles[item.path] && !showFailedTests; // when showing failed tests, keep all expanded
   const haveFailure = failedFiles.indexOf(item.path) > -1;
   const nextChildren = getChildren(item.path, items);
 
@@ -30,7 +31,7 @@ export function transform(
     path: item.path,
     parent: item.parent,
     hierarchy: hierarchy,
-    isCollapsed: collpsedFiles[item.path],
+    isCollapsed: isCollapsed,
     passing: passingTests.indexOf(item.path) > -1,
     haveFailure,
     isExecuting: executingTests.indexOf(item.path) > -1
@@ -46,6 +47,7 @@ export function transform(
         failedFiles,
         passingTests,
         collpsedFiles,
+        showFailedTests,
         items,
         results,
         hierarchy + 1
@@ -75,7 +77,9 @@ export const filterFailure = (results: TreeNode[]) => {
 function haveFailedChildren(path: string, results: TreeNode[]) {
   return (
     results.filter(
-      result => result.parent === path && result.haveFailure === true
+      result =>
+        result.parent === path &&
+        (result.haveFailure === true || result.type === "directory")
     ).length > 0
   );
 }
