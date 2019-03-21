@@ -15,9 +15,7 @@ export interface TreeMap {
 }
 
 export interface MajesticConfig {
-  testRegex?: string | string[];
-  testMatch?: string[];
-  jestScriptPath?: string;
+  jestScriptPath: string;
   args?: string[];
   env?: { [key: string]: string };
 }

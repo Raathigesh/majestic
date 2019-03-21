@@ -28,7 +28,11 @@ export interface SummaryEvent {
 }
 
 export default function handlerApi(expressApp: Application) {
-  expressApp.use(bodyParser.json());
+  expressApp.use(
+    bodyParser.json({
+      limit: "50mb"
+    })
+  );
   expressApp.post("/test-start", ({ body }, res) => {
     pubsub.publish(Events.TEST_START, {
       id: Events.TEST_START,

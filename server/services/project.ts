@@ -1,61 +1,52 @@
-import * as directoryTree from "directory-tree";
-import { DirectoryItem, TreeMap, MajesticConfig } from "./types";
-import { getTestPatternsMatcher } from "./test-file-matcher";
+import { TreeMap } from "./types";
+import { spawnSync } from "child_process";
+import { sep, join } from "path";
 
 export default class Project {
   public projectRoot: string;
-  private testFileMatcher: (path: string) => boolean;
 
   constructor(root: string) {
     this.projectRoot = root;
   }
 
-  public readTestFiles = (jestConfig: MajesticConfig) => {
-    this.testFileMatcher = getTestPatternsMatcher(this.projectRoot, jestConfig);
-    const files = directoryTree(this.projectRoot, {
-      exclude: /node_modules|\.git/
+  getFilesList(jestScriptPath: string) {
+    const configProcess = spawnSync(
+      "node",
+      [jestScriptPath, "--listTests", "--json"],
+      {
+        cwd: this.projectRoot,
+        shell: true,
+        stdio: "pipe",
+        env: {
+          ...process.env
+        }
+      }
+    );
+
+    const filesStr = configProcess.stdout.toString().trim();
+    const files: string[] = JSON.parse(filesStr);
+    const relativeFiles = files.map(file => file.replace(this.projectRoot, ""));
+    const map: TreeMap = {};
+
+    relativeFiles.forEach(path => {
+      const tokens = path.split(sep).filter(token => token.trim() !== "");
+      let currentPath = "";
+      let parrentPath = "";
+      tokens.forEach((token, i) => {
+        currentPath = `${currentPath}${sep}${token}`;
+        const type = token.split(".").length > 1 ? "file" : "directory";
+        if (!map[currentPath]) {
+          map[currentPath] = {
+            name: token,
+            type,
+            path: join(this.projectRoot, currentPath),
+            parent: join(this.projectRoot, parrentPath)
+          };
+        }
+        parrentPath = currentPath;
+      });
     });
 
-    return this.filterTestFiles(files, {});
-  };
-
-  /**
-   * Filters only the test files
-   */
-  private filterTestFiles = (
-    { name, path, type, children }: DirectoryItem,
-    map: TreeMap,
-    parent?: string
-  ): TreeMap => {
-    if (
-      (type === "directory" &&
-        this.hasATestFile({ name, path, type, children })) ||
-      (type === "file" && this.testFileMatcher(path))
-    ) {
-      map[path] = {
-        name,
-        type,
-        path,
-        parent
-      };
-    }
-    children &&
-      children.forEach(child => {
-        this.filterTestFiles(child, map, path);
-      });
     return map;
-  };
-
-  /**
-   * Checks if a directory has a test file in it.
-   */
-  private hasATestFile = ({ children, type, path }: DirectoryItem): boolean => {
-    if (type === "file" && this.testFileMatcher(path)) {
-      return true;
-    }
-    if (children) {
-      return children.some(this.hasATestFile);
-    }
-    return false;
-  };
+  }
 }

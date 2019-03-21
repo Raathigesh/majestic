@@ -9,8 +9,6 @@
 
 <br />
 
-> Still WIP. Not published to npm yet.
-
 Majestic is a GUI for [Jest](https://jestjs.io/)
 
 - ✅ Run all the tests or a single file
@@ -19,7 +17,7 @@ Majestic is a GUI for [Jest](https://jestjs.io/)
 - ❌ Examine test failures as they happen
 - 🔍 Search tests
 
-> Majestic supports Jest 22 and above
+> Majestic supports Jest 20 and above
 
 ### Get started
 

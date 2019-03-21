@@ -4,51 +4,37 @@ import { MajesticConfig } from "./types";
 import { platform } from "os";
 import { join } from "path";
 import { existsSync } from "fs";
-import { spawnSync } from "child_process";
-import { JestConfig } from "./jest-manager/types";
-import { UnableToResolveConfig, CouldNotResolveJestPath } from "./errors";
-import { debugLog, executeAndLog } from "../logger";
+import { CouldNotResolveJestPath } from "./errors";
+import { debugLog } from "../logger";
 
 export default class ConfigResolver {
   public getConfig(projectRoot: string): MajesticConfig {
     let jestScriptPath = null;
-    let config: MajesticConfig = {};
-    const configFromPkgJson =
-      this.getMajesticConfigFromPackageJson(projectRoot) || {};
-
-    debugLog("Config from Package.json: ", configFromPkgJson);
+    let args: string[] = [];
+    let env: any = {};
+    const configFromPkgJson = this.getConfigFromPackageJson(projectRoot) || {};
 
     if (this.isBootstrappedWithCreateReactApp(projectRoot)) {
       jestScriptPath = this.getJestScriptForCreateReactApp(projectRoot);
-      config = {
-        args: ["--env=jsdom"],
-        env: {
-          CI: "true"
-        }
+      args = ["--env=jsdom"];
+      env = {
+        CI: "true"
       };
     } else {
+      debugLog("Config from Package.json: ", configFromPkgJson);
       const jestScriptPathFromPackage = configFromPkgJson.jestScriptPath
         ? join(projectRoot, configFromPkgJson.jestScriptPath)
         : null;
       jestScriptPath =
         jestScriptPathFromPackage || this.getJestScriptPath(projectRoot);
-    }
-
-    const configFromJest = this.getConfigFromJest(jestScriptPath, projectRoot);
-    const firstConfig =
-      configFromJest.config ||
-      (configFromJest.configs && configFromJest.configs[0]);
-
-    if (!firstConfig) {
-      throw new UnableToResolveConfig("");
+      args = configFromPkgJson.args || [];
+      env = configFromPkgJson.env || {};
     }
 
     return {
-      ...config,
       jestScriptPath,
-      testMatch: firstConfig.testMatch,
-      testRegex: firstConfig.testRegex,
-      ...configFromPkgJson
+      args,
+      env
     };
   }
 
@@ -76,45 +62,12 @@ export default class ConfigResolver {
     }).pkg;
   }
 
-  private getMajesticConfigFromPackageJson(projectRoot: string) {
+  private getConfigFromPackageJson(projectRoot: string) {
     const packageJson = this.getPackageJson(projectRoot);
     if (packageJson.majestic) {
       return packageJson.majestic;
     }
     return null;
-  }
-
-  private getConfigFromJest(
-    jestScriptPath: string,
-    projectRoot: string
-  ): JestConfig {
-    debugLog(
-      "Trying to get config via --showConfig: ",
-      jestScriptPath,
-      projectRoot
-    );
-    executeAndLog("Check if jest script and root exists: ", () => ({
-      root: existsSync(projectRoot),
-      jestScript: existsSync(jestScriptPath)
-    }));
-
-    const configProcess = spawnSync("node", [jestScriptPath, "--showConfig"], {
-      cwd: projectRoot,
-      shell: true,
-      stdio: "pipe",
-      env: {
-        ...process.env
-      }
-    });
-    const configStr = configProcess.stdout.toString().trim();
-    debugLog("Obtained config string via --showConfig: ", configStr);
-    debugLog(
-      "Standard error of Jest config process: ",
-      configProcess.stderr.toString().trim()
-    );
-
-    const config = JSON.parse(configStr) as JestConfig;
-    return config;
   }
 
   private isBootstrappedWithCreateReactApp(rootPath: string): boolean {

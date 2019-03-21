@@ -92,6 +92,7 @@ export default class RunnerResolver {
 
   @Mutation(returns => String, { nullable: true })
   updateSnapshot(@Arg("path") path: string) {
+    this.activeFile = path;
     return this.jestManager.updateSnapshotToFile(path);
   }
 

@@ -33,9 +33,8 @@ export default class WorkspaceResolver {
 
   constructor() {
     this.project = new Project(root);
-
     const configResolver = new ConfigResolver();
-    this.majesticConfig = configResolver.getConfig(this.project.projectRoot);
+    this.majesticConfig = configResolver.getConfig(root);
     this.results = new Results();
 
     pubsub.subscribe(Events.TEST_RESULT, ({ payload }: any) => {
@@ -80,8 +79,10 @@ export default class WorkspaceResolver {
     workspace.projectRoot = this.project.projectRoot;
     workspace.name = "Jest project";
 
-    const fileMap = this.project.readTestFiles(this.majesticConfig);
-    workspace.files = Object.entries(fileMap).map(([key, value]) => ({
+    const fileMap = this.project.getFilesList(
+      this.majesticConfig.jestScriptPath
+    );
+    workspace.files = Object.entries(fileMap).map(([key, value]: any) => ({
       name: value.name,
       path: value.path,
       parent: value.parent,
