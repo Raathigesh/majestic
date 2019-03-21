@@ -1,5 +1,5 @@
 <div  align="center">
-<img src="./screen.png" />
+<img src="./image.png" />
 <br />
 <br />
 <img src="https://img.shields.io/travis/Raathigesh/majestic.svg?style=flat-square" />
