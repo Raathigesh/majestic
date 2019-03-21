@@ -83,7 +83,12 @@ export default function FileItem({
   };
 
   return (
-    <Container style={style}>
+    <Container
+      style={{
+        ...style,
+        width: "90%"
+      }}
+    >
       <Content
         hierarchy={item.hierarchy}
         passing={item.passing}
