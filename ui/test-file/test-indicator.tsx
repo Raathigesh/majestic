@@ -18,11 +18,17 @@ export default function TestIndicator({ status, describe }: Props) {
   let Icon = describe ? Package : Zap;
   let color = "#AC61FF";
 
+  if (!describe) {
+    if (status === "passed") {
+      Icon = CheckCircle;
+    } else if (status === "failed") {
+      Icon = XCircle;
+    }
+  }
+
   if (status === "passed") {
-    Icon = CheckCircle;
     color = "#50E3C2";
   } else if (status === "failed") {
-    Icon = XCircle;
     color = "#FF4954";
   }
 

@@ -9,7 +9,7 @@
       "request": "launch",
       "name": "Launch Program",
       "runtimeArgs": ["-r", "./node_modules/ts-node/register"],
-      "args": ["${workspaceFolder}/server/index.ts"],
+      "args": ["${workspaceFolder}/server/index.ts", "--dev"],
       "console": "integratedTerminal",
       "env": {
         "TS_NODE_PROJECT": "./tsconfig.server.json",

@@ -18,6 +18,7 @@ export default class Project {
         shell: true,
         stdio: "pipe",
         env: {
+          CI: "true",
           ...process.env
         }
       }

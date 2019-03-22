@@ -12,3 +12,4 @@ declare module "react-window";
 declare module "minimist";
 declare module "react-tippy";
 declare module "ansi-to-html";
+declare module "*.png";

@@ -19,7 +19,8 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
-    "newLine": "LF"
+    "newLine": "LF",
+    "resolveJsonModule": true
   },
   "include": ["server"]
 }

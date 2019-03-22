@@ -6,6 +6,7 @@ import getPort from "get-port";
 import * as parseArgs from "minimist";
 import * as chromeLauncher from "chrome-launcher";
 import * as opn from "opn";
+import * as pkg from "../package.json";
 import { initializeStaticRoutes } from "./static-files";
 import { CouldNotResolveJestPath } from "./services/errors";
 
@@ -15,6 +16,11 @@ process.env.DEBUG_LOG = args.debug ? "log" : "";
 
 if (args.root) {
   process.env.ROOT = args.root;
+}
+
+if (args.version) {
+  console.log(`v${pkg.version}`);
+  process.exit();
 }
 
 async function main() {
@@ -35,15 +41,14 @@ async function main() {
       },
       async () => {
         const url = `http://localhost:${port}`;
-        console.log(`🍡  Majestic is running: ${url} `);
+        console.log(`⚡  Majestic v${pkg.version} is running at ${url} `);
 
         if (args.app) {
           await chromeLauncher.launch({
             startingUrl: url,
             chromeFlags: [`--app=${url}`]
           });
-          console.log("Opening app");
-        } else {
+        } else if (!args.dev) {
           opn(url);
         }
       }
@@ -53,6 +58,8 @@ async function main() {
       console.log(
         "🚨 Majestic was unable to find Jest package in node modules folder. But you can provide the path manually. Please take a look at the documentation at https://github.com/Raathigesh/majestic."
       );
+    } else {
+      console.log(e);
     }
   }
 }

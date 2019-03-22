@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import logo from "../assets/logo.png";
 
 const Container = styled.div`
   font-size: 25px;
@@ -8,5 +9,9 @@ const Container = styled.div`
 `;
 
 export default function Logo() {
-  return <Container>Majestic</Container>;
+  return (
+    <Container>
+      <img width={200} src={logo} />
+    </Container>
+  );
 }

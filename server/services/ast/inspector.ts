@@ -20,29 +20,35 @@ export function inspect(path: string) {
   return result;
 }
 
-function findItems(path: any, result: TestItem[]) {
-  findDescribes(path, result);
-  findTests(path, result);
-}
-
-function findDescribes(path: any, result: TestItem[]) {
+function findItems(path: any, result: TestItem[], parentId?: any) {
   if (path.node.callee.name === "describe") {
     const describe = {
       id: nanoid(),
       type: "describe" as TestItemType,
-      name: path.node.arguments[0].value
+      name: path.node.arguments[0].value,
+      parent: parentId
     };
     result.push(describe);
+    path.skip();
     path.traverse({
       CallExpression(itPath: any) {
-        findTests(itPath, result, describe.id);
+        findItems(itPath, result, describe.id);
       }
     });
-  }
-}
-
-function findTests(path: any, result: TestItem[], parentId?: any) {
-  if (path.node.callee.name === "it" || path.node.callee.name === "test") {
+  } else if (
+    path.node.callee.name === "it" ||
+    path.node.callee.name === "test"
+  ) {
+    result.push({
+      type: "it",
+      name: path.node.arguments[0].value,
+      id: nanoid(),
+      parent: parentId
+    });
+  } else if (
+    (path.node.callee.object && path.node.callee.object.name === "it") ||
+    (path.node.callee.object && path.node.callee.object.name === "test")
+  ) {
     result.push({
       type: "it",
       name: path.node.arguments[0].value,

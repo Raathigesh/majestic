@@ -84,12 +84,25 @@ export default function Test({
   const testResult = getResults(item, result as any);
   const isDurationAvailable = testResult && testResult.duration !== undefined;
   const haveFailure = testResult && testResult.failureMessages.length > 0;
+  const allChildrenPassing = (children || []).every(child => {
+    if (child.type === "it" || child.type === "test") {
+      const childResult = getResults(child, result as any);
+      return childResult && childResult.status === "passed";
+    }
+
+    return true;
+  });
+
   return (
     <Container>
       <Content>
         <Label>
           <TestIndicator
-            status={testResult && testResult.status}
+            status={
+              item.type === "describe" && allChildrenPassing
+                ? "passed"
+                : testResult && testResult.status
+            }
             describe={item.type === "describe"}
           />
           <span>{name}</span>

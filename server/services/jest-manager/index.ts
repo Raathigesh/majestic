@@ -102,6 +102,7 @@ export default class JestManager {
         this.getPatchFilePath(),
         this.config.jestScriptPath,
         "--colors",
+        "--coverage=false",
         ...args,
         ...(this.config.args || [])
       ],
