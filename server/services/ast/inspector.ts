@@ -6,7 +6,7 @@ import { TestItem, TestItemType } from "../../api/workspace/test-item";
 
 export function inspect(path: string) {
   const code = readFileSync(path, "utf8");
-  const ast = parse(code);
+  const ast = parse(path, code);
   const result: TestItem[] = [];
 
   traverse(ast, {
