@@ -17,4 +17,9 @@ export function initializeStaticRoutes(express: Application) {
       root: resolve(__dirname, "..")
     })
   );
+  express.get("/logo.png", (req, res) =>
+    res.sendFile("./ui/logo.png", {
+      root: resolve(__dirname, "..")
+    })
+  );
 }
