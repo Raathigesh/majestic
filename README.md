@@ -5,6 +5,9 @@
 <img src="https://img.shields.io/travis/Raathigesh/majestic.svg?style=flat-square" />
 <img src="https://img.shields.io/github/license/Raathigesh/majestic.svg?style=flat-square" />
 <img src="https://img.shields.io/npm/v/majestic.svg?style=flat-square" />
+<a href="https://spectrum.chat/majestic">
+  <img alt="Join the community on Spectrum" src="https://withspectrum.github.io/badge/badge.svg" />
+</a>
 </div>
 
 <br />
