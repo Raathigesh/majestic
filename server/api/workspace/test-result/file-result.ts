@@ -1,5 +1,6 @@
 import { ObjectType, Field } from "type-graphql";
 import { TestItemResult } from "./test-item-result";
+import { ConsoleLog } from "./console-log";
 
 @ObjectType()
 export class TestFileResult {
@@ -20,4 +21,7 @@ export class TestFileResult {
 
   @Field(returns => TestItemResult, { nullable: true })
   testResults: TestItemResult[];
+
+  @Field(returns => ConsoleLog, { nullable: true })
+  consoleLogs: ConsoleLog[];
 }

@@ -45,6 +45,7 @@ export default class WorkspaceResolver {
       result.numFailingTests = payload.numFailingTests;
       result.numPendingTests = payload.numPendingTests;
       result.testResults = payload.testResults;
+      result.consoleLogs = payload.console;
       this.results.setTestReport(payload.path, result);
     });
 
@@ -137,6 +138,7 @@ export default class WorkspaceResolver {
       result.numFailingTests = payload.numFailingTests;
       result.numPendingTests = payload.numPendingTests;
       result.testResults = payload.testResults;
+      result.consoleLogs = payload.console;
     }
     return result;
   }

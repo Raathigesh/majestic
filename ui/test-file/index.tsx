@@ -14,6 +14,7 @@ import useSubscription from "./use-subscription";
 import FileSummary from "./summary";
 import { TestFileResult } from "../../server/api/workspace/test-result/file-result";
 import { TestFile as TestFileModel } from "../../server/api/workspace/test-file";
+import ConsolePanel from "./console-panel";
 
 const Container = styled.div<any>`
   ${space};
@@ -116,7 +117,9 @@ export default function TestFile({
           updateSnapshot();
         }}
       />
-
+      {result && result.consoleLogs && result.consoleLogs.length > 0 && (
+        <ConsolePanel consoleLogs={result.consoleLogs || []} />
+      )}
       {fileItemResult && (
         <TestItemsContainer>
           {roots.map(item => {

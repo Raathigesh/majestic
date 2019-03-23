@@ -11,5 +11,10 @@ query Results($path: String!) {
       ancestorTitles
       duration
     }
+    consoleLogs {
+      message
+      type
+      origin
+    }
   }
 }
