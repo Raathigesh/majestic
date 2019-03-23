@@ -43,7 +43,8 @@ class MyCustomReporter {
               numPassedTestSuites: aggregatedResult.numPassedTestSuites,
               numFailedTestSuites: aggregatedResult.numFailedTestSuites
             }
-          : null
+          : null,
+      console: testResult.console
     });
   }
 

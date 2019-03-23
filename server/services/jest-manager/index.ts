@@ -43,7 +43,8 @@ export default class JestManager {
         ...(watch ? ["--watch"] : []),
         "--reporters",
         "default",
-        this.getRepoterPath()
+        this.getRepoterPath(),
+        "--verbose=false" // this would allow jest to include console output in the result of reporter
       ],
       !watch, // while watching, can not inherit stdio because we want to write back and interact with the process
       false
@@ -102,7 +103,7 @@ export default class JestManager {
         this.getPatchFilePath(),
         this.config.jestScriptPath,
         "--colors",
-        "--coverage=false",
+        "--collectCoverage=false",
         ...args,
         ...(this.config.args || [])
       ],
