@@ -4,7 +4,6 @@ import { MajesticConfig } from "./types";
 import { platform } from "os";
 import { join } from "path";
 import { existsSync } from "fs";
-import { CouldNotResolveJestPath } from "./errors";
 import { debugLog } from "../logger";
 
 export default class ConfigResolver {
@@ -44,7 +43,9 @@ export default class ConfigResolver {
     });
     debugLog("Path of resolved Jest package: ", path);
     if (!path) {
-      throw new CouldNotResolveJestPath("");
+      consola.error(
+        "🚨 Majestic was unable to find Jest package in node_modules folder. But you can provide the path manually. Please take a look at the documentation at https://github.com/Raathigesh/majestic."
+      );
     }
     return join(path, "bin/jest.js");
   }

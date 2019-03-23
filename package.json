@@ -48,6 +48,7 @@
     "body-parser": "^1.18.3",
     "chokidar": "^2.0.4",
     "chrome-launcher": "^0.10.5",
+    "consola": "^2.5.7",
     "copy-webpack-plugin": "^5.0.1",
     "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",

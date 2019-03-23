@@ -6,9 +6,9 @@ import getPort from "get-port";
 import * as parseArgs from "minimist";
 import * as chromeLauncher from "chrome-launcher";
 import * as opn from "opn";
+import "consola";
 import * as pkg from "../package.json";
 import { initializeStaticRoutes } from "./static-files";
-import { CouldNotResolveJestPath } from "./services/errors";
 
 const args = parseArgs(process.argv);
 const defaultPort = args.port || 4000;
@@ -54,13 +54,7 @@ async function main() {
       }
     );
   } catch (e) {
-    if (e instanceof CouldNotResolveJestPath) {
-      console.log(
-        "🚨 Majestic was unable to find Jest package in node modules folder. But you can provide the path manually. Please take a look at the documentation at https://github.com/Raathigesh/majestic."
-      );
-    } else {
-      console.log(e);
-    }
+    consola.error(e);
   }
 }
 
