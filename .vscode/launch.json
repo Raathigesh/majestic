@@ -13,7 +13,7 @@
       "console": "integratedTerminal",
       "env": {
         "TS_NODE_PROJECT": "./tsconfig.server.json",
-        "ROOT": "D:\\projects\\jest-runner\\create-react-app-integratio"
+        "ROOT": "D:\\sample\\yode\\packages\\demo"
       }
     }
   ]

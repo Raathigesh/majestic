@@ -6,6 +6,8 @@ import { join } from "path";
 import { existsSync } from "fs";
 import { debugLog } from "../logger";
 
+declare var consola: any;
+
 export default class ConfigResolver {
   public getConfig(projectRoot: string): MajesticConfig {
     let jestScriptPath = null;
@@ -46,6 +48,7 @@ export default class ConfigResolver {
       consola.error(
         "🚨 Majestic was unable to find Jest package in node_modules folder. But you can provide the path manually. Please take a look at the documentation at https://github.com/Raathigesh/majestic."
       );
+      process.exit();
     }
     return join(path, "bin/jest.js");
   }

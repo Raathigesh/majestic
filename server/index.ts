@@ -10,6 +10,8 @@ import "consola";
 import * as pkg from "../package.json";
 import { initializeStaticRoutes } from "./static-files";
 
+declare var consola: any;
+
 const args = parseArgs(process.argv);
 const defaultPort = args.port || 4000;
 process.env.DEBUG_LOG = args.debug ? "log" : "";
