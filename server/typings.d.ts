@@ -6,4 +6,3 @@ declare module "read-pkg-up";
 declare module "opn";
 declare module "launch-editor";
 declare module "*.json";
-declare var consola: any;
