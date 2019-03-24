@@ -26,6 +26,7 @@ export default class FileWatcher {
 
     log("Watching file :", filePath);
     this.watcher = watch(filePath, () => {
+      log("File changed", filePath);
       pubsub.publish(WatcherEvents.FILE_CHANGE, {
         id: WatcherEvents.FILE_CHANGE,
         payload: {
