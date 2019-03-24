@@ -1,4 +1,4 @@
-import { spawn, ChildProcess } from "child_process";
+import { spawn, ChildProcess, execSync } from "child_process";
 import { join } from "path";
 import Project from "../project";
 import { pubsub } from "../../event-emitter";
@@ -33,7 +33,11 @@ export default class JestManager {
 
   run(watch: boolean) {
     this.executeJest(
-      ["--reporters", this.getRepoterPath(), ...(watch ? ["--watch"] : [])],
+      [
+        "--reporters",
+        this.getRepoterPath(),
+        ...(watch ? [this.getWatchFlag()] : [])
+      ],
       true,
       true
     );
@@ -43,7 +47,7 @@ export default class JestManager {
     this.executeJest(
       [
         this.getPatternForPath(path),
-        ...(watch ? ["--watch"] : []),
+        ...(watch ? [this.getWatchFlag()] : []),
         "--reporters",
         "default",
         this.getRepoterPath(),
@@ -198,5 +202,18 @@ export default class JestManager {
         resolve();
       }, delay);
     });
+  }
+
+  getWatchFlag() {
+    return this.isInGitRepository() ? "--watch" : "--watchAll";
+  }
+
+  isInGitRepository() {
+    try {
+      execSync("git rev-parse --is-inside-work-tree", { stdio: "ignore" });
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }
