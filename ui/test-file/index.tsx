@@ -132,5 +132,8 @@ function TestFile({ selectedFilePath, isRunning, projectRoot, onStop }: Props) {
 }
 
 export default memo(TestFile, (pre: Props, next: Props) => {
-  return pre.isRunning === next.isRunning;
+  return (
+    pre.isRunning === next.isRunning &&
+    pre.selectedFilePath === next.selectedFilePath
+  );
 });
