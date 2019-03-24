@@ -8,7 +8,7 @@ context("basic", () => {
   });
 
   after(() => {
-    // cy.exec("yarn kill-app");
+    cy.exec("yarn kill-app");
   });
 
   it("should display passing test count", () => {
