@@ -170,7 +170,13 @@ export default class JestManager {
 
   stop() {
     if (this.process) {
-      this.process.kill();
+      if (process.platform === "win32") {
+        // Windows doesn't exit the process when it should.
+        spawn("taskkill", ["/pid", "" + this.process.pid, "/T", "/F"]);
+      } else {
+        this.process.kill();
+      }
+
       this.reportStop();
     }
   }

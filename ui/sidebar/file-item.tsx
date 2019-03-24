@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 import {
   File,
@@ -40,6 +40,7 @@ const Content = styled.div<any>`
 const Label = styled.div`
   margin-left: 5px;
   font-size: 12px;
+  overflow: hidden;
 `;
 
 const EmptyChevron = styled.div`
@@ -58,7 +59,7 @@ interface Props {
   onToggle: (path: string, isCollapsed: boolean) => void;
 }
 
-export default function FileItem({
+function FileItem({
   item,
   selectedFile,
   setSelectedFile,
@@ -108,3 +109,11 @@ export default function FileItem({
     </Container>
   );
 }
+
+export default memo(FileItem, (pre: Props, next: Props) => {
+  return (
+    pre.item.isExecuting === next.item.isExecuting &&
+    pre.item.isCollapsed === next.item.isCollapsed &&
+    pre.selectedFile === next.selectedFile
+  );
+});

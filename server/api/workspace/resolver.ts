@@ -6,6 +6,7 @@ import {
   Root,
   Mutation
 } from "type-graphql";
+import * as throttle from "lodash.throttle";
 import { Workspace } from "./workspace";
 import Project from "../../services/project";
 import { root } from "../../services/cli";
@@ -24,6 +25,8 @@ import { Summary } from "./summary";
 import { pubsub } from "../../event-emitter";
 import ConfigResolver from "../../services/config-resolver";
 import { MajesticConfig } from "../../services/types";
+
+const SummaryEvent: "SummaryEvent" = "SummaryEvent";
 
 @Resolver(Workspace)
 export default class WorkspaceResolver {
@@ -47,10 +50,12 @@ export default class WorkspaceResolver {
       result.testResults = payload.testResults;
       result.consoleLogs = payload.console;
       this.results.setTestReport(payload.path, result);
+      this.notifySummaryChange();
     });
 
     pubsub.subscribe(Events.TEST_START, ({ payload }: any) => {
       this.results.setTestStart(payload.path);
+      this.notifySummaryChange();
     });
 
     pubsub.subscribe(Events.RUN_SUMMARY, ({ payload }: any) => {
@@ -67,12 +72,17 @@ export default class WorkspaceResolver {
         numPassedTestSuites,
         numFailedTestSuites
       );
+      this.notifySummaryChange();
     });
 
     pubsub.subscribe(RunnerEvents.RUNNER_STOPPED, () => {
       this.results.markExecutingAsStopped();
     });
   }
+
+  private notifySummaryChange = throttle(() => {
+    pubsub.publish(SummaryEvent, {});
+  }, 1000);
 
   @Query(returns => Workspace)
   workspace() {
@@ -144,7 +154,7 @@ export default class WorkspaceResolver {
   }
 
   @Subscription(returns => Summary, {
-    topics: [Events.RUN_SUMMARY, Events.TEST_START, Events.TEST_RESULT]
+    topics: [SummaryEvent]
   })
   async changeToSummary(@Root() event: SummaryEvent): Promise<Summary> {
     const {

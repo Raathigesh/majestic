@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 import { space, color } from "styled-system";
 import { useMutation } from "react-apollo-hooks";
@@ -36,12 +36,7 @@ interface Props {
   onStop: () => void;
 }
 
-export default function TestFile({
-  selectedFilePath,
-  isRunning,
-  projectRoot,
-  onStop
-}: Props) {
+function TestFile({ selectedFilePath, isRunning, projectRoot, onStop }: Props) {
   const { data: fileItemResult }: { data: TestFileModel } = useSubscription(
     FILEITEMS,
     FILEITEMS_SUB,
@@ -135,3 +130,7 @@ export default function TestFile({
     </Container>
   );
 }
+
+export default memo(TestFile, (pre: Props, next: Props) => {
+  return pre.isRunning === next.isRunning;
+});
