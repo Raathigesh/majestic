@@ -1,6 +1,9 @@
 import { TreeMap } from "./types";
 import { spawnSync } from "child_process";
 import { sep, join, extname } from "path";
+import { createLogger } from "../logger";
+
+const log = createLogger("Project");
 
 export default class Project {
   public projectRoot: string;
@@ -26,6 +29,8 @@ export default class Project {
 
     const filesStr = configProcess.stdout.toString().trim();
     const files: string[] = JSON.parse(filesStr);
+    log("Ideitifed test files: ", files);
+
     const relativeFiles = files.map(file => file.replace(this.projectRoot, ""));
     const map: TreeMap = {
       "/": {

@@ -1,11 +1,27 @@
-export function debugLog(...args: any) {
+declare var consola: any;
+
+export function debugLog(tag: string, ...args: any) {
   if (process.env.DEBUG_LOG !== "") {
-    console.log(...args);
+    consola.info({
+      tag,
+      args
+    });
   }
 }
 
-export function executeAndLog(message: string, execute: () => any) {
+export function executeAndLog(
+  tag: string,
+  message: string,
+  execute: () => any
+) {
   if (process.env.DEBUG_LOG !== "") {
-    console.log(message, execute());
+    consola.info({
+      tag,
+      args: [message, execute()]
+    });
   }
+}
+
+export function createLogger(tag: string) {
+  return (...args: any) => debugLog(tag, ...args);
 }

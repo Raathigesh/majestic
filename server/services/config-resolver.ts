@@ -4,9 +4,10 @@ import { MajesticConfig } from "./types";
 import { platform } from "os";
 import { join } from "path";
 import { existsSync } from "fs";
-import { debugLog } from "../logger";
+import { createLogger } from "../logger";
 
 declare var consola: any;
+const log = createLogger("Config Resolver");
 
 export default class ConfigResolver {
   public getConfig(projectRoot: string): MajesticConfig {
@@ -16,13 +17,16 @@ export default class ConfigResolver {
     const configFromPkgJson = this.getConfigFromPackageJson(projectRoot) || {};
 
     if (this.isBootstrappedWithCreateReactApp(projectRoot)) {
+      log("Project identified as Create react app");
+
       jestScriptPath = this.getJestScriptForCreateReactApp(projectRoot);
       args = ["--env=jsdom"];
       env = {
         CI: "true"
       };
     } else {
-      debugLog("Config from Package.json: ", configFromPkgJson);
+      log("Majestic configuration from Package.json: ", configFromPkgJson);
+
       const jestScriptPathFromPackage = configFromPkgJson.jestScriptPath
         ? join(projectRoot, configFromPkgJson.jestScriptPath)
         : null;
@@ -32,18 +36,22 @@ export default class ConfigResolver {
       env = configFromPkgJson.env || {};
     }
 
-    return {
+    const majesticConfig = {
       jestScriptPath,
       args,
       env
     };
+
+    log("Resolved Majestic config :", majesticConfig);
+    return majesticConfig;
   }
 
   private getJestScriptPath(projectRoot: string) {
     const path = resolvePkg("jest", {
       cwd: projectRoot
     });
-    debugLog("Path of resolved Jest package: ", path);
+    log("Path of resolved Jest script: ", path);
+
     if (!path) {
       consola.error(
         "🚨 Majestic was unable to find Jest package in node_modules folder. But you can provide the path manually. Please take a look at the documentation at https://github.com/Raathigesh/majestic."

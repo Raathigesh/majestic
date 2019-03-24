@@ -1,5 +1,8 @@
 import { pubsub } from "../../event-emitter";
 import { watch } from "fs";
+import { createLogger } from "../../logger";
+
+const log = createLogger("File watcher");
 
 export const WatcherEvents = {
   FILE_CHANGE: "FILE_CHANGE"
@@ -18,8 +21,10 @@ export default class FileWatcher {
   watch(filePath: string) {
     if (this.watcher) {
       this.watcher.close();
+      log("Closed existing file watcher");
     }
 
+    log("Watching file :", filePath);
     this.watcher = watch(filePath, () => {
       pubsub.publish(WatcherEvents.FILE_CHANGE, {
         id: WatcherEvents.FILE_CHANGE,

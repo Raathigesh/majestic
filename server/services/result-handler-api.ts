@@ -1,6 +1,9 @@
 import { Application } from "express";
 import * as bodyParser from "body-parser";
 import { pubsub } from "../event-emitter";
+import { createLogger } from "../logger";
+
+const log = createLogger("Report API");
 
 export const Events = {
   TEST_START: "TEST_START",
@@ -34,6 +37,8 @@ export default function handlerApi(expressApp: Application) {
     })
   );
   expressApp.post("/test-start", ({ body }, res) => {
+    log("File execution start reported ", body.path);
+
     pubsub.publish(Events.TEST_START, {
       id: Events.TEST_START,
       payload: {
@@ -44,6 +49,8 @@ export default function handlerApi(expressApp: Application) {
   });
 
   expressApp.post("/test-result", ({ body }, res) => {
+    log("File result reported ", body.path);
+
     pubsub.publish(Events.TEST_RESULT, {
       id: Events.TEST_RESULT,
       payload: body

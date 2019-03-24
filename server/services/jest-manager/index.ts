@@ -3,6 +3,9 @@ import { join } from "path";
 import Project from "../project";
 import { pubsub } from "../../event-emitter";
 import { MajesticConfig } from "../types";
+import { createLogger } from "../../logger";
+
+const log = createLogger("Jest Manager");
 
 export const RunnerEvents = {
   RUNNER_STARTED: "RunnerStarted",
@@ -96,29 +99,30 @@ export default class JestManager {
 
     this.reportStart();
 
-    this.process = spawn(
-      "node",
-      [
-        "-r",
-        this.getPatchFilePath(),
-        this.config.jestScriptPath,
-        "--colors",
-        "--collectCoverage=false",
-        ...args,
-        ...(this.config.args || [])
-      ],
-      {
-        cwd: this.project.projectRoot,
-        shell: true,
-        stdio: inherit ? "inherit" : "pipe",
-        env: {
-          ...(process.env || {}),
-          ...(this.config.env || {}),
-          MAJESTIC_PORT: process.env.MAJESTIC_PORT,
-          REPORT_SUMMARY: shouldReportSummary ? "report" : ""
-        }
-      }
-    );
+    const finalArgs = [
+      "-r",
+      this.getPatchFilePath(),
+      this.config.jestScriptPath,
+      "--colors",
+      "--collectCoverage=false",
+      ...args,
+      ...(this.config.args || [])
+    ];
+
+    const finalEnv = {
+      ...(this.config.env || {}),
+      MAJESTIC_PORT: process.env.MAJESTIC_PORT,
+      REPORT_SUMMARY: shouldReportSummary ? "report" : ""
+    };
+
+    log("Executing Jest with :", finalArgs, finalEnv);
+
+    this.process = spawn("node", finalArgs, {
+      cwd: this.project.projectRoot,
+      shell: true,
+      stdio: inherit ? "inherit" : "pipe",
+      env: { ...finalEnv, ...(process.env || {}) }
+    });
 
     this.process.on("exit", () => {
       this.reportStop();
