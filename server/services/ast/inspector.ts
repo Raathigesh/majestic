@@ -1,23 +1,35 @@
 import traverse from "@babel/traverse";
 import * as nanoid from "nanoid";
 import { parse } from "./parser";
-import { readFileSync } from "fs";
+import { readFile } from "fs";
 import { TestItem, TestItemType } from "../../api/workspace/test-item";
 
-export function inspect(path: string) {
-  const code = readFileSync(path, "utf8");
-  const ast = parse(path, code);
-  const result: TestItem[] = [];
+export async function inspect(path: string): Promise<TestItem[]> {
+  return new Promise((resolve, reject) => {
+    readFile(
+      path,
+      {
+        encoding: "utf8"
+      },
+      (err, code) => {
+        if (err) {
+          reject(err);
+        }
 
-  traverse(ast, {
-    CallExpression(path: any) {
-      if (path.scope.block.type === "Program") {
-        findItems(path, result);
+        const ast = parse(path, code);
+        const result: TestItem[] = [];
+
+        traverse(ast, {
+          CallExpression(path: any) {
+            if (path.scope.block.type === "Program") {
+              findItems(path, result);
+            }
+          }
+        });
+        resolve(result);
       }
-    }
+    );
   });
-
-  return result;
 }
 
 function findItems(path: any, result: TestItem[], parentId?: any) {

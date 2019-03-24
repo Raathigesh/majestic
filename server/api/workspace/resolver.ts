@@ -94,9 +94,9 @@ export default class WorkspaceResolver {
   }
 
   @Query(returns => TestFile)
-  file(@Arg("path") path: string) {
+  async file(@Arg("path") path: string) {
     const file = new TestFile();
-    file.items = inspect(path);
+    file.items = await inspect(path);
     return file;
   }
 
@@ -109,9 +109,9 @@ export default class WorkspaceResolver {
   @Subscription(returns => TestFile, {
     topics: [WatcherEvents.FILE_CHANGE]
   })
-  fileChange(@Root() event: FileChangeEvent, @Arg("path") path: string) {
+  async fileChange(@Root() event: FileChangeEvent, @Arg("path") path: string) {
     const file = new TestFile();
-    file.items = inspect(event.payload.path);
+    file.items = await inspect(event.payload.path);
     return file;
   }
 

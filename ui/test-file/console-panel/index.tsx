@@ -1,21 +1,54 @@
 import React from "react";
 import styled from "styled-components";
-import ReactJson from "react-json-view";
+import { ObjectInspector, chromeDark } from "react-inspector";
 import { ConsoleLog } from "../../../server/api/workspace/test-result/console-log";
+import { AlertCircle, XCircle, MessageSquare } from "react-feather";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   background-color: #242326;
+  padding: 10px;
+  background-color: #404148;
+  border-radius: 5px;
+  margin-bottom: 10px;
 `;
 
 const Header = styled.div`
-  padding: 6px;
-  padding-left: 20px;
-  font-weight: 600;
-  background-color: #262529;
+  font-size: 11px;
   color: white;
+  margin-bottom: 5px;
 `;
+
+const Content = styled.div`
+  display: flex;
+  margin-bottom: 3px;
+  font-size: 12px;
+  border-radius: 3px;
+  padding: 4px;
+`;
+
+const IconWrapper = styled.div`
+  margin-right: 5px;
+  margin-top: 2px;
+`;
+
+function getIcon(type: String) {
+  let icon = null;
+  switch (type) {
+    case "warn":
+      icon = <AlertCircle size={11} color="#FDC055" />;
+      break;
+    case "error":
+      icon = <XCircle size={11} color="#ff4f56" />;
+      break;
+    case "log":
+      icon = <MessageSquare size={11} color="#19E28D" />;
+      break;
+  }
+
+  return <IconWrapper>{icon}</IconWrapper>;
+}
 
 interface Props {
   consoleLogs: ConsoleLog[];
@@ -24,17 +57,40 @@ interface Props {
 export default function ConsolePanel({ consoleLogs }: Props) {
   return (
     <Container>
+      <Header>Console logs from the file</Header>
       {consoleLogs.map(log => {
         let result = log.message;
         try {
-          result = JSON.parse(log.message);
-        } catch (e) {}
-
-        if (typeof result === "string") {
-          return <div>{result}</div>;
+          result = eval("(" + log.message + ")");
+        } catch (e) {
+          console.log(e);
         }
 
-        return <ReactJson src={result} theme="tomorrow" />;
+        if (typeof result === "string") {
+          return (
+            <Content>
+              {getIcon(log.type)}
+              {result}
+            </Content>
+          );
+        }
+
+        return (
+          <Content>
+            {getIcon(log.type)}
+            <ObjectInspector
+              data={result}
+              theme={{
+                ...chromeDark,
+                ...{
+                  TREENODE_FONT_SIZE: "12px",
+                  BASE_BACKGROUND_COLOR: "#404148",
+                  ARROW_FONT_SIZE: 10
+                }
+              }}
+            />
+          </Content>
+        );
       })}
     </Container>
   );

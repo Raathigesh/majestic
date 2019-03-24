@@ -1,5 +1,5 @@
-import * as chokidar from "chokidar";
 import { pubsub } from "../../event-emitter";
+import { watch } from "fs";
 
 export const WatcherEvents = {
   FILE_CHANGE: "FILE_CHANGE"
@@ -19,8 +19,8 @@ export default class FileWatcher {
     if (this.watcher) {
       this.watcher.close();
     }
-    this.watcher = chokidar.watch(filePath);
-    this.watcher.on("change", () => {
+
+    this.watcher = watch(filePath, () => {
       pubsub.publish(WatcherEvents.FILE_CHANGE, {
         id: WatcherEvents.FILE_CHANGE,
         payload: {
@@ -28,7 +28,5 @@ export default class FileWatcher {
         }
       });
     });
-
-    return this.watcher;
   }
 }

@@ -13,3 +13,4 @@ declare module "minimist";
 declare module "react-tippy";
 declare module "ansi-to-html";
 declare module "*.png";
+declare module "react-inspector";

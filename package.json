@@ -71,7 +71,7 @@
     "react-apollo-hooks": "^0.2.1",
     "react-dom": "^16.8.3",
     "react-feather": "^1.1.4",
-    "react-json-view": "^1.19.1",
+    "react-inspector": "^3.0.0",
     "react-split-pane": "^0.1.84",
     "react-spring": "^8.0.9",
     "react-tippy": "^1.2.3",
