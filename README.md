@@ -49,7 +49,7 @@ cd ./my-jest-project # go into a project with Jest
 majestic # execute majestic
 ```
 
-### Running as app
+### Running as an app
 
 Running with the `--app` flag will launch Majestic as a chrome app.
 
