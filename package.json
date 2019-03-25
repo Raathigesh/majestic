@@ -53,7 +53,6 @@
     "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",
     "file-loader": "^3.0.1",
-    "fuse.js": "^3.4.4",
     "get-port": "^4.2.0",
     "graphql-tag": "^2.9.2",
     "graphql-yoga": "^1.16.1",

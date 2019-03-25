@@ -1,18 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Item } from "../../server/api/workspace/tree";
 import { color } from "styled-system";
-import Fuse from "fuse.js";
-
-var options = {
-  shouldSort: true,
-  threshold: 0.6,
-  location: 0,
-  distance: 100,
-  maxPatternLength: 32,
-  minMatchCharLength: 1,
-  keys: ["path"]
-};
 
 const Drop = styled.div`
   position: absolute;
@@ -94,11 +83,8 @@ export function Search({
   onClose
 }: Props) {
   const onlyFiles = files.filter(file => file.type === "file");
-  var fuse = new Fuse(onlyFiles, options);
 
   const [query, setQuery] = useState("");
-  const results = query.trim() === "" ? onlyFiles : fuse.search(query);
-
   if (!show) return null;
 
   return (
@@ -113,15 +99,19 @@ export function Search({
           }}
         />
         <ResultContainer>
-          {results.map(file => (
-            <ItemContainer
-              onClick={() => {
-                onItemClick(file.path);
-              }}
-            >
-              {file.path.toLowerCase().replace(projectRoot.toLowerCase(), "")}
-            </ItemContainer>
-          ))}
+          {onlyFiles
+            .filter(file =>
+              file.path.toLowerCase().includes(query.toLowerCase())
+            )
+            .map((file: any) => (
+              <ItemContainer
+                onClick={() => {
+                  onItemClick(file.path);
+                }}
+              >
+                {file.path.toLowerCase().replace(projectRoot.toLowerCase(), "")}
+              </ItemContainer>
+            ))}
         </ResultContainer>
       </Container>
     </React.Fragment>
