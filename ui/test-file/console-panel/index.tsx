@@ -28,9 +28,16 @@ const Content = styled.div`
   padding: 4px;
 `;
 
+const Logs = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-height: 300px;
+  overflow: auto;
+`;
+
 const IconWrapper = styled.div`
   margin-right: 5px;
-  margin-top: 2px;
+  margin-top: 1px;
 `;
 
 function getIcon(type: String) {
@@ -58,40 +65,42 @@ export default function ConsolePanel({ consoleLogs }: Props) {
   return (
     <Container>
       <Header>Console logs from the file</Header>
-      {consoleLogs.map(log => {
-        let result = log.message;
-        try {
-          result = eval("(" + log.message + ")");
-        } catch (e) {
-          console.log(e);
-        }
+      <Logs>
+        {consoleLogs.map(log => {
+          let result = log.message;
+          try {
+            result = eval("(" + log.message + ")");
+          } catch (e) {
+            console.log(e);
+          }
 
-        if (typeof result === "string") {
+          if (typeof result === "string") {
+            return (
+              <Content>
+                {getIcon(log.type)}
+                {result}
+              </Content>
+            );
+          }
+
           return (
             <Content>
               {getIcon(log.type)}
-              {result}
+              <ObjectInspector
+                data={result}
+                theme={{
+                  ...chromeDark,
+                  ...{
+                    TREENODE_FONT_SIZE: "12px",
+                    BASE_BACKGROUND_COLOR: "#404148",
+                    ARROW_FONT_SIZE: 10
+                  }
+                }}
+              />
             </Content>
           );
-        }
-
-        return (
-          <Content>
-            {getIcon(log.type)}
-            <ObjectInspector
-              data={result}
-              theme={{
-                ...chromeDark,
-                ...{
-                  TREENODE_FONT_SIZE: "12px",
-                  BASE_BACKGROUND_COLOR: "#404148",
-                  ARROW_FONT_SIZE: 10
-                }
-              }}
-            />
-          </Content>
-        );
-      })}
+        })}
+      </Logs>
     </Container>
   );
 }
