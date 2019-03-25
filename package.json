@@ -1,6 +1,6 @@
 {
   "name": "majestic",
-  "version": "1.2.20",
+  "version": "1.2.21",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
