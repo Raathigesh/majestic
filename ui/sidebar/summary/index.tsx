@@ -36,8 +36,23 @@ interface Props {
 }
 
 export default function SummaryPanel({ summary }: Props) {
-  const props = useSpring({
+  const passedSuitesProps = useSpring({
+    number: summary && summary.numPassedTestSuites | 0,
+    from: { number: 0 }
+  } as any);
+
+  const failedSuitesProps = useSpring({
+    number: summary && summary.numFailedTestSuites | 0,
+    from: { number: 0 }
+  } as any);
+
+  const passedTestProps = useSpring({
     number: summary && summary.numPassedTests | 0,
+    from: { number: 0 }
+  } as any);
+
+  const failedTestProps = useSpring({
+    number: summary && summary.numFailedTests | 0,
     from: { number: 0 }
   } as any);
 
@@ -45,13 +60,25 @@ export default function SummaryPanel({ summary }: Props) {
     <Container mt={3} mb={3}>
       <Row>
         <Cell>
-          <Value>{summary && summary.numPassedTestSuites | 0}</Value>
+          <Value>
+            <animated.span>
+              {(passedSuitesProps as any).number.interpolate((value: any) =>
+                value.toFixed()
+              )}
+            </animated.span>
+          </Value>
           <Label>
             <CheckCircle size={11} /> Passing suites
           </Label>
         </Cell>
         <Cell>
-          <Value failed>{summary && summary.numFailedTestSuites | 0}</Value>
+          <Value failed>
+            <animated.span>
+              {(failedSuitesProps as any).number.interpolate((value: any) =>
+                value.toFixed()
+              )}
+            </animated.span>
+          </Value>
           <Label>
             <ZapOff size={11} /> Failing suites
           </Label>
@@ -61,7 +88,7 @@ export default function SummaryPanel({ summary }: Props) {
         <Cell>
           <Value>
             <animated.span>
-              {(props as any).number.interpolate((value: any) =>
+              {(passedTestProps as any).number.interpolate((value: any) =>
                 value.toFixed()
               )}
             </animated.span>
@@ -71,7 +98,13 @@ export default function SummaryPanel({ summary }: Props) {
           </Label>
         </Cell>
         <Cell>
-          <Value failed>{summary && summary.numFailedTests | 0}</Value>
+          <Value failed>
+            <animated.span>
+              {(failedTestProps as any).number.interpolate((value: any) =>
+                value.toFixed()
+              )}
+            </animated.span>
+          </Value>
           <Label>
             <ZapOff size={11} /> Failing tests
           </Label>
