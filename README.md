@@ -18,6 +18,7 @@ Majestic is a GUI for [Jest](https://jestjs.io/)
 - ⏱ Toggle watch mode
 - 📸 Update snapshots
 - ❌ Examine test failures as they happen
+- ⏲ Console.log() to the UI for debugging
 - 🔍 Search tests
 - 💎 Works with flow and typescript projects
 - 📦 Works with Create react app
