@@ -103,8 +103,9 @@ export function Search({
             .filter(file =>
               file.path.toLowerCase().includes(query.toLowerCase())
             )
-            .map((file: any) => (
+            .map((file: any, index: number) => (
               <ItemContainer
+                key={index}
                 onClick={() => {
                   onItemClick(file.path);
                 }}
