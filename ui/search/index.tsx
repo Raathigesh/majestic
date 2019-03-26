@@ -101,7 +101,7 @@ export function Search({
         <SearchBox
           ref={searchBoxRef}
           value={query}
-          placeholder="Start searching..."
+          placeholder="Start searching…"
           onChange={(event: any) => {
             setQuery(event.target.value);
           }}
