@@ -7,7 +7,6 @@ import { AlertCircle, XCircle, MessageSquare } from "react-feather";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: #242326;
   padding: 10px;
   background-color: #404148;
   border-radius: 5px;

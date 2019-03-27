@@ -50,7 +50,7 @@ async function main() {
             startingUrl: url,
             chromeFlags: [`--app=${url}`]
           });
-        } else if (!args.dev) {
+        } else if (!args.noOpen) {
           opn(url);
         }
       }

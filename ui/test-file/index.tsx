@@ -15,6 +15,7 @@ import FileSummary from "./summary";
 import { TestFileResult } from "../../server/api/workspace/test-result/file-result";
 import { TestFile as TestFileModel } from "../../server/api/workspace/test-file";
 import ConsolePanel from "./console-panel";
+import ErrorPanel from "./error-panel";
 
 const Container = styled.div<any>`
   ${space};
@@ -112,6 +113,7 @@ function TestFile({ selectedFilePath, isRunning, projectRoot, onStop }: Props) {
           updateSnapshot();
         }}
       />
+      <ErrorPanel failureMessage={result && result.failureMessage} />
       {result && result.consoleLogs && result.consoleLogs.length > 0 && (
         <ConsolePanel consoleLogs={result.consoleLogs || []} />
       )}
