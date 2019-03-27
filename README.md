@@ -1,11 +1,11 @@
 <div  align="center">
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 <img src="./image.png" />
 <br />
 <br />
 <img src="https://img.shields.io/travis/Raathigesh/majestic.svg?style=flat-square" />
 <img src="https://img.shields.io/github/license/Raathigesh/majestic.svg?style=flat-square" />
 <img src="https://img.shields.io/npm/v/majestic.svg?style=flat-square" />
+<img src="https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square" />  
 <a href="https://spectrum.chat/majestic">
   <img alt="Join the community on Spectrum" src="https://withspectrum.github.io/badge/badge.svg" />
 </a>
