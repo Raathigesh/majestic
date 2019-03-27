@@ -41,6 +41,8 @@ const Label = styled.div`
   margin-left: 5px;
   font-size: 12px;
   overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 const EmptyChevron = styled.div`
