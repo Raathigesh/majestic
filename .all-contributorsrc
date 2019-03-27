@@ -1,0 +1,23 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "duncanbeevers",
+      "name": "Duncan Beevers",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/7367?v=4",
+      "profile": "http://www.duncanbeevers.com",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "majestic",
+  "projectOwner": "Raathigesh",
+  "repoType": "github",
+  "repoHost": "https://github.com"
+}
