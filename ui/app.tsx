@@ -6,6 +6,7 @@ import Sidebar from "./sidebar";
 import TestFile from "./test-file";
 import APP from "./app.gql";
 import WORKSPACE from "./query.gql";
+import useKeys from "./hooks/use-keys";
 import useSubscription from "./test-file/use-subscription";
 import SUMMARY_QUERY from "./summary-query.gql";
 import SUMMARY_SUBS from "./summary-subscription.gql";
@@ -83,6 +84,10 @@ export default function App() {
   const stopRunner = useMutation(STOP_RUNNER);
 
   const [isSearchOpen, setSearchOpen] = useState(false);
+  const keys = useKeys();
+  if (isSearchOpen && keys.has('Escape')) {
+    setSearchOpen(false);
+  }
 
   return (
     <ContainerDiv>

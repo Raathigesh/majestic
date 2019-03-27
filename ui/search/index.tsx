@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Item } from "../../server/api/workspace/tree";
 import { color } from "styled-system";
@@ -85,6 +85,13 @@ export function Search({
   const onlyFiles = files.filter(file => file.type === "file");
 
   const [query, setQuery] = useState("");
+  const searchBoxRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (searchBoxRef && searchBoxRef.current) {
+      searchBoxRef.current.focus();
+    }
+  }, [show]);
+
   if (!show) return null;
 
   return (
@@ -92,8 +99,9 @@ export function Search({
       <Drop onClick={onClose} />
       <Container bg="dark">
         <SearchBox
+          ref={searchBoxRef}
           value={query}
-          placeholder="Start searching..."
+          placeholder="Start searching…"
           onChange={(event: any) => {
             setQuery(event.target.value);
           }}
@@ -103,8 +111,9 @@ export function Search({
             .filter(file =>
               file.path.toLowerCase().includes(query.toLowerCase())
             )
-            .map((file: any) => (
+            .map((file: any, index: number) => (
               <ItemContainer
+                key={index}
                 onClick={() => {
                   onItemClick(file.path);
                 }}
