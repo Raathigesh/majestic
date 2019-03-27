@@ -29,7 +29,7 @@ export default class Project {
 
     const filesStr = configProcess.stdout.toString().trim();
     const files: string[] = JSON.parse(filesStr);
-    log("Ideitifed test files: ", files);
+    log("Identified test files: ", files);
 
     const relativeFiles = files.map(file => file.replace(this.projectRoot, ""));
     const map: TreeMap = {
