@@ -2,7 +2,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 const webpack = require("webpack");
 const path = require("path");
 
-module.exports = env => ({
+module.exports = (env) => ({
   entry: "./server/index.ts",
   mode: "production",
   target: "node",
@@ -49,7 +49,7 @@ module.exports = env => ({
       raw: true
     })
   ],
-  externals: ["read-pkg-up"],
+  externals: ["read-pkg-up", "open"],
   node: {
     __dirname: false
   }

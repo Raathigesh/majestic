@@ -5,7 +5,7 @@ import resultHandlerApi from "./services/result-handler-api";
 import getPort from "get-port";
 import * as parseArgs from "minimist";
 import * as chromeLauncher from "chrome-launcher";
-import * as opn from "opn";
+import * as opn from "open";
 import "consola";
 import * as pkg from "../package.json";
 import { initializeStaticRoutes } from "./static-files";
