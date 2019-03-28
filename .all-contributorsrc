@@ -31,6 +31,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "jake-nz",
+      "name": "Jake Crosby",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/437471?v=4",
+      "profile": "http://jake.nz",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
