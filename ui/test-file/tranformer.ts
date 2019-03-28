@@ -22,6 +22,7 @@ export function transform(
       type: item.type,
       name: item.name,
       parent: item.parent,
+      only: item.only,
       children: nextChildren,
       index: index + 1
     } as any;

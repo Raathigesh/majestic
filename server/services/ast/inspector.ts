@@ -32,12 +32,37 @@ export async function inspect(path: string): Promise<TestItem[]> {
   });
 }
 
-function findItems(path: any, result: TestItem[], parentId?: any) {
-  if (path.node.callee.name === "describe") {
+function findItems(
+  path: any,
+  result: TestItem[],
+  parentId?: any
+) {
+  let type: string;
+  let only: boolean = false;
+  if (path.node.callee.name === "fdescribe") {
+    type = "describe";
+    only = true;
+  } else if (path.node.callee.name === "fit") {
+    type = "it";
+    only = true;
+  } else if (
+    path.node.callee.property &&
+    path.node.callee.property.name === "only"
+  ) {
+    type = path.node.callee.object.name;
+    only = true;
+  } else if (path.node.callee.name === "test") {
+    type = "it";
+  } else {
+    type = path.node.callee.name;
+  }
+
+  if (type === "describe") {
     const describe = {
       id: nanoid(),
       type: "describe" as TestItemType,
       name: path.node.arguments[0].value,
+      only,
       parent: parentId
     };
     result.push(describe);
@@ -47,24 +72,12 @@ function findItems(path: any, result: TestItem[], parentId?: any) {
         findItems(itPath, result, describe.id);
       }
     });
-  } else if (
-    path.node.callee.name === "it" ||
-    path.node.callee.name === "test"
-  ) {
+  } else if (type === "it") {
     result.push({
+      id: nanoid(),
       type: "it",
       name: path.node.arguments[0].value,
-      id: nanoid(),
-      parent: parentId
-    });
-  } else if (
-    (path.node.callee.object && path.node.callee.object.name === "it") ||
-    (path.node.callee.object && path.node.callee.object.name === "test")
-  ) {
-    result.push({
-      type: "it",
-      name: path.node.arguments[0].value,
-      id: nanoid(),
+      only,
       parent: parentId
     });
   }
