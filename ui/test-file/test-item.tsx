@@ -46,7 +46,7 @@ const Content = styled.div`
   background-color: #262529;
   border-radius: 4px;
   margin-bottom: 10px;
-  border: 1px solid #333437;
+  border: 1px solid ${props => props.only ? "#9d8301" : "#333437"};
 `;
 
 const FailtureMessage = styled.div`
@@ -77,7 +77,7 @@ interface Props {
 }
 
 export default function Test({
-  item: { name, children },
+  item: { name, only, children },
   item,
   result
 }: Props) {
@@ -85,7 +85,7 @@ export default function Test({
   const isDurationAvailable = testResult && testResult.duration !== undefined;
   const haveFailure = testResult && testResult.failureMessages.length > 0;
   const allChildrenPassing = (children || []).every(child => {
-    if (child.type === "it" || child.type === "test") {
+    if (child.type === "it") {
       const childResult = getResults(child, result as any);
       return childResult && childResult.status === "passed";
     }
@@ -93,9 +93,11 @@ export default function Test({
     return true;
   });
 
+  console.log(item);
+
   return (
     <Container>
-      <Content>
+      <Content only={only}>
         <Label>
           <TestIndicator
             status={

@@ -5,6 +5,7 @@ query FileItems($path: String!) {
       name
       type
       parent
+      only
     }
   }
 }
