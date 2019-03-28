@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "node-fetch": "^2.3.0",
+    "open": "^6.0.0",
     "read-pkg-up": "^4.0.0"
   },
   "devDependencies": {
@@ -65,7 +66,6 @@
     "nanoid": "^2.0.0",
     "nodemon": "^1.18.3",
     "np": "^4.0.2",
-    "opn": "^5.4.0",
     "react": "^16.8.3",
     "react-apollo": "^2.1.11",
     "react-apollo-hooks": "^0.2.1",
