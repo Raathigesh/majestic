@@ -5,6 +5,7 @@ subscription($path: String!) {
       name
       type
       parent
+      only
     }
   }
 }
