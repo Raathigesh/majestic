@@ -5,7 +5,7 @@
 <img src="https://img.shields.io/travis/Raathigesh/majestic.svg?style=flat-square" />
 <img src="https://img.shields.io/github/license/Raathigesh/majestic.svg?style=flat-square" />
 <img src="https://img.shields.io/npm/v/majestic.svg?style=flat-square" />
-<img src="https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square" />  
+<img src="https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square" />
 <a href="https://spectrum.chat/majestic">
   <img alt="Join the community on Spectrum" src="https://withspectrum.github.io/badge/badge.svg" />
 </a>
@@ -78,6 +78,8 @@ You can configure Majestic by adding `majestic` key to `package.json`.
 `--port` - Will use this port if available, else Majestic will pick another free port.
 
 `--debug` - Will output extra debug info to console. Helps with debugging.
+
+`--noOpen` - Will prevent from automatically opening the UI url in the browser
 
 `--version` - Will print the version of Majestic and will exit
 

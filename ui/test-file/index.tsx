@@ -15,6 +15,7 @@ import FileSummary from "./summary";
 import { TestFileResult } from "../../server/api/workspace/test-result/file-result";
 import { TestFile as TestFileModel } from "../../server/api/workspace/test-file";
 import ConsolePanel from "./console-panel";
+import ErrorPanel from "./error-panel";
 
 const Container = styled.div<any>`
   ${space};
@@ -23,9 +24,12 @@ const Container = styled.div<any>`
   padding-left: 20px;
 `;
 
-const TestItemsContainer = styled.div`
+const Content = styled.div`
   overflow: auto;
   height: calc(100vh - 118px);
+`;
+
+const TestItemsContainer = styled.div`
   margin-left: -25px;
 `;
 
@@ -112,21 +116,26 @@ function TestFile({ selectedFilePath, isRunning, projectRoot, onStop }: Props) {
           updateSnapshot();
         }}
       />
-      {result && result.consoleLogs && result.consoleLogs.length > 0 && (
-        <ConsolePanel consoleLogs={result.consoleLogs || []} />
-      )}
-      {fileItemResult && (
-        <TestItemsContainer>
-          {roots.map(item => {
-            const tree = transform(
-              item as any,
-              fileItemResult.items as any,
-              0
-            ) as any;
-            return <Test key={item.id} item={tree} result={result} />;
-          })}
-        </TestItemsContainer>
-      )}
+      <Content>
+        {result && result.testResults && result.testResults.length === 0 && (
+          <ErrorPanel failureMessage={result && result.failureMessage} />
+        )}
+        {result && result.consoleLogs && result.consoleLogs.length > 0 && (
+          <ConsolePanel consoleLogs={result.consoleLogs || []} />
+        )}
+        {fileItemResult && (
+          <TestItemsContainer>
+            {roots.map(item => {
+              const tree = transform(
+                item as any,
+                fileItemResult.items as any,
+                0
+              ) as any;
+              return <Test key={item.id} item={tree} result={result} />;
+            })}
+          </TestItemsContainer>
+        )}
+      </Content>
     </Container>
   );
 }

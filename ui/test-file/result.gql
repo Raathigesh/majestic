@@ -3,6 +3,7 @@ query Results($path: String!) {
     path
     numFailingTests
     numPassingTests
+    failureMessage
     testResults {
       title
       numPassingAsserts
