@@ -35,7 +35,7 @@ export default class JestManager {
     this.executeJest(
       [
         "--reporters",
-        this.getRepoterPath(),
+        this.getReporterPath(),
         ...(watch ? [this.getWatchFlag()] : [])
       ],
       true,
@@ -50,7 +50,7 @@ export default class JestManager {
         ...(watch ? [this.getWatchFlag()] : []),
         "--reporters",
         "default",
-        this.getRepoterPath(),
+        this.getReporterPath(),
         "--verbose=false" // this would allow jest to include console output in the result of reporter
       ],
       !watch, // while watching, can not inherit stdio because we want to write back and interact with the process
@@ -64,7 +64,7 @@ export default class JestManager {
         this.getPatternForPath(path),
         "-u",
         "--reporters",
-        this.getRepoterPath()
+        this.getReporterPath()
       ],
       false,
       false
@@ -143,7 +143,7 @@ export default class JestManager {
       });
   }
 
-  getRepoterPath() {
+  getReporterPath() {
     return `"${join(__dirname, "./scripts/reporter.js")}"`;
   }
 
