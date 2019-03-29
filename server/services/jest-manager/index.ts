@@ -144,11 +144,11 @@ export default class JestManager {
   }
 
   getRepoterPath() {
-    return join(__dirname, "./scripts/reporter.js");
+    return `"${join(__dirname, "./scripts/reporter.js")}"`;
   }
 
   getPatchFilePath() {
-    return join(__dirname, "./scripts/patch.js");
+    return `"${join(__dirname, "./scripts/patch.js")}"`;
   }
 
   getPatternForPath(path: string) {
