@@ -37,7 +37,7 @@ export default class ConfigResolver {
     }
 
     const majesticConfig = {
-      jestScriptPath,
+      jestScriptPath: `"${jestScriptPath}"`,
       args,
       env
     };
