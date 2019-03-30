@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import styled from "styled-components";
-import { TestFileItem } from "./tranformer";
+import { TestFileItem } from "./transformer";
 import { TestFileResult } from "../../server/api/workspace/test-result/file-result";
 import TestIndicator from "./test-indicator";
 import { color, space } from "styled-system";
@@ -49,7 +49,7 @@ const Content = styled.div`
   border: 1px solid ${props => props.only ? "#9d8301" : "#333437"};
 `;
 
-const FailtureMessage = styled.div`
+const FailureMessage = styled.div`
   padding-left: 20px;
   pre {
     overflow: auto;
@@ -113,7 +113,7 @@ export default function Test({
           )}
         </Label>
         {testResult && haveFailure && (
-          <FailtureMessage>
+          <FailureMessage>
             <pre
               dangerouslySetInnerHTML={{
                 __html: convert.toHtml(
@@ -121,7 +121,7 @@ export default function Test({
                 )
               }}
             />
-          </FailtureMessage>
+          </FailureMessage>
         )}
       </Content>
       {children &&

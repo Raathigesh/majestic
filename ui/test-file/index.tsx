@@ -9,7 +9,7 @@ import UPDATE_SNAPSHOT from "./update-snapshot.gql";
 import FILERESULTSUB from "./subscription.gql";
 import RESULT from "./result.gql";
 import Test from "./test-item";
-import { transform } from "./tranformer";
+import { transform } from "./transformer";
 import useSubscription from "./use-subscription";
 import FileSummary from "./summary";
 import { TestFileResult } from "../../server/api/workspace/test-result/file-result";

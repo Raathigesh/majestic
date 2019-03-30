@@ -8,5 +8,5 @@ fkill(":9000", {
     console.log("Killed process");
   })
   .catch(e => {
-    console.log("Coudn't kill process: ", e);
+    console.log("Couldn't kill process: ", e);
   });
