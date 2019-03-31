@@ -44,7 +44,7 @@ export default class Project {
     relativeFiles.forEach(path => {
       const tokens = path.split(sep).filter(token => token.trim() !== "");
       let currentPath = "";
-      let parrentPath = "";
+      let parentPath = "";
       tokens.forEach((token, i) => {
         currentPath = `${currentPath}${sep}${token}`;
         const type = [".jsx", ".tsx", ".ts", ".js"].includes(
@@ -57,10 +57,10 @@ export default class Project {
             name: token,
             type,
             path: join(this.projectRoot, currentPath),
-            parent: join(this.projectRoot, parrentPath)
+            parent: join(this.projectRoot, parentPath)
           };
         }
-        parrentPath = currentPath;
+        parentPath = currentPath;
       });
     });
 
