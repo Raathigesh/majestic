@@ -75,6 +75,11 @@ export default class WorkspaceResolver {
       this.notifySummaryChange();
     });
 
+    pubsub.subscribe(Events.RUN_COMPLETE, ({ payload }) => {
+      this.results.mapCoverage(payload.coverageMap);
+      this.notifySummaryChange();
+    });
+
     pubsub.subscribe(RunnerEvents.RUNNER_STOPPED, () => {
       this.results.markExecutingAsStopped();
     });
@@ -170,6 +175,7 @@ export default class WorkspaceResolver {
     summary.failedTests = this.results.getFailedTests();
     summary.executingTests = this.results.getExecutingTests();
     summary.passingTests = this.results.getPassedTests();
+    summary.coverage = this.results.getCoverage();
     return summary;
   }
 
@@ -189,6 +195,7 @@ export default class WorkspaceResolver {
     result.failedTests = this.results.getFailedTests();
     result.executingTests = this.results.getExecutingTests();
     result.passingTests = this.results.getPassedTests();
+    result.coverage = this.results.getCoverage();
     return result;
   }
 }

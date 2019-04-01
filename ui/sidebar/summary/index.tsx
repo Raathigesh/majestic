@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { space } from "styled-system";
 import { useSpring, animated } from "react-spring";
-import { Play, Check, Frown, CheckCircle, ZapOff } from "react-feather";
+import { CheckCircle, ZapOff, Layers } from "react-feather";
 import { Summary } from "../../../server/api/workspace/summary";
 
 const Container = styled.div<any>`
@@ -22,13 +22,26 @@ const Cell = styled.div`
 `;
 
 const Label = styled.div`
-  font-size: 13px;
+  font-size: 12px;
   color: #dcdbdb;
 `;
 
 const Value = styled.div<any>`
   font-size: 20px;
   color: ${props => (props.failed ? "#FF4F56" : "#19E28D")};
+`;
+
+const CoverageLabel = styled.div`
+  font-size: 10px;
+  color: #dcdbdb;
+`;
+
+const CoverageValue = styled.div<any>`
+  font-size: 14px;
+`;
+
+const Coverage = styled.div`
+  margin-top: 10px;
 `;
 
 interface Props {
@@ -55,6 +68,14 @@ export default function SummaryPanel({ summary }: Props) {
     number: summary && summary.numFailedTests | 0,
     from: { number: 0 }
   } as any);
+
+  const coverage = summary && summary.coverage;
+  const haveCoverage =
+    coverage &&
+    (coverage.branch ||
+      coverage.function ||
+      coverage.line ||
+      coverage.statement);
 
   return (
     <Container mt={3} mb={3}>
@@ -110,6 +131,44 @@ export default function SummaryPanel({ summary }: Props) {
           </Label>
         </Cell>
       </Row>
+      {!!haveCoverage && (
+        <Coverage>
+          <Row>
+            <Cell>
+              <CoverageValue>
+                {summary && summary.coverage && summary.coverage.statement}
+              </CoverageValue>
+              <CoverageLabel>
+                <Layers size={9} /> Stmts
+              </CoverageLabel>
+            </Cell>
+            <Cell>
+              <CoverageValue>
+                {summary && summary.coverage && summary.coverage.branch}
+              </CoverageValue>
+              <CoverageLabel>
+                <Layers size={9} /> Branch
+              </CoverageLabel>
+            </Cell>
+            <Cell>
+              <CoverageValue>
+                {summary && summary.coverage && summary.coverage.function}
+              </CoverageValue>
+              <CoverageLabel>
+                <Layers size={9} /> Funcs
+              </CoverageLabel>
+            </Cell>
+            <Cell>
+              <CoverageValue>
+                {summary && summary.coverage && summary.coverage.line}
+              </CoverageValue>
+              <CoverageLabel>
+                <Layers size={9} /> Lines
+              </CoverageLabel>
+            </Cell>
+          </Row>
+        </Coverage>
+      )}
     </Container>
   );
 }

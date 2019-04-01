@@ -1,5 +1,13 @@
-export type TestFileStatus = "IDLE" | "EXECUTING";
+import { createSourceMapStore, MapStore } from "istanbul-lib-source-maps";
+import { createCoverageMap, CoverageMap } from "istanbul-lib-coverage";
 
+export type TestFileStatus = "IDLE" | "EXECUTING";
+export interface CoverageSummary {
+  statement: number;
+  line: number;
+  function: number;
+  branch: number;
+}
 export default class Results {
   private results: {
     [path: string]: {
@@ -19,6 +27,13 @@ export default class Results {
     numPassedTests: number;
     numPassedTestSuites: number;
     numFailedTestSuites: number;
+  };
+
+  private coverage: CoverageSummary = {
+    statement: 0,
+    line: 0,
+    function: 0,
+    branch: 0
   };
 
   constructor() {
@@ -109,5 +124,23 @@ export default class Results {
         return status.isExecuting === true;
       })
       .map(([path]) => path);
+  }
+
+  public mapCoverage(data: any) {
+    const sourceMapStore = createSourceMapStore();
+    const coverageMap = createCoverageMap(data);
+    const transformed = sourceMapStore.transformCoverage(coverageMap);
+    const coverageSummary = transformed.map.getCoverageSummary();
+
+    this.coverage = {
+      statement: coverageSummary.statements.pct,
+      branch: coverageSummary.branches.pct,
+      function: coverageSummary.functions.pct,
+      line: coverageSummary.lines.pct
+    };
+  }
+
+  public getCoverage() {
+    return this.coverage;
   }
 }

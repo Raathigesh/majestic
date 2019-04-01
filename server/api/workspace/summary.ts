@@ -1,4 +1,5 @@
 import { ObjectType, Field } from "type-graphql";
+import { CoverageSummary } from "./coverage";
 
 @ObjectType()
 export class Summary {
@@ -22,4 +23,7 @@ export class Summary {
 
   @Field(returns => [String])
   executingTests: string[] = [];
+
+  @Field(returns => CoverageSummary, { nullable: true })
+  coverage: CoverageSummary;
 }

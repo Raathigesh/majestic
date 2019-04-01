@@ -107,10 +107,10 @@ export default class JestManager {
       "-r",
       this.getPatchFilePath(),
       this.config.jestScriptPath,
+      ...(this.config.args || []),
       "--colors",
-      "--collectCoverage=false",
-      ...args,
-      ...(this.config.args || [])
+      "--collectCoverage=true",
+      ...args
     ];
 
     const finalEnv = {

@@ -50,7 +50,11 @@ class MyCustomReporter {
 
   onRunStart(results) {}
 
-  onRunComplete(contexts, results) {}
+  onRunComplete(contexts, results) {
+    send("run-complete", {
+      coverageMap: results.coverageMap
+    });
+  }
 }
 
 module.exports = MyCustomReporter;
