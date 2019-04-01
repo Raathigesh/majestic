@@ -90,9 +90,7 @@ export default class WorkspaceResolver {
     workspace.projectRoot = this.project.projectRoot;
     workspace.name = "Jest project";
 
-    const fileMap = this.project.getFilesList(
-      this.majesticConfig.jestScriptPath
-    );
+    const fileMap = this.project.getFilesList(this.majesticConfig);
     workspace.files = Object.entries(fileMap).map(([key, value]: any) => ({
       name: value.name,
       path: value.path,

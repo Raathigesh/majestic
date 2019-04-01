@@ -1,4 +1,4 @@
-import { TreeMap } from "./types";
+import { TreeMap, MajesticConfig } from "./types";
 import { spawnSync } from "child_process";
 import { sep, join, extname } from "path";
 import { createLogger } from "../logger";
@@ -12,16 +12,17 @@ export default class Project {
     this.projectRoot = root;
   }
 
-  getFilesList(jestScriptPath: string) {
+  getFilesList(config: MajesticConfig) {
     const configProcess = spawnSync(
       "node",
-      [jestScriptPath, "--listTests", "--json"],
+      [config.jestScriptPath, ...(config.args || []), "--listTests", "--json"],
       {
         cwd: this.projectRoot,
         shell: true,
         stdio: "pipe",
         env: {
           CI: "true",
+          ...(config.env || {}),
           ...process.env
         }
       }
