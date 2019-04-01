@@ -2,7 +2,7 @@
   "name": "majestic",
   "version": "1.2.24",
   "engines": {
-    "node": ">=8.0"
+    "node": ">=7.10.1"
   },
   "main": "index.js",
   "license": "MIT",
