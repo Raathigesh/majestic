@@ -4,7 +4,7 @@ export type TestItemType = "describe" | "it" | "todo";
 
 @ObjectType()
 export class TestItem {
- @Field()
+@Field()
   id: string;
 
   @Field()

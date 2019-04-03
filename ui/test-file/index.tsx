@@ -58,7 +58,7 @@ function TestFile({ selectedFilePath, isRunning, projectRoot, onStop }: Props) {
   const testCount = ((fileItemResult && fileItemResult.items) || []).filter(
     fileItem => fileItem.type === "it"
   ).length;
-  
+
   const runFile = useMutation(RUNFILE, {
     variables: {
       path: selectedFilePath

@@ -7,22 +7,22 @@ import { TestItem, TestItemType } from "../../api/workspace/test-item";
 export async function inspect(path: string): Promise<TestItem[]> {
     return new Promise((resolve, reject) => {
         readFile(
-            path,
-            {
-                encoding: "utf8"
-            },
-            (err, code) => {
-                if (err) {
-                    reject(err);
-                }
+          path,
+          {
+            encoding: "utf8"
+          },
+          (err, code) => {
+            if (err) {
+              reject(err);
+            }
 
-                const ast = parse(path, code);
-                const result: TestItem[] = [];
+            const ast = parse(path, code);
+            const result: TestItem[] = [];
 
-                traverse(ast, {
-                    CallExpression(path: any) {
-                        if (path.scope.block.type === "Program") {
-                            findItems(path, result);
+            traverse(ast, {
+                CallExpression(path: any) {
+                  if (path.scope.block.type === "Program") {
+                    findItems(path, result);
                         }
                     }
                 });
