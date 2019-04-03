@@ -86,12 +86,12 @@ function findItems(
       parent: parentId
     });
   } else if (type === "todo") {
-        result.push({
-            id: nanoid(),
-            type: "todo",
-            name: path.node.arguments[0].value,
-            only,
-            parent: parentId
-        });
-    }
+    result.push({
+      id: nanoid(),
+      type: "todo",
+      name: path.node.arguments[0].value,
+      only,
+      parent: parentId
+    });
+  }
 }
