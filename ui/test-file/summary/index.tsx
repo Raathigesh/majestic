@@ -153,7 +153,7 @@ export default function FileSummary({
             <Code size={14} /> <InfoLabel>{testCount} Tests</InfoLabel>
           </Info>
           <Info color="secondary">
-          <Circle size={14} />{" "} <InfoLabel>{todoCount} Todos</InfoLabel>
+          <Circle size={14} /><InfoLabel>{todoCount} Todos</InfoLabel>
           </Info>
           <Info color="success">
             <CheckCircle size={14} />{" "}
