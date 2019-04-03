@@ -1,20 +1,22 @@
-import React from "react";
-import styled from "styled-components";
-import { space, fontSize, color } from "styled-system";
-import { useSpring, animated } from "react-spring";
 import {
-  Folder,
-  Code,
-  Play,
-  StopCircle,
   Camera,
   CheckCircle,
+  Circle,
+  Code,
+  Folder,
   Frown,
+  Play,
+  StopCircle,
   ZapOff
 } from "react-feather";
+import { animated, useSpring } from "react-spring";
+import { color, fontSize, space } from "styled-system";
+
 import Button from "../../components/button";
 import OPEN_IN_EDITOR from "./open-in-editor.gql";
+import React from "react";
 import { Tooltip } from "react-tippy";
+import styled from "styled-components";
 import { useMutation } from "react-apollo-hooks";
 
 const Container = styled.div<any>`
@@ -101,6 +103,7 @@ interface Props {
   projectRoot: string;
   suiteCount: number;
   testCount: number;
+  todoCount: number;
   passingTests: number;
   failingTests: number;
   isRunning: boolean;
@@ -116,6 +119,7 @@ export default function FileSummary({
   projectRoot,
   suiteCount,
   testCount,
+  todoCount,
   passingTests,
   failingTests,
   isRunning,
@@ -147,6 +151,9 @@ export default function FileSummary({
           </Info>
           <Info color="primary">
             <Code size={14} /> <InfoLabel>{testCount} Tests</InfoLabel>
+          </Info>
+          <Info color="secondary">
+          <Circle size={14} />{" "} <InfoLabel>{todoCount} Todos</InfoLabel>
           </Info>
           <Info color="success">
             <CheckCircle size={14} />{" "}

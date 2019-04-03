@@ -1,1 +1,1 @@
-export const root = process.env.ROOT || process.cwd();
+export const root = "/Users/agustif/Code/express";

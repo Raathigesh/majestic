@@ -59,6 +59,11 @@ function TestFile({ selectedFilePath, isRunning, projectRoot, onStop }: Props) {
     fileItem => fileItem.type === "it"
   ).length;
 
+
+  const todoCount = ((fileItemResult && fileItemResult.items) || []).filter(
+    fileItem => fileItem.type === "todo"
+  ).length;
+
   const runFile = useMutation(RUNFILE, {
     variables: {
       path: selectedFilePath
@@ -102,6 +107,7 @@ function TestFile({ selectedFilePath, isRunning, projectRoot, onStop }: Props) {
         projectRoot={projectRoot}
         suiteCount={suiteCount}
         testCount={testCount}
+        todoCount={todoCount}
         passingTests={result && result.numPassingTests}
         failingTests={result && result.numFailingTests}
         path={selectedFilePath}
