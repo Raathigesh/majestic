@@ -1,4 +1,4 @@
-mutation SetSelectedFile($path: String!) {
+mutation SetSelectedFile($path: String) {
   setSelectedFile(path: $path) {
     selectedFile
   }

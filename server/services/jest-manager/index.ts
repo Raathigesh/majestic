@@ -31,7 +31,7 @@ export default class JestManager {
     this.config = config;
   }
 
-  run(watch: boolean) {
+  run(watch: boolean, collectCoverage: boolean) {
     this.executeJest(
       [
         "--reporters",
@@ -39,11 +39,12 @@ export default class JestManager {
         ...(watch ? [this.getWatchFlag()] : [])
       ],
       true,
-      true
+      true,
+      collectCoverage
     );
   }
 
-  runSingleFile(path: string, watch: boolean) {
+  runSingleFile(path: string, watch: boolean, collectCoverage: boolean) {
     this.executeJest(
       [
         this.getPatternForPath(path),
@@ -54,7 +55,8 @@ export default class JestManager {
         "--verbose=false" // this would allow jest to include console output in the result of reporter
       ],
       !watch, // while watching, can not inherit stdio because we want to write back and interact with the process
-      false
+      false,
+      collectCoverage
     );
   }
 
@@ -66,6 +68,7 @@ export default class JestManager {
         "--reporters",
         this.getReporterPath()
       ],
+      false,
       false,
       false
     );
@@ -95,7 +98,8 @@ export default class JestManager {
   executeJest(
     args: string[] = [],
     inherit: boolean,
-    shouldReportSummary: boolean
+    shouldReportSummary: boolean,
+    collectCoverage: boolean
   ) {
     if (!this.config.jestScriptPath) {
       throw new Error("Jest script path is empty");
@@ -109,7 +113,9 @@ export default class JestManager {
       this.config.jestScriptPath,
       ...(this.config.args || []),
       "--colors",
-      "--collectCoverage=true",
+      ...(collectCoverage
+        ? ["--collectCoverage=true"]
+        : ["--collectCoverage=false"]),
       ...args
     ];
 

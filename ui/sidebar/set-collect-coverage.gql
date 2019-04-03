@@ -1,0 +1,3 @@
+mutation SetCollectCoverage($collect: Boolean!) {
+  setCollectCoverage(collect: $collect)
+}

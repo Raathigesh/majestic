@@ -1,5 +1,7 @@
 import { createSourceMapStore, MapStore } from "istanbul-lib-source-maps";
 import { createCoverageMap, CoverageMap } from "istanbul-lib-coverage";
+import { existsSync } from "fs";
+import { join } from "path";
 
 export type TestFileStatus = "IDLE" | "EXECUTING";
 export interface CoverageSummary {
@@ -9,6 +11,7 @@ export interface CoverageSummary {
   branch: number;
 }
 export default class Results {
+  private projectRoot: string = "";
   private results: {
     [path: string]: {
       report?: any;
@@ -36,7 +39,10 @@ export default class Results {
     branch: 0
   };
 
-  constructor() {
+  private haveCoverageReport: boolean = false;
+
+  constructor(projectRoot: string) {
+    this.projectRoot = projectRoot;
     this.results = {};
     this.summary = {
       numFailedTests: 0,
@@ -44,6 +50,8 @@ export default class Results {
       numPassedTestSuites: 0,
       numFailedTestSuites: 0
     };
+
+    this.checkIfCoverageReportExists();
   }
 
   public setTestStart(path: string) {
@@ -127,6 +135,19 @@ export default class Results {
   }
 
   public mapCoverage(data: any) {
+    this.checkIfCoverageReportExists();
+
+    if (!data) {
+      this.coverage = {
+        statement: 0,
+        branch: 0,
+        function: 0,
+        line: 0
+      };
+
+      return;
+    }
+
     const sourceMapStore = createSourceMapStore();
     const coverageMap = createCoverageMap(data);
     const transformed = sourceMapStore.transformCoverage(coverageMap);
@@ -140,7 +161,17 @@ export default class Results {
     };
   }
 
+  public checkIfCoverageReportExists() {
+    this.haveCoverageReport = existsSync(
+      join(this.projectRoot, "coverage/lcov-report/index.html")
+    );
+  }
+
   public getCoverage() {
     return this.coverage;
+  }
+
+  public doesHaveCoverageReport() {
+    return this.haveCoverageReport;
   }
 }

@@ -1,22 +1,26 @@
 import React from "react";
 import {
-  X,
   CheckCircle,
   Circle,
-  Code,
   Package,
   XCircle,
-  Zap
+  Zap,
+  Edit2
 } from "react-feather";
 
 interface Props {
   status: string | null | undefined;
   describe: boolean;
+  todo: boolean;
 }
 
-export default function TestIndicator({ status, describe }: Props) {
+export default function TestIndicator({ status, describe, todo }: Props) {
   let Icon = describe ? Package : Zap;
   let color = "#AC61FF";
+
+  if (todo) {
+    return <Edit2 size={14} color="#AC61FF" />;
+  }
 
   if (!describe) {
     if (status === "passed") {

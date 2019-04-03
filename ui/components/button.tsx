@@ -8,8 +8,7 @@ const StyledButton = styled.button<any>`
   color: ${props => (props.minimal ? "#ffffff" : "#242326")};
   text-align: center;
   transition: all 0.5s;
-  border: ${props =>
-    props.minimal && !props.compact ? "1px solid #FFD062" : "none"};
+  border: 1px solid #ffd062;
   border-radius: 3px;
   background-color: ${props => (props.minimal ? "transparent" : "#FFD062")};
   cursor: pointer;

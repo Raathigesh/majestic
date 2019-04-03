@@ -24,6 +24,7 @@ export default class RunnerResolver {
   private isRunning: boolean;
   private activeFile: string;
   private isWatching: boolean = false;
+  private collectCoverage: boolean = false;
 
   constructor() {
     this.workspace = new Workspace(root);
@@ -39,6 +40,11 @@ export default class RunnerResolver {
     status.running = this.isRunning;
     status.watching = this.isWatching;
     return status;
+  }
+
+  @Query(returns => Boolean)
+  shouldCollectCoverage() {
+    return this.collectCoverage;
   }
 
   @Subscription(returns => RunnerStatus, {
@@ -75,14 +81,18 @@ export default class RunnerResolver {
       return this.jestManager.switchToAnotherFile(path);
     }
 
-    return this.jestManager.runSingleFile(path, this.isWatching);
+    return this.jestManager.runSingleFile(
+      path,
+      this.isWatching,
+      this.collectCoverage
+    );
   }
 
   @Mutation(returns => String, { nullable: true })
   run() {
     this.activeFile = "";
     this.isRunning = true;
-    return this.jestManager.run(this.isWatching);
+    return this.jestManager.run(this.isWatching, this.collectCoverage);
   }
 
   @Mutation(returns => String, { nullable: true })
@@ -104,5 +114,11 @@ export default class RunnerResolver {
       id: RunnerEvents.RUNNER_WATCH_MODE_CHANGE,
       payload: {}
     });
+  }
+
+  @Mutation(returns => Boolean)
+  setCollectCoverage(@Arg("collect") collect: boolean) {
+    this.collectCoverage = collect;
+    return this.collectCoverage;
   }
 }

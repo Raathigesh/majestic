@@ -1,9 +1,11 @@
 import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components";
-import { useMutation } from "react-apollo-hooks";
+import { useMutation, useQuery } from "react-apollo-hooks";
 import { space, color } from "styled-system";
 import { Tooltip } from "react-tippy";
 import SET_WATCH_MODE from "./set-watch-mode.gql";
+import SHOULD_COLLECT_COVERAGE from "./should-collect-coverage.gql";
+import SET_COLLECT_COVERAGE from "./set-collect-coverage.gql";
 import { Workspace } from "../../server/api/workspace/workspace";
 import { transform, filterFailure } from "./transformer";
 import Summary from "./summary";
@@ -15,7 +17,9 @@ import {
   Search,
   RefreshCw,
   ZapOff,
-  StopCircle
+  StopCircle,
+  FileText,
+  Layers
 } from "react-feather";
 import Button from "../components/button";
 import { RunnerStatus } from "../../server/api/runner/status";
@@ -60,10 +64,12 @@ interface Props {
   workspace: Workspace;
   summary: SummaryType | undefined;
   runnerStatus?: RunnerStatus;
+  showCoverage: boolean;
   onSelectedFileChange: (path: string) => void;
   onSearchOpen: () => void;
   onRefreshFiles: () => void;
   onStop: () => void;
+  onShowCoverage: () => void;
 }
 
 export default function TestExplorer({
@@ -71,10 +77,12 @@ export default function TestExplorer({
   workspace,
   onSelectedFileChange,
   summary,
+  showCoverage,
   runnerStatus,
   onSearchOpen,
   onRefreshFiles,
-  onStop
+  onStop,
+  onShowCoverage
 }: Props) {
   const failedItems = (summary && summary.failedTests) || [];
   const executingItems = (summary && summary.executingTests) || [];
@@ -107,6 +115,12 @@ export default function TestExplorer({
   if (showFailedTests) {
     files = filterFailure(files);
   }
+
+  const {
+    data: { shouldCollectCoverage },
+    refetch: refetchCoverageFlag
+  } = useQuery<any>(SHOULD_COLLECT_COVERAGE);
+  const setCollectCoverage = useMutation(SET_COLLECT_COVERAGE);
 
   const handleFileSelection = (path: string) => {
     onSelectedFileChange(path);
@@ -158,6 +172,21 @@ export default function TestExplorer({
                 : "Watch"}
             </Button>
           </Tooltip>
+          <Tooltip title="Collect coverage" position="bottom" size="small">
+            <Button
+              minimal={!shouldCollectCoverage}
+              onClick={() => {
+                setCollectCoverage({
+                  variables: {
+                    collect: !shouldCollectCoverage
+                  }
+                });
+                refetchCoverageFlag();
+              }}
+            >
+              <FileText size={14} />
+            </Button>
+          </Tooltip>
           <Tooltip title="Search test files" position="bottom" size="small">
             <Button
               minimal
@@ -185,6 +214,23 @@ export default function TestExplorer({
               <RefreshCw size={10} />
             </Button>
           </Tooltip>
+          {summary && summary.haveCoverageReport && (
+            <Tooltip
+              title="Show coverage report"
+              position="bottom"
+              size="small"
+            >
+              <Button
+                size="sm"
+                minimal={!showCoverage}
+                onClick={() => {
+                  onShowCoverage();
+                }}
+              >
+                <Layers size={10} />
+              </Button>
+            </Tooltip>
+          )}
           {summary && summary.failedTests && summary.failedTests.length > 0 && (
             <Tooltip
               title="Show only failed tests"

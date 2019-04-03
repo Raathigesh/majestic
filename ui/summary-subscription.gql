@@ -13,5 +13,6 @@ subscription {
       branch
       line
     }
+    haveCoverageReport
   }
 }
