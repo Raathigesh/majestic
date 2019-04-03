@@ -1,6 +1,6 @@
 import { ObjectType, Field } from "type-graphql";
 
-export type TestItemType = "describe" | "it";
+export type TestItemType = "describe" | "it" | "todo";
 
 @ObjectType()
 export class TestItem {
