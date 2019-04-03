@@ -1,21 +1,22 @@
 import React, { memo } from "react";
-import styled from "styled-components";
-import { space, color } from "styled-system";
-import { useMutation } from "react-apollo-hooks";
-import FILEITEMS_SUB from "./file-items-subscription.gql";
-import FILEITEMS from "./query.gql";
-import RUNFILE from "./run-file.gql";
-import UPDATE_SNAPSHOT from "./update-snapshot.gql";
-import FILERESULTSUB from "./subscription.gql";
-import RESULT from "./result.gql";
-import Test from "./test-item";
-import { transform } from "./transformer";
-import useSubscription from "./use-subscription";
-import FileSummary from "./summary";
-import { TestFileResult } from "../../server/api/workspace/test-result/file-result";
-import { TestFile as TestFileModel } from "../../server/api/workspace/test-file";
+import { color, space } from "styled-system";
+
 import ConsolePanel from "./console-panel";
 import ErrorPanel from "./error-panel";
+import FILEITEMS from "./query.gql";
+import FILEITEMS_SUB from "./file-items-subscription.gql";
+import FILERESULTSUB from "./subscription.gql";
+import FileSummary from "./summary";
+import RESULT from "./result.gql";
+import RUNFILE from "./run-file.gql";
+import Test from "./test-item";
+import { TestFile as TestFileModel } from "../../server/api/workspace/test-file";
+import { TestFileResult } from "../../server/api/workspace/test-result/file-result";
+import UPDATE_SNAPSHOT from "./update-snapshot.gql";
+import styled from "styled-components";
+import { transform } from "./transformer";
+import { useMutation } from "react-apollo-hooks";
+import useSubscription from "./use-subscription";
 
 const Container = styled.div<any>`
   ${space};
@@ -57,6 +58,10 @@ function TestFile({ selectedFilePath, isRunning, projectRoot, onStop }: Props) {
 
   const testCount = ((fileItemResult && fileItemResult.items) || []).filter(
     fileItem => fileItem.type === "it"
+  ).length;
+
+  const todoCount = ((fileItemResult && fileItemResult.items) || []).filter(
+    fileItem => fileItem.type === "todo"
   ).length;
 
   const runFile = useMutation(RUNFILE, {
@@ -102,6 +107,7 @@ function TestFile({ selectedFilePath, isRunning, projectRoot, onStop }: Props) {
         projectRoot={projectRoot}
         suiteCount={suiteCount}
         testCount={testCount}
+        todoCount={todoCount}
         passingTests={result && result.numPassingTests}
         failingTests={result && result.numFailingTests}
         path={selectedFilePath}
