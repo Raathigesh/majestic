@@ -21,6 +21,8 @@ export default function TestIndicator({ status, describe }: Props) {
   if (!describe) {
     if (status === "passed") {
       Icon = CheckCircle;
+    } else if (status === "todo") {
+      Icon = Circle;
     } else if (status === "failed") {
       Icon = XCircle;
     }

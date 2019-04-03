@@ -1,21 +1,21 @@
-import { ObjectType, Field } from "type-graphql";
+import { Field, ObjectType } from "type-graphql";
 
-export type TestItemType = "describe" | "it";
+export type TestItemType = "describe" | "it" | "todo";
 
 @ObjectType()
 export class TestItem {
-  @Field()
-  id: string;
+    @Field()
+    id: string;
 
-  @Field()
-  name: string;
+    @Field()
+    name: string;
 
-  @Field()
-  type: TestItemType;
+    @Field()
+    type: TestItemType;
 
-  @Field({ nullable: true })
-  parent?: string;
+    @Field({ nullable: true })
+    parent?: string;
 
-  @Field()
-  only: boolean;
+    @Field()
+    only: boolean;
 }
