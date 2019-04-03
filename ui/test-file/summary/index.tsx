@@ -1,22 +1,21 @@
+import React from "react";
+import styled from "styled-components";
+import { space, fontSize, color } from "styled-system";
+import { useSpring, animated } from "react-spring";
 import {
-  Camera,
-  CheckCircle,
-  Circle,
-  Code,
   Folder,
-  Frown,
+  Code,
   Play,
   StopCircle,
-  ZapOff
+  Camera,
+  CheckCircle,
+  Frown,
+  ZapOff,
+  Circle
 } from "react-feather";
-import { animated, useSpring } from "react-spring";
-import { color, fontSize, space } from "styled-system";
-
 import Button from "../../components/button";
 import OPEN_IN_EDITOR from "./open-in-editor.gql";
-import React from "react";
 import { Tooltip } from "react-tippy";
-import styled from "styled-components";
 import { useMutation } from "react-apollo-hooks";
 
 const Container = styled.div<any>`
