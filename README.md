@@ -87,7 +87,7 @@ You can configure Majestic by adding `majestic` key to `package.json`.
 #### Custom react-scripts
 If you're using a custom [react-scripts](https://www.npmjs.com/package/react-scripts) in your CRA app, set `jestScriptPath` to your script path.  e.g.:
 ```
-  "jestScriptPath": "../node_modules/my-react-scripts/scripts/test.js"
+  "jestScriptPath": "./node_modules/my-react-scripts/scripts/test.js"
 ```
 
 #### Absolute import paths
