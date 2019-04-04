@@ -86,6 +86,16 @@
         "code",
         "ideas"
       ]
+    },
+    {
+      "login": "moos",
+      "name": "Moos",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/233047?v=4",
+      "profile": "http://blog.42at.com",
+      "contributions": [
+        "bug",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
