@@ -34,7 +34,7 @@ export default class ConfigResolver {
       jestScriptPath = jestScriptPathFromPackage || this.getJestScriptPath(projectRoot);
     }
 
-    args = [...args, ...configFromPkgJson.args];
+    args = [...args, ...(configFromPkgJson.args || [])];
     Object.assign(env, configFromPkgJson.env);
 
     const majesticConfig = {
