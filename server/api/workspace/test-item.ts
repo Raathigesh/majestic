@@ -7,7 +7,7 @@ export class TestItem {
   @Field()
   id: string;
 
-  @Field()
+  @Field({ nullable: true })
   name: string;
 
   @Field()

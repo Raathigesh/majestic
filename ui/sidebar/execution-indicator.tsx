@@ -8,7 +8,7 @@ export default function ExecutionIndicator() {
       x="0px"
       y="0px"
       width="18px"
-      height="15px"
+      height="12px"
       viewBox="0 0 24 30"
     >
       <rect x="0" y="0" width="4" height="15" fill="#fcd101">
