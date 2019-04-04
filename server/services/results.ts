@@ -135,8 +135,6 @@ export default class Results {
   }
 
   public mapCoverage(data: any) {
-    this.checkIfCoverageReportExists();
-
     if (!data) {
       this.coverage = {
         statement: 0,

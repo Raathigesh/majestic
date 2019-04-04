@@ -19,6 +19,7 @@ Majestic is a GUI for [Jest](https://jestjs.io/)
 - 📸 Update snapshots
 - ❌ Examine test failures as they happen
 - ⏲ Console.log() to the UI for debugging
+- 🚔 Built-in coverage report
 - 🔍 Search tests
 - 💎 Works with flow and typescript projects
 - 📦 Works with Create react app
@@ -64,10 +65,12 @@ You can configure Majestic by adding `majestic` key to `package.json`.
     "majestic": {
         // if majestic fails to find the Jest package, you can provide it here. Should be relative to the package.json
         "jestScriptPath": "../node_modules/jest/bin/jest.js",
-        // if you want to pass additional arguments to jest, do it here
-        "args": [],
+        // if you want to pass additional arguments to Jest, do it here
+        "args": ['--config=./path/to/config/file/jest.config.js'],
         // environment variables to pass to the process
-        "env": {}
+        "env": {
+          "CI": "true"
+        }
     }
 }
 ```

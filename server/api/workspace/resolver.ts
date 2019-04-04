@@ -77,7 +77,11 @@ export default class WorkspaceResolver {
 
     pubsub.subscribe(Events.RUN_COMPLETE, ({ payload }) => {
       this.results.mapCoverage(payload.coverageMap);
-      this.notifySummaryChange();
+
+      setTimeout(() => {
+        this.results.checkIfCoverageReportExists();
+        this.notifySummaryChange();
+      }, 2000);
     });
 
     pubsub.subscribe(RunnerEvents.RUNNER_STOPPED, () => {

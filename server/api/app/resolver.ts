@@ -23,7 +23,7 @@ export default class AppResolver {
   setSelectedFile(@Arg("path", { nullable: true }) path: string) {
     this.appInstance.selectedFile = path;
 
-    if (path !== null) {
+    if (path) {
       this.fileWatcher.watch(path);
       pubsub.publish(WatcherEvents.FILE_CHANGE, {
         id: WatcherEvents.FILE_CHANGE,
