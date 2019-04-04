@@ -63,11 +63,11 @@ You can configure Majestic by adding `majestic` key to `package.json`.
 {
     "majestic": {
         // if majestic fails to find the Jest package, you can provide it here. Should be relative to the package.json
-        jestScriptPath: "../node_modules/jest/bin/jest.js",
+        "jestScriptPath": "../node_modules/jest/bin/jest.js",
         // if you want to pass additional arguments to jest, do it here
-        args: [],
+        "args": [],
         // environment variables to pass to the process
-        env: {}
+        "env": {}
     }
 }
 ```
@@ -81,6 +81,40 @@ You can configure Majestic by adding `majestic` key to `package.json`.
 `--noOpen` - Will prevent from automatically opening the UI url in the browser
 
 `--version` - Will print the version of Majestic and will exit
+
+### Troubleshooting
+
+#### Custom react-scripts
+If you're using a custom [react-scripts](https://www.npmjs.com/package/react-scripts) in your CRA app, set `jestScriptPath` to your script path.  e.g.:
+```
+  "jestScriptPath": "../node_modules/my-react-scripts/scripts/test.js"
+```
+
+#### Absolute import paths
+Set `NODE_PATH` in the majestic env config: 
+```
+  "env": { 
+    "NODE_PATH": "./src" 
+  }
+``` 
+
+#### Mocked networks
+When using [nock](https://github.com/nock/nock) (or other mock proxies) and get an error: 
+  > (node:50245) UnhandledPromiseRejectionWarning: FetchError: request to http://localhost:4000/test-result failed, reason: Nock: Not allow net connect for "localhost:4000/test-result"
+  
+  make sure to re-enable net connection after the test completes, e.g. (in a setup file) :
+  ```
+  beforeAll(() => {
+    nock.disableNetConnect();
+  });
+  
+  afterAll(() => {
+    nock.enableNetConnect();
+  });
+  ```
+  
+
+
 
 ### Contribute
 
