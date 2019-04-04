@@ -94,7 +94,8 @@
       "profile": "http://blog.42at.com",
       "contributions": [
         "bug",
-        "code"
+        "code",
+        "doc"
       ]
     }
   ],
