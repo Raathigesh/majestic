@@ -111,11 +111,11 @@ export default class JestManager {
       "-r",
       this.getPatchFilePath(),
       this.config.jestScriptPath,
-      ...(this.config.args || []),
       "--colors",
       ...(collectCoverage
         ? ["--collectCoverage=true"]
         : ["--collectCoverage=false"]),
+      ...(this.config.args || []),
       ...args
     ];
 
@@ -131,7 +131,7 @@ export default class JestManager {
       cwd: this.project.projectRoot,
       shell: true,
       stdio: inherit ? "inherit" : "pipe",
-      env: { ...finalEnv, ...(process.env || {}) }
+      env: { ...(process.env || {}), ...finalEnv }
     });
 
     this.process.on("exit", () => {

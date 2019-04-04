@@ -16,10 +16,14 @@ export default class ConfigResolver {
     let env: any = {};
     const configFromPkgJson = this.getConfigFromPackageJson(projectRoot) || {};
 
+    const jestScriptPathFromPackage = configFromPkgJson.jestScriptPath
+        ? join(projectRoot, configFromPkgJson.jestScriptPath)
+        : null;
+
     if (this.isBootstrappedWithCreateReactApp(projectRoot)) {
       log("Project identified as Create react app");
 
-      jestScriptPath = this.getJestScriptForCreateReactApp(projectRoot);
+      jestScriptPath = jestScriptPathFromPackage || this.getJestScriptForCreateReactApp(projectRoot);
       args = ["--env=jsdom"];
       env = {
         CI: "true"
@@ -27,14 +31,11 @@ export default class ConfigResolver {
     } else {
       log("Majestic configuration from Package.json: ", configFromPkgJson);
 
-      const jestScriptPathFromPackage = configFromPkgJson.jestScriptPath
-        ? join(projectRoot, configFromPkgJson.jestScriptPath)
-        : null;
-      jestScriptPath =
-        jestScriptPathFromPackage || this.getJestScriptPath(projectRoot);
-      args = configFromPkgJson.args || [];
-      env = configFromPkgJson.env || {};
+      jestScriptPath = jestScriptPathFromPackage || this.getJestScriptPath(projectRoot);
     }
+
+    args = [...args, ...(configFromPkgJson.args || [])];
+    Object.assign(env, configFromPkgJson.env);
 
     const majesticConfig = {
       jestScriptPath: `"${jestScriptPath}"`,
