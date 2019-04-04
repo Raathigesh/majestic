@@ -38,7 +38,7 @@ export default class WorkspaceResolver {
     this.project = new Project(root);
     const configResolver = new ConfigResolver();
     this.majesticConfig = configResolver.getConfig(root);
-    this.results = new Results();
+    this.results = new Results(root);
 
     pubsub.subscribe(Events.TEST_RESULT, ({ payload }: any) => {
       const result = new TestFileResult();
@@ -176,6 +176,7 @@ export default class WorkspaceResolver {
     summary.executingTests = this.results.getExecutingTests();
     summary.passingTests = this.results.getPassedTests();
     summary.coverage = this.results.getCoverage();
+    summary.haveCoverageReport = this.results.doesHaveCoverageReport();
     return summary;
   }
 
@@ -196,6 +197,7 @@ export default class WorkspaceResolver {
     result.executingTests = this.results.getExecutingTests();
     result.passingTests = this.results.getPassedTests();
     result.coverage = this.results.getCoverage();
+    result.haveCoverageReport = this.results.doesHaveCoverageReport();
     return result;
   }
 }

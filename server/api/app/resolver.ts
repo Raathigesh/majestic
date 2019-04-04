@@ -20,16 +20,18 @@ export default class AppResolver {
   }
 
   @Mutation(returns => App)
-  setSelectedFile(@Arg("path") path: string) {
+  setSelectedFile(@Arg("path", { nullable: true }) path: string) {
     this.appInstance.selectedFile = path;
-    this.fileWatcher.watch(path);
 
-    pubsub.publish(WatcherEvents.FILE_CHANGE, {
-      id: WatcherEvents.FILE_CHANGE,
-      payload: {
-        path
-      }
-    });
+    if (path !== null) {
+      this.fileWatcher.watch(path);
+      pubsub.publish(WatcherEvents.FILE_CHANGE, {
+        id: WatcherEvents.FILE_CHANGE,
+        payload: {
+          path
+        }
+      });
+    }
 
     return this.appInstance;
   }

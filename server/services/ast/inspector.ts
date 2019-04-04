@@ -53,7 +53,12 @@ function findItems(
     only = true;
   } else if (path.node.callee.name === "test") {
     type = "it";
-  } else {
+  } else if (
+        path.node.callee.property &&
+        path.node.callee.property.name === "todo"
+    ) {
+        type = "todo";
+    } else {
     type = path.node.callee.name;
   }
 
@@ -76,6 +81,14 @@ function findItems(
     result.push({
       id: nanoid(),
       type: "it",
+      name: path.node.arguments[0].value,
+      only,
+      parent: parentId
+    });
+  } else if (type === "todo") {
+    result.push({
+      id: nanoid(),
+      type: "todo",
       name: path.node.arguments[0].value,
       only,
       parent: parentId

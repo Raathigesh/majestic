@@ -19,6 +19,7 @@ import { Workspace } from "../server/api/workspace/workspace";
 import { color } from "styled-system";
 import { RunnerStatus } from "../server/api/runner/status";
 import { Summary } from "../server/api/workspace/summary";
+import CoveragePanel from "./coverage-panel";
 
 const ContainerDiv = styled.div`
   display: flex;
@@ -72,7 +73,11 @@ export default function App() {
   );
 
   const setSelectedFile = useMutation(SET_SELECTED_FILE);
-  const handleFileSelection = (path: string) => {
+  const handleFileSelection = (path: string | null) => {
+    if (path !== null) {
+      setShowCoverage(false);
+    }
+
     setSelectedFile({
       variables: {
         path
@@ -85,9 +90,11 @@ export default function App() {
 
   const [isSearchOpen, setSearchOpen] = useState(false);
   const keys = useKeys();
-  if (isSearchOpen && keys.has('Escape')) {
+  if (isSearchOpen && keys.has("Escape")) {
     setSearchOpen(false);
   }
+
+  const [showCoverage, setShowCoverage] = useState(false);
 
   return (
     <ContainerDiv>
@@ -103,6 +110,7 @@ export default function App() {
           onSelectedFileChange={handleFileSelection}
           summary={summary}
           runnerStatus={runnerStatus}
+          showCoverage={showCoverage}
           onSearchOpen={() => {
             setSearchOpen(true);
           }}
@@ -112,7 +120,12 @@ export default function App() {
           onStop={() => {
             stopRunner();
           }}
+          onShowCoverage={() => {
+            setShowCoverage(!showCoverage);
+            handleFileSelection(null);
+          }}
         />
+        {showCoverage && <CoveragePanel />}
         {selectedFile ? (
           <TestFile
             projectRoot={workspace.projectRoot}

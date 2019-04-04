@@ -13,5 +13,6 @@ query {
       branch
       line
     }
+    haveCoverageReport
   }
 }

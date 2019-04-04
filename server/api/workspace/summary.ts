@@ -26,4 +26,7 @@ export class Summary {
 
   @Field(returns => CoverageSummary, { nullable: true })
   coverage: CoverageSummary;
+
+  @Field(returns => Boolean, { nullable: true })
+  haveCoverageReport: boolean;
 }

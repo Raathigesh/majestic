@@ -38,7 +38,7 @@ const Label = styled.div`
   }
 `;
 
-const Content = styled.div`
+const Content = styled.div<any>`
   padding: 5px;
   display: flex;
   flex-direction: column;
@@ -46,7 +46,7 @@ const Content = styled.div`
   background-color: #262529;
   border-radius: 4px;
   margin-bottom: 10px;
-  border: 1px solid ${props => props.only ? "#9d8301" : "#333437"};
+  border: 1px solid ${props => (props.only ? "#9d8301" : "#333437")};
 `;
 
 const FailureMessage = styled.div`
@@ -93,8 +93,6 @@ export default function Test({
     return true;
   });
 
-  console.log(item);
-
   return (
     <Container>
       <Content only={only}>
@@ -106,6 +104,7 @@ export default function Test({
                 : testResult && testResult.status
             }
             describe={item.type === "describe"}
+            todo={item.type === "todo"}
           />
           <span>{name}</span>
           {isDurationAvailable && (

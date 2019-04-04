@@ -10,7 +10,8 @@ import {
   Camera,
   CheckCircle,
   Frown,
-  ZapOff
+  ZapOff,
+  Circle
 } from "react-feather";
 import Button from "../../components/button";
 import OPEN_IN_EDITOR from "./open-in-editor.gql";
@@ -101,6 +102,7 @@ interface Props {
   projectRoot: string;
   suiteCount: number;
   testCount: number;
+  todoCount: number;
   passingTests: number;
   failingTests: number;
   isRunning: boolean;
@@ -116,6 +118,7 @@ export default function FileSummary({
   projectRoot,
   suiteCount,
   testCount,
+  todoCount,
   passingTests,
   failingTests,
   isRunning,

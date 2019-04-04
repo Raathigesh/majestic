@@ -1,7 +1,7 @@
-import { Application } from "express";
-import { resolve } from "path";
+import * as exp from "express";
+import { resolve, join } from "path";
 
-export function initializeStaticRoutes(express: Application) {
+export function initializeStaticRoutes(express: exp.Application, root: string) {
   express.get("/", (req, res) =>
     res.sendFile("./ui/index.html", {
       root: resolve(__dirname, "..")
@@ -22,4 +22,6 @@ export function initializeStaticRoutes(express: Application) {
       root: resolve(__dirname, "..")
     })
   );
+
+  express.use("/coverage", exp.static(join(root, "coverage")));
 }

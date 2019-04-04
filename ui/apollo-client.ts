@@ -12,6 +12,10 @@ if (PRODUCTION) {
   HTTP_URL = `http://${window.location.host}`;
 }
 
+export function getAPIUrl() {
+  return HTTP_URL;
+}
+
 const wsLink = new WebSocketLink({
   uri: WS_URL,
   options: {

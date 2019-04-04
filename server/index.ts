@@ -9,6 +9,7 @@ import * as opn from "open";
 import "consola";
 import * as pkg from "../package.json";
 import { initializeStaticRoutes } from "./static-files";
+import { root } from "./services/cli";
 
 declare var consola: any;
 
@@ -29,7 +30,7 @@ async function main() {
   try {
     const schema: any = await getSchema();
     const server = new GraphQLServer({ schema });
-    initializeStaticRoutes(server.express);
+    initializeStaticRoutes(server.express, root);
     resultHandlerApi(server.express);
 
     const port = await getPort({ port: defaultPort });

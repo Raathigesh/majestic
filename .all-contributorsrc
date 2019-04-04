@@ -76,6 +76,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "agustif",
+      "name": "Agusti Fernandez",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/6601142?v=4",
+      "profile": "https://agu.st/",
+      "contributions": [
+        "code",
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7,
