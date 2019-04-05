@@ -111,11 +111,11 @@ export default class JestManager {
       "-r",
       this.getPatchFilePath(),
       this.config.jestScriptPath,
+      ...(this.config.args || []),
       "--colors",
       ...(collectCoverage
         ? ["--collectCoverage=true"]
         : ["--collectCoverage=false"]),
-      ...(this.config.args || []),
       ...args
     ];
 

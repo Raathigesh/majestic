@@ -136,7 +136,7 @@ export default function SummaryPanel({ summary }: Props) {
           <Row>
             <Cell>
               <CoverageValue>
-                {summary && summary.coverage && summary.coverage.statement}
+                {summary && summary.coverage && summary.coverage.statement}%
               </CoverageValue>
               <CoverageLabel>
                 <Layers size={9} /> Stmts
@@ -144,7 +144,7 @@ export default function SummaryPanel({ summary }: Props) {
             </Cell>
             <Cell>
               <CoverageValue>
-                {summary && summary.coverage && summary.coverage.branch}
+                {summary && summary.coverage && summary.coverage.branch}%
               </CoverageValue>
               <CoverageLabel>
                 <Layers size={9} /> Branch
@@ -152,7 +152,7 @@ export default function SummaryPanel({ summary }: Props) {
             </Cell>
             <Cell>
               <CoverageValue>
-                {summary && summary.coverage && summary.coverage.function}
+                {summary && summary.coverage && summary.coverage.function}%
               </CoverageValue>
               <CoverageLabel>
                 <Layers size={9} /> Funcs
@@ -160,7 +160,7 @@ export default function SummaryPanel({ summary }: Props) {
             </Cell>
             <Cell>
               <CoverageValue>
-                {summary && summary.coverage && summary.coverage.line}
+                {summary && summary.coverage && summary.coverage.line}%
               </CoverageValue>
               <CoverageLabel>
                 <Layers size={9} /> Lines
