@@ -7,10 +7,13 @@ import * as parseArgs from "minimist";
 import * as chromeLauncher from "chrome-launcher";
 import * as opn from "open";
 import "consola";
-import * as pkg from "../package.json";
 import { initializeStaticRoutes } from "./static-files";
 import { root } from "./services/cli";
+import * as readPkgUp from "read-pkg-up";
 
+const pkg = readPkgUp.sync({
+  cwd: __dirname
+}).pkg;
 declare var consola: any;
 
 const args = parseArgs(process.argv);
