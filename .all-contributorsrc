@@ -97,6 +97,16 @@
         "code",
         "doc"
       ]
+    },
+    {
+      "login": "MacZel",
+      "name": "MacZel",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/25805810?v=4",
+      "profile": "http://maciejzelek.space",
+      "contributions": [
+        "code",
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7,
