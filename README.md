@@ -75,15 +75,38 @@ You can configure Majestic by adding `majestic` key to `package.json`.
 }
 ```
 
+#### Optional configuration in project with multiple Jest configuration files
+
+```javascript
+{
+    "majestic": {
+        "jestScriptPath": "../node_modules/jest/bin/jest.js",
+        "configs": {
+          "config1": {
+            "args": [],
+            "env": {}
+          },
+          "config2": {
+            "args": [],
+            "env": {}
+          }
+        }
+    }
+}
+```
+
 ### Arguments
 
-`--port` - Will use this port if available, else Majestic will pick another free port.
+`--config` - Will use this config from the list supplied in optional configuration.
 
 `--debug` - Will output extra debug info to console. Helps with debugging.
 
-`--noOpen` - Will prevent from automatically opening the UI url in the browser
+`--noOpen` - Will prevent from automatically opening the UI url in the browser.
 
-`--version` - Will print the version of Majestic and will exit
+`--port` - Will use this port if available, else Majestic will pick another free port.
+
+`--version` - Will print the version of Majestic and will exit.
+
 
 ### Troubleshooting
 
