@@ -16,7 +16,13 @@ export async function inspect(path: string): Promise<TestItem[]> {
           reject(err);
         }
 
-        const ast = parse(path, code);
+        let ast;
+        try {
+          ast = parse(path, code);
+        } catch (e) {
+          reject(e);
+        }
+
         const result: TestItem[] = [];
 
         traverse(ast, {
@@ -32,11 +38,7 @@ export async function inspect(path: string): Promise<TestItem[]> {
   });
 }
 
-function findItems(
-  path: any,
-  result: TestItem[],
-  parentId?: any
-) {
+function findItems(path: any, result: TestItem[], parentId?: any) {
   let type: string;
   let only: boolean = false;
   if (path.node.callee.name === "fdescribe") {
@@ -54,11 +56,11 @@ function findItems(
   } else if (path.node.callee.name === "test") {
     type = "it";
   } else if (
-        path.node.callee.property &&
-        path.node.callee.property.name === "todo"
-    ) {
-        type = "todo";
-    } else {
+    path.node.callee.property &&
+    path.node.callee.property.name === "todo"
+  ) {
+    type = "todo";
+  } else {
     type = path.node.callee.name;
   }
 
