@@ -39,6 +39,13 @@ export default class WorkspaceResolver {
     const configResolver = new ConfigResolver();
     this.majesticConfig = configResolver.getConfig(root);
     this.results = new Results(root);
+    this.results.getCoverageReportPath(this.majesticConfig);
+
+    pubsub.publish("WorspaceInitialized", {
+      coverageDirectory: this.results.coverageDirectory
+    });
+
+    this.results.checkIfCoverageReportExists();
 
     pubsub.subscribe(Events.TEST_RESULT, ({ payload }: any) => {
       const result = new TestFileResult();

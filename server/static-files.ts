@@ -1,5 +1,6 @@
 import * as exp from "express";
 import { resolve, join } from "path";
+import { pubsub } from "./event-emitter";
 
 export function initializeStaticRoutes(express: exp.Application, root: string) {
   express.get("/", (req, res) =>
@@ -23,5 +24,7 @@ export function initializeStaticRoutes(express: exp.Application, root: string) {
     })
   );
 
-  express.use("/coverage", exp.static(join(root, "coverage")));
+  pubsub.subscribe("WorspaceInitialized", ({ coverageDirectory }) => {
+    express.use("/coverage", exp.static(coverageDirectory));
+  });
 }
