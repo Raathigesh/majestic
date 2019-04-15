@@ -4,6 +4,9 @@ import { existsSync } from "fs";
 import { join } from "path";
 import { MajesticConfig } from "./types";
 import { spawnSync } from "child_process";
+import { createLogger } from "../logger";
+
+const log = createLogger("Results");
 
 export type TestFileStatus = "IDLE" | "EXECUTING";
 export interface CoverageSummary {
@@ -183,28 +186,39 @@ export default class Results {
   }
 
   public getCoverageReportPath(config: MajesticConfig) {
-    const configProcess = spawnSync(
-      "node",
-      [config.jestScriptPath, ...(config.args || []), "--showConfig", "--json"],
-      {
-        cwd: this.projectRoot,
-        shell: true,
-        stdio: "pipe",
-        env: {
-          CI: "true",
-          ...(config.env || {}),
-          ...process.env
+    try {
+      const configProcess = spawnSync(
+        "node",
+        [
+          config.jestScriptPath,
+          ...(config.args || []),
+          "--showConfig",
+          "--json"
+        ],
+        {
+          cwd: this.projectRoot,
+          shell: true,
+          stdio: "pipe",
+          env: {
+            CI: "true",
+            ...(config.env || {}),
+            ...process.env
+          }
         }
-      }
-    );
+      );
 
-    const filesStr = configProcess.stdout.toString().trim();
-    const jestConfig = JSON.parse(filesStr);
-    this.coverageDirectory =
-      jestConfig.globalConfig && jestConfig.globalConfig.coverageDirectory;
-    this.coverageFilePath = join(
-      this.coverageDirectory,
-      "/lcov-report/index.html"
-    );
+      const filesStr = configProcess.stdout.toString().trim();
+      const jestConfig = JSON.parse(filesStr);
+      this.coverageDirectory =
+        jestConfig.globalConfig && jestConfig.globalConfig.coverageDirectory;
+      this.coverageFilePath = join(
+        this.coverageDirectory,
+        "/lcov-report/index.html"
+      );
+    } catch (e) {
+      log(
+        "Error occured while obtaining Jest cofiguration for coverage report"
+      );
+    }
   }
 }
