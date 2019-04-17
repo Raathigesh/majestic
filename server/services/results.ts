@@ -207,7 +207,11 @@ export default class Results {
         }
       );
 
-      const filesStr = configProcess.stdout.toString().trim();
+      let filesStr = configProcess.stdout.toString().trim();
+      if (filesStr === "") {
+        filesStr = configProcess.stderr.toString().trim();
+      }
+
       const jestConfig = JSON.parse(filesStr);
       this.coverageDirectory =
         jestConfig.globalConfig && jestConfig.globalConfig.coverageDirectory;

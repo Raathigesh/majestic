@@ -25,6 +25,8 @@ export function initializeStaticRoutes(express: exp.Application, root: string) {
   );
 
   pubsub.subscribe("WorspaceInitialized", ({ coverageDirectory }) => {
-    express.use("/coverage", exp.static(coverageDirectory));
+    if (coverageDirectory.trim() !== "") {
+      express.use("/coverage", exp.static(coverageDirectory));
+    }
   });
 }
