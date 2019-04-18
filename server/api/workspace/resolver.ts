@@ -41,7 +41,7 @@ export default class WorkspaceResolver {
     this.results = new Results(root);
     this.results.getCoverageReportPath(this.majesticConfig);
 
-    pubsub.publish("WorspaceInitialized", {
+    pubsub.publish("WorkspaceInitialized", {
       coverageDirectory: this.results.coverageDirectory
     });
 
