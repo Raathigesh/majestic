@@ -107,6 +107,15 @@
         "code",
         "ideas"
       ]
+    },
+    {
+      "login": "krazylegz",
+      "name": "Vikram Dighe",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/36250?v=4",
+      "profile": "https://github.com/krazylegz",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
