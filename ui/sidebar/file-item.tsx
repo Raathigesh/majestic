@@ -49,9 +49,7 @@ const EmptyChevron = styled.div`
   width: 5px;
 `;
 
-const ExecutionWrapper = styled.div`
-  margin-top: 11px;
-`;
+const ExecutionWrapper = styled.div``;
 
 interface Props {
   item: TreeNode;
