@@ -84,6 +84,11 @@ function haveFailedChildren(path: string, results: TreeNode[]) {
   );
 }
 
+function sortAsc(a: Item, b: Item){
+  return a.name > b.name ? 1 : -1;
+}
+
 function getChildren(path: string, files: Item[]) {
-  return files.filter(file => file.parent === path);
+  const fileList = files.filter(file => file.parent === path);
+  return fileList.sort(sortAsc);
 }
