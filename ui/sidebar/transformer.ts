@@ -1,4 +1,5 @@
 import { Item } from "../../server/api/workspace/tree";
+import { DESCENDING } from "./sort-orders";
 
 export interface TreeNode extends Item {
   name: string;
@@ -18,12 +19,13 @@ export function transform(
   collapsedFiles: { [path: string]: boolean },
   showFailedTests: boolean,
   items: Item[],
+  sortOrder: string,
   results: TreeNode[] = [],
   hierarchy = 0
 ) {
   const isCollapsed = collapsedFiles[item.path] && !showFailedTests; // when showing failed tests, keep all expanded
   const haveFailure = failedFiles.indexOf(item.path) > -1;
-  const nextChildren = getChildren(item.path, items);
+  const nextChildren = getChildren(item.path, items, sortOrder);
 
   const treeItem = {
     type: item.type,
@@ -49,6 +51,7 @@ export function transform(
         collapsedFiles,
         showFailedTests,
         items,
+        sortOrder,
         results,
         hierarchy + 1
       );
@@ -84,6 +87,19 @@ function haveFailedChildren(path: string, results: TreeNode[]) {
   );
 }
 
-function getChildren(path: string, files: Item[]) {
-  return files.filter(file => file.parent === path);
+function sortAsc(a: Item, b: Item){
+  return a.name > b.name ? 1 : -1;
+}
+
+function sortDesc(a: Item, b: Item){
+  return b.name > a.name ? 1 : -1;
+}
+
+function getChildren(path: string, files: Item[], sort: string) {
+  const fileList = files.filter(file => file.parent === path);
+  if (sort !== '') {
+    const sorter = sort === DESCENDING ? sortDesc : sortAsc;
+    return fileList.sort(sorter);
+  }
+  return fileList;
 }
