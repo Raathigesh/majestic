@@ -89,6 +89,7 @@ export default function App() {
   const stopRunner = useMutation(STOP_RUNNER);
 
   const [isSearchOpen, setSearchOpen] = useState(false);
+  const [sortOrder, setSortOrder] = useState('');
   const keys = useKeys();
   if (isSearchOpen && keys.has("Escape")) {
     setSearchOpen(false);
@@ -112,11 +113,15 @@ export default function App() {
           summary={summary}
           runnerStatus={runnerStatus}
           showCoverage={showCoverage}
+          sortOrder={sortOrder}
           onSearchOpen={() => {
             setSearchOpen(true);
           }}
           onRefreshFiles={() => {
             refetchFiles();
+          }}
+          onSortFiles={(sortOrder: string) => {
+            setSortOrder(sortOrder);
           }}
           onStop={() => {
             stopRunner();
