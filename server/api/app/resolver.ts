@@ -39,7 +39,7 @@ export default class AppResolver {
   @Mutation(returns => String)
   openInEditor(@Arg("path") path: string) {
     launch(path, process.env.EDITOR || "code", (path: string, err: any) => {
-      console.log("Failed to open file in editor: ", err);
+      console.log("Failed to open file in editor. You may need to install the code command to your PATH if you are using VSCode: ", err);
     });
 
     return "";
