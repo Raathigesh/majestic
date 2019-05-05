@@ -112,7 +112,7 @@ export default function TestExplorer({
     items
   );
 
-  if (showFailedTests) {
+  if (showFailedTests && failedItems.length) {
     files = filterFailure(files);
   }
 
@@ -239,7 +239,7 @@ export default function TestExplorer({
             >
               <Button
                 size="sm"
-                minimal
+                minimal={!showFailedTests}
                 onClick={() => {
                   setShowFailedTests(!showFailedTests);
                 }}
