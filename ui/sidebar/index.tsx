@@ -19,15 +19,12 @@ import {
   ZapOff,
   StopCircle,
   FileText,
-  Layers,
-  ChevronUp,
-  ChevronDown
+  Layers
 } from "react-feather";
 import Button from "../components/button";
 import { RunnerStatus } from "../../server/api/runner/status";
 import Tree from "./tree";
 import Logo from "./logo";
-import { ASCENDING, DESCENDING } from "./sort-orders";
 
 const Container = styled.div<any>`
   ${space};
@@ -68,13 +65,11 @@ interface Props {
   summary: SummaryType | undefined;
   runnerStatus?: RunnerStatus;
   showCoverage: boolean;
-  sortOrder: string;
   onSelectedFileChange: (path: string) => void;
   onSearchOpen: () => void;
   onRefreshFiles: () => void;
   onStop: () => void;
   onShowCoverage: () => void;
-  onSortFiles: (sortOrder: string) => void;
 }
 
 export default function TestExplorer({
@@ -84,12 +79,10 @@ export default function TestExplorer({
   summary,
   showCoverage,
   runnerStatus,
-  sortOrder,
   onSearchOpen,
   onRefreshFiles,
   onStop,
-  onShowCoverage,
-  onSortFiles
+  onShowCoverage
 }: Props) {
   const failedItems = (summary && summary.failedTests) || [];
   const executingItems = (summary && summary.executingTests) || [];
@@ -116,8 +109,7 @@ export default function TestExplorer({
     passingTests,
     collapsedItems,
     showFailedTests,
-    items,
-    sortOrder
+    items
   );
 
   if (showFailedTests && failedItems.length) {
@@ -211,18 +203,6 @@ export default function TestExplorer({
       <FileHeader mt={4} mb={3}>
         <FilesHeader>Tests</FilesHeader>
         <RightFilesAction>
-        <Tooltip title="Sort files" position="bottom" size="small">
-            <Button
-              size="sm"
-              minimal
-              onClick={() => {
-                onSortFiles(sortOrder === ASCENDING ? DESCENDING : ASCENDING);
-              }}
-            >
-              { sortOrder === ASCENDING && <ChevronDown size={10} /> }
-              { sortOrder !== ASCENDING && <ChevronUp size={10} /> }
-            </Button>
-          </Tooltip>
           <Tooltip title="Refresh files" position="bottom" size="small">
             <Button
               size="sm"
