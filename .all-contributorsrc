@@ -119,6 +119,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "jsmey",
+      "name": "John Smey",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/10177710?v=4",
+      "profile": "https://github.com/jsmey",
+      "contributions": [
+        "code",
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7,
