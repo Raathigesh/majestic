@@ -122,8 +122,7 @@ export default function App() {
             stopRunner();
           }}
           onShowCoverage={() => {
-            setShowCoverage(!showCoverage);
-            handleFileSelection(null);
+            setShowCoverage(!showCoverage);            
           }}
         />
         {showCoverage && <CoveragePanel />}
