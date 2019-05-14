@@ -107,6 +107,17 @@ You can configure Majestic by adding `majestic` key to `package.json`.
 
 `--version` - Will print the version of Majestic and will exit.
 
+### Shortcut keys
+
+`ctrl+t` - run all tests
+
+`ctrl+enter` - run selected file
+
+`ctrl+w` - watch
+
+`ctrl+s` - search
+
+`escape` - close search
 
 ### Troubleshooting
 
