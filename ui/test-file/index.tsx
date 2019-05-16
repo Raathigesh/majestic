@@ -16,6 +16,7 @@ import { TestFileResult } from "../../server/api/workspace/test-result/file-resu
 import { TestFile as TestFileModel } from "../../server/api/workspace/test-file";
 import ConsolePanel from "./console-panel";
 import ErrorPanel from "./error-panel";
+import useKeys, { hasKeys } from "../hooks/use-keys";
 
 const Container = styled.div<any>`
   ${space};
@@ -99,7 +100,10 @@ function TestFile({ selectedFilePath, isRunning, projectRoot, onStop }: Props) {
   const roots = (fileItemResult.items || []).filter(
     item => item.parent === null
   );
-
+  const keys = useKeys();
+  if (hasKeys(["Control", "Enter"], keys)) {
+    runFile();
+  }
   return (
     <Container p={5} bg="dark" color="text">
       <FileSummary

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useMutation, useQuery } from "react-apollo-hooks";
 import { space, color } from "styled-system";
@@ -11,6 +11,7 @@ import { transform, filterFailure } from "./transformer";
 import Summary from "./summary";
 import { Summary as SummaryType } from "../../server/api/workspace/summary";
 import RUN from "./run.gql";
+import useKeys, { hasKeys } from "../hooks/use-keys";
 import {
   Play,
   Eye,
@@ -136,6 +137,16 @@ export default function TestExplorer({
   };
 
   const isRunning = runnerStatus && runnerStatus.running;
+  const keys = useKeys();
+  if (hasKeys(["Control", "t"], keys)) {
+    run();
+  } else if (hasKeys(["Control", "w"], keys)) {
+    if (runnerStatus) {
+      handleSetWatchModel(!runnerStatus.watching);
+    }
+  } else if (hasKeys(["Control", "s"], keys)) {
+    onSearchOpen();
+  }
 
   return (
     <Container p={4} bg="veryDark" color="text">
