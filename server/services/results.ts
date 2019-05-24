@@ -212,11 +212,14 @@ export default class Results {
         filesStr = configProcess.stderr.toString().trim();
       }
 
+      const defaultCoveragePath = join(this.projectRoot, "coverage");
       const jestConfig = JSON.parse(filesStr);
       this.coverageDirectory =
-        jestConfig.globalConfig && jestConfig.globalConfig.coverageDirectory;
+        (jestConfig.globalConfig &&
+          jestConfig.globalConfig.coverageDirectory) ||
+        defaultCoveragePath;
       this.coverageFilePath = join(
-        this.coverageDirectory || "",
+        this.coverageDirectory,
         "/lcov-report/index.html"
       );
     } catch (e) {
