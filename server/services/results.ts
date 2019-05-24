@@ -216,12 +216,12 @@ export default class Results {
       this.coverageDirectory =
         jestConfig.globalConfig && jestConfig.globalConfig.coverageDirectory;
       this.coverageFilePath = join(
-        this.coverageDirectory,
+        this.coverageDirectory || "",
         "/lcov-report/index.html"
       );
     } catch (e) {
       log(
-        "Error occured while obtaining Jest cofiguration for coverage report"
+        `Error occured while obtaining Jest cofiguration for coverage report ${e.toString()}`
       );
     }
   }
