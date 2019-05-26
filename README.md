@@ -127,10 +127,6 @@ Have a look at some of the [common workarounds](./Troubleshooting.md).
 
 Have a look at the [contribution guide](./CONTRIBUTING.MD).
 
-### License
-
-MIT
-
 ## Contributors
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
