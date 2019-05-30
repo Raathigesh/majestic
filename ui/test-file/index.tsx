@@ -101,7 +101,7 @@ function TestFile({ selectedFilePath, isRunning, projectRoot, onStop }: Props) {
     item => item.parent === null
   );
   const keys = useKeys();
-  if (hasKeys(["Control", "Enter"], keys)) {
+  if (hasKeys(["Alt", "Enter"], keys)) {
     runFile();
   }
   return (

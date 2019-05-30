@@ -138,13 +138,13 @@ export default function TestExplorer({
 
   const isRunning = runnerStatus && runnerStatus.running;
   const keys = useKeys();
-  if (hasKeys(["Control", "t"], keys)) {
+  if (hasKeys(["Alt", "t"], keys)) {
     run();
-  } else if (hasKeys(["Control", "w"], keys)) {
+  } else if (hasKeys(["Alt", "w"], keys)) {
     if (runnerStatus) {
       handleSetWatchModel(!runnerStatus.watching);
     }
-  } else if (hasKeys(["Control", "s"], keys)) {
+  } else if (hasKeys(["Alt", "s"], keys)) {
     onSearchOpen();
   }
 
