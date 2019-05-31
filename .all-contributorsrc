@@ -130,6 +130,16 @@
         "ideas",
         "bug"
       ]
+    },
+    {
+      "login": "BuckAMayzing",
+      "name": "BuckAMayzing",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/19292614?v=4",
+      "profile": "https://github.com/BuckAMayzing",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
