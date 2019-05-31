@@ -6,7 +6,7 @@ export function hasKeys(expectedKeys: string[], pressedKeys: Map<String, boolean
 
 export default function useKeys() {
   const [keys, setKeys] = useState(new Map());
-  const hotKeys = ["Control", "Enter", "Escape", "s", "t", "w"];
+  const hotKeys = ["Alt", "Enter", "Escape", "s", "t", "w"];
 
   function downHandler({ key }:KeyboardEvent) {
     // only update state for keys we are watching

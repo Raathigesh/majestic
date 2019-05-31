@@ -109,13 +109,13 @@ You can configure Majestic by adding `majestic` key to `package.json`.
 
 ### Shortcut keys
 
-`ctrl+t` - run all tests
+`alt+t` - run all tests
 
-`ctrl+enter` - run selected file
+`alt+enter` - run selected file
 
-`ctrl+w` - watch
+`alt+w` - watch
 
-`ctrl+s` - search
+`alt+s` - search
 
 `escape` - close search
 
