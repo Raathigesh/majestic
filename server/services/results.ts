@@ -212,16 +212,19 @@ export default class Results {
         filesStr = configProcess.stderr.toString().trim();
       }
 
+      const defaultCoveragePath = join(this.projectRoot, "coverage");
       const jestConfig = JSON.parse(filesStr);
       this.coverageDirectory =
-        jestConfig.globalConfig && jestConfig.globalConfig.coverageDirectory;
+        (jestConfig.globalConfig &&
+          jestConfig.globalConfig.coverageDirectory) ||
+        defaultCoveragePath;
       this.coverageFilePath = join(
         this.coverageDirectory,
         "/lcov-report/index.html"
       );
     } catch (e) {
       log(
-        "Error occured while obtaining Jest cofiguration for coverage report"
+        `Error occured while obtaining Jest cofiguration for coverage report ${e.toString()}`
       );
     }
   }
