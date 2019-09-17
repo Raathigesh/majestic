@@ -81,6 +81,7 @@ const InfoLabel = styled.div`
 const FilePath = styled.div<any>`
   ${fontSize};
   ${space};
+  word-break: break-all;
   font-weight: 600;
   margin-right: 5px;
 `;
