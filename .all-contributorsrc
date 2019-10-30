@@ -140,6 +140,16 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "rahulakrishna",
+      "name": "Rahul A. Krishna",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/10240002?v=4",
+      "profile": "http://rahulakrishna.github.io",
+      "contributions": [
+        "code",
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7,
