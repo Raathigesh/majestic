@@ -19,12 +19,13 @@ const Header = styled.div`
   margin-bottom: 5px;
 `;
 
-const Content = styled.div`
+const Content = styled.pre`
   display: flex;
   margin-bottom: 3px;
   font-size: 12px;
   border-radius: 3px;
   padding: 4px;
+  font-family: monospace;
 `;
 
 const Logs = styled.div`
@@ -65,7 +66,7 @@ export default function ConsolePanel({ consoleLogs }: Props) {
     <Container>
       <Header>Console logs from the file</Header>
       <Logs>
-        {consoleLogs.map(log => {
+        {consoleLogs.map((log, index) => {
           let result = log.message;
           try {
             result = eval("(" + log.message + ")");
@@ -75,7 +76,7 @@ export default function ConsolePanel({ consoleLogs }: Props) {
 
           if (typeof result === "string") {
             return (
-              <Content>
+              <Content key={index}>
                 {getIcon(log.type)}
                 {result}
               </Content>
