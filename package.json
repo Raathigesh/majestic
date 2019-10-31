@@ -50,7 +50,7 @@
     "apollo-utilities": "^1.0.21",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.2",
-    "babel-plugin-styled-components": "^1.8.0",
+    "babel-plugin-styled-components": "^1.10.6",
     "body-parser": "^1.18.3",
     "chokidar": "^2.0.4",
     "chrome-launcher": "^0.10.5",
