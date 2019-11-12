@@ -153,7 +153,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/BuckAMayzing"><img src="https://avatars2.githubusercontent.com/u/19292614?v=4" width="100px;" alt="BuckAMayzing"/><br /><sub><b>BuckAMayzing</b></sub></a><br /><a href="https://github.com/Raathigesh/majestic/commits?author=BuckAMayzing" title="Code">💻</a> <a href="https://github.com/Raathigesh/majestic/issues?q=author%3ABuckAMayzing" title="Bug reports">🐛</a></td>
   </tr>
   <tr>
-    <td align="center"><a href="http://rahulakrishna.github.io"><img src="https://avatars2.githubusercontent.com/u/10240002?v=4" width="100px;" alt="Rahul A. Krishna"/><br /><sub><b>Rahul A. Krishna</b></sub></a><br /><a href="https://github.com/Raathigesh/majestic/commits?author=rahulakrishna" title="Code">💻</a> <a href="#ideas-rahulakrishna" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="http://rahulakrishna.github.io"><img src="https://avatars2.githubusercontent.com/u/10240002?v=4" width="100px;" alt="Rahul A. Krishna"/><br /><sub><b>Rahul A. Krishna</b></sub></a><br /><a href="https://github.com/Raathigesh/majestic/commits?author=rahulakrishna" title="Code">💻</a> <a href="#ideas-rahulakrishna" title="Ideas, Planning, & Feedback">🤔</a> <a href="#tool-rahulakrishna" title="Tools">🔧</a></td>
   </tr>
 </table>
 
