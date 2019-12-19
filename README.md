@@ -2,7 +2,9 @@
 <img src="./image.png" />
 <br />
 <br />
-<img src="https://img.shields.io/travis/Raathigesh/majestic.svg?style=flat-square" />
+<a href="https://github.com/Raathigesh/majestic/actions">
+  <img src="https://img.shields.io/github/workflow/status/Raathigesh/majestic/Node%20CI?style=flat-square" />
+</a>
 <img src="https://img.shields.io/github/license/Raathigesh/majestic.svg?style=flat-square" />
 <img src="https://img.shields.io/npm/v/majestic.svg?style=flat-square" />
 <a href="https://spectrum.chat/majestic">
