@@ -151,11 +151,21 @@
         "ideas",
         "tool"
       ]
+    },
+    {
+      "login": "amilajack",
+      "name": "Amila Welihinda",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/6374832?v=4",
+      "profile": "https://amilajack.com",
+      "contributions": [
+        "infra"
+      ]
     }
   ],
   "contributorsPerLine": 7,
   "projectName": "majestic",
   "projectOwner": "Raathigesh",
   "repoType": "github",
-  "repoHost": "https://github.com"
+  "repoHost": "https://github.com",
+  "skipCi": true
 }
