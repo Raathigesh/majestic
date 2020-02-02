@@ -160,6 +160,16 @@
       "contributions": [
         "infra"
       ]
+    },
+    {
+      "login": "gregveres",
+      "name": "gregveres",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/12899823?v=4",
+      "profile": "https://github.com/gregveres",
+      "contributions": [
+        "bug",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,

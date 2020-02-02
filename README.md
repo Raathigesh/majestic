@@ -158,6 +158,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="http://rahulakrishna.github.io"><img src="https://avatars2.githubusercontent.com/u/10240002?v=4" width="100px;" alt=""/><br /><sub><b>Rahul A. Krishna</b></sub></a><br /><a href="https://github.com/Raathigesh/majestic/commits?author=rahulakrishna" title="Code">💻</a> <a href="#ideas-rahulakrishna" title="Ideas, Planning, & Feedback">🤔</a> <a href="#tool-rahulakrishna" title="Tools">🔧</a></td>
     <td align="center"><a href="https://amilajack.com"><img src="https://avatars1.githubusercontent.com/u/6374832?v=4" width="100px;" alt=""/><br /><sub><b>Amila Welihinda</b></sub></a><br /><a href="#infra-amilajack" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
+    <td align="center"><a href="https://github.com/gregveres"><img src="https://avatars2.githubusercontent.com/u/12899823?v=4" width="100px;" alt=""/><br /><sub><b>gregveres</b></sub></a><br /><a href="https://github.com/Raathigesh/majestic/issues?q=author%3Agregveres" title="Bug reports">🐛</a> <a href="https://github.com/Raathigesh/majestic/commits?author=gregveres" title="Code">💻</a></td>
   </tr>
 </table>
 
