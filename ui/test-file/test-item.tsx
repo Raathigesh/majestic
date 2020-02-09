@@ -19,7 +19,7 @@ function getResults(item: TestFileItem, testResult: TestFileResult) {
     return null;
   }
 
-  return testResult.testResults.find(result => result.title === item.name);
+  return testResult.testResults.find(result => result.id === item.id);
 }
 
 function childResultStatus (child: TestFileItem, testResult: TestFileResult): boolean {
