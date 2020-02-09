@@ -1,10 +1,11 @@
-import React, { Fragment } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { TestFileItem } from "./transformer";
 import { TestFileResult } from "../../server/api/workspace/test-result/file-result";
 import TestIndicator from "./test-indicator";
 import { color, space } from "styled-system";
 import * as Convert from "ansi-to-html";
+import { CollapseStore } from "./collapseStore";
 
 const convert = new Convert({
   colors: {
@@ -19,6 +20,17 @@ function getResults(item: TestFileItem, testResult: TestFileResult) {
   }
 
   return testResult.testResults.find(result => result.title === item.name);
+}
+
+function childResultStatus (child: TestFileItem, testResult: TestFileResult): boolean {
+  if (child.type === "it") {
+    const childResult = getResults(child, testResult as any);
+    return (childResult == null) || (childResult.status === "passed" || childResult.status === "pending");
+  }
+  if (child.children) {
+    return child.children.every(child => childResultStatus(child, testResult));
+  }
+  return true;
 }
 
 const Container = styled.div`
@@ -62,6 +74,13 @@ const Duration = styled.span`
   color: #fcd101;
 `;
 
+const ViewToggle = styled.div`
+  font-size: 15px;
+  padding-right: 10px;
+  padding-left: 10px;
+  cursor: pointer;
+`;
+
 function escapeHtml(unsafe: string) {
   return unsafe
     .replace(/&/g, "&amp;")
@@ -77,7 +96,7 @@ interface Props {
 }
 
 export default function Test({
-  item: { name, only, children },
+  item: { id, name, only, children },
   item,
   result
 }: Props) {
@@ -85,22 +104,35 @@ export default function Test({
   const isDurationAvailable = testResult && testResult.duration !== undefined;
   const haveFailure = testResult && testResult.failureMessages.length > 0;
   const allChildrenPassing = (children || []).every(child => {
-    if (child.type === "it") {
-      const childResult = getResults(child, result as any);
-      return childResult && childResult.status === "passed";
-    }
-
-    return true;
+    return childResultStatus(child, result as any);
   });
+  
+  const [hideChildren, setHideChildren] = useState(CollapseStore.isCollapsed(id) && allChildrenPassing);
+  useEffect(() => {
+    // we need to use the useEffect hook because the initial value passed to state only gets set when the component is 
+    // created the first time. The useEffect hook will allow us to force the failed describe blocks open when the 
+    // results change. 
+    setHideChildren(CollapseStore.isCollapsed(id) && allChildrenPassing);
+  }, [result]);
 
+  const toggleShowChildern = () => {
+    const newState = !hideChildren;
+    setHideChildren(newState);
+    CollapseStore.setState(id, newState);
+  }
   return (
     <Container>
-      <Content only={only}>
+      <Content only={only} onClick={() => toggleShowChildern()}>
         <Label>
+          { children && children.length > 0 && (
+            <ViewToggle>
+              {hideChildren ? "+" : "-"}
+            </ViewToggle>
+          )}
           <TestIndicator
             status={
-              item.type === "describe" && allChildrenPassing
-                ? "passed"
+              item.type === "describe" 
+                ? ((allChildrenPassing) ? "passed" : "failed")
                 : testResult && testResult.status
             }
             describe={item.type === "describe"}
@@ -123,7 +155,7 @@ export default function Test({
           </FailureMessage>
         )}
       </Content>
-      {children &&
+      {children && !hideChildren &&
         children.map(child => (
           <Test key={child.id} item={child} result={result} />
         ))}
