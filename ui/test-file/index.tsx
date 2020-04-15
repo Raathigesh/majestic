@@ -92,7 +92,7 @@ function TestFile({ selectedFilePath, isRunning, projectRoot, onStop }: Props) {
   const haveSnapshotFailures = ((result && result.testResults) || []).some(
     testResult => {
       return (testResult.failureMessages || []).some(failureMessage =>
-        failureMessage.toLowerCase().includes("snapshot")
+        failureMessage.includes("toMatchSnapshot")
       );
     }
   );
