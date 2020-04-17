@@ -6,6 +6,8 @@ import TestIndicator from "./test-indicator";
 import { color, space } from "styled-system";
 import * as Convert from "ansi-to-html";
 import { CollapseStore } from "./collapseStore";
+import OPEN_FAILURE from "./open-failure.gql";
+import { useMutation } from "react-apollo-hooks";
 
 const convert = new Convert({
   colors: {
@@ -119,10 +121,19 @@ export default function Test({
     const newState = !hideChildren;
     setHideChildren(newState);
     CollapseStore.setState(id, newState);
+          if (children && children.length > 0) {
+    }
   }
+
+  const openFailure = useMutation(OPEN_FAILURE, {
+    variables: {
+      failure: testResult && testResult.failureMessages ? testResult.failureMessages[0] : ''
+    }
+  });
+
   return (
     <Container>
-      <Content only={only} onClick={() => toggleShowChildern()}>
+      <Content only={only} onClick={() => (children && children.length > 0) ? toggleShowChildern() : openFailure()}>
         <Label>
           { children && children.length > 0 && (
             <ViewToggle>
