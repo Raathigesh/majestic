@@ -13,7 +13,7 @@
       "console": "integratedTerminal",
       "env": {
         "TS_NODE_PROJECT": "./tsconfig.server.json",
-        "ROOT": "/Users/rahulakrishna/Works/test-testing-tests"
+        "ROOT": ""
       }
     }
   ]
