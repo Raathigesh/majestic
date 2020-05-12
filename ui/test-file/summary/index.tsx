@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { space, fontSize, color } from "styled-system";
 import { useSpring, animated } from "react-spring";
@@ -13,10 +13,12 @@ import {
   ZapOff,
   Circle
 } from "react-feather";
+import { toast } from "react-toastify";
 import Button from "../../components/button";
 import OPEN_IN_EDITOR from "./open-in-editor.gql";
+import EDITOR_INFO from "./editor-info.gql";
 import { Tooltip } from "react-tippy";
-import { useMutation } from "react-apollo-hooks";
+import { useMutation, useQuery } from "react-apollo-hooks";
 
 const Container = styled.div<any>`
   position: relative;
@@ -131,11 +133,13 @@ export default function FileSummary({
 }: Props) {
   const Icon = isRunning ? StopCircle : Play;
 
-  const openInEditor = useMutation(OPEN_IN_EDITOR, {
-    variables: {
-      path
-    }
-  });
+  const openInEditor = useMutation(OPEN_IN_EDITOR);
+
+  const editorInfo = useQuery(EDITOR_INFO);
+  const [selectedEditor, changeSelectedEditor] = useState({});
+  useEffect(() => {
+    changeSelectedEditor(editorInfo.data.editorInfo.defaultEditor);
+  }, [editorInfo.data]);
 
   return (
     <Container p={4} bg="slightDark">
@@ -179,12 +183,32 @@ export default function FileSummary({
             {isRunning ? "Stop" : "Run"}
           </Button>
         </Tooltip>
+        <span>
+          Editor:{" "}
+          {renderEditorSelection(
+            editorInfo,
+            selectedEditor,
+            changeSelectedEditor
+          )}
+        </span>
         <Tooltip title="Open in editor" size="small" position="bottom">
           <Button
             icon={<Code size={14} />}
             minimal
             onClick={() => {
-              openInEditor();
+              openInEditor({
+                variables: {
+                  editor: selectedEditor.name,
+                  path
+                },
+                update: (cache, response) => {
+                  if (response.data.openInEditor.status !== "ok") {
+                    toast(response.data.openInEditor.message, {
+                      type: "error"
+                    });
+                  }
+                }
+              });
             }}
           />
         </Tooltip>
@@ -209,3 +233,53 @@ export default function FileSummary({
     </Container>
   );
 }
+
+interface EditorInfo {
+  loading: boolean;
+  data: any;
+}
+
+interface Editor {
+  id: string;
+  name: string;
+  binary: string;
+  isTerminalEditor: boolean;
+  paths: Array<String>;
+  keywords: Array<String>;
+}
+
+const renderEditorSelection = (
+  editorInfo: EditorInfo,
+  selectedEditor: Editor,
+  changeSelectedEditor: Function
+) => {
+  const { loading, data } = editorInfo;
+  if (loading) {
+    return "loading editor info";
+  } else if (data) {
+    return (
+      <select
+        defaultValue={selectedEditor.binary}
+        onChange={e => {
+          changeSelectedEditor(
+            data.editorInfo.allEditors.find(
+              (editor: Editor) => editor.binary === e.target.value
+            )
+          );
+        }}
+      >
+        {data.editorInfo.allEditors.map((editor: Editor) => (
+          <option
+            key={editor.binary}
+            value={editor.binary}
+            selected={selectedEditor.binary === editor.binary}
+          >
+            {editor.name}
+          </option>
+        ))}
+      </select>
+    );
+  } else {
+    return "VS Code";
+  }
+};

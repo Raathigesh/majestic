@@ -8,8 +8,9 @@ declare var PRODUCTION: boolean;
 let WS_URL = "ws://localhost:4000";
 let HTTP_URL = "http://localhost:4000";
 if (PRODUCTION) {
-  WS_URL = `ws://${window.location.host}`;
-  HTTP_URL = `http://${window.location.host}`;
+  const WS_PROTOCOL = window.location.protocol === "https:" ? "wss:" : "ws:";
+  WS_URL = `${WS_PROTOCOL}//${window.location.host}`;
+  HTTP_URL = `${window.location.protocol}//${window.location.host}`;
 }
 
 export function getAPIUrl() {

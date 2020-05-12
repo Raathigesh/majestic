@@ -38,6 +38,21 @@ export async function inspect(path: string): Promise<TestItem[]> {
   });
 }
 
+function getTemplateLiteralName(path: any) {
+  let currentExpressionIndex = 0;
+  return path.node.arguments[0].quasis.reduce((finalText: String, q: any) => {
+    if (q.value.raw === "") {
+      return finalText.concat(
+        `\`\$\{${
+          path.node.arguments[0].expressions[currentExpressionIndex++].name
+        }\}\``
+      );
+    } else {
+      return finalText.concat(q.value.raw);
+    }
+  }, "");
+}
+
 function findItems(path: any, result: TestItem[], parentId?: any) {
   let type: string;
   let only: boolean = false;
@@ -65,13 +80,24 @@ function findItems(path: any, result: TestItem[], parentId?: any) {
   }
 
   if (type === "describe") {
-    const describe = {
-      id: nanoid(),
-      type: "describe" as TestItemType,
-      name: path.node.arguments[0].value,
-      only,
-      parent: parentId
-    };
+    let describe: any;
+    if (path.node.arguments[0].type === "TemplateLiteral") {
+      describe = {
+        id: nanoid(),
+        type: "describe" as TestItemType,
+        name: getTemplateLiteralName(path),
+        only,
+        parent: parentId
+      };
+    } else {
+      describe = {
+        id: nanoid(),
+        type: "describe" as TestItemType,
+        name: path.node.arguments[0].value,
+        only,
+        parent: parentId
+      };
+    }
     result.push(describe);
     path.skip();
     path.traverse({
@@ -80,20 +106,40 @@ function findItems(path: any, result: TestItem[], parentId?: any) {
       }
     });
   } else if (type === "it") {
-    result.push({
-      id: nanoid(),
-      type: "it",
-      name: path.node.arguments[0].value,
-      only,
-      parent: parentId
-    });
+    if (path.node.arguments[0].type === "TemplateLiteral") {
+      result.push({
+        id: nanoid(),
+        type: "it",
+        name: getTemplateLiteralName(path),
+        only,
+        parent: parentId
+      });
+    } else {
+      result.push({
+        id: nanoid(),
+        type: "it",
+        name: path.node.arguments[0].value,
+        only,
+        parent: parentId
+      });
+    }
   } else if (type === "todo") {
-    result.push({
-      id: nanoid(),
-      type: "todo",
-      name: path.node.arguments[0].value,
-      only,
-      parent: parentId
-    });
+    if (path.node.arguments[0].type === "TemplateLiteral") {
+      result.push({
+        id: nanoid(),
+        type: "todo",
+        name: getTemplateLiteralName(path),
+        only,
+        parent: parentId
+      });
+    } else {
+      result.push({
+        id: nanoid(),
+        type: "todo",
+        name: path.node.arguments[0].value,
+        only,
+        parent: parentId
+      });
+    }
   }
 }

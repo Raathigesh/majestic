@@ -148,7 +148,37 @@
       "profile": "http://rahulakrishna.github.io",
       "contributions": [
         "code",
-        "ideas"
+        "ideas",
+        "tool"
+      ]
+    },
+    {
+      "login": "amilajack",
+      "name": "Amila Welihinda",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/6374832?v=4",
+      "profile": "https://amilajack.com",
+      "contributions": [
+        "infra"
+      ]
+    },
+    {
+      "login": "gregveres",
+      "name": "gregveres",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/12899823?v=4",
+      "profile": "https://github.com/gregveres",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    },
+    {
+      "login": "adamkleingit",
+      "name": "adam klein",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/889418?v=4",
+      "profile": "http://adamklein.dev",
+      "contributions": [
+        "test",
+        "code"
       ]
     }
   ],
@@ -156,5 +186,6 @@
   "projectName": "majestic",
   "projectOwner": "Raathigesh",
   "repoType": "github",
-  "repoHost": "https://github.com"
+  "repoHost": "https://github.com",
+  "skipCi": true
 }

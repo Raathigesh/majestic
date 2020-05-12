@@ -7,6 +7,6 @@ export function parse(path: string, code: string) {
 
   return parser.parse(code, {
     sourceType: "module",
-    plugins: ["jsx", "classProperties", additionalPlugin]
+    plugins: ["jsx", "classProperties", "optionalChaining", additionalPlugin]
   });
 }

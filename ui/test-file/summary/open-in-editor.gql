@@ -1,3 +1,6 @@
-mutation OpenInEditor($path: String!) {
-  openInEditor(path: $path)
+mutation OpenInEditor($path: String!, $editor: String) {
+  openInEditor(path: $path, editor: $editor) {
+    status
+    message
+  }
 }

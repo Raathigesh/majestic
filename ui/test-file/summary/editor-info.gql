@@ -1,0 +1,20 @@
+query EditorInfo {
+  editorInfo {
+    defaultEditor {
+      name
+      binary
+      id
+      isTerminalEditor
+      paths
+      keywords
+    }
+    allEditors {
+      name
+      binary
+      id
+      isTerminalEditor
+      paths
+      keywords
+    }
+  }
+}
