@@ -1,10 +1,10 @@
-import { Resolver, Mutation, Arg, Query } from 'type-graphql';
-import * as launch from 'launch-editor';
-import { App } from './app';
-import { OpenInEditor } from '../editor-info/editor';
-import FileWatcher, { WatcherEvents } from '../../services/file-watcher';
-import { pubsub } from '../../event-emitter';
-import { editors } from '../editor-info/supported-editors';
+import { Resolver, Mutation, Arg, Query } from "type-graphql";
+import * as launch from "launch-editor";
+import { App } from "./app";
+import { OpenInEditor } from "../editor-info/editor";
+import FileWatcher, { WatcherEvents } from "../../services/file-watcher";
+import { pubsub } from "../../event-emitter";
+import { editors } from "../editor-info/supported-editors";
 
 const getEditorBinary = (name: string) => {
   return editors[name];
@@ -22,13 +22,13 @@ export default class AppResolver {
     this.openInEditorResponse = new OpenInEditor();
   }
 
-  @Query((returns) => App)
+  @Query(returns => App)
   app() {
     return this.appInstance;
   }
 
-  @Mutation((returns) => App)
-  setSelectedFile(@Arg('path', { nullable: true }) path: string) {
+  @Mutation(returns => App)
+  setSelectedFile(@Arg("path", { nullable: true }) path: string) {
     this.appInstance.selectedFile = path;
 
     if (path) {
@@ -36,30 +36,30 @@ export default class AppResolver {
       pubsub.publish(WatcherEvents.FILE_CHANGE, {
         id: WatcherEvents.FILE_CHANGE,
         payload: {
-          path,
-        },
+          path
+        }
       });
     }
 
     return this.appInstance;
   }
 
-  @Mutation((returns) => OpenInEditor)
+  @Mutation(returns => OpenInEditor)
   openInEditor(
-    @Arg('path') path: string,
-    @Arg('editor', { nullable: true }) editor: string
+    @Arg("path") path: string,
+    @Arg("editor", { nullable: true }) editor: string
   ) {
     console.log({ editor });
     this.openInEditorResponse = {
-      status: 'ok',
-      message: '',
+      status: "ok",
+      message: ""
     };
     launch(path, getEditorBinary(editor), (path: string, err: any) => {
       this.openInEditorResponse = {
-        status: 'fail',
+        status: "fail",
         message: `command ${getEditorBinary(
           editor
-        )} not found in your path. Install it to open file in ${editor}`,
+        )} not found in your path. Install it to open file in ${editor}`
       };
       console.error(err);
     });
