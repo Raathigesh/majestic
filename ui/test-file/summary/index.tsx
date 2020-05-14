@@ -188,9 +188,8 @@ export default function FileSummary({
             }}
           />
         </Tooltip>
-        {haveSnapshotFailures && (
           <Tooltip
-            title="Update all snapshots of the file"
+            title="Update all snapshots for this file"
             position="bottom"
             size="small"
           >
@@ -204,7 +203,6 @@ export default function FileSummary({
               Update Snapshot
             </Button>
           </Tooltip>
-        )}
       </ActionPanel>
     </Container>
   );
