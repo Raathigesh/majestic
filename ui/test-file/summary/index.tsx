@@ -27,6 +27,7 @@ const Container = styled.div<any>`
   justify-content: space-between;
   margin-bottom: 10px;
   overflow: hidden;
+  flex-wrap: wrap;
 `;
 
 const ContainerBG = styled(animated.div)`
