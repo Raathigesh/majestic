@@ -56,6 +56,7 @@ export default class WorkspaceResolver {
       result.numPendingTests = payload.numPendingTests;
       result.testResults = payload.testResults;
       result.consoleLogs = payload.console;
+      this.results.addTestIdsToTestResults(result);
       this.results.setTestReport(payload.path, result);
       this.notifySummaryChange();
     });
