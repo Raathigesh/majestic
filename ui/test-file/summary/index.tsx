@@ -11,10 +11,12 @@ import {
   CheckCircle,
   Frown,
   ZapOff,
-  Circle
+  Circle,
+  Eye
 } from "react-feather";
 import Button from "../../components/button";
 import OPEN_IN_EDITOR from "./open-in-editor.gql";
+import OPEN_SNAP_IN_EDITOR from "./open-snap-in-editor.gql";
 import { Tooltip } from "react-tippy";
 import { useMutation } from "react-apollo-hooks";
 
@@ -138,6 +140,12 @@ export default function FileSummary({
     }
   });
 
+  const openSnapshotInEditor = useMutation(OPEN_SNAP_IN_EDITOR, {
+    variables: {
+      path
+    }
+  });
+
   return (
     <Container p={4} bg="slightDark">
       {(isRunning || isLoadingResult) && <ContainerBG />}
@@ -204,6 +212,15 @@ export default function FileSummary({
               Update Snapshot
             </Button>
           </Tooltip>
+        <Tooltip title="Open snapshot in editor" size="small" position="bottom">
+          <Button
+            icon={<Eye size={14} />}
+            minimal
+            onClick={() => {
+              openSnapshotInEditor();
+            }}
+          />
+        </Tooltip>
       </ActionPanel>
     </Container>
   );

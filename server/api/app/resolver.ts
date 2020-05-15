@@ -3,6 +3,7 @@ import * as launch from "launch-editor";
 import { App } from "./app";
 import FileWatcher, { WatcherEvents } from "../../services/file-watcher";
 import { pubsub } from "../../event-emitter";
+import { dirname, basename } from "path";
 
 @Resolver(App)
 export default class AppResolver {
@@ -41,6 +42,18 @@ export default class AppResolver {
     launch(path, process.env.EDITOR || "code", (path: string, err: any) => {
       console.log("Failed to open file in editor. You may need to install the code command to your PATH if you are using VSCode: ", err);
     });
+
+    return "";
+  }
+
+  @Mutation(returns => String)
+  openSnapInEditor(@Arg("path") path: string) {
+    var dir = dirname(path)
+    var file = basename(path);
+
+    var snap = dir + '/__snapshots__/' + file + '.snap'
+    console.log("opening the snapshot:", snap);
+    this.openInEditor(snap);
 
     return "";
   }
