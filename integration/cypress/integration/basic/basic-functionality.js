@@ -36,4 +36,13 @@ context("basic", () => {
     cy.wait(5000);
     cy.queryByText("Update Snapshot").should("exist");
   });
+
+  it("should not show update snapshot button", () => {
+    cy.wait(2000);
+    cy.getByText("test-snapshot-text.spec.js").click({ force: true });
+    cy.wait(2000);
+    cy.getByText("Run").click();
+    cy.wait(5000);
+    cy.queryByText("Update Snapshot").should("not.exist");
+  });
 });

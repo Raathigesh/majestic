@@ -6,7 +6,7 @@ import {
   ChevronRight,
   ChevronDown,
   Frown,
-  ZapOff
+  ZapOff,
 } from "react-feather";
 import { color } from "styled-system";
 import { TreeNode } from "./transformer";
@@ -24,13 +24,12 @@ const Content = styled.div<any>`
   align-items: center;
   padding: 2.5px;
   cursor: pointer;
-  color: ${props =>
+  color: ${(props) =>
     props.failed ? "#FE5339" : props.passing ? "#19E28D" : null};
-  background-color: ${props => (props.selected ? "#444444" : null)};
+  background-color: ${(props) => (props.selected ? "#444444" : null)};
   border-radius: 3px;
   margin-bottom: 2px;
   font-weight: 600;
-  margin-left: ${props => `${props.hierarchy * 15}px`}
 
   &:hover {
     background-color: #444444;
@@ -64,7 +63,7 @@ function FileItem({
   selectedFile,
   setSelectedFile,
   onToggle,
-  style
+  style,
 }: Props) {
   const Icon =
     item.type === "directory" ? Folder : item.haveFailure ? ZapOff : File;
@@ -87,7 +86,8 @@ function FileItem({
     <Container
       style={{
         ...style,
-        width: "90%"
+        width: "90%",
+        marginLeft: `${(item.hierarchy + 1) * 15}px`,
       }}
     >
       <Content
