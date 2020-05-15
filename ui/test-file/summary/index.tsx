@@ -107,11 +107,11 @@ interface Props {
   passingTests: number;
   failingTests: number;
   isRunning: boolean;
+  isUpdating: boolean;
   isLoadingResult: boolean;
   onRun: () => void;
   onStop: () => void;
   onSnapshotUpdate: () => void;
-  haveSnapshotFailures: boolean;
 }
 
 export default function FileSummary({
@@ -123,11 +123,11 @@ export default function FileSummary({
   passingTests,
   failingTests,
   isRunning,
+  isUpdating,
   isLoadingResult,
   onRun,
   onStop,
-  onSnapshotUpdate,
-  haveSnapshotFailures
+  onSnapshotUpdate
 }: Props) {
   const Icon = isRunning ? StopCircle : Play;
 
@@ -139,7 +139,7 @@ export default function FileSummary({
 
   return (
     <Container p={4} bg="slightDark">
-      {(isRunning || isLoadingResult) && <ContainerBG />}
+      {( isUpdating || isLoadingResult) && <ContainerBG />}
       <RightContainer>
         <FilePath fontSize={15} mb={3}>
           {path.replace(projectRoot, "")}
