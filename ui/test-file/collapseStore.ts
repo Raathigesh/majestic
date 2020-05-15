@@ -12,7 +12,8 @@ export class CollapseStore {
   }
 
   static isCollapsed(id: string): boolean {
-    return CollapseStore.store[id] === true;
+    let storeState = CollapseStore.store[id];
+    return storeState === true || storeState === undefined;
   }
 
   static setState(id: string, state: boolean) {
