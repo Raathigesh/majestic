@@ -89,6 +89,8 @@ function TestFile({ selectedFilePath, isRunning, projectRoot, onStop }: Props) {
     result => result.changeToResult
   );
 
+  const isUpdating = isRunning && (result ===  null ||(result.numPassingTests === 0 && result.numFailingTests === 0));
+
   const haveSnapshotFailures = ((result && result.testResults) || []).some(
     testResult => {
       return (testResult.failureMessages || []).some(failureMessage =>
@@ -115,8 +117,8 @@ function TestFile({ selectedFilePath, isRunning, projectRoot, onStop }: Props) {
         failingTests={result && result.numFailingTests}
         path={selectedFilePath}
         isRunning={isRunning}
+        isUpdating={isUpdating}
         isLoadingResult={loading}
-        haveSnapshotFailures={haveSnapshotFailures}
         onRun={() => {
           runFile();
         }}
