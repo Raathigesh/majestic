@@ -112,6 +112,7 @@ interface Props {
   onRun: () => void;
   onStop: () => void;
   onSnapshotUpdate: () => void;
+  haveSnapshotFailures: boolean;
 }
 
 export default function FileSummary({
@@ -127,7 +128,8 @@ export default function FileSummary({
   isLoadingResult,
   onRun,
   onStop,
-  onSnapshotUpdate
+  onSnapshotUpdate,
+  haveSnapshotFailures
 }: Props) {
   const Icon = isRunning ? StopCircle : Play;
 
