@@ -59,6 +59,7 @@ export default class AppResolver {
   }
 
   @Mutation(returns => String)
+
   openFailure(@Arg("failure") failure: string) {
     // The following regex matches the first line of the form: \w at <some text> (<file path>)
     // it captures <file path> and returns that in the second position of the match array

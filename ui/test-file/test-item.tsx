@@ -131,6 +131,15 @@ export default function Test({
     }
   });
 
+          if (children && children.length > 0) {
+    }
+
+  const openFailure = useMutation(OPEN_FAILURE, {
+    variables: {
+      failure: testResult && testResult.failureMessages ? testResult.failureMessages[0] : ''
+    }
+  });
+
   return (
     <Container>
       <Content only={only} onClick={() => (children && children.length > 0) ? toggleShowChildern() : openFailure()}>
