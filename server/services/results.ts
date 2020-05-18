@@ -5,6 +5,7 @@ import { join } from "path";
 import { MajesticConfig } from "./types";
 import { spawnSync } from "child_process";
 import { createLogger } from "../logger";
+import { IdManager, IdManagerFactory } from "./ast/idManager";
 import { TestFileResult } from "../api/workspace/test-result/file-result";
 
 const log = createLogger("Results");
@@ -79,6 +80,23 @@ export default class Results {
       this.testStatus[path].containsFailure = true;
     } else {
       this.testStatus[path].containsFailure = false;
+    }
+  }
+
+  public addTestIdsToTestResults(results: TestFileResult) {
+    const fileIds = IdManagerFactory.getManagerForFile(results.path);
+    let currentParentName: string =  '';
+    let currentParentIds: IdManager = undefined as any;
+    for(const r of results.testResults) {
+      if (r.ancestorTitles[r.ancestorTitles.length-1] !== currentParentName) {
+        currentParentIds = fileIds;
+        for(const p of r.ancestorTitles) {
+          const parentId = currentParentIds.createId(p);
+          currentParentIds = IdManagerFactory.getManagerForBlock(parentId);
+          currentParentName = p;
+        }
+      }
+      r.id = currentParentIds.createId(r.title);
     }
   }
 

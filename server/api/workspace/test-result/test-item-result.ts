@@ -19,4 +19,7 @@ export class TestItemResult {
 
   @Field()
   duration: number;
+
+  @Field()
+  id: string;
 }
