@@ -27,6 +27,7 @@ const Container = styled.div<any>`
   justify-content: space-between;
   margin-bottom: 10px;
   overflow: hidden;
+  flex-wrap: wrap;
 `;
 
 const ContainerBG = styled(animated.div)`
@@ -107,6 +108,7 @@ interface Props {
   passingTests: number;
   failingTests: number;
   isRunning: boolean;
+  isUpdating: boolean;
   isLoadingResult: boolean;
   onRun: () => void;
   onStop: () => void;
@@ -123,6 +125,7 @@ export default function FileSummary({
   passingTests,
   failingTests,
   isRunning,
+  isUpdating,
   isLoadingResult,
   onRun,
   onStop,
@@ -139,7 +142,7 @@ export default function FileSummary({
 
   return (
     <Container p={4} bg="slightDark">
-      {(isRunning || isLoadingResult) && <ContainerBG />}
+      {( isUpdating || isLoadingResult) && <ContainerBG />}
       <RightContainer>
         <FilePath fontSize={15} mb={3}>
           {path.replace(projectRoot, "")}
