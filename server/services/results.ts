@@ -5,6 +5,7 @@ import { join } from "path";
 import { MajesticConfig } from "./types";
 import { spawnSync } from "child_process";
 import { createLogger } from "../logger";
+import { TestFileResult } from "../api/workspace/test-result/file-result";
 
 const log = createLogger("Results");
 
@@ -18,9 +19,7 @@ export interface CoverageSummary {
 export default class Results {
   private projectRoot: string = "";
   private results: {
-    [path: string]: {
-      report?: any;
-    };
+    [path: string]: TestFileResult;
   } = {};
 
   private testStatus: {
@@ -83,7 +82,7 @@ export default class Results {
     }
   }
 
-  public getResult(path: string) {
+  public getResult(path: string): TestFileResult | null {
     return this.results[path] || null;
   }
 
