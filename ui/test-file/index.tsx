@@ -119,7 +119,6 @@ function TestFile({ selectedFilePath, isRunning, projectRoot, onStop }: Props) {
         isRunning={isRunning}
         isUpdating={isUpdating}
         isLoadingResult={loading}
-        haveSnapshotFailures={haveSnapshotFailures}
         onRun={() => {
           runFile();
         }}

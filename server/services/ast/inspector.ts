@@ -1,8 +1,8 @@
 import traverse from "@babel/traverse";
-import * as nanoid from "nanoid";
 import { parse } from "./parser";
 import { readFile } from "fs";
 import { TestItem, TestItemType } from "../../api/workspace/test-item";
+import {IdManagerFactory, IdManager} from './idManager';
 
 export async function inspect(path: string): Promise<TestItem[]> {
   return new Promise((resolve, reject) => {
@@ -24,11 +24,12 @@ export async function inspect(path: string): Promise<TestItem[]> {
         }
 
         const result: TestItem[] = [];
+        const fileIdManager = IdManagerFactory.getManagerForFile(path);
 
         traverse(ast, {
           CallExpression(path: any) {
             if (path.scope.block.type === "Program") {
-              findItems(path, result);
+              findItems(path, result, fileIdManager);
             }
           }
         });
@@ -46,14 +47,19 @@ function getTemplateLiteralName(path: any) {
         `\`\$\{${
           path.node.arguments[0].expressions[currentExpressionIndex++].name
         }\}\``
-      );
+        );
     } else {
       return finalText.concat(q.value.raw);
     }
   }, "");
 }
+function getNodeName(path: any): string {
+  return (path.node.arguments[0].type === "TemplateLiteral")
+    ? getTemplateLiteralName(path)
+    : path.node.arguments[0].value;
+}
 
-function findItems(path: any, result: TestItem[], parentId?: any) {
+function findItems(path: any, result: TestItem[], idManager: IdManager, parentId?: any) {
   let type: string;
   let only: boolean = false;
   if (path.node.callee.name === "fdescribe") {
@@ -80,66 +86,38 @@ function findItems(path: any, result: TestItem[], parentId?: any) {
   }
 
   if (type === "describe") {
-    let describe: any;
-    if (path.node.arguments[0].type === "TemplateLiteral") {
-      describe = {
-        id: nanoid(),
+    const nodeName = getNodeName(path);
+    let describe = {
+        id: idManager.createId(nodeName),
         type: "describe" as TestItemType,
-        name: getTemplateLiteralName(path),
+        name: nodeName,
         only,
         parent: parentId
       };
-    } else {
-      describe = {
-        id: nanoid(),
-        type: "describe" as TestItemType,
-        name: path.node.arguments[0].value,
-        only,
-        parent: parentId
-      };
-    }
     result.push(describe);
     path.skip();
     path.traverse({
       CallExpression(itPath: any) {
-        findItems(itPath, result, describe.id);
+        findItems(itPath, result, IdManagerFactory.getManagerForBlock(describe.id), describe.id);
       }
     });
   } else if (type === "it") {
-    if (path.node.arguments[0].type === "TemplateLiteral") {
-      result.push({
-        id: nanoid(),
-        type: "it",
-        name: getTemplateLiteralName(path),
-        only,
-        parent: parentId
-      });
-    } else {
-      result.push({
-        id: nanoid(),
-        type: "it",
-        name: path.node.arguments[0].value,
-        only,
-        parent: parentId
-      });
-    }
+    const nodeName = getNodeName(path);
+    result.push({
+      id: idManager.createId(nodeName),
+      type: "it",
+      name: nodeName,
+      only,
+      parent: parentId
+    });
   } else if (type === "todo") {
-    if (path.node.arguments[0].type === "TemplateLiteral") {
-      result.push({
-        id: nanoid(),
-        type: "todo",
-        name: getTemplateLiteralName(path),
-        only,
-        parent: parentId
-      });
-    } else {
-      result.push({
-        id: nanoid(),
-        type: "todo",
-        name: path.node.arguments[0].value,
-        only,
-        parent: parentId
-      });
-    }
+    const nodeName = getNodeName(path);
+    result.push({
+      id: idManager.createId(nodeName),
+      type: "todo",
+      name: nodeName,
+      only,
+      parent: parentId
+    });
   }
 }

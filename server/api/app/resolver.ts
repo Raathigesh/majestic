@@ -3,6 +3,7 @@ import * as launch from "launch-editor";
 import { App } from "./app";
 import FileWatcher, { WatcherEvents } from "../../services/file-watcher";
 import { pubsub } from "../../event-emitter";
+import { dirname, basename } from "path";
 
 @Resolver(App)
 export default class AppResolver {
@@ -46,6 +47,19 @@ export default class AppResolver {
   }
 
   @Mutation(returns => String)
+  openSnapInEditor(@Arg("path") path: string) {
+    var dir = dirname(path)
+    var file = basename(path);
+
+    var snap = dir + '/__snapshots__/' + file + '.snap'
+    console.log("opening the snapshot:", snap);
+    this.openInEditor(snap);
+
+    return "";
+  }
+
+  @Mutation(returns => String)
+
   openFailure(@Arg("failure") failure: string) {
     // The following regex matches the first line of the form: \w at <some text> (<file path>)
     // it captures <file path> and returns that in the second position of the match array

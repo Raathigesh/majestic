@@ -11,6 +11,7 @@ query Results($path: String!) {
       failureMessages
       ancestorTitles
       duration
+      id
     }
     consoleLogs {
       message
