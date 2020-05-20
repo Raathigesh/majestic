@@ -1,6 +1,6 @@
 import { TreeMap, MajesticConfig } from "./types";
 import { spawnSync } from "child_process";
-import { sep, join, extname } from "path";
+import { sep, join, extname, normalize } from "path";
 import { createLogger } from "../logger";
 
 const log = createLogger("Project");
@@ -9,7 +9,7 @@ export default class Project {
   public projectRoot: string;
 
   constructor(root: string) {
-    this.projectRoot = root;
+    this.projectRoot = normalize(root);
   }
 
   getFilesList(config: MajesticConfig) {
