@@ -89,6 +89,8 @@ function TestFile({ selectedFilePath, isRunning, projectRoot, onStop }: Props) {
     result => result.changeToResult
   );
 
+  const isUpdating = isRunning && (result ===  null ||(result.numPassingTests === 0 && result.numFailingTests === 0));
+
   const roots = (fileItemResult.items || []).filter(
     item => item.parent === null
   );
@@ -107,6 +109,7 @@ function TestFile({ selectedFilePath, isRunning, projectRoot, onStop }: Props) {
         failingTests={result && result.numFailingTests}
         path={selectedFilePath}
         isRunning={isRunning}
+        isUpdating={isUpdating}
         isLoadingResult={loading}
         onRun={() => {
           runFile();

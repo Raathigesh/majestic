@@ -46,7 +46,7 @@ export default class AppResolver {
     return "";
   }
 
-  @Mutation(returns => String)
+ @Mutation(returns => String)
   openSnapInEditor(@Arg("path") path: string) {
     var dir = dirname(path)
     var file = basename(path);
@@ -55,6 +55,25 @@ export default class AppResolver {
     console.log("opening the snapshot:", snap);
     this.openInEditor(snap);
 
+    return "";
+  }
+
+  @Mutation(returns => String)
+
+  openFailure(@Arg("failure") failure: string) {
+    // The following regex matches the first line of the form: \w at <some text> (<file path>)
+    // it captures <file path> and returns that in the second position of the match array
+    let re = new RegExp('^\\s+at.*?\\((.*?)\\)$', 'm');
+    let match = failure.match(re);
+    if (match && match.length === 2) {
+      const path = match[1];
+      launch(path, process.env.EDITOR || "code", (path: string, err: any) => {
+        console.log("Failed to open file in editor. You may need to install the code command to your PATH if you are using VSCode: ", err);
+      });
+    }
+    else {
+      console.log("Failed to find a path to a file to load in the failure string.");
+    }
     return "";
   }
 }

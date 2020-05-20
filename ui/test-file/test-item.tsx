@@ -5,6 +5,8 @@ import { TestFileResult } from "../../server/api/workspace/test-result/file-resu
 import TestIndicator from "./test-indicator";
 import { color, space } from "styled-system";
 import * as Convert from "ansi-to-html";
+import OPEN_FAILURE from "./open-failure.gql";
+import { useMutation } from "react-apollo-hooks";
 
 const convert = new Convert({
   colors: {
@@ -93,9 +95,18 @@ export default function Test({
     return true;
   });
 
+          if (children && children.length > 0) {
+    }
+
+  const openFailure = useMutation(OPEN_FAILURE, {
+    variables: {
+      failure: testResult && testResult.failureMessages ? testResult.failureMessages[0] : ''
+    }
+  });
+
   return (
     <Container>
-      <Content only={only}>
+      <Content only={only} onClick={ () => openFailure()}>
         <Label>
           <TestIndicator
             status={
