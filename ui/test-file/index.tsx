@@ -95,14 +95,6 @@ function TestFile({ selectedFilePath, isRunning, projectRoot, onStop }: Props) {
 
   const isUpdating = isRunning && (result ===  null ||(result.numPassingTests === 0 && result.numFailingTests === 0));
 
-  const haveSnapshotFailures = ((result && result.testResults) || []).some(
-    testResult => {
-      return (testResult.failureMessages || []).some(failureMessage =>
-        failureMessage.includes("toMatchSnapshot")
-      );
-    }
-  );
-
   const roots = (fileItemResult.items || []).filter(
     item => item.parent === null
   );
@@ -123,7 +115,6 @@ function TestFile({ selectedFilePath, isRunning, projectRoot, onStop }: Props) {
         isRunning={isRunning}
         isUpdating={isUpdating}
         isLoadingResult={loading}
-        haveSnapshotFailures={haveSnapshotFailures}
         onRun={() => {
           runFile();
         }}
