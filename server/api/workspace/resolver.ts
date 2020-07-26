@@ -155,7 +155,13 @@ export default class WorkspaceResolver {
   ): Promise<TestFileResult> {
     const payload = event.payload;
     const result = new TestFileResult();
-    if (event.id === Events.TEST_RESULT) {
+    if (event.id === Events.TEST_START) {
+      const existingResults = this.results.getResult(path);
+      if (existingResults) {
+        result.testResults =  existingResults.testResults;
+      }
+    }
+    else if (event.id === Events.TEST_RESULT) {
       result.path = path;
       result.failureMessage = payload.failureMessage;
       result.numPassingTests = payload.numPassingTests;

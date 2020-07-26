@@ -1,0 +1,3 @@
+mutation OpenFailure($failure: String!) {
+  openFailure(failure: $failure)
+}

@@ -20,7 +20,7 @@ export class TestFileResult {
   failureMessage: string;
 
   @Field(returns => TestItemResult, { nullable: true })
-  testResults: TestItemResult[];
+  testResults: TestItemResult[] | null;
 
   @Field(returns => ConsoleLog, { nullable: true })
   consoleLogs: ConsoleLog[];

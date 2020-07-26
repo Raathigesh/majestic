@@ -20,7 +20,9 @@ import {
   ZapOff,
   StopCircle,
   FileText,
-  Layers
+  Layers,
+  ChevronDown,
+  ChevronRight
 } from "react-feather";
 import Button from "../components/button";
 import { RunnerStatus } from "../../server/api/runner/status";
@@ -73,7 +75,7 @@ interface Props {
   onShowCoverage: () => void;
 }
 
-export default function TestExplorer({
+export default function TestExplorer ({
   selectedFile,
   workspace,
   onSelectedFileChange,
@@ -112,6 +114,19 @@ export default function TestExplorer({
     showFailedTests,
     items
   );
+
+  const onCollapseAll = () => {
+    const newCollapsedItems = {};
+    files.forEach(file => {
+      if (file.type === "directory" && file.parent) {
+        newCollapsedItems[file.path] = true;
+      }
+    });
+    setCollapsedItems(newCollapsedItems)
+  }
+  const onExpandAll = () => {
+    setCollapsedItems({})
+  }
 
   if (showFailedTests && failedItems.length) {
     files = filterFailure(files);
@@ -214,38 +229,10 @@ export default function TestExplorer({
       <FileHeader mt={4} mb={3}>
         <FilesHeader>Tests</FilesHeader>
         <RightFilesAction>
-          <Tooltip title="Refresh files" position="bottom" size="small">
-            <Button
-              size="sm"
-              minimal
-              onClick={() => {
-                onRefreshFiles();
-              }}
-            >
-              <RefreshCw size={10} />
-            </Button>
-          </Tooltip>
-          {summary && summary.haveCoverageReport && (
-            <Tooltip
-              title="Show coverage report"
-              position="bottom"
-              size="small"
-            >
-              <Button
-                size="sm"
-                minimal={!showCoverage}
-                onClick={() => {
-                  onShowCoverage();
-                }}
-              >
-                <Layers size={10} />
-              </Button>
-            </Tooltip>
-          )}
           {summary && summary.failedTests && summary.failedTests.length > 0 && (
             <Tooltip
               title="Show only failed tests"
-              position="bottom"
+              position="top"
               size="small"
             >
               <Button
@@ -259,6 +246,56 @@ export default function TestExplorer({
               </Button>
             </Tooltip>
           )}
+          {!showFailedTests && (
+            <Tooltip title="Collapse All Tests" position="top" size="small">
+              <Button
+                size="sm"
+                minimal
+                onClick={onCollapseAll}
+              >
+                <ChevronRight size={10} />
+              </Button>
+            </Tooltip>
+          )}
+          {!showFailedTests && (
+            <Tooltip title="Expand All Tests" position="top" size="small">
+              <Button
+                size="sm"
+                minimal
+                onClick={onExpandAll}
+              >
+                <ChevronDown size={10} />
+              </Button>
+            </Tooltip>
+          )}
+          {summary && summary.haveCoverageReport && (
+            <Tooltip
+              title="Show coverage report"
+              position="top"
+              size="small"
+            >
+              <Button
+                size="sm"
+                minimal={!showCoverage}
+                onClick={() => {
+                  onShowCoverage();
+                }}
+              >
+                <Layers size={10} />
+              </Button>
+            </Tooltip>
+          )}
+          <Tooltip title="Refresh files" position="top" size="small">
+            <Button
+              size="sm"
+              minimal
+              onClick={() => {
+                onRefreshFiles();
+              }}
+            >
+              <RefreshCw size={10} />
+            </Button>
+          </Tooltip>
         </RightFilesAction>
       </FileHeader>
       <Tree
