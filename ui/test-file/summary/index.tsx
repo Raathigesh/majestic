@@ -201,12 +201,13 @@ export default function FileSummary({
                   editor: selectedEditor.name,
                   path
                 },
-                update: (cache, response) => {
-                  if (response.data.openInEditor.status !== "ok") {
-                    toast(response.data.openInEditor.message, {
-                      type: "error"
-                    });
-                  }
+                update: () => {
+                  toast(
+                    "Check console for error message in case the editor does not open",
+                    {
+                      type: "warning"
+                    }
+                  );
                 }
               });
             }}

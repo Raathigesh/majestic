@@ -45,24 +45,28 @@ export default class AppResolver {
   }
 
   @Mutation(returns => OpenInEditor)
-  openInEditor(
+  async openInEditor(
     @Arg("path") path: string,
     @Arg("editor", { nullable: true }) editor: string
   ) {
     console.log({ editor });
-    this.openInEditorResponse = {
+    let openInEditorResponse = {
       status: "ok",
       message: ""
     };
-    launch(path, getEditorBinary(editor), (path: string, err: any) => {
+    await launch(path, getEditorBinary(editor), (path: string, err: any) => {
       this.openInEditorResponse = {
         status: "fail",
-        message: `command ${getEditorBinary(
+        message: `Command ${getEditorBinary(
           editor
         )} not found in your path. Install it to open file in ${editor}`
       };
-      console.error(err);
+      console.error(
+        `Command ${getEditorBinary(
+          editor
+        )} not found in your path. Install it to open file in ${editor}`
+      );
     });
-    return this.openInEditorResponse;
+    return openInEditorResponse;
   }
 }
