@@ -133,7 +133,7 @@ export default function FileSummary({
   isLoadingResult,
   onRun,
   onStop,
-  onSnapshotUpdate,
+  onSnapshotUpdate
 }: Props) {
   const Icon = isRunning ? StopCircle : Play;
 
@@ -147,13 +147,14 @@ export default function FileSummary({
 
   const openSnapshotInEditor = useMutation(OPEN_SNAP_IN_EDITOR, {
     variables: {
-      path
+      path,
+      editor: selectedEditor.name
     }
   });
 
   return (
     <Container p={4} bg="slightDark">
-      {( isUpdating || isLoadingResult) && <ContainerBG />}
+      {(isUpdating || isLoadingResult) && <ContainerBG />}
       <RightContainer>
         <FilePath fontSize={15} mb={3}>
           {path.replace(projectRoot, "")}
@@ -223,21 +224,21 @@ export default function FileSummary({
             }}
           />
         </Tooltip>
-          <Tooltip
-            title="Update all snapshots for this file"
-            position="bottom"
-            size="small"
+        <Tooltip
+          title="Update all snapshots for this file"
+          position="bottom"
+          size="small"
+        >
+          <Button
+            minimal
+            icon={<Camera size={14} />}
+            onClick={() => {
+              onSnapshotUpdate();
+            }}
           >
-            <Button
-              minimal
-              icon={<Camera size={14} />}
-              onClick={() => {
-                onSnapshotUpdate();
-              }}
-            >
-              Update Snapshot
-            </Button>
-          </Tooltip>
+            Update Snapshot
+          </Button>
+        </Tooltip>
         <Tooltip title="Open snapshot in editor" size="small" position="bottom">
           <Button
             icon={<Eye size={14} />}

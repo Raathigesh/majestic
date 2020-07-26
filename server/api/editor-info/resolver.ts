@@ -26,12 +26,6 @@ export default class EditorInfoResolver {
       paths: [],
       keywords: []
     };
-    allEditors().forEach(editor => {
-      console.log({
-        editor: editor,
-        paths: editor.paths
-      });
-    });
     this.allEditors = allEditors().filter(
       (editor: Editor) =>
         editor.isTerminalEditor === false &&
@@ -42,7 +36,6 @@ export default class EditorInfoResolver {
 
   @Query(returns => EditorInfo)
   editorInfo() {
-    console.log({ all: this.allEditors });
     return {
       defaultEditor: this.defaultEditor,
       allEditors: this.allEditors
