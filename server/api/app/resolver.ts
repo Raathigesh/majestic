@@ -15,12 +15,10 @@ const getEditorBinary = (name: string) => {
 export default class AppResolver {
   private appInstance: App;
   private fileWatcher: FileWatcher;
-  private openInEditorResponse: OpenInEditor;
 
   constructor() {
     this.fileWatcher = new FileWatcher();
     this.appInstance = new App();
-    this.openInEditorResponse = new OpenInEditor();
   }
 
   @Query(returns => App)
@@ -46,7 +44,7 @@ export default class AppResolver {
   }
 
   @Mutation(returns => OpenInEditor)
-  async openInEditor(
+  openInEditor(
     @Arg("path") path: string,
     @Arg("editor", { nullable: true }) editor: string
   ) {
@@ -54,8 +52,14 @@ export default class AppResolver {
       status: "ok",
       message: ""
     };
-    await launch(path, getEditorBinary(editor), (path: string, err: any) => {
-      this.openInEditorResponse = {
+    console.log(
+      `Trying to open ${path} in ${editor} using binary ${getEditorBinary(
+        editor
+      )}`
+    );
+    launch(path, getEditorBinary(editor), (path: string, err: any) => {
+      // FIXME: Even after reaching here, the openInEditorResponse sends back status: 'ok', message: ''
+      openInEditorResponse = {
         status: "fail",
         message: `Command ${getEditorBinary(
           editor
@@ -64,7 +68,9 @@ export default class AppResolver {
       console.error(
         `Command ${getEditorBinary(
           editor
-        )} not found in your path. Install it to open file in ${editor}`
+        )} not found in your path. Install it to open file in ${editor}`,
+        err,
+        path
       );
     });
     return openInEditorResponse;
@@ -94,13 +100,13 @@ export default class AppResolver {
     if (match && match.length === 2) {
       const path = match[1];
       launch(path, process.env.EDITOR || "code", (path: string, err: any) => {
-        console.log(
+        console.error(
           "Failed to open file in editor. You may need to install the code command to your PATH if you are using VSCode: ",
           err
         );
       });
     } else {
-      console.log(
+      console.error(
         "Failed to find a path to a file to load in the failure string."
       );
     }
