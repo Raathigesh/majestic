@@ -1,11 +1,11 @@
-const fkill = require("fkill");
+const fkill = require('fkill');
 
-fkill(":9000", {
+fkill(':9000', {
   force: true,
-  tree: true
+  tree: true,
 })
   .then(() => {
-    console.log("Killed process");
+    console.log('Killed process');
   })
   .catch(e => {
     console.log("Couldn't kill process: ", e);
