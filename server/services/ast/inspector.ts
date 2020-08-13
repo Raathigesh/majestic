@@ -40,17 +40,21 @@ export async function inspect(path: string): Promise<TestItem[]> {
 
 function getTemplateLiteralName(path: any) {
   let currentExpressionIndex = 0;
-  return path.node.arguments[0].quasis.reduce((finalText: String, q: any) => {
-    if (q.value.raw === "") {
-      return finalText.concat(
-        `\`\$\{${
-          path.node.arguments[0].expressions[currentExpressionIndex++].name
-        }\}\``
-      );
+  const { expressions, quasis } = path.node.arguments[0];
+
+  return `\`${quasis.reduce((finalText: String, q: any) => {
+    if (
+      expressions[currentExpressionIndex] &&
+      q.end === expressions[currentExpressionIndex].start - 2
+    ) {
+      const formattedExpression = `${q.value.raw}\$\{${expressions[currentExpressionIndex].name}\}`;
+      currentExpressionIndex += 1;
+
+      return finalText.concat(formattedExpression);
     } else {
       return finalText.concat(q.value.raw);
     }
-  }, "");
+  }, '')}\``;
 }
 
 function findItems(path: any, result: TestItem[], parentId?: any) {
