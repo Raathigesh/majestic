@@ -180,6 +180,15 @@
         "test",
         "code"
       ]
+    },
+    {
+      "login": "rbarbazz",
+      "name": "Raphaël Barbazza",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/42906704?v=4",
+      "profile": "http://www.raphaelbarbazza.com",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
