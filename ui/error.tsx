@@ -87,7 +87,7 @@ export class ErrorBoundary extends Component {
           </svg>
         </Loader>
         <Message>
-          Opps, Something went wrong. Check the terminal for exact error
+          Oops, Something went wrong. Check the terminal for exact error
           message!
         </Message>
       </Container>
