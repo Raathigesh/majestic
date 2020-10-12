@@ -189,6 +189,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "philals",
+      "name": "Phil Alsford",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/8849355?v=4",
+      "profile": "https://philalsford.com",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
