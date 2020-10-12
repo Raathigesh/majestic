@@ -160,6 +160,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://amilajack.com"><img src="https://avatars1.githubusercontent.com/u/6374832?v=4" width="100px;" alt=""/><br /><sub><b>Amila Welihinda</b></sub></a><br /><a href="#infra-amilajack" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
     <td align="center"><a href="https://github.com/gregveres"><img src="https://avatars2.githubusercontent.com/u/12899823?v=4" width="100px;" alt=""/><br /><sub><b>gregveres</b></sub></a><br /><a href="https://github.com/Raathigesh/majestic/issues?q=author%3Agregveres" title="Bug reports">🐛</a> <a href="https://github.com/Raathigesh/majestic/commits?author=gregveres" title="Code">💻</a></td>
     <td align="center"><a href="http://adamklein.dev"><img src="https://avatars3.githubusercontent.com/u/889418?v=4" width="100px;" alt=""/><br /><sub><b>adam klein</b></sub></a><br /><a href="https://github.com/Raathigesh/majestic/commits?author=adamkleingit" title="Tests">⚠️</a> <a href="https://github.com/Raathigesh/majestic/commits?author=adamkleingit" title="Code">💻</a></td>
+    <td align="center"><a href="http://www.raphaelbarbazza.com"><img src="https://avatars1.githubusercontent.com/u/42906704?v=4" width="100px;" alt=""/><br /><sub><b>Raphaël Barbazza</b></sub></a><br /><a href="https://github.com/Raathigesh/majestic/commits?author=rbarbazz" title="Code">💻</a></td>
   </tr>
 </table>
 
