@@ -109,6 +109,8 @@ You can configure Majestic by adding `majestic` key to `package.json`.
 
 `--version` - Will print the version of Majestic and will exit.
 
+`--listenOn` - Will listen on this IP/host instead of localhost.
+
 ### Shortcut keys
 
 `alt+t` - run all tests
