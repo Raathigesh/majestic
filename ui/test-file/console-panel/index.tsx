@@ -40,6 +40,8 @@ const IconWrapper = styled.div`
   margin-top: 1px;
 `;
 
+const cleanAnsiCodes = (str: string) => str.replace(/\x1B\[(\d+)m/g, "");
+
 function getIcon(type: String) {
   let icon = null;
   switch (type) {
@@ -61,6 +63,17 @@ interface Props {
   consoleLogs: ConsoleLog[];
 }
 
+function isHTML(str: string) {
+  var a = document.createElement('div');
+  a.innerHTML = str;
+
+  for (var c = a.childNodes, i = c.length; i--;) {
+    if (c[i].nodeType == 1) return true;
+  }
+
+  return false;
+}
+
 export default function ConsolePanel({ consoleLogs }: Props) {
   return (
     <Container>
@@ -72,6 +85,14 @@ export default function ConsolePanel({ consoleLogs }: Props) {
             result = eval("(" + log.message + ")");
           } catch (e) {
             console.log(e);
+          }
+          if (isHTML(result)) {
+            console.log(result)
+            return <Content key={index}>
+              {getIcon(log.type)}
+
+              <code>{cleanAnsiCodes(result)}</code>
+            </Content>
           }
 
           if (typeof result === "string") {
