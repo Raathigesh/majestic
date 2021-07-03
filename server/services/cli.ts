@@ -1,1 +1,1 @@
-export const root = "/Users/saravieira/projects/dragon/" || process.cwd();
+export const root = process.env.ROOT || process.cwd();
