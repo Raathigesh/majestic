@@ -81,7 +81,7 @@ export default function ConsolePanel({ consoleLogs }: Props) {
             return (
               <Content key={index}>
                 {getIcon(log.type)}
-                {(result)}
+                {cleanAnsiCodes(result)}
               </Content>
             );
           }
