@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import SplitPane from "react-split-pane";
 import { useQuery, useMutation } from "react-apollo-hooks";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Sidebar from "./sidebar";
 import TestFile from "./test-file";
 import APP from "./app.gql";
@@ -122,7 +124,7 @@ export default function App() {
             stopRunner();
           }}
           onShowCoverage={() => {
-            setShowCoverage(!showCoverage);            
+            setShowCoverage(!showCoverage);
           }}
         />
         {showCoverage && <CoveragePanel />}
@@ -153,6 +155,7 @@ export default function App() {
           setSearchOpen(false);
         }}
       />
+      <ToastContainer />
     </ContainerDiv>
   );
 }

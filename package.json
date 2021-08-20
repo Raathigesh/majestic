@@ -17,8 +17,10 @@
     "integration": "cd ./integration && yarn run-in-ci"
   },
   "dependencies": {
+    "env-editor": "^0.4.1",
     "node-fetch": "^2.3.0",
     "open": "^6.0.0",
+    "react-toastify": "^6.0.2",
     "read-pkg-up": "^4.0.0"
   },
   "devDependencies": {
