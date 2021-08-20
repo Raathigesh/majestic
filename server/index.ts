@@ -46,7 +46,8 @@ async function main() {
         playground: "/debug"
       },
       async () => {
-        const url = `http://localhost:${port}`;
+        const listenOn = args.listenOn || "localhost";
+        const url = `http://${listenOn}:${port}`;
         console.log(`⚡  Majestic v${pkg.version} is running at ${url} `);
 
         if (args.app) {
